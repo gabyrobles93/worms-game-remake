@@ -2,5 +2,6 @@ language: cpp
 compiler: 
   - gcc
 script:
+  - gcc --version
   - make
   - bash execute.sh
