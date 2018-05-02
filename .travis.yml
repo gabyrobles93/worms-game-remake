@@ -1,6 +1,6 @@
 language: cpp
-compiler: gcc
+compiler: 
+  - gcc
 
 script:
   - make
-  - ./tp
