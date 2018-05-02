@@ -2,7 +2,7 @@
 
 int main(int argc, char * argv[]) {
 
-	std::cot << "Hola Mundo" << std::endl;
+	std::cout << "Hola Mundo" << std::endl;
 	
 	return 0;
 }
