@@ -1,6 +1,3 @@
 language: cpp
 compiler: 
   - gcc
-
-script:
-  - make -f Makefile
