@@ -12,5 +12,5 @@ Código y notas del proyecto final de Taller de Programación I - FIUBA
 | Padrón | Nombre y Apellido         |
 |--------|---------------------------|
 | 97893 | ALVAREZ WINDEY ARIEL JUSTO |
-| 98546 | DIZ MARTIN GONZALO         |
+| 98546 | DIZ GONZALO                |
 |  | GABRIEL ROBLES             |
