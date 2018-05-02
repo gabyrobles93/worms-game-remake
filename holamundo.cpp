@@ -3,6 +3,6 @@
 int main(int argc, char * argv[]) {
 
 	std::cout << "Hola Mundo" << std::endl;
-	
+esto caga todo xd;	
 	return 0;
 }
