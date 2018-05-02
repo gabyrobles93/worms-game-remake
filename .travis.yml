@@ -3,4 +3,4 @@ compiler:
   - gcc
 script:
   - make
-  - ./execute.sh
+  - cat execute.sh
