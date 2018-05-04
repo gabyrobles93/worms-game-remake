@@ -18,7 +18,9 @@ Código y notas del proyecto final de Taller de Programación I - FIUBA
 # Tutorial de uso de CxxTest:
 
 1) Descargar cxxtest generator
+```bash
  $ sudo apt-get install cxxtest
+```
 
 2) Escribir casos de pruebas en un .h, como en el siguiente ejemplo:
 
