@@ -23,4 +23,6 @@ script:
   - make
   - valgrind --leak-check=full ./tp
   - cd $TEST_CASES_PATH
-  - cxxtestgen 
+  - cxxtestgen --error-printer -o runner.cpp my_test_cases.h
+  - g++ -o runner runner.cpp
+  - ./runner
