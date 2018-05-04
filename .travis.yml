@@ -17,5 +17,5 @@ before_install:
 
 script:
   - bash $PROJECT_PATH/execute.sh
-  - make $PROJECT_PATH
+  - cd $PROJECT_PATH && make
   - valgrind --leak-check=full $PROJECT_PATH/tp 
