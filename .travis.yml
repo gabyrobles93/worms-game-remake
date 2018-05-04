@@ -5,3 +5,4 @@ script:
   - gcc --version
   - bash execute.sh
   - make
+  - valgrind --leak-check=full ./tp
