@@ -16,6 +16,7 @@ before_install:
   - sudo apt-get install cxxtest
 
 script:
-  - bash $PROJECT_PATH/execute.sh
-  - cd $PROJECT_PATH && make
-  - cd $PROJECT_PATH && valgrind --leak-check=full ./tp 
+  - cd $PROJECT_PATH 
+  - bash execute.sh
+  - make
+  - valgrind --leak-check=full ./tp 
