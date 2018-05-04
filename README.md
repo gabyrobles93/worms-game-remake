@@ -55,4 +55,4 @@ Código y notas del proyecto final de Taller de Programación I - FIUBA
  $ ./runner
 ```
 
-Para más información ver guía de uso de cxxtest: [a relative link](test_cases/guide.pdf)
+Para más información ver [guía oficial de uso de cxxtest](test_cases/guide.pdf)
