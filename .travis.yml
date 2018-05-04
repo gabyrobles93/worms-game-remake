@@ -7,9 +7,10 @@ compiler:
 
 env:
   global:
-    - PROJECT_PATH=./project
-    - TEST_CASES_PATH=./test_cases
-    - CXX_TEST_PATH=./cxxtest
+    - ROOT_PATH=$(pwd)
+    - PROJECT_PATH=$ROOT_PATH/project
+    - TEST_CASES_PATH=$ROOT_PATH/test_cases
+    - CXX_TEST_PATH=$ROOT_PATH/cxxtest
 
 before_install:
   - sudo apt-get update
