@@ -1,6 +1,13 @@
+sudo: required
+
 language: cpp
+
 compiler: 
   - gcc
+
+before_install:
+  - sudo apt-get install -qq valgrind
+
 script:
   - gcc --version
   - bash execute.sh
