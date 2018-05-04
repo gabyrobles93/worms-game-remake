@@ -6,7 +6,9 @@ compiler:
   - gcc
 
 before_install:
+  - sudo apt-get update
   - sudo apt-get install -qq valgrind
+  - sudo apt-get install cxxtest
 
 script:
   - gcc --version
