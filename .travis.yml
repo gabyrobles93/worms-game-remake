@@ -6,9 +6,10 @@ compiler:
   - gcc
 
 env:
-  - PROJECT_PATH=./project
-  - TEST_CASES_PATH=./test_cases
-  - CXX_TEST_PATH=./cxxtest
+  global:
+    - PROJECT_PATH=./project
+    - TEST_CASES_PATH=./test_cases
+    - CXX_TEST_PATH=./cxxtest
 
 before_install:
   - sudo apt-get update
