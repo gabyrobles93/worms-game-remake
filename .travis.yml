@@ -18,4 +18,4 @@ before_install:
 script:
   - bash $PROJECT_PATH/execute.sh
   - cd $PROJECT_PATH && make
-  - valgrind --leak-check=full $PROJECT_PATH/tp 
+  - cd $PROJECT_PATH && valgrind --leak-check=full ./tp 
