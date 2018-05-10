@@ -15,6 +15,9 @@ Código y notas del proyecto final de Taller de Programación I - FIUBA
 | 98546 | DIZ GONZALO                |
 | 95897 | GABRIEL ROBLES             |
 
+Tablero de tareas en TRELLO:
+https://trello.com/b/opoeIXXF/worms-tp-final
+
 # Tutorial de uso de CxxTest:
 
 1) Descargar cxxtest generator
