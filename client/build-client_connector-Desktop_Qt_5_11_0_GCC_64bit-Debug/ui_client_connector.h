@@ -65,7 +65,7 @@ public:
         ipLabel->setGeometry(QRect(20, 130, 71, 31));
         portLabel = new QLabel(centralWidget);
         portLabel->setObjectName(QStringLiteral("portLabel"));
-        portLabel->setGeometry(QRect(10, 190, 67, 17));
+        portLabel->setGeometry(QRect(20, 190, 67, 17));
         portTextInput = new QPlainTextEdit(centralWidget);
         portTextInput->setObjectName(QStringLiteral("portTextInput"));
         portTextInput->setGeometry(QRect(120, 180, 91, 31));
@@ -82,7 +82,7 @@ public:
         label->setScaledContents(true);
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(-10, 120, 141, 101));
+        label_2->setGeometry(QRect(-20, 110, 151, 111));
         label_2->setPixmap(QPixmap(QString::fromUtf8("../../resources/graphics/Logos/text_box.png")));
         label_2->setScaledContents(true);
         client_connector->setCentralWidget(centralWidget);
@@ -115,8 +115,8 @@ public:
 #endif // QT_NO_ACCESSIBILITY
         connectButton->setText(QApplication::translate("client_connector", "Connect", nullptr));
         exitButton->setText(QApplication::translate("client_connector", "Exit", nullptr));
-        ipLabel->setText(QApplication::translate("client_connector", "<html><head/><body><p align=\"right\"><span style=\" font-weight:600; color:#fce94f;\">Host / IP</span></p></body></html>", nullptr));
-        portLabel->setText(QApplication::translate("client_connector", "<html><head/><body><p align=\"right\"><span style=\" font-weight:600; color:#fce94f;\">Port</span></p></body></html>", nullptr));
+        ipLabel->setText(QApplication::translate("client_connector", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600; color:#fce94f;\">Host / IP</span></p></body></html>", nullptr));
+        portLabel->setText(QApplication::translate("client_connector", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600; color:#fce94f;\">Port</span></p></body></html>", nullptr));
         logoWorms->setText(QString());
         label->setText(QString());
         label_2->setText(QString());
