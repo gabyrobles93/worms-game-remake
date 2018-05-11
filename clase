@@ -1,0 +1,11 @@
+------
+CMAKE
+------
+
+Con un lenguaje de mas alto nivel permite hacer makefiles y otras cositas para visual studio, eclipse, etc..
+permitiendo hacer compiles no solo para linux sino multiplataforma.
+
+
+xDDD
+
+...
