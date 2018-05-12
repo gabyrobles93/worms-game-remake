@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++11 -Wall -Wextra -pedantic -I.  -rdynamic CMakeFiles/box2DTest.dir/main.cpp.o  -o box2DTest -lSDL2 -lSDL2_image -lSDL2 -lSDL2_ttf -lSDL2 -lSDL2_mixer -lSDL2 ../libs/libBox2D.a -lSDL2_image -lSDL2_ttf -lSDL2_mixer ../libs/libBox2D.a 

@@ -1,3 +1,0 @@
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/sdl_test_event_driven_programming/build/CMakeFiles/rebuild_cache.dir
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/sdl_test_event_driven_programming/build/CMakeFiles/test_event_programming.dir
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/sdl_test_event_driven_programming/build/CMakeFiles/edit_cache.dir
