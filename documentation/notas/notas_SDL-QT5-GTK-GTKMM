@@ -1,0 +1,10 @@
+SDL esta bueno para videojuegos esta bueno xq es liviano y simple de usar.
+
+Para hacer algo de escritorio (algo mas bien de oficina) está bueno usar Qt5
+
+GKT y wxWidgets son interfaces para interfaces graficas. Qt es lo anterior y mas general, soporta audio, SQL, asocia con OpenGL y +.
+
+GTK trabaja solamente un Unix, wxWidgets es multiplataforma, al igual que Qt.
+
+Para QT se recomienda usar el QtDesigner, q es como un visual studio para armar ventanas muy rapidamente.
+Se podría usar esto para hacer el editor de escenarios.

@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/applogo.ico</file>
+        <file>images/client_connector_background.png</file>
+        <file>images/text_box.png</file>
+        <file>images/applogo2.png</file>
+        <file>images/lobby_background.jpg</file>
+        <file>images/lobby_games.png</file>
+    </qresource>
+</RCC>

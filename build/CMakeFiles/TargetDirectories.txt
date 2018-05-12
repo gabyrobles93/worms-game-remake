@@ -1,5 +1,0 @@
-/home/grobles/tp-final-taller/build/CMakeFiles/rebuild_cache.dir
-/home/grobles/tp-final-taller/build/CMakeFiles/edit_cache.dir
-/home/grobles/tp-final-taller/build/Client/CMakeFiles/rebuild_cache.dir
-/home/grobles/tp-final-taller/build/Client/CMakeFiles/client.dir
-/home/grobles/tp-final-taller/build/Client/CMakeFiles/edit_cache.dir
