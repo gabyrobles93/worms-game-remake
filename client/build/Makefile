@@ -217,6 +217,33 @@ client_lobby.cpp.s:
 	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client_lobby.cpp.s
 .PHONY : client_lobby.cpp.s
 
+client_lobby_feeder.o: client_lobby_feeder.cpp.o
+
+.PHONY : client_lobby_feeder.o
+
+# target to build an object file
+client_lobby_feeder.cpp.o:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client_lobby_feeder.cpp.o
+.PHONY : client_lobby_feeder.cpp.o
+
+client_lobby_feeder.i: client_lobby_feeder.cpp.i
+
+.PHONY : client_lobby_feeder.i
+
+# target to preprocess a source file
+client_lobby_feeder.cpp.i:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client_lobby_feeder.cpp.i
+.PHONY : client_lobby_feeder.cpp.i
+
+client_lobby_feeder.s: client_lobby_feeder.cpp.s
+
+.PHONY : client_lobby_feeder.s
+
+# target to generate assembly for a file
+client_lobby_feeder.cpp.s:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client_lobby_feeder.cpp.s
+.PHONY : client_lobby_feeder.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -352,6 +379,33 @@ socket_error.cpp.s:
 	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/socket_error.cpp.s
 .PHONY : socket_error.cpp.s
 
+thread.o: thread.cpp.o
+
+.PHONY : thread.o
+
+# target to build an object file
+thread.cpp.o:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/thread.cpp.o
+.PHONY : thread.cpp.o
+
+thread.i: thread.cpp.i
+
+.PHONY : thread.i
+
+# target to preprocess a source file
+thread.cpp.i:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/thread.cpp.i
+.PHONY : thread.cpp.i
+
+thread.s: thread.cpp.s
+
+.PHONY : thread.s
+
+# target to generate assembly for a file
+thread.cpp.s:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/thread.cpp.s
+.PHONY : thread.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -371,6 +425,9 @@ help:
 	@echo "... client_lobby.o"
 	@echo "... client_lobby.i"
 	@echo "... client_lobby.s"
+	@echo "... client_lobby_feeder.o"
+	@echo "... client_lobby_feeder.i"
+	@echo "... client_lobby_feeder.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -386,6 +443,9 @@ help:
 	@echo "... socket_error.o"
 	@echo "... socket_error.i"
 	@echo "... socket_error.s"
+	@echo "... thread.o"
+	@echo "... thread.i"
+	@echo "... thread.s"
 .PHONY : help
 
 
