@@ -30,6 +30,11 @@ namespace View {
     public:
       void rotateClockwise(void);
       void rotateCounterClockwise(void);
+      degrees_t getCurrentDegrees(void);
+      virtual int getWidth();
+      virtual int getHeight();
+      virtual int getX(void);
+      virtual int getY(void);
       virtual void render(SDL_Renderer *, int, int);
   };
 }

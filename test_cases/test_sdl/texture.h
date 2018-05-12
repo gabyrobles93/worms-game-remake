@@ -15,6 +15,8 @@ namespace View {
       // Dimensiones
       int width;
       int height;
+      int x;
+      int y;
 
       // Desaloca memoria
       void free();
@@ -32,9 +34,13 @@ namespace View {
       // Render textura a un punto dado
       virtual void render(SDL_Renderer *, int, int);
 
-      // Dimensiones de la imaegen
-      int getWidth(void);
-      int getHeight(void);
+      // Dimensiones de la imagen
+      virtual int getWidth(void);
+      virtual int getHeight(void);
+
+      // Posiciones de la imagen
+      virtual int getX(void);
+      virtual int getY(void);
   };
 }
 

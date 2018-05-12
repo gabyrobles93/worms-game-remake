@@ -4,6 +4,8 @@ View::Texture::Texture() {
 	this->texture = NULL;
 	this->width = 0;
 	this->height = 0;
+	this->x = 0;
+	this->y = 0;
 }
 
 View::Texture::~Texture() {
@@ -49,19 +51,31 @@ void View::Texture::free() {
 		this->texture = NULL;
 		this->width = 0;
 		this->height = 0;
+		this->x = 0;
+		this->y = 0;
 	}
 }
 
 void View::Texture::render(SDL_Renderer * renderer, int x, int y) {
+	this->x = x;
+	this->y = y;
 	// Seteamos el espacio de dibujado y donde dibujarlo
 	SDL_Rect renderQuad = { x, y, this->width, this->height };
 	SDL_RenderCopy(renderer, this->texture, NULL, &renderQuad );
 }
 
-int View::Texture::getWidth() {
+int View::Texture::getWidth(void) {
 	return this->width;
 }
 
-int View::Texture::getHeight() {
+int View::Texture::getHeight(void) {
 	return this->height;
+}
+
+int View::Texture::getX(void) {
+	return this->x;
+}
+
+int View::Texture::getY(void) {
+	return this->y;
 }

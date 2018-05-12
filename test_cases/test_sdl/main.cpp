@@ -6,7 +6,9 @@ and may not be redistributed without written permission.*/
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include <vector>
 #include "girder_short.h"
+#include "girder_long.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -27,7 +29,8 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-
+// Vector de vigas creadas
+std::vector<View::GirderLong*> longGirders;
 
 bool init()
 {
@@ -98,6 +101,10 @@ void close() {
 	gWindow = NULL;
 	gRenderer = NULL;
 
+	for (size_t i = 0 ; i < longGirders.size() ; i++) {
+		delete longGirders[i];
+	}
+
 	//Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
@@ -119,9 +126,12 @@ int main( int argc, char* args[] )
 		}
 		else
 		{	
-			View::GirderShort myGirder(gRenderer);
+			//View::GirderShort myGirder(gRenderer);
+			View::GirderLong mouseGirder(gRenderer);
             //Main loop flag
 			bool quit = false;
+			int xMouse, yMouse;
+			SDL_GetMouseState(&xMouse, &yMouse);
             
 			//Event handler
 			SDL_Event e;
@@ -130,12 +140,30 @@ int main( int argc, char* args[] )
 			while( !quit )
 			{
 				//Handle events on queue
-				while( SDL_PollEvent( &e ) != 0 )
-				{
+				while( SDL_PollEvent( &e ) != 0 ) {
 					//User requests quit
-					if( e.type == SDL_QUIT )
-					{
+					if(e.type == SDL_QUIT) {
 						quit = true;
+					}
+
+					if (e.type == SDL_MOUSEMOTION) {
+						SDL_GetMouseState(&xMouse, &yMouse);
+					}
+
+					if (e.type == SDL_MOUSEWHEEL) {
+						// Scroll up
+						if (e.wheel.y > 0) {
+							mouseGirder.rotateClockwise();
+						}
+						// Scroll down
+						if (e.wheel.y < 0) {
+							mouseGirder.rotateCounterClockwise();
+						}
+					}
+
+					if (e.type == SDL_MOUSEBUTTONDOWN) {
+						longGirders.push_back(new View::GirderLong(gRenderer, mouseGirder.getCurrentDegrees()));
+						(*longGirders.back()).render(gRenderer, xMouse - mouseGirder.getWidth() / 2, yMouse - mouseGirder.getHeight() / 2);
 					}
 				}
 
@@ -144,13 +172,20 @@ int main( int argc, char* args[] )
 				SDL_RenderClear( gRenderer );
 
 				//Render background texture to screen
-				myGirder.render(gRenderer, 0, 0 );
+				//myGirder.render(gRenderer, 0, 0 );
+
+				for (size_t i = 0 ; i < longGirders.size() ; i++) {
+					View::GirderLong & current = *longGirders.at(i);
+					current.render(gRenderer, current.getX(), current.getY());
+				}
+
+				mouseGirder.render(gRenderer, xMouse - mouseGirder.getWidth() / 2, yMouse - mouseGirder.getHeight() / 2);
                 
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
-                myGirder.rotateClockwise();
-                SDL_Delay(1000);
+				//myGirder.rotateClockwise();
+				//SDL_Delay(100);
 			}
 		}
 	}
