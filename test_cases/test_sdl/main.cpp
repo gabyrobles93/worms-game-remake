@@ -1,91 +1,162 @@
-#include <iostream>
+/*This source code copyrighted by Lazy Foo' Productions (2004-2015)
+and may not be redistributed without written permission.*/
+
+//Using SDL, SDL_image, standard IO, and strings
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
-#include <string.h>
+#include <stdio.h>
+#include <string>
+#include "girder_short.h"
 
+//Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+//Starts up SDL and creates window
+bool init();
+
+//Loads media
+bool loadMedia();
+
+//Frees media and shuts down SDL
+void close();
+
+//The window we'll be rendering to
+SDL_Window* gWindow = NULL;
+
+//The window renderer
+SDL_Renderer* gRenderer = NULL;
 
 
-int main(int argc, char const *argv[]) {
-	const int FPS = 60;
-	int frameTime = 0;
 
-	SDL_Window *window = nullptr;
-	SDL_Texture *currentImage = nullptr;
-	SDL_Renderer *renderTarget = nullptr;
-	SDL_Rect playerRect;
-	SDL_Rect playerPosition;
-	playerPosition.x = playerPosition.y = 0;
-	playerPosition.w = playerPosition.h = 104;
-	int frameWidth, frameHeight;
-	int textureWidth, textureHeight;
+bool init()
+{
+	//Initialization flag
+	bool success = true;
 
-	SDL_Init(SDL_INIT_VIDEO);
-
-	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
-	if ((!IMG_Init(imgFlags) & imgFlags))
-		std::cout << "Error" << IMG_GetError() << std::endl;
-
-	window = SDL_CreateWindow("SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
-	renderTarget = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	currentImage = IMG_LoadTexture(renderTarget, "/home/gonza/Desktop/Box2D-SDL/wwinner.png");
-
-	SDL_QueryTexture(currentImage, NULL, NULL, &textureWidth, &textureHeight);
-	frameWidth = textureWidth / 1;
-	frameHeight = textureHeight / 14;
-
-	playerRect.x = playerRect.y = 0;
-	playerRect.w = frameWidth;
-	playerRect.h = frameHeight;
-
-	SDL_SetRenderDrawColor(renderTarget, 0xFF, 0, 0, 0xFF);
-	bool isRunning = true;
-	SDL_Event ev;
-
-	Mix_Chunk *gMusic = NULL;
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	gMusic = Mix_LoadWAV("/home/gonza/Desktop/Box2D-SDL/DRAGONPUNCH.WAV");
-
-	Mix_PlayChannel(-1, gMusic, 0);
-	while (isRunning) {
-		while (SDL_PollEvent(&ev) != 0) {
-			if (ev.type == SDL_QUIT) 
-				isRunning = false;
+	//Initialize SDL
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
+		success = false;
+	}
+	else
+	{
+		//Set texture filtering to linear
+		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+		{
+			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 
-		frameTime++;
+		//Create window
+		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		if( gWindow == NULL )
+		{
+			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
+			success = false;
+		}
+		else
+		{
+			//Create renderer for window
+			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
+			if( gRenderer == NULL )
+			{
+				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
+				success = false;
+			}
+			else
+			{
+				//Initialize renderer color
+				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
-		if (FPS / frameTime == 20) {
-			frameTime = 0;
-			playerRect.y += frameHeight;
-			if (playerRect.y >= textureHeight) {
-				Mix_PlayChannel(-1, gMusic, 0);
-
-				playerRect.y = 0;
+				//Initialize PNG loading
+				int imgFlags = IMG_INIT_PNG;
+				if( !( IMG_Init( imgFlags ) & imgFlags ) )
+				{
+					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+					success = false;
+				}
 			}
 		}
-
-
-		SDL_RenderClear(renderTarget);
-		SDL_RenderCopy(renderTarget, currentImage, &playerRect, &playerPosition);
-		SDL_RenderPresent(renderTarget);
-
 	}
 
-	Mix_FreeChunk(gMusic);
-	gMusic = NULL;
+	return success;
+}
 
-	SDL_DestroyWindow(window);
-	SDL_DestroyTexture(currentImage);
-	SDL_DestroyRenderer(renderTarget);
-	window = nullptr;
-	currentImage = nullptr;
-	renderTarget = nullptr;
+bool loadMedia()
+{
+	//Loading success flag
+	bool success = true;
 
-	Mix_Quit();
+	return success;
+}
+
+void close() {
+	//Destroy window	
+	SDL_DestroyRenderer( gRenderer );
+	SDL_DestroyWindow( gWindow );
+	gWindow = NULL;
+	gRenderer = NULL;
+
+	//Quit SDL subsystems
+	IMG_Quit();
 	SDL_Quit();
+}
+
+int main( int argc, char* args[] )
+{
+	//Start up SDL and create window
+	if( !init() )
+	{
+		printf( "Failed to initialize!\n" );
+	}
+	else
+	{
+		//Load media
+		if( !loadMedia() )
+		{
+			printf( "Failed to load media!\n" );
+		}
+		else
+		{	
+			View::GirderShort myGirder(gRenderer);
+            //Main loop flag
+			bool quit = false;
+            
+			//Event handler
+			SDL_Event e;
+
+			//While application is running
+			while( !quit )
+			{
+				//Handle events on queue
+				while( SDL_PollEvent( &e ) != 0 )
+				{
+					//User requests quit
+					if( e.type == SDL_QUIT )
+					{
+						quit = true;
+					}
+				}
+
+				//Clear screen
+				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_RenderClear( gRenderer );
+
+				//Render background texture to screen
+				myGirder.render(gRenderer, 0, 0 );
+                
+
+				//Update screen
+				SDL_RenderPresent( gRenderer );
+                myGirder.rotateClockwise();
+                SDL_Delay(1000);
+			}
+		}
+	}
+
+	//Free resources and close SDL
+	close();
+
+	return 0;
 }
