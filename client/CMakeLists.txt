@@ -45,4 +45,4 @@ add_executable(	client
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)
 target_link_libraries(client ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
-
+target_link_libraries(client ${PROJECT_SOURCE_DIR}/libs/libyaml-cpp.a)

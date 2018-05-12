@@ -266,8 +266,10 @@ client: CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o
 client: CMakeFiles/client.dir/build.make
 client: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.9.5
 client: /usr/lib/x86_64-linux-gnu/libQt5DBus.so.5.9.5
+client: ../libs/libyaml-cpp.a
 client: /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.9.5
 client: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.9.5
+client: ../libs/libyaml-cpp.a
 client: CMakeFiles/client.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
