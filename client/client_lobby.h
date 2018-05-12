@@ -16,13 +16,15 @@ class client_lobby : public QWidget
     Q_OBJECT
 
 public:
-    explicit client_lobby(QWidget *parent, SocketReadWrite skt);
+    explicit client_lobby(QWidget *parent, SocketReadWrite skt, std::string &);
     ~client_lobby(void);
 
 private:
     Ui::client_lobby *ui;
     Protocol protocol;
-
+    std::string player_name;
+    
+    void introduceToServer(void);
     void connectEvents(void);
     void exitLobby(void);
 

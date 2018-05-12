@@ -54,7 +54,8 @@ SOURCES       = ../main.cpp \
 		../client_connector.cpp \
 		../socket.cpp \
 		../socket_error.cpp \
-		../client_lobby.cpp qrc_client_connector_resources.cpp \
+		../client_lobby.cpp \
+		../protocol.cpp qrc_client_connector_resources.cpp \
 		moc_client_connector.cpp \
 		moc_client_lobby.cpp
 OBJECTS       = main.o \
@@ -62,6 +63,7 @@ OBJECTS       = main.o \
 		socket.o \
 		socket_error.o \
 		client_lobby.o \
+		protocol.o \
 		qrc_client_connector_resources.o \
 		moc_client_connector.o \
 		moc_client_lobby.o
@@ -234,6 +236,7 @@ DIST          = ../../../../Qt/5.11.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.11.0/gcc_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/5.11.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../../Qt/5.11.0/gcc_64/mkspecs/features/spec_post.prf \
+		../.qmake.stash \
 		../../../../Qt/5.11.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/5.11.0/gcc_64/mkspecs/features/toolchain.prf \
 		../../../../Qt/5.11.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -256,11 +259,13 @@ DIST          = ../../../../Qt/5.11.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../client_connector.pro ../client_connector.h \
 		../socket.h \
 		../socket_error.h \
-		../client_lobby.h ../main.cpp \
+		../client_lobby.h \
+		../protocol.h ../main.cpp \
 		../client_connector.cpp \
 		../socket.cpp \
 		../socket_error.cpp \
-		../client_lobby.cpp
+		../client_lobby.cpp \
+		../protocol.cpp
 QMAKE_TARGET  = client_connector
 DESTDIR       = 
 TARGET        = client_connector
@@ -441,6 +446,7 @@ Makefile: ../client_connector.pro ../../../Qt/5.11.0/gcc_64/mkspecs/features/spe
 		../../../Qt/5.11.0/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.11.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.11.0/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.11.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.11.0/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.11.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -635,6 +641,7 @@ Makefile: ../client_connector.pro ../../../Qt/5.11.0/gcc_64/mkspecs/features/spe
 ../../../Qt/5.11.0/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.11.0/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../Qt/5.11.0/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.11.0/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.11.0/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.11.0/gcc_64/mkspecs/features/default_pre.prf:
@@ -675,8 +682,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../client_connector_resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.11.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../client_connector.h ../socket.h ../socket_error.h ../client_lobby.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../main.cpp ../client_connector.cpp ../socket.cpp ../socket_error.cpp ../client_lobby.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../client_connector.h ../socket.h ../socket_error.h ../client_lobby.h ../protocol.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../main.cpp ../client_connector.cpp ../socket.cpp ../socket_error.cpp ../client_lobby.cpp ../protocol.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../client_connector.ui ../client_lobby.ui $(DISTDIR)/
 
 
@@ -833,6 +840,7 @@ moc_client_connector.cpp: ../../../Qt/5.11.0/gcc_64/include/QtWidgets/QMainWindo
 		../client_lobby.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QWidget \
 		../socket_error.h \
+		../protocol.h \
 		../client_connector.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/gcc_64/bin/moc
@@ -943,6 +951,7 @@ moc_client_lobby.cpp: ../../../Qt/5.11.0/gcc_64/include/QtWidgets/QWidget \
 		../socket.h \
 		../types.h \
 		../socket_error.h \
+		../protocol.h \
 		../client_lobby.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/gcc_64/bin/moc
@@ -1084,6 +1093,7 @@ main.o: ../main.cpp ../client_connector.h \
 		../client_lobby.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QWidget \
 		../socket_error.h \
+		../protocol.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QApplication \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qapplication.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1207,7 +1217,42 @@ client_connector.o: ../client_connector.cpp ../../../Qt/5.11.0/gcc_64/include/Qt
 		../client_lobby.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QWidget \
 		../socket_error.h \
-		ui_client_connector.h
+		../protocol.h \
+		ui_client_connector.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QPlainTextEdit \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qplaintextedit.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtextedit.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextdocument.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextoption.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextcursor.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextformat.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qpen.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextlayout.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qglyphrun.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qrawfont.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qfontdatabase.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QStatusBar \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QToolBar \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qaction.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qactiongroup.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client_connector.o ../client_connector.cpp
 
 socket.o: ../socket.cpp ../socket.h \
@@ -1218,9 +1263,8 @@ socket.o: ../socket.cpp ../socket.h \
 socket_error.o: ../socket_error.cpp ../socket_error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o socket_error.o ../socket_error.cpp
 
-client_lobby.o: ../client_lobby.cpp ../client_lobby.h \
-		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QWidget \
-		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qwidget.h \
+client_lobby.o: ../client_lobby.cpp ../../../Qt/5.11.0/gcc_64/include/QtWidgets/QMainWindow \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qtguiglobal.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/qglobal.h \
@@ -1245,6 +1289,7 @@ client_lobby.o: ../client_lobby.cpp ../client_lobby.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/qversiontagging.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qtgui-config.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qwidget.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qwindowdefs.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/qobjectdefs.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/qnamespace.h \
@@ -1321,11 +1366,55 @@ client_lobby.o: ../client_lobby.cpp ../client_lobby.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qicon.h \
+		../client_lobby.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QWidget \
 		../socket.h \
 		../types.h \
 		../socket_error.h \
-		ui_client_lobby.h
+		../protocol.h \
+		ui_client_lobby.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QHeaderView \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qheaderview.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.11.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.11.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QTableWidget \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtablewidget.h \
+		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qtableview.h \
+		../client_connector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client_lobby.o ../client_lobby.cpp
+
+protocol.o: ../protocol.cpp ../protocol.h \
+		../socket.h \
+		../types.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o protocol.o ../protocol.cpp
 
 qrc_client_connector_resources.o: qrc_client_connector_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_client_connector_resources.o qrc_client_connector_resources.cpp

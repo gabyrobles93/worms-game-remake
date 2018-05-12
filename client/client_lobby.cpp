@@ -5,18 +5,21 @@
 #include "client_connector.h"
 #include "protocol.h"
 
-client_lobby::client_lobby(QWidget *parent, SocketReadWrite skt) :
+client_lobby::client_lobby(QWidget *parent, SocketReadWrite skt, std::string & pname) :
     QWidget(parent),
     ui(new Ui::client_lobby),
-    protocol(std::move(skt))
+    protocol(std::move(skt)),
+    player_name(pname)
 {
     ui->setupUi(this);
     QTableWidget* gamesTable = findChild<QTableWidget*>("gamesTable");
+    QLabel* playerName = findChild<QLabel*>("playerName");
     gamesTable->setColumnWidth(0, 275);
     gamesTable->setColumnWidth(1, 110);
     gamesTable->setColumnWidth(2, 62);
-
-     connectEvents();
+    playerName->setText(QString::fromStdString(this->player_name));
+    connectEvents();
+    introduceToServer();
 }
 
 client_lobby::~client_lobby(void)
@@ -41,4 +44,12 @@ void client_lobby::connectEvents(void) {
     QPushButton* createGameButton = findChild<QPushButton*>("createGameButton");
     QObject::connect(createGameButton, &QPushButton::clicked,
                      this, &client_lobby::close);
+}
+
+void client_lobby::introduceToServer(void) {
+    this->protocol.sendName(this->player_name);
+    // Recibe el nuevo nombre (si hubo colisión) que le asigna el servidor.
+    this->protocol.getPlayerName(this->player_name);
+
+    std::cout << "El servidor me bautizó como: " << this->player_name << std::endl;
 }

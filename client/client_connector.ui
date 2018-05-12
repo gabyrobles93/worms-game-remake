@@ -82,6 +82,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="plainText">
+     <string>localhost</string>
+    </property>
     <property name="backgroundVisible">
      <bool>false</bool>
     </property>
@@ -120,6 +123,9 @@
       <width>91</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="plainText">
+     <string>8080</string>
     </property>
    </widget>
    <widget class="QLabel" name="logoWorms">
@@ -182,6 +188,32 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPlainTextEdit" name="playerNameInput">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>pepe</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ipLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; color:#fce94f;&quot;&gt;Player Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
    <zorder>logoWorms</zorder>
@@ -191,6 +223,8 @@
    <zorder>ipLabel</zorder>
    <zorder>portLabel</zorder>
    <zorder>portTextInput</zorder>
+   <zorder>playerNameInput</zorder>
+   <zorder>ipLabel_2</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

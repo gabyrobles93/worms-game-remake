@@ -40,14 +40,16 @@ void client_connector::connectToServer(void)
 {
     QPlainTextEdit* ipText = findChild<QPlainTextEdit*>("ipTextInput");
     QPlainTextEdit* portText = findChild<QPlainTextEdit*>("portTextInput");
+    QPlainTextEdit* pnameTex = findChild<QPlainTextEdit*>("playerNameInput");
     std::string ip = ipText->toPlainText().toUtf8().constData();
     std::string port = portText->toPlainText().toUtf8().constData();
+    std::string player_name = pnameTex->toPlainText().toUtf8().constData();
     std::cout << "El usuario intenta conectarse a " << ip << ":" << port << std::endl;
 
     try {
         SocketConnection skt(ip, port);
         std::cout << "Socket creado para conexión con servidor " << skt.sockfd << std::endl;
-        this->lobby = new client_lobby(0, std::move(skt));
+        this->lobby = new client_lobby(0, std::move(skt), player_name);
     } catch (const SocketError & e) {
         std::cout << e.what() << std::endl;
         QMessageBox msgBox;

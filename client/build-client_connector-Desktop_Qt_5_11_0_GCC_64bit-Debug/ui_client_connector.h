@@ -34,6 +34,8 @@ public:
     QLabel *logoWorms;
     QLabel *label;
     QLabel *label_2;
+    QPlainTextEdit *playerNameInput;
+    QLabel *ipLabel_2;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -85,6 +87,12 @@ public:
         label_2->setGeometry(QRect(-20, 110, 151, 111));
         label_2->setPixmap(QPixmap(QString::fromUtf8("../../resources/graphics/Logos/text_box.png")));
         label_2->setScaledContents(true);
+        playerNameInput = new QPlainTextEdit(centralWidget);
+        playerNameInput->setObjectName(QStringLiteral("playerNameInput"));
+        playerNameInput->setGeometry(QRect(120, 80, 91, 31));
+        ipLabel_2 = new QLabel(centralWidget);
+        ipLabel_2->setObjectName(QStringLiteral("ipLabel_2"));
+        ipLabel_2->setGeometry(QRect(10, 80, 91, 31));
         client_connector->setCentralWidget(centralWidget);
         label->raise();
         label_2->raise();
@@ -95,6 +103,8 @@ public:
         ipLabel->raise();
         portLabel->raise();
         portTextInput->raise();
+        playerNameInput->raise();
+        ipLabel_2->raise();
         mainToolBar = new QToolBar(client_connector);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         client_connector->addToolBar(Qt::TopToolBarArea, mainToolBar);
@@ -120,6 +130,7 @@ public:
         logoWorms->setText(QString());
         label->setText(QString());
         label_2->setText(QString());
+        ipLabel_2->setText(QApplication::translate("client_connector", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600; color:#fce94f;\">Player Name</span></p></body></html>", nullptr));
     } // retranslateUi
 
 };
