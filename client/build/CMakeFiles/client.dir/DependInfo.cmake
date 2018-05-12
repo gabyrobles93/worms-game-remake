@@ -6,7 +6,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/grobles/tp-final-taller/client/build/client_autogen/mocs_compilation.cpp" "/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
   "/home/grobles/tp-final-taller/client/client_connector.cpp" "/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir/client_connector.cpp.o"
+  "/home/grobles/tp-final-taller/client/client_lobby.cpp" "/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir/client_lobby.cpp.o"
   "/home/grobles/tp-final-taller/client/main.cpp" "/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir/main.cpp.o"
+  "/home/grobles/tp-final-taller/client/build/qrc_client_connector_resources.cpp" "/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o"
+  "/home/grobles/tp-final-taller/client/socket.cpp" "/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir/socket.cpp.o"
+  "/home/grobles/tp-final-taller/client/socket_error.cpp" "/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir/socket_error.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -28,7 +32,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/include/x86_64-linux-gnu/qt5/QtWidgets"
   "/usr/include/x86_64-linux-gnu/qt5/QtGui"
   "/usr/include/x86_64-linux-gnu/qt5/QtCore"
-  "/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64"
+  "/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"
   "/usr/include/x86_64-linux-gnu/qt5/QtDBus"
   )
 

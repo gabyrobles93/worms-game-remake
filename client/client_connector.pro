@@ -28,13 +28,20 @@ asdasd
 
 SOURCES += \
         main.cpp \
-        client_connector.cpp
+        client_connector.cpp \
+    socket.cpp \
+    socket_error.cpp \
+    client_lobby.cpp
 
 HEADERS += \
-        client_connector.h
+        client_connector.h \
+    socket.h \
+    socket_error.h \
+    client_lobby.h
 
 FORMS += \
-        client_connector.ui
+        client_connector.ui \
+    client_lobby.ui
 
 RESOURCES += \
     client_connector_resources.qrc

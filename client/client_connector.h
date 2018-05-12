@@ -2,6 +2,8 @@
 #define CLIENT_CONNECTOR_H
 
 #include <QMainWindow>
+#include "socket.h"
+#include "client_lobby.h"
 
 namespace Ui {
 class client_connector;
@@ -17,7 +19,11 @@ public:
 
 private:
     Ui::client_connector *ui;
+    SocketConnection *skt;
+    client_lobby lobby;
+
     void connectEvents(void);
+    void connectToServer(void);
 };
 
 #endif // CLIENT_CONNECTOR_H

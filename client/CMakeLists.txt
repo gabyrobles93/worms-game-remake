@@ -20,14 +20,27 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 qt5_wrap_ui(UIS_HEADERS
         client_connector.ui
+	client_lobby.ui
 )
+
+SET(UI_RESOURCES
+	client_connector_resources.qrc
+)
+
+QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
 
 add_executable(	client
 		main.cpp 
 		client_connector.cpp
 		client_connector.h
-		client_connector_resources.qrc 
+		socket.cpp
+		socket.h
+		socket_error.cpp
+		socket_error.h
+		client_lobby.cpp
+		client_lobby.h
 		${UIS_HEADERS}
+		${UI_RESOURCES_RCC}
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)
