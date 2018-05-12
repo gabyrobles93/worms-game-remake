@@ -30,6 +30,8 @@ public:
     QPushButton *createGameButton;
     QPushButton *joinGameButton;
     QTableWidget *gamesTable;
+    QLabel *label;
+    QLabel *playerName;
 
     void setupUi(QWidget *client_lobby)
     {
@@ -77,6 +79,13 @@ public:
         gamesTable->setMaximumSize(QSize(451, 192));
         gamesTable->setSortingEnabled(true);
         gamesTable->setColumnCount(3);
+        label = new QLabel(client_lobby);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(180, 280, 81, 17));
+        label->setTextFormat(Qt::RichText);
+        playerName = new QLabel(client_lobby);
+        playerName->setObjectName(QStringLiteral("playerName"));
+        playerName->setGeometry(QRect(260, 280, 67, 17));
 
         retranslateUi(client_lobby);
 
@@ -91,6 +100,8 @@ public:
         exitLobbyButton->setText(QApplication::translate("client_lobby", "Exit", Q_NULLPTR));
         createGameButton->setText(QApplication::translate("client_lobby", "Create Game", Q_NULLPTR));
         joinGameButton->setText(QApplication::translate("client_lobby", "Join Game", Q_NULLPTR));
+        label->setText(QApplication::translate("client_lobby", "<html><head/><body><p><span style=\" font-weight:600;\">Welcome:</span></p></body></html>", Q_NULLPTR));
+        playerName->setText(QString());
     } // retranslateUi
 
 };
