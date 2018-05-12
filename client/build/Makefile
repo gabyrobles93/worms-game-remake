@@ -244,6 +244,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+protocol.o: protocol.cpp.o
+
+.PHONY : protocol.o
+
+# target to build an object file
+protocol.cpp.o:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/protocol.cpp.o
+.PHONY : protocol.cpp.o
+
+protocol.i: protocol.cpp.i
+
+.PHONY : protocol.i
+
+# target to preprocess a source file
+protocol.cpp.i:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/protocol.cpp.i
+.PHONY : protocol.cpp.i
+
+protocol.s: protocol.cpp.s
+
+.PHONY : protocol.s
+
+# target to generate assembly for a file
+protocol.cpp.s:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/protocol.cpp.s
+.PHONY : protocol.cpp.s
+
 qrc_client_connector_resources.o: qrc_client_connector_resources.cpp.o
 
 .PHONY : qrc_client_connector_resources.o
@@ -347,6 +374,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... protocol.o"
+	@echo "... protocol.i"
+	@echo "... protocol.s"
 	@echo "... qrc_client_connector_resources.o"
 	@echo "... qrc_client_connector_resources.i"
 	@echo "... qrc_client_connector_resources.s"

@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/client.dir/socket.cpp.o"
   "CMakeFiles/client.dir/socket_error.cpp.o"
   "CMakeFiles/client.dir/client_lobby.cpp.o"
+  "CMakeFiles/client.dir/protocol.cpp.o"
   "CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o"
   "CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
   "client.pdb"

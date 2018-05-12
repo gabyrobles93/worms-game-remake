@@ -6,6 +6,7 @@ CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: client_autogen/EWIE
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: client_autogen/mocs_compilation.cpp
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: ../client_connector.h
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: ../client_lobby.h
+CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: ../protocol.h
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: ../socket.h
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: ../socket_error.h
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: ../types.h
@@ -117,6 +118,7 @@ CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: /usr/include/x86_64
 CMakeFiles/client.dir/client_connector.cpp.o: ../client_connector.cpp
 CMakeFiles/client.dir/client_connector.cpp.o: ../client_connector.h
 CMakeFiles/client.dir/client_connector.cpp.o: ../client_lobby.h
+CMakeFiles/client.dir/client_connector.cpp.o: ../protocol.h
 CMakeFiles/client.dir/client_connector.cpp.o: ../socket.h
 CMakeFiles/client.dir/client_connector.cpp.o: ../socket_error.h
 CMakeFiles/client.dir/client_connector.cpp.o: ../types.h
@@ -283,6 +285,7 @@ CMakeFiles/client.dir/client_connector.cpp.o: ui_client_connector.h
 
 CMakeFiles/client.dir/client_lobby.cpp.o: ../client_lobby.cpp
 CMakeFiles/client.dir/client_lobby.cpp.o: ../client_lobby.h
+CMakeFiles/client.dir/client_lobby.cpp.o: ../protocol.h
 CMakeFiles/client.dir/client_lobby.cpp.o: ../socket.h
 CMakeFiles/client.dir/client_lobby.cpp.o: ../socket_error.h
 CMakeFiles/client.dir/client_lobby.cpp.o: ../types.h
@@ -431,6 +434,7 @@ CMakeFiles/client.dir/client_lobby.cpp.o: ui_client_lobby.h
 CMakeFiles/client.dir/main.cpp.o: ../client_connector.h
 CMakeFiles/client.dir/main.cpp.o: ../client_lobby.h
 CMakeFiles/client.dir/main.cpp.o: ../main.cpp
+CMakeFiles/client.dir/main.cpp.o: ../protocol.h
 CMakeFiles/client.dir/main.cpp.o: ../socket.h
 CMakeFiles/client.dir/main.cpp.o: ../socket_error.h
 CMakeFiles/client.dir/main.cpp.o: ../types.h
@@ -545,6 +549,11 @@ CMakeFiles/client.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qt
 CMakeFiles/client.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h
 CMakeFiles/client.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h
 CMakeFiles/client.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
+
+CMakeFiles/client.dir/protocol.cpp.o: ../protocol.cpp
+CMakeFiles/client.dir/protocol.cpp.o: ../protocol.h
+CMakeFiles/client.dir/protocol.cpp.o: ../socket.h
+CMakeFiles/client.dir/protocol.cpp.o: ../types.h
 
 CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o: qrc_client_connector_resources.cpp
 

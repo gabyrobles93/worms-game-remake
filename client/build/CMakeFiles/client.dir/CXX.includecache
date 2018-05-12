@@ -59,14 +59,20 @@ client_lobby.h
 /home/grobles/tp-final-taller/client/client_lobby.h
 ui_client_lobby.h
 /home/grobles/tp-final-taller/client/ui_client_lobby.h
+protocol.h
+/home/grobles/tp-final-taller/client/protocol.h
 
 /home/grobles/tp-final-taller/client/client_lobby.h
 QWidget
+-
+string
 -
 socket.h
 /home/grobles/tp-final-taller/client/socket.h
 socket_error.h
 /home/grobles/tp-final-taller/client/socket_error.h
+protocol.h
+/home/grobles/tp-final-taller/client/protocol.h
 
 /home/grobles/tp-final-taller/client/main.cpp
 iostream
@@ -77,6 +83,18 @@ socket_error.h
 /home/grobles/tp-final-taller/client/socket_error.h
 QApplication
 -
+
+/home/grobles/tp-final-taller/client/protocol.cpp
+iostream
+-
+protocol.h
+/home/grobles/tp-final-taller/client/protocol.h
+socket.h
+/home/grobles/tp-final-taller/client/socket.h
+
+/home/grobles/tp-final-taller/client/protocol.h
+socket.h
+/home/grobles/tp-final-taller/client/socket.h
 
 /home/grobles/tp-final-taller/client/socket.cpp
 socket.h

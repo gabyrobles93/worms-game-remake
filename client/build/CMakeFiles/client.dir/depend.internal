@@ -7,6 +7,7 @@ CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o
  /home/grobles/tp-final-taller/client/build/client_autogen/mocs_compilation.cpp
  /home/grobles/tp-final-taller/client/client_connector.h
  /home/grobles/tp-final-taller/client/client_lobby.h
+ /home/grobles/tp-final-taller/client/protocol.h
  /home/grobles/tp-final-taller/client/socket.h
  /home/grobles/tp-final-taller/client/socket_error.h
  /home/grobles/tp-final-taller/client/types.h
@@ -118,6 +119,7 @@ CMakeFiles/client.dir/client_connector.cpp.o
  /home/grobles/tp-final-taller/client/client_connector.cpp
  /home/grobles/tp-final-taller/client/client_connector.h
  /home/grobles/tp-final-taller/client/client_lobby.h
+ /home/grobles/tp-final-taller/client/protocol.h
  /home/grobles/tp-final-taller/client/socket.h
  /home/grobles/tp-final-taller/client/socket_error.h
  /home/grobles/tp-final-taller/client/types.h
@@ -284,6 +286,7 @@ CMakeFiles/client.dir/client_connector.cpp.o
 CMakeFiles/client.dir/client_lobby.cpp.o
  /home/grobles/tp-final-taller/client/client_lobby.cpp
  /home/grobles/tp-final-taller/client/client_lobby.h
+ /home/grobles/tp-final-taller/client/protocol.h
  /home/grobles/tp-final-taller/client/socket.h
  /home/grobles/tp-final-taller/client/socket_error.h
  /home/grobles/tp-final-taller/client/types.h
@@ -432,6 +435,7 @@ CMakeFiles/client.dir/main.cpp.o
  /home/grobles/tp-final-taller/client/client_connector.h
  /home/grobles/tp-final-taller/client/client_lobby.h
  /home/grobles/tp-final-taller/client/main.cpp
+ /home/grobles/tp-final-taller/client/protocol.h
  /home/grobles/tp-final-taller/client/socket.h
  /home/grobles/tp-final-taller/client/socket_error.h
  /home/grobles/tp-final-taller/client/types.h
@@ -546,6 +550,11 @@ CMakeFiles/client.dir/main.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
+CMakeFiles/client.dir/protocol.cpp.o
+ /home/grobles/tp-final-taller/client/protocol.cpp
+ /home/grobles/tp-final-taller/client/protocol.h
+ /home/grobles/tp-final-taller/client/socket.h
+ /home/grobles/tp-final-taller/client/types.h
 CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o
  /home/grobles/tp-final-taller/client/build/qrc_client_connector_resources.cpp
 CMakeFiles/client.dir/socket.cpp.o

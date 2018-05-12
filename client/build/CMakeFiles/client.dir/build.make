@@ -195,9 +195,33 @@ CMakeFiles/client.dir/client_lobby.cpp.o.provides: CMakeFiles/client.dir/client_
 CMakeFiles/client.dir/client_lobby.cpp.o.provides.build: CMakeFiles/client.dir/client_lobby.cpp.o
 
 
+CMakeFiles/client.dir/protocol.cpp.o: CMakeFiles/client.dir/flags.make
+CMakeFiles/client.dir/protocol.cpp.o: ../protocol.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/client.dir/protocol.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/protocol.cpp.o -c /home/grobles/tp-final-taller/client/protocol.cpp
+
+CMakeFiles/client.dir/protocol.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/protocol.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/grobles/tp-final-taller/client/protocol.cpp > CMakeFiles/client.dir/protocol.cpp.i
+
+CMakeFiles/client.dir/protocol.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/protocol.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/grobles/tp-final-taller/client/protocol.cpp -o CMakeFiles/client.dir/protocol.cpp.s
+
+CMakeFiles/client.dir/protocol.cpp.o.requires:
+
+.PHONY : CMakeFiles/client.dir/protocol.cpp.o.requires
+
+CMakeFiles/client.dir/protocol.cpp.o.provides: CMakeFiles/client.dir/protocol.cpp.o.requires
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/protocol.cpp.o.provides.build
+.PHONY : CMakeFiles/client.dir/protocol.cpp.o.provides
+
+CMakeFiles/client.dir/protocol.cpp.o.provides.build: CMakeFiles/client.dir/protocol.cpp.o
+
+
 CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o: qrc_client_connector_resources.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o -c /home/grobles/tp-final-taller/client/build/qrc_client_connector_resources.cpp
 
 CMakeFiles/client.dir/qrc_client_connector_resources.cpp.i: cmake_force
@@ -221,7 +245,7 @@ CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o.provides.build: CMake
 
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o: client_autogen/mocs_compilation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o -c /home/grobles/tp-final-taller/client/build/client_autogen/mocs_compilation.cpp
 
 CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.i: cmake_force
@@ -250,6 +274,7 @@ client_OBJECTS = \
 "CMakeFiles/client.dir/socket.cpp.o" \
 "CMakeFiles/client.dir/socket_error.cpp.o" \
 "CMakeFiles/client.dir/client_lobby.cpp.o" \
+"CMakeFiles/client.dir/protocol.cpp.o" \
 "CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o" \
 "CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o"
 
@@ -261,6 +286,7 @@ client: CMakeFiles/client.dir/client_connector.cpp.o
 client: CMakeFiles/client.dir/socket.cpp.o
 client: CMakeFiles/client.dir/socket_error.cpp.o
 client: CMakeFiles/client.dir/client_lobby.cpp.o
+client: CMakeFiles/client.dir/protocol.cpp.o
 client: CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o
 client: CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o
 client: CMakeFiles/client.dir/build.make
@@ -271,7 +297,7 @@ client: /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.9.5
 client: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.9.5
 client: ../libs/libyaml-cpp.a
 client: CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/grobles/tp-final-taller/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -284,6 +310,7 @@ CMakeFiles/client.dir/requires: CMakeFiles/client.dir/client_connector.cpp.o.req
 CMakeFiles/client.dir/requires: CMakeFiles/client.dir/socket.cpp.o.requires
 CMakeFiles/client.dir/requires: CMakeFiles/client.dir/socket_error.cpp.o.requires
 CMakeFiles/client.dir/requires: CMakeFiles/client.dir/client_lobby.cpp.o.requires
+CMakeFiles/client.dir/requires: CMakeFiles/client.dir/protocol.cpp.o.requires
 CMakeFiles/client.dir/requires: CMakeFiles/client.dir/qrc_client_connector_resources.cpp.o.requires
 CMakeFiles/client.dir/requires: CMakeFiles/client.dir/client_autogen/mocs_compilation.cpp.o.requires
 
