@@ -11,15 +11,16 @@ client_connector::client_connector(QWidget *parent) :
     ui(new Ui::client_connector)
 {
     ui->setupUi(this);
-    skt = NULL;
+    this->lobby = NULL;
     connectEvents();
 }
 
 client_connector::~client_connector()
 {
+    std::cout << "Destruyendo widget de Client Connector." << std::endl;
     delete ui;
-    if (skt != NULL)
-        delete skt;
+    if (this->lobby != NULL)
+        delete this->lobby;
 }
 
 void client_connector::connectEvents(void)
@@ -44,7 +45,9 @@ void client_connector::connectToServer(void)
     std::cout << "El usuario intenta conectarse a " << ip << ":" << port << std::endl;
 
     try {
-        this->skt = new SocketConnection(ip, port);
+        SocketConnection skt(ip, port);
+        std::cout << "Socket creado para conexión con servidor " << skt.sockfd << std::endl;
+        this->lobby = new client_lobby(0, std::move(skt));
     } catch (const SocketError & e) {
         std::cout << e.what() << std::endl;
         QMessageBox msgBox;
@@ -56,7 +59,10 @@ void client_connector::connectToServer(void)
 
     std::cout << "Conexion con servidor establecida" << std::endl;
 
-    lobby.skt = this->skt;
-    lobby.show();
+    switchToLobby();
+}
+
+void client_connector::switchToLobby(void) {
+    this->lobby->show();
     this->hide();
 }

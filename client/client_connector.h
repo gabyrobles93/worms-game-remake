@@ -19,11 +19,11 @@ public:
 
 private:
     Ui::client_connector *ui;
-    SocketConnection *skt;
-    client_lobby lobby;
+    client_lobby *lobby;
 
     void connectEvents(void);
     void connectToServer(void);
+    void switchToLobby(void);
 };
 
 #endif // CLIENT_CONNECTOR_H

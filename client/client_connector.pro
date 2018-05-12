@@ -31,13 +31,15 @@ SOURCES += \
         client_connector.cpp \
     socket.cpp \
     socket_error.cpp \
-    client_lobby.cpp
+    client_lobby.cpp \
+    protocol.cpp
 
 HEADERS += \
         client_connector.h \
     socket.h \
     socket_error.h \
-    client_lobby.h
+    client_lobby.h \
+    protocol.h
 
 FORMS += \
         client_connector.ui \

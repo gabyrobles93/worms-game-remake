@@ -39,6 +39,8 @@ add_executable(	client
 		socket_error.h
 		client_lobby.cpp
 		client_lobby.h
+		protocol.cpp
+		protocol.h
 		${UIS_HEADERS}
 		${UI_RESOURCES_RCC}
 		)

@@ -31,13 +31,14 @@ socket base.
 */
 class SocketBase {
     private:
-        int sockfd;
+        
 
     protected:
         explicit SocketBase(int fd);
         int getSockFd(void) const;
 
     public:
+        int sockfd;
         SocketBase(SocketBase && move) noexcept;
         virtual ~SocketBase(void);
         void SktClose(void);
