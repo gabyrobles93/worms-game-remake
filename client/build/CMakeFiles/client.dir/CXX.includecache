@@ -55,10 +55,16 @@ client_lobby.h
 /home/grobles/tp-final-taller/client/client_lobby.h
 
 /home/grobles/tp-final-taller/client/client_lobby.cpp
+iostream
+-
+QMainWindow
+-
 client_lobby.h
 /home/grobles/tp-final-taller/client/client_lobby.h
 ui_client_lobby.h
 /home/grobles/tp-final-taller/client/ui_client_lobby.h
+client_connector.h
+/home/grobles/tp-final-taller/client/client_connector.h
 protocol.h
 /home/grobles/tp-final-taller/client/protocol.h
 

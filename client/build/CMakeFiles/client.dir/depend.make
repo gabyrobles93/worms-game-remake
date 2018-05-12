@@ -283,6 +283,7 @@ CMakeFiles/client.dir/client_connector.cpp.o: /usr/include/x86_64-linux-gnu/qt5/
 CMakeFiles/client.dir/client_connector.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
 CMakeFiles/client.dir/client_connector.cpp.o: ui_client_connector.h
 
+CMakeFiles/client.dir/client_lobby.cpp.o: ../client_connector.h
 CMakeFiles/client.dir/client_lobby.cpp.o: ../client_lobby.cpp
 CMakeFiles/client.dir/client_lobby.cpp.o: ../client_lobby.h
 CMakeFiles/client.dir/client_lobby.cpp.o: ../protocol.h
@@ -399,6 +400,7 @@ CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWi
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QButtonGroup
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHeaderView
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel
+CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTableWidget
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget
@@ -416,6 +418,7 @@ CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWi
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qheaderview.h
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h
+CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qpushbutton.h
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qrubberband.h
 CMakeFiles/client.dir/client_lobby.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsizepolicy.h
