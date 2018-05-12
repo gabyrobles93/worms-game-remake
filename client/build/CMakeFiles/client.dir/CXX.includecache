@@ -93,12 +93,16 @@ QApplication
 /home/grobles/tp-final-taller/client/protocol.cpp
 iostream
 -
+arpa/inet.h
+-
 protocol.h
 /home/grobles/tp-final-taller/client/protocol.h
 socket.h
 /home/grobles/tp-final-taller/client/socket.h
 
 /home/grobles/tp-final-taller/client/protocol.h
+string
+-
 socket.h
 /home/grobles/tp-final-taller/client/socket.h
 
