@@ -9,6 +9,7 @@ and may not be redistributed without written permission.*/
 #include <vector>
 #include "girder_short.h"
 #include "girder_long.h"
+#include "worm.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -135,6 +136,7 @@ int main( int argc, char* args[] )
             
 			//Event handler
 			SDL_Event e;
+			View::Worm myWorm(gRenderer);
 
 			//While application is running
 			while( !quit )
@@ -145,6 +147,8 @@ int main( int argc, char* args[] )
 					if(e.type == SDL_QUIT) {
 						quit = true;
 					}
+					
+					myWorm.handleEvent(e);
 
 					if (e.type == SDL_MOUSEMOTION) {
 						SDL_GetMouseState(&xMouse, &yMouse);
@@ -168,6 +172,7 @@ int main( int argc, char* args[] )
 				}
 
 				//Clear screen
+/*
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
 
@@ -184,6 +189,7 @@ int main( int argc, char* args[] )
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
+*/
 				//myGirder.rotateClockwise();
 				//SDL_Delay(100);
 			}
