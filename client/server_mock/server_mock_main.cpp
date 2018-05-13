@@ -1,9 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include "../socket.h"
-#include "../socket_error.h"
-#include "../protocol.h"
-#include "../protocol_error.h"
+#include <unistd.h>
+#include "../src/socket.h"
+#include "../src/socket_error.h"
+#include "../src/protocol.h"
+#include "../src/protocol_error.h"
 
 #define LISTENING_PORT "8080"
 
@@ -18,10 +19,19 @@ try {
     std::cout << "Welcome: " << player_name << std::endl;
     protocol.sendName(player_name);
 
-    std::fstream games_status_file("games.yml");
+    std::cout << "Enviado archivo de estados de juego 1." << std::endl;
+    std::fstream games_status_file("games.yml", std::ifstream::in|std::ios::binary);
     protocol.sendFile(games_status_file);
 
-    std::cout << "Enviado archivo de estados de juego." << std::endl;
+    int sleep;
+    sleep = 5000000;
+    usleep(sleep);
+
+    std::cout << "Enviado archivo de estados de juego 2." << std::endl;
+
+    games_status_file.close();
+    games_status_file.open("games2.yml", std::ifstream::in|std::ios::binary);
+    protocol.sendFile(games_status_file);
 
     while(1);
 

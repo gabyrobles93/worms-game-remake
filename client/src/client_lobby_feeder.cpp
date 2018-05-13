@@ -45,6 +45,8 @@ void ClientLobbyFeeder::stop(void) {
 void ClientLobbyFeeder::feedGamesTable(void) {
     std::cout << "Actualizo tabla de lobby." << std::endl;
 
+   this->games_table->setRowCount(0);  // CHEQUEAR SI ESTE METOOD "LIMPIA" LA TABLA LIBERANDO LOS ELEMENTOS INSTANCIADOS CON NEW
+
     YAML::Node games_file = YAML::LoadFile("games.yml");
     const YAML::Node& games = games_file["games"];
     for (YAML::const_iterator it = games.begin(); it != games.end(); ++it) {

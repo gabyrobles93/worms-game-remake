@@ -21,35 +21,35 @@ include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/yaml-cpp)
 
 qt5_wrap_ui(UIS_HEADERS
-        client_connector.ui
-		client_lobby.ui
+        ${PROJECT_SOURCE_DIR}/qtdesigner/client_connector.ui
+	${PROJECT_SOURCE_DIR}/qtdesigner/client_lobby.ui
 )
 
 SET(UI_RESOURCES
-	client_resources.qrc
+	${PROJECT_SOURCE_DIR}/qtdesigner/client_resources.qrc
 )
 
 QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
 
 add_executable(	client
-		main.cpp 
-		client_connector.cpp
-		socket_error.cpp
-		client_lobby.cpp
-		protocol.cpp
-		client_lobby_feeder.cpp
-		socket.cpp
-		thread.cpp
-		protocol_error.cpp
-		protocol_error.h
-		client_connector.h
-		socket.h
-		socket_error.h
-		client_lobby.h
-		protocol.h
-		client_lobby_feeder.h
-		thread.h
-		types.h
+		${PROJECT_SOURCE_DIR}/src/main.cpp 
+		${PROJECT_SOURCE_DIR}/src/client_connector.cpp
+		${PROJECT_SOURCE_DIR}/src/socket_error.cpp
+		${PROJECT_SOURCE_DIR}/src/client_lobby.cpp
+		${PROJECT_SOURCE_DIR}/src/protocol.cpp
+		${PROJECT_SOURCE_DIR}/src/client_lobby_feeder.cpp
+		${PROJECT_SOURCE_DIR}/src/socket.cpp
+		${PROJECT_SOURCE_DIR}/src/thread.cpp
+		${PROJECT_SOURCE_DIR}/src/protocol_error.cpp
+		${PROJECT_SOURCE_DIR}/src/protocol_error.h
+		${PROJECT_SOURCE_DIR}/src/client_connector.h
+		${PROJECT_SOURCE_DIR}/src/socket.h
+		${PROJECT_SOURCE_DIR}/src/socket_error.h
+		${PROJECT_SOURCE_DIR}/src/client_lobby.h
+		${PROJECT_SOURCE_DIR}/src/protocol.h
+		${PROJECT_SOURCE_DIR}/src/client_lobby_feeder.h
+		${PROJECT_SOURCE_DIR}/src/thread.h
+		${PROJECT_SOURCE_DIR}/src/types.h
 		${UIS_HEADERS}
 		${UI_RESOURCES_RCC}
 		)
