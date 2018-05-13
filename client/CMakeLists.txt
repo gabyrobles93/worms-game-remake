@@ -26,7 +26,7 @@ qt5_wrap_ui(UIS_HEADERS
 )
 
 SET(UI_RESOURCES
-	client_connector_resources.qrc
+	client_resources.qrc
 )
 
 QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})

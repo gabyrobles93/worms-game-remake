@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = client_connector
+TARGET = client
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -53,7 +53,7 @@ FORMS += \
     client_lobby.ui
 
 RESOURCES += \
-    client_connector_resources.qrc
+    client_resources.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/release/ -lyaml-cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/debug/ -lyaml-cpp

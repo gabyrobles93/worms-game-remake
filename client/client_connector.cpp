@@ -38,12 +38,12 @@ void client_connector::connectEvents(void)
 
 void client_connector::connectToServer(void)
 {
-    QPlainTextEdit* ipText = findChild<QPlainTextEdit*>("ipTextInput");
-    QPlainTextEdit* portText = findChild<QPlainTextEdit*>("portTextInput");
-    QPlainTextEdit* pnameTex = findChild<QPlainTextEdit*>("playerNameInput");
-    std::string ip = ipText->toPlainText().toUtf8().constData();
-    std::string port = portText->toPlainText().toUtf8().constData();
-    std::string player_name = pnameTex->toPlainText().toUtf8().constData();
+    QLineEdit* ipText = findChild<QLineEdit*>("ipTextInput");
+    QLineEdit* portText = findChild<QLineEdit*>("portTextInput");
+    QLineEdit* pnameTex = findChild<QLineEdit*>("playerNameInput");
+    std::string ip = ipText->displayText().toUtf8().constData();
+    std::string port = portText->displayText().toUtf8().constData();
+    std::string player_name = pnameTex->displayText().toUtf8().constData();
     std::cout << "El usuario intenta conectarse a " << ip << ":" << port << std::endl;
 
     try {
