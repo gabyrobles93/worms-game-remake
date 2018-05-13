@@ -46,7 +46,7 @@ HEADERS += \
         ..\src\protocol_error.h \
         ..\src\client_lobby_feeder.h \
         ..\src\thread.h \
-        ..\yaml-cpp/yaml.h
+        ..\include\yaml-cpp\yaml.h
 
 FORMS += \
         client_connector.ui \

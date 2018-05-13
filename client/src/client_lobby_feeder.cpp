@@ -33,7 +33,6 @@ void ClientLobbyFeeder::run(void) {
             break;
         }       
     }
-
     this->running = false;
 }
 
@@ -51,10 +50,6 @@ void ClientLobbyFeeder::feedGamesTable(void) {
     const YAML::Node& games = games_file["games"];
     for (YAML::const_iterator it = games.begin(); it != games.end(); ++it) {
         const YAML::Node& game = *it;
-        std::cout << "Nombre del juego: " << game["name"].as<std::string>() << std::endl;;
-        std::cout << "Creador: " << game["creator"].as<std::string>() << std::endl; 
-        std::cout << "Jugadores: " << game["players"].as<size_t>() << "/3" << std::endl;
-
         std::string game_name = game["name"].as<std::string>();
         std::string game_creator = game["creator"].as<std::string>();
         std::string game_players = game["players"].as<std::string>();
@@ -74,7 +69,6 @@ void ClientLobbyFeeder::feedGamesTable(void) {
         table_game_players->setFlags(table_game_players->flags() ^ Qt::ItemIsEditable);
         this->games_table->setItem(this->games_table->rowCount()-1, 2, table_game_players);
     }
-
     std::cout << "Tabla de lobby actualizada" << std::endl;
 }
 

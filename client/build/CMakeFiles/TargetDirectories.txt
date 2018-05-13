@@ -1,0 +1,4 @@
+/home/grobles/tp-final-taller/client/build/CMakeFiles/rebuild_cache.dir
+/home/grobles/tp-final-taller/client/build/CMakeFiles/client.dir
+/home/grobles/tp-final-taller/client/build/CMakeFiles/edit_cache.dir
+/home/grobles/tp-final-taller/client/build/CMakeFiles/client_autogen.dir
