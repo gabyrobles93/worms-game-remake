@@ -1,6 +1,8 @@
 #include <iostream>
 #include <QMainWindow>
+#include <fstream>
 #include "client_lobby.h"
+#include "client_lobby_feeder.h"
 #include "ui_client_lobby.h"
 #include "client_connector.h"
 #include "protocol.h"
@@ -9,6 +11,7 @@ client_lobby::client_lobby(QWidget *parent, SocketReadWrite skt, std::string & p
     QWidget(parent),
     ui(new Ui::client_lobby),
     protocol(std::move(skt)),
+    feeder(protocol, findChild<QTableWidget*>("gamesTable")),
     player_name(pname)
 {
     ui->setupUi(this);
@@ -17,14 +20,17 @@ client_lobby::client_lobby(QWidget *parent, SocketReadWrite skt, std::string & p
     gamesTable->setColumnWidth(0, 275);
     gamesTable->setColumnWidth(1, 110);
     gamesTable->setColumnWidth(2, 62);
-    playerName->setText(QString::fromStdString(this->player_name));
+    playerName->setText(this->player_name.c_str());
     connectEvents();
     introduceToServer();
+    this->feeder.start();
 }
 
 client_lobby::~client_lobby(void)
 {
     std::cout << "Destruyendo widget de Lobby." << std::endl;
+    this->feeder.stop();
+    this->feeder.join();
     delete ui;
 }
 
@@ -52,4 +58,7 @@ void client_lobby::introduceToServer(void) {
     this->protocol.getPlayerName(this->player_name);
 
     std::cout << "El servidor me bautizó como: " << this->player_name << std::endl;
+
+    QLabel* playerName = findChild<QLabel*>("playerName");
+    playerName->setText(this->player_name.c_str());
 }

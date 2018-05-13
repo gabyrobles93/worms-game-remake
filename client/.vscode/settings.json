@@ -38,6 +38,8 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "qmainwindow": "cpp",
-        "qwidget": "cpp"
-    }
+        "qwidget": "cpp",
+        "thread": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

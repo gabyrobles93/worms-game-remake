@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 project(Client)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -I.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -pthread -I.")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(SDL2 REQUIRED)
 find_package(Qt5 COMPONENTS Widgets DBus REQUIRED)
+find_package(Threads)
 
 INCLUDE(FindPkgConfig) 
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
@@ -32,15 +33,22 @@ QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
 add_executable(	client
 		main.cpp 
 		client_connector.cpp
-		client_connector.h
-		socket.cpp
-		socket.h
 		socket_error.cpp
-		socket_error.h
 		client_lobby.cpp
-		client_lobby.h
 		protocol.cpp
+		client_lobby_feeder.cpp
+		socket.cpp
+		thread.cpp
+		protocol_error.cpp
+		protocol_error.h
+		client_connector.h
+		socket.h
+		socket_error.h
+		client_lobby.h
 		protocol.h
+		client_lobby_feeder.h
+		thread.h
+		types.h
 		${UIS_HEADERS}
 		${UI_RESOURCES_RCC}
 		)
