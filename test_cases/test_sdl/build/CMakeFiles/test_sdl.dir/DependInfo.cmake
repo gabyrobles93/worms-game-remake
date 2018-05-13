@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder.cpp" "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/girder.cpp.o"
-  "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_long.cpp" "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/girder_long.cpp.o"
-  "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_short.cpp" "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/girder_short.cpp.o"
-  "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/main.cpp" "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/main.cpp.o"
-  "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/texture.cpp" "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/texture.cpp.o"
-  "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/view_exceptions.cpp" "/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/view_exceptions.cpp.o"
+  "/home/grobles/tp-final-taller/test_cases/test_sdl/girder.cpp" "/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/girder.cpp.o"
+  "/home/grobles/tp-final-taller/test_cases/test_sdl/girder_long.cpp" "/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/girder_long.cpp.o"
+  "/home/grobles/tp-final-taller/test_cases/test_sdl/girder_short.cpp" "/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/girder_short.cpp.o"
+  "/home/grobles/tp-final-taller/test_cases/test_sdl/main.cpp" "/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/main.cpp.o"
+  "/home/grobles/tp-final-taller/test_cases/test_sdl/texture.cpp" "/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/texture.cpp.o"
+  "/home/grobles/tp-final-taller/test_cases/test_sdl/view_exceptions.cpp" "/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir/view_exceptions.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

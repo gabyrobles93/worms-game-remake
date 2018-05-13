@@ -6,15 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/drawable.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/drawable.h
 SDL2/SDL.h
 -
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder.cpp
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder.cpp
 girder.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder.h
 iostream
 -
 map
@@ -22,25 +22,25 @@ map
 SDL2/SDL.h
 -
 texture.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/texture.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/texture.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_long.cpp
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_long.cpp
 girder_long.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_long.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_long.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_long.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_long.h
 girder.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_short.cpp
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_short.cpp
 girder_short.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_short.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_short.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_short.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_short.h
 girder.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/main.cpp
+/home/grobles/tp-final-taller/test_cases/test_sdl/main.cpp
 SDL2/SDL.h
 -
 SDL2/SDL_image.h
@@ -52,15 +52,15 @@ string
 vector
 -
 girder_short.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_short.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_short.h
 girder_long.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/girder_long.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/girder_long.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/texture.cpp
+/home/grobles/tp-final-taller/test_cases/test_sdl/texture.cpp
 texture.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/texture.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/texture.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/texture.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/texture.h
 SDL2/SDL.h
 -
 SDL2/SDL_image.h
@@ -68,13 +68,13 @@ SDL2/SDL_image.h
 string
 -
 view_exceptions.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/view_exceptions.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/view_exceptions.h
 drawable.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/drawable.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/drawable.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/view_exceptions.cpp
+/home/grobles/tp-final-taller/test_cases/test_sdl/view_exceptions.cpp
 view_exceptions.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/view_exceptions.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/view_exceptions.h
 errno.h
 -
 cstdio
@@ -82,7 +82,7 @@ cstdio
 cstdarg
 -
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/view_exceptions.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/view_exceptions.h
 iostream
 -
 typeinfo
@@ -98,7 +98,7 @@ cstdarg
 string
 -
 view_exceptions_messages.h
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/view_exceptions_messages.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/view_exceptions_messages.h
 
-/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/view_exceptions_messages.h
+/home/grobles/tp-final-taller/test_cases/test_sdl/view_exceptions_messages.h
 
