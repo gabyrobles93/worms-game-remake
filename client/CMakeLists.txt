@@ -18,10 +18,11 @@ PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
 
 message("Directorio actual: ${PROJECT_SOURCE_DIR}")
 include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/yaml-cpp)
 
 qt5_wrap_ui(UIS_HEADERS
         client_connector.ui
-	client_lobby.ui
+		client_lobby.ui
 )
 
 SET(UI_RESOURCES

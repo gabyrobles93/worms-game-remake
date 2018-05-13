@@ -11,18 +11,19 @@ client_lobby::client_lobby(QWidget *parent, SocketReadWrite skt, std::string & p
     QWidget(parent),
     ui(new Ui::client_lobby),
     protocol(std::move(skt)),
-    feeder(protocol, findChild<QTableWidget*>("gamesTable")),
+    feeder(protocol),
     player_name(pname)
 {
     ui->setupUi(this);
     QTableWidget* gamesTable = findChild<QTableWidget*>("gamesTable");
     QLabel* playerName = findChild<QLabel*>("playerName");
-    gamesTable->setColumnWidth(0, 275);
+    gamesTable->setColumnWidth(0, 240);
     gamesTable->setColumnWidth(1, 110);
     gamesTable->setColumnWidth(2, 62);
     playerName->setText(this->player_name.c_str());
     connectEvents();
     introduceToServer();
+    this->feeder.setGamesTable(gamesTable);
     this->feeder.start();
 }
 

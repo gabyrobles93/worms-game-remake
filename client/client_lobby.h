@@ -26,7 +26,7 @@ private:
     Protocol protocol;
     ClientLobbyFeeder feeder;
     std::string player_name;
-
+    
     void introduceToServer(void);
     void connectEvents(void);
     void exitLobby(void);

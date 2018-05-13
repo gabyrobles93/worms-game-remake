@@ -19,8 +19,9 @@ class ClientLobbyFeeder : public Thread {
         size_t getId(void) const;
         void feedGamesTable(void);
     public:
-        ClientLobbyFeeder(Protocol &, QTableWidget*);
+        ClientLobbyFeeder(Protocol &);
         ~ClientLobbyFeeder(void);
+        void setGamesTable(QTableWidget*);
         virtual void run(void);
         void stop(void);
 };
