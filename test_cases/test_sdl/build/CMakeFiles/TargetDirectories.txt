@@ -1,0 +1,3 @@
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/rebuild_cache.dir
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/edit_cache.dir

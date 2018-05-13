@@ -12,11 +12,6 @@ namespace View {
     private:
       // La textura actual
       SDL_Texture* texture;
-      // Dimensiones
-      int width;
-      int height;
-      int x;
-      int y;
 
       // Desaloca memoria
       void free();
@@ -33,6 +28,8 @@ namespace View {
 
       // Render textura a un punto dado
       virtual void render(SDL_Renderer *, int, int);
+      // Para poder renderizar texturas espejadas o rotadas
+		  void render(SDL_Renderer *, int x, int y, SDL_Rect* clip, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
       // Dimensiones de la imagen
       virtual int getWidth(void);

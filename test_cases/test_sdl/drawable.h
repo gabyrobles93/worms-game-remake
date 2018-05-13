@@ -6,6 +6,10 @@
 namespace View {
   class Drawable {
     protected:
+      int x;
+      int y;
+      int width;
+      int height;
     public:
       virtual void render(SDL_Renderer *, int, int) = 0;
       virtual int getWidth(void) = 0;
