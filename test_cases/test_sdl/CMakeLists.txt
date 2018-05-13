@@ -3,7 +3,7 @@ project(Box2DTest)
 
 #set(CMAKE_MODULE_PACH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -I.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -pthread -I.")
 
 #find_package(SDL2 REQUIRED)
 #find_package(SDL"_image REQUIRED)
@@ -19,7 +19,7 @@ PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRs})
 
-add_executable(test_sdl main.cpp girder.cpp girder_short.cpp girder_long.cpp texture.cpp view_exceptions.cpp)
+add_executable(test_sdl main.cpp girder.cpp girder_short.cpp girder_long.cpp texture.cpp view_exceptions.cpp thread.cpp sprite_animation.cpp worm.cpp)
 
 target_link_libraries(test_sdl ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
 
