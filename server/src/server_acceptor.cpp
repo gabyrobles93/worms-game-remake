@@ -50,11 +50,13 @@ std::string ServerAcceptor::findFreeName(std::string & old_name) const {
     int counter = 1;
     std::string number;
     std::string new_name;
+    std::string tmp;
     while(1) {
         number.clear();
         number.append("-" + std::to_string(counter));
-        if (this->clients.exists(old_name.append(number)) == false) {
-            new_name = old_name + number;
+        tmp = old_name;
+        if (this->clients.exists(tmp.append(number)) == false) {
+            new_name = tmp;
             break;
         }
         counter++;
