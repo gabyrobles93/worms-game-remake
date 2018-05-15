@@ -1,5 +1,0 @@
-# Hashes of file build rules.
-896eab9d371996398812ab3d2ff65143 client/CMakeFiles/client_automoc
-49063c183358de98cd53b68546fa0497 client/qrc_client_resources.cpp
-4fd3b6ab8f2bf4b5f061e91fe5baed1a client/ui_client_connector.h
-aa87dcbb1b31bd05ccd89284ed47713f client/ui_client_lobby.h
