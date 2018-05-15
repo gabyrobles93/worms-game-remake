@@ -7,6 +7,7 @@
 
 int main(int argc, char *argv[])
 try {
+    (void)argc;
     std::string config_file_path(argv[SRV_CONFIG_FILE_POS]);
     std::string port(argv[SRV_PORT_POS]);
     Server server(config_file_path, port);

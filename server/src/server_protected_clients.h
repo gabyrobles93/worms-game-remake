@@ -6,7 +6,7 @@
 #include <string>
 #include <map>
 #include "client.h"
-#include "../../client/src/protocol.h"
+#include "protocol.h"
 
 class ServerProtectedClients {
     private:

@@ -12,6 +12,7 @@ class ServerLobbyFeeder : public Thread {
         size_t getId(void) const;
     public:
         ServerLobbyFeeder(ServerProtectedClients &);
+        ~ServerLobbyFeeder(void);
         virtual void run(void);
         void stop(void);
 };

@@ -9,7 +9,8 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "${workspaceFolder}"
+                "${workspaceFolder}",
+                "${workspaceFolder}/../../common/src/"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

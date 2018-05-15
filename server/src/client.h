@@ -1,7 +1,7 @@
 #ifndef __CLIENT_H__
 #define __CLIENT_H__
 
-#include "../../client/src/protocol.h"
+#include "protocol.h"
 
 typedef enum {
     lobby,

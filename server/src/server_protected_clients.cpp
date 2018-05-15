@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include "server_protected_clients.h"
-#include "../../client/src/protocol.h"
+#include "protocol.h"
 #include "client.h"
 
 bool ServerProtectedClients::exists(std::string & client_name) {

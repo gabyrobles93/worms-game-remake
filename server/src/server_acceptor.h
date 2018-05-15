@@ -14,6 +14,7 @@ class ServerAcceptor : public Thread {
         std::string findFreeName(std::string &) const;
     public:
         ServerAcceptor(std::string & port, ServerProtectedClients & clients);
+        ~ServerAcceptor(void);
         void stop(void);
         virtual void run(void);
 };

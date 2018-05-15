@@ -1,6 +1,6 @@
 #include <iostream>
 #include "client.h"
-#include "../../client/src/protocol.h"
+#include "protocol.h"
 
 Client::Client(Protocol prt) :
 protocol(std::move(prt)){

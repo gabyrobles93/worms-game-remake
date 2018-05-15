@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(Server)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -pthread -I.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -Wextra -pedantic -pthread -I.")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../common)
@@ -22,6 +22,7 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/main.cpp 
 		${PROJECT_SOURCE_DIR}/src/client.cpp
 		${PROJECT_SOURCE_DIR}/src/server.cpp
+		${PROJECT_SOURCE_DIR}/src/server_error.cpp
 		${PROJECT_SOURCE_DIR}/src/server_acceptor.cpp
 		${PROJECT_SOURCE_DIR}/src/server_lobby_feeder.cpp
 		${PROJECT_SOURCE_DIR}/src/server_protected_clients.cpp
@@ -32,6 +33,7 @@ add_executable(	server
 		${COMMON_SOURCE_DIR}/src/protocol_error.cpp
 		${PROJECT_SOURCE_DIR}/src/client.h
 		${PROJECT_SOURCE_DIR}/src/server.h
+		${PROJECT_SOURCE_DIR}/src/server_error.h
 		${PROJECT_SOURCE_DIR}/src/server_acceptor.h
 		${PROJECT_SOURCE_DIR}/src/server_lobby_feeder.h
 		${PROJECT_SOURCE_DIR}/src/server_protected_clients.h

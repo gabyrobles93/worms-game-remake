@@ -2,7 +2,7 @@
 #include <string>
 #include "server_acceptor.h"
 #include "server_protected_clients.h"
-#include "../../client/src/protocol.h"
+#include "protocol.h"
 #include "socket_error.h"
 
 ServerAcceptor::ServerAcceptor(std::string & port, ServerProtectedClients & cli) :
@@ -31,6 +31,10 @@ clients(cli)
     }    
 }
 
+void ServerAcceptor::stop(void) {
+    // Stopear aceptador
+}
+
 std::string ServerAcceptor::findFreeName(std::string & old_name) const {
     int counter = 1;
     std::string number;
@@ -45,4 +49,16 @@ std::string ServerAcceptor::findFreeName(std::string & old_name) const {
         counter++;
     }
     return new_name;
+}
+
+ServerAcceptor::~ServerAcceptor(void) {
+    // Cerrar server acceptor ordenadamente  
+}
+
+bool ServerAcceptor::isRunning(void) const {
+    return true;
+}
+
+size_t ServerAcceptor::getId(void) const {
+    return 0;
 }
