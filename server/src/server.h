@@ -5,23 +5,22 @@
 #include "thread.h"
 #include "../../client/src/protocol.h"
 #include "server_lobby.h"
+#include "server_acceptor.h"
+#include "server_protected_clients.h"
 #include "socket.h"
+#include "client.h"
 
 class Server : public Thread {
     private:
-        ProtectedLobbyStatus lobby_status;
-        SocketListener skt_listener;
-        ServerLobby server_lobby;
-        std::map<std::string, Protocol> clients_in_lobby;
-        size_t clients_in_lobby_counter;
-        size_t clients_in_game_counter;
+        ServerAcceptor acceptor;
+        ServerLobbyFeeder feeder;
+        ServerProtectedClients clients;
 
         bool isRunning(void) const;
         size_t getId(void) const;
-        std::string findFreeName(std::string &) const;
     public:
         void stop(void);
-        Server(std::string &, std::string &);
+        Server(std::string & cfile, std::string & port);
         virtual void run(void);
         ~Server(void);
 };
