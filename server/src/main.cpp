@@ -1,7 +1,9 @@
 #include <iostream>
-#include "client_connector.h"
 #include "socket_error.h"
-#include <QApplication>
+#include "server.h"
+
+#define SRV_CONFIG_FILE_POS 1
+#define SRV_PORT_POS 2
 
 int main(int argc, char *argv[])
 try {

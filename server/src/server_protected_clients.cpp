@@ -1,4 +1,5 @@
 #include <mutex>
+#include <map>
 #include <string>
 #include "server_protected_clients.h"
 #include "../../client/src/protocol.h"
@@ -17,5 +18,5 @@ void ServerProtectedClients::addClient(std::string & player_name, Protocol proto
         return;
     
     Client new_client(std::move(protocol));
-    this->clients[player_name] = new_client;
+    this->clients.insert(std::pair<std::string,Client>(player_name,std::move(new_client)));
 }

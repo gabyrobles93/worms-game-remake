@@ -14,7 +14,7 @@ clients(cli)
  void ServerAcceptor::run(void) {
     while (1) {
         try {
-            Protocol newsktprotocol(std::move(this->skt.accept_connection());
+            Protocol newsktprotocol(std::move(this->skt.accept_connection()));
             std::string player_name;
             newsktprotocol.getPlayerName(player_name);
             if (this->clients.exists(player_name) == true) {

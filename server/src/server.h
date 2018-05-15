@@ -4,9 +4,9 @@
 #include <string>
 #include "thread.h"
 #include "../../client/src/protocol.h"
-#include "server_lobby.h"
 #include "server_acceptor.h"
 #include "server_protected_clients.h"
+#include "server_lobby_feeder.h"
 #include "socket.h"
 #include "client.h"
 

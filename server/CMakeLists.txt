@@ -1,18 +1,46 @@
 cmake_minimum_required(VERSION 2.8)
 project(Server)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -I.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -pthread -I.")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../common)
 
+find_package(Threads)
+
+
+include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${COMMON_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${COMMON_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${COMMON_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include/box2d)
+include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
 
-add_executable(Worms
-	src/Worms.cpp
-	src/Worm.cpp
-	src/Worm.h
-	src/Girder.h
-	src/Girder.cpp)
+add_executable(	server
+		${PROJECT_SOURCE_DIR}/src/main.cpp 
+		${PROJECT_SOURCE_DIR}/src/client.cpp
+		${PROJECT_SOURCE_DIR}/src/server.cpp
+		${PROJECT_SOURCE_DIR}/src/server_acceptor.cpp
+		${PROJECT_SOURCE_DIR}/src/server_lobby_feeder.cpp
+		${PROJECT_SOURCE_DIR}/src/server_protected_clients.cpp
+		${COMMON_SOURCE_DIR}/src/socket.cpp
+		${COMMON_SOURCE_DIR}/src/socket_error.cpp
+		${COMMON_SOURCE_DIR}/src/thread.cpp
+		${COMMON_SOURCE_DIR}/src/protocol.cpp
+		${COMMON_SOURCE_DIR}/src/protocol_error.cpp
+		${PROJECT_SOURCE_DIR}/src/client.h
+		${PROJECT_SOURCE_DIR}/src/server.h
+		${PROJECT_SOURCE_DIR}/src/server_acceptor.h
+		${PROJECT_SOURCE_DIR}/src/server_lobby_feeder.h
+		${PROJECT_SOURCE_DIR}/src/server_protected_clients.h
+		${COMMON_SOURCE_DIR}/src/socket.h
+		${COMMON_SOURCE_DIR}/src/socket_error.h
+		${COMMON_SOURCE_DIR}/src/thread.h
+		${COMMON_SOURCE_DIR}/src/protocol.h
+		${COMMON_SOURCE_DIR}/src/protocol_error.h
+		)
 
-target_link_libraries(Worms ${PROJECT_SOURCE_DIR}/libs/libBox2D.a)
-
+target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
+target_link_libraries(server ${PROJECT_SOURCE_DIR}/libs/libBox2D.a)

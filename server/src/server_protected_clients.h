@@ -14,7 +14,7 @@ class ServerProtectedClients {
         std::map<std::string,Client> clients;
     public:
         bool exists(std::string &);
-        void addClient(std::string &);
+        void addClient(std::string &, Protocol);
 };
 
 #endif

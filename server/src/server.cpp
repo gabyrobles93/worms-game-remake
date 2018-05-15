@@ -1,5 +1,6 @@
 #include "server.h"
 #include "socket.h"
+#include "socket_error.h"
 #include "server_acceptor.h"
 #include "../../client/src/protocol.h"
 
@@ -8,15 +9,15 @@ Server::Server(std::string & config_file_path,
 acceptor(port, clients),
 feeder(clients)
 {
-    acceptor->start();
-    feeder->start();
+    this->acceptor.start();
+    this->feeder.start();
 }
 
-virtual void Server::run(void) {
+void Server::run(void) {
     while (1) {
         try {
 
-        } catch() {
+        } catch(const SocketError & e) {
             break;
         }
 
