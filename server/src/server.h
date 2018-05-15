@@ -17,6 +17,7 @@ class Server : public Thread {
         ServerAcceptor acceptor;
         ServerLobbyFeeder feeder;
         ServerProtectedClients clients;
+        bool keep_running;
 
         bool isRunning(void) const;
         size_t getId(void) const;

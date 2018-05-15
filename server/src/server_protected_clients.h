@@ -15,6 +15,7 @@ class ServerProtectedClients {
     public:
         bool exists(std::string &);
         void addClient(std::string &, Protocol);
+        void sendGamesStatus(std::string &);
 };
 
 #endif

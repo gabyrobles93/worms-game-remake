@@ -15,6 +15,7 @@ class Client {
         client_status_t status;
     public:
         Client(Protocol);
+        void sendGamesStatus(void);
 };
 
 #endif

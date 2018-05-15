@@ -39,7 +39,7 @@ void Protocol::sendFile(std::fstream & file) const {
     file.seekg(0, std::ios::end);
     length = file.tellg();
     file.seekg(0, std::ios_base::beg);
-
+    std::cout << "Voy a enviar archivo de longitud " << length << std::endl;
     uint32_t net_length = htonl(length);
     this->skt.sendBuffer((const uchar*)&net_length, 4);
 
@@ -61,11 +61,11 @@ void Protocol::sendFile(std::fstream & file) const {
 
 void Protocol::rcvFile(std::fstream & file) const {
     uint32_t length = 0;
-    /* std::cout << "Esperando largo de archivo..." << std::endl; */
+    std::cout << "Esperando largo de archivo..." << std::endl;
     this->skt.getBuffer((uchar*)&length, 4);
     length = ntohl(length);
-
-    /* std::cout << "El largo del archivo son " << length << " bytes." << std::endl; */
+    std::cout << "Voy a recibir archivo de longitud " << length << std::endl;
+    std::cout << "El largo del archivo son " << length << " bytes." << std::endl;
 
     if (length == 0) {
             std::stringstream msg;
@@ -76,9 +76,9 @@ void Protocol::rcvFile(std::fstream & file) const {
     int remain = length;
     int received = 0;
     uchar file_chop[FILE_TRANSFER_CHOP_SIZE];
-    /* std::cout << "Esperando archivo..." << std::endl; */
+    std::cout << "Esperando archivo..." << std::endl;
     while (remain) {
-        /* std::cout << "Quiero recibir un archivo de " << remain << " bytes." << std::endl; */
+        std::cout << "Quiero recibir un archivo de " << remain << " bytes." << std::endl;
         if (remain < FILE_TRANSFER_CHOP_SIZE) {
             received = this->skt.getBuffer(file_chop, remain);
         } else {

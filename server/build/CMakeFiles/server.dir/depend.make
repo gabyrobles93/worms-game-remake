@@ -29,6 +29,7 @@ CMakeFiles/server.dir/src/client.cpp.o: ../src/client.cpp
 CMakeFiles/server.dir/src/client.cpp.o: ../src/client.h
 
 CMakeFiles/server.dir/src/main.cpp.o: ../../common/src/protocol.h
+CMakeFiles/server.dir/src/main.cpp.o: ../../common/src/protocol_error.h
 CMakeFiles/server.dir/src/main.cpp.o: ../../common/src/socket.h
 CMakeFiles/server.dir/src/main.cpp.o: ../../common/src/socket_error.h
 CMakeFiles/server.dir/src/main.cpp.o: ../../common/src/thread.h
@@ -37,6 +38,7 @@ CMakeFiles/server.dir/src/main.cpp.o: ../src/client.h
 CMakeFiles/server.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/server.dir/src/main.cpp.o: ../src/server.h
 CMakeFiles/server.dir/src/main.cpp.o: ../src/server_acceptor.h
+CMakeFiles/server.dir/src/main.cpp.o: ../src/server_error.h
 CMakeFiles/server.dir/src/main.cpp.o: ../src/server_lobby_feeder.h
 CMakeFiles/server.dir/src/main.cpp.o: ../src/server_protected_clients.h
 

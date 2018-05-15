@@ -31,8 +31,7 @@ socket base.
 */
 class SocketBase {
     private:
-        
-
+    
     protected:
         explicit SocketBase(int fd);
         int getSockFd(void) const;

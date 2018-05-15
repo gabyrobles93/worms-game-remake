@@ -18,13 +18,13 @@ feeder(clients)
 }
 
 void Server::run(void) {
+    this->keep_running = true;
     while (1) {
         try {
-
+        
         } catch(const SocketError & e) {
             break;
         }
-
     }    
 }
 
@@ -35,10 +35,13 @@ void Server::loadConfigFile(std::string & config_file_path) {
         msg << MSG_CANT_OPEN_CFG_FILE << " " << config_file_path;
         throw ServerError(msg.str());
     }
+    std::string line;
+    std::getline(cfg_file, line);
+    std::cout << line << std::endl;
 }
 
  bool Server::isRunning(void) const {
-     return true;
+     return this->keep_running;
  }
 
 Server::~Server(void) {
@@ -52,4 +55,9 @@ size_t  Server::getId(void) const{
 void Server::stop(void) {
     // Stopear servidor.
     // Seguramente haya que cerrar los sockets ordenadamente. 
+    this->acceptor.stop();
+    this->feeder.stop();
+    this->acceptor.join();
+    this->feeder.join();
+    this->keep_running = false;
 }

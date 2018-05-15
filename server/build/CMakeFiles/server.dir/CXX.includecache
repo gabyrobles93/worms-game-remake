@@ -12,6 +12,12 @@ string
 socket.h
 ../../common/src/socket.h
 
+../../common/src/protocol_error.h
+exception
+-
+string
+-
+
 ../../common/src/socket.h
 string
 -
@@ -127,6 +133,8 @@ thread
 /home/grobles/tp-final-taller/server/src/client.cpp
 iostream
 -
+fstream
+-
 client.h
 /home/grobles/tp-final-taller/server/src/client.h
 protocol.h
@@ -137,10 +145,18 @@ protocol.h
 /home/grobles/tp-final-taller/server/src/protocol.h
 
 /home/grobles/tp-final-taller/server/src/main.cpp
+string
+-
 iostream
+-
+exception
 -
 socket_error.h
 /home/grobles/tp-final-taller/server/src/socket_error.h
+server_error.h
+/home/grobles/tp-final-taller/server/src/server_error.h
+protocol_error.h
+/home/grobles/tp-final-taller/server/src/protocol_error.h
 server.h
 /home/grobles/tp-final-taller/server/src/server.h
 
@@ -219,10 +235,14 @@ string
 -
 
 /home/grobles/tp-final-taller/server/src/server_lobby_feeder.cpp
+mutex
+-
 server_lobby_feeder.h
 /home/grobles/tp-final-taller/server/src/server_lobby_feeder.h
 
 /home/grobles/tp-final-taller/server/src/server_lobby_feeder.h
+mutex
+-
 server_protected_clients.h
 /home/grobles/tp-final-taller/server/src/server_protected_clients.h
 thread.h
@@ -234,6 +254,8 @@ mutex
 map
 -
 string
+-
+fstream
 -
 server_protected_clients.h
 /home/grobles/tp-final-taller/server/src/server_protected_clients.h
