@@ -1,3 +1,0 @@
-/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/rebuild_cache.dir
-/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/test_sdl.dir
-/home/grobles/tp-final-taller/test_cases/test_sdl/build/CMakeFiles/edit_cache.dir
