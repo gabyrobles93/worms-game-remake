@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
-#include "../src/socket.h"
-#include "../src/socket_error.h"
-#include "../src/protocol.h"
-#include "../src/protocol_error.h"
+#include "socket.h"
+#include "socket_error.h"
+#include "protocol.h"
+#include "protocol_error.h"
 
 #define LISTENING_PORT "8080"
 
