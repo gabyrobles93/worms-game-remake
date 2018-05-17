@@ -13,10 +13,12 @@ void View::SpriteAnimation::run() {
   int clipWidth = this->currentSpriteSheet->getWidth();
   int clipHeight = clipWidth;
   int numClips = this->currentSpriteSheet->getHeight() / clipWidth;
-  int fpc = 200;
+  int fpc = 50;
   while (this->running) {
     // Ida
     for (int i = 0 ; i < numClips * fpc && this->running; i++) {
+      SDL_SetRenderDrawColor( this->renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+      SDL_RenderClear( this->renderer );
       SDL_Rect currentClip = {
         0,
         0 + (i / fpc ) * clipHeight,
@@ -33,9 +35,11 @@ void View::SpriteAnimation::run() {
 
       SDL_RenderPresent(this->renderer);
     }
-
+    
     // Y vuelta
     for (int i = numClips * fpc ; i >= 0 && this->running ; i--) {
+      SDL_SetRenderDrawColor( this->renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+      SDL_RenderClear( this->renderer );
       SDL_Rect currentClip = {
         0,
         0 + (i / fpc ) * clipHeight,
