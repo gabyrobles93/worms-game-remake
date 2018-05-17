@@ -33,7 +33,7 @@ void View::Worm::handleEvent(SDL_Event & event) {
       this->currentSprite.start();
     }
   }
-  /*
+  
   if (event.type == SDL_KEYUP) {
     this->currentSprite.stopAnimation();
     this->currentSprite.join();
@@ -41,7 +41,7 @@ void View::Worm::handleEvent(SDL_Event & event) {
     this->currentSprite.setSpriteSheet(&this->textures[BREATH_1]);
     this->currentSprite.start();
   }
-  */
+  
 }
 
 int View::Worm::getWidth(void) {
