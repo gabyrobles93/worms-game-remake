@@ -1,0 +1,41 @@
+background:
+  - file: fondo.jpg
+
+girder:
+  - id: 1
+    x: 234
+    y: 123
+    angle: 90
+  - id: 2
+    x: 134
+    y: 223
+    angle: 0
+  - id: 3
+    x: 124
+    y: 523
+    angle: 0
+  - id: 4
+    x: 634
+    y: 323
+    angle: -30
+
+worms:
+  - id: 1
+    team: 1
+    name: groll
+    health: 100
+    x: 45
+    y: 120
+  - id: 2
+    team: 2
+    name: luciano
+    health: 99
+    x: 50
+    y: 130
+  - id: 3
+    team: 3
+    name: kate
+    health: 67
+    x: 60
+    y: 130
+

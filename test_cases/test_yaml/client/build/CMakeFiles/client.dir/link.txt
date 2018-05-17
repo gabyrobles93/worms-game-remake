@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -Wall -Wextra -pedantic -pthread -I.  -rdynamic CMakeFiles/client.dir/main.cpp.o CMakeFiles/client.dir/socket.cpp.o CMakeFiles/client.dir/socket_error.cpp.o  -o client ../libyaml-cpp.a 
