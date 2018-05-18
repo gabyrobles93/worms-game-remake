@@ -15,8 +15,15 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${COMMON_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include)
-include_directories(${PROJECT_SOURCE_DIR}/include/box2d)
+include_directories(${PROJECT_SOURCE_DIR}/include/Box2D)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
+include_directories(${PROJECT_SOURCE_DIR}/src/physics/worm)
+include_directories(${PROJECT_SOURCE_DIR}/src/physics/structures)
+
+file (GLOB PHYSIC_SRC ${PROJECT_SOURCE_DIR}/src/physics/structures
+	"*.cpp"
+	"*.h"
+)
 
 add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/main.cpp 
@@ -42,7 +49,16 @@ add_executable(	server
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/protocol.h
 		${COMMON_SOURCE_DIR}/src/protocol_error.h
-		)
+		src/physics/worm/WormPhysic.cpp
+		src/physics/worm/WormPhysic.h
+		src/server_acceptor.h
+		src/entities/Worm.cpp
+		src/entities/Worm.h
+		src/entities
+		src/physics/structures/GirderPhysic.cpp
+		src/physics/structures/GirderPhysic.h
+		src/entities/structures/Girder.cpp
+		src/entities/structures/Girder.h)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
 target_link_libraries(server ${PROJECT_SOURCE_DIR}/libs/libBox2D.a)
