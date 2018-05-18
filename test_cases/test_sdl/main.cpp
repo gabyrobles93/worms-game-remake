@@ -7,8 +7,10 @@ and may not be redistributed without written permission.*/
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include "yaml.h"
 #include "girder_short.h"
 #include "girder_long.h"
+#include "map_game.h"
 #include "worm.h"
 
 //Screen dimension constants
@@ -63,7 +65,7 @@ bool init()
 		{
 			//Create renderer for window
 			//gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
-			gRenderer = SDL_CreateRenderer( gWindow, -1, NULL );
+			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
 			if( gRenderer == NULL )
 			{
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -102,7 +104,7 @@ void close() {
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
 	gRenderer = NULL;
-
+	
 	for (size_t i = 0 ; i < longGirders.size() ; i++) {
 		delete longGirders[i];
 	}
@@ -128,16 +130,24 @@ int main( int argc, char* args[] )
 		}
 		else
 		{	
-			//View::GirderShort myGirder(gRenderer);
-			View::GirderLong mouseGirder(gRenderer);
+			YAML::Node nodeModel = YAML::LoadFile("../modelo.yml");
+			View::MapGame myMapGame(gRenderer, nodeModel);
+
+			View::GirderShort myGirder(gRenderer);
+			//View::GirderLong mouseGirder(gRenderer);
+			View::Texture background;
+			background.loadFromFile("../images/fondo.jpg", gRenderer);
+
             //Main loop flag
 			bool quit = false;
-			int xMouse, yMouse;
-			SDL_GetMouseState(&xMouse, &yMouse);
+			//int xMouse, yMouse;
+			//SDL_GetMouseState(&xMouse, &yMouse);
             
 			//Event handler
 			SDL_Event e;
 			View::Worm myWorm(gRenderer);
+			View::Worm myWorm2(gRenderer);
+			View::GirderShort myShortGirder(gRenderer);
 
 			//While application is running
 			while( !quit )
@@ -148,9 +158,7 @@ int main( int argc, char* args[] )
 					if(e.type == SDL_QUIT) {
 						quit = true;
 					}
-					
-					myWorm.handleEvent(e);
-
+					/*
 					if (e.type == SDL_MOUSEMOTION) {
 						SDL_GetMouseState(&xMouse, &yMouse);
 					}
@@ -165,17 +173,21 @@ int main( int argc, char* args[] )
 							mouseGirder.rotateCounterClockwise();
 						}
 					}
-
+					
 					if (e.type == SDL_MOUSEBUTTONDOWN) {
 						longGirders.push_back(new View::GirderLong(gRenderer, mouseGirder.getCurrentDegrees()));
 						(*longGirders.back()).render(gRenderer, xMouse - mouseGirder.getWidth() / 2, yMouse - mouseGirder.getHeight() / 2);
 					}
+					*/
 				}
 
 				//Clear screen
-/*
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
+				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0x00 );
 				SDL_RenderClear( gRenderer );
+
+				// Dibujo el fondo
+				background.render(gRenderer);
 
 				//Render background texture to screen
 				//myGirder.render(gRenderer, 0, 0 );
@@ -185,12 +197,15 @@ int main( int argc, char* args[] )
 					current.render(gRenderer, current.getX(), current.getY());
 				}
 
-				mouseGirder.render(gRenderer, xMouse - mouseGirder.getWidth() / 2, yMouse - mouseGirder.getHeight() / 2);
-                
+				//mouseGirder.render(gRenderer, xMouse - mouseGirder.getWidth() / 2, yMouse - mouseGirder.getHeight() / 2);
+        myShortGirder.render(gRenderer, 300, 300 + 10/*Girder ancho*/ + 10/*Worm*/);
+				myWorm.render(gRenderer, 300, 300);
+				
+				myWorm2.render(gRenderer, 100, 100);        
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
-*/
+
 				//myGirder.rotateClockwise();
 				//SDL_Delay(100);
 			}

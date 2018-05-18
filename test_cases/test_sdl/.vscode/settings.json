@@ -21,6 +21,22 @@
     "string_view": "cpp",
     "system_error": "cpp",
     "type_traits": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "array": "cpp",
+    "chrono": "cpp",
+    "cmath": "cpp",
+    "cstdarg": "cpp",
+    "cstring": "cpp",
+    "ctime": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp",
+    "fstream": "cpp",
+    "memory": "cpp",
+    "optional": "cpp",
+    "ratio": "cpp",
+    "sstream": "cpp",
+    "thread": "cpp",
+    "utility": "cpp",
+    "tuple": "cpp"
   }
 }

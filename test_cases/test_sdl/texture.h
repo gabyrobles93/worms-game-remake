@@ -26,6 +26,8 @@ namespace View {
       // Carga la imagen desde un archivo
       void loadFromFile(std::string path, SDL_Renderer *);		
 
+      // Renderiza la textura en toda la pantalla
+      void render(SDL_Renderer *);
       // Render textura a un punto dado
       virtual void render(SDL_Renderer *, int, int);
       // Para poder renderizar texturas espejadas o rotadas

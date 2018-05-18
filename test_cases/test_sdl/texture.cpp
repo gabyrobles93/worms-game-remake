@@ -20,7 +20,7 @@ void View::Texture::loadFromFile(std::string path, SDL_Renderer * renderer) {
 	SDL_Texture* newTexture = NULL;
 
 	// Cargamos la surface en el path indicado
-	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL) {
     throw View::Exception("%s %s. %s: %s", ERR_MSG_LOAD_IMAGE, path.c_str(), "SDL_IMG_Load() ", IMG_GetError());
 	} else {
@@ -61,7 +61,11 @@ void View::Texture::render(SDL_Renderer * renderer, int x, int y) {
 	this->y = y;
 	// Seteamos el espacio de dibujado y donde dibujarlo
 	SDL_Rect renderQuad = { x, y, this->width, this->height };
-	SDL_RenderCopy(renderer, this->texture, NULL, &renderQuad );
+	SDL_RenderCopy(renderer, this->texture, NULL, &renderQuad);
+}
+
+void View::Texture::render(SDL_Renderer * renderer) {
+	SDL_RenderCopy(renderer, this->texture, NULL, NULL);
 }
 
 void View::Texture::render(
