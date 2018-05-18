@@ -9,13 +9,16 @@
 
 class World {
 private:
+    WorldPhysic _createWorldPhysic();
     WorldPhysic worldPhysic;
     std::map<int, Girder*> girders;
     std::map<int, Worm*> worms;
 public:
     World();
+    ~World();
     void initializeWorld();
-
+    std::map<int, Worm*> getWorms();
+    std::map<int, Girder*> getGirders();
 };
 
 #endif

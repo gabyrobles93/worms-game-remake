@@ -1,8 +1,19 @@
 #include "World.h"
+#include <iostream>
 
-World::World() {
+WorldPhysic World::_createWorldPhysic() {
     WorldPhysic worldPhysic;
-    this->worldPhysic = worldPhysic;
+    return worldPhysic;
+}
+
+World::World() : worldPhysic(_createWorldPhysic()){
+    initializeWorld();
+}
+
+World::~World() {
+    for (std::map<int, Girder*>::iterator it = this->girders.begin(); it!= this->girders.end(); ++it) {
+        delete it->second;
+    }
 }
 
 void World::initializeWorld() {
@@ -22,7 +33,16 @@ void World::initializeWorld() {
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
 
+
     //for (YAML::const_iterator it = worms.begin(); it != worms.end() ; ++it) {
 
     //}
+}
+
+std::map<int, Worm*> World::getWorms() {
+    return this->worms;
+}
+
+std::map<int, Girder*> World::getGirders() {
+    return this->girders;
 }

@@ -21,6 +21,8 @@ public:
     void jumpFoward();
     void moveRight();
     void moveLeft();
+    float getPosX();
+    float getPosY();
 };
 
 #endif

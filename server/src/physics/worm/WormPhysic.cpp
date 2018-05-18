@@ -40,3 +40,11 @@ void WormPhysic::jumpLeft() {
 void WormPhysic::jumpRight() {
     //TODO
 }
+
+float WormPhysic::getPosX() {
+    return this->body->GetPosition().x;
+}
+
+float WormPhysic::getPosY() {
+    return this->body->GetPosition().y;
+}

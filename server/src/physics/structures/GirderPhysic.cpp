@@ -19,3 +19,15 @@ GirderPhysic::GirderPhysic(b2World& world, float posX, float posY, float height,
 
     this->body = body;
 }
+
+float GirderPhysic::getPosX() {
+    return this->body->GetPosition().x;
+}
+
+float GirderPhysic::getPosY() {
+    return this->body->GetPosition().y;
+}
+
+float GirderPhysic::getAngle() {
+    return this->body->GetAngle();
+}

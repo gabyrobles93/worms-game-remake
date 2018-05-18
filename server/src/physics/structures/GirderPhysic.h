@@ -11,6 +11,9 @@ private:
     b2Body* body;
 public:
     GirderPhysic(b2World& world, float posX, float posY, float height, float width, float angle);
+    float getPosX();
+    float getPosY();
+    float getAngle();
 
 };
 
