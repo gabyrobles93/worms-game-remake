@@ -18,6 +18,8 @@ class Worm {
         void jumpRight();
         void moveLeft();
         void moveRight();
+        float getPosY();
+        float getPosX();
 };
 
 #endif

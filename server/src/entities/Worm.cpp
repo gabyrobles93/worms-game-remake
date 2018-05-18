@@ -23,3 +23,11 @@ void Worm::moveRight() {
 void Worm::moveLeft() {
     this->wormPhysic.jumpLeft();
 }
+
+float Worm::getPosX() {
+    return this->wormPhysic.getPosX();
+}
+
+float Worm::getPosY() {
+    return this->wormPhysic.getPosY();
+}

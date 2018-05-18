@@ -10,6 +10,9 @@ private:
     GirderPhysic girderPhysic;
 public:
     Girder(b2World& world, float posX, float posY, float angle, float height, float width);
+    float getPosX();
+    float getPosY();
+    float getAngle();
 };
 
 #endif
