@@ -8,6 +8,8 @@
 #define FILENAME_LENGTH_LIMIT 255
 #define FILE_TRANSFER_CHOP_SIZE 255
 
+typedef char Model;
+
 class Protocol {
     private:
         SocketReadWrite skt;
@@ -19,6 +21,7 @@ class Protocol {
         void rcvFile(std::fstream & file) const;
         void sendFile(std::fstream & file) const;
         void sendExitLobby(void);
+        void rcvModel(Model &);
 };
 
 #endif

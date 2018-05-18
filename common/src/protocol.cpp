@@ -92,3 +92,7 @@ void Protocol::rcvFile(std::fstream & file) const {
 void Protocol::sendExitLobby(void) {
     this->skt.shutDown();
 }
+
+void rcvModel(Model & model) {
+
+}

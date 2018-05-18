@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(Client)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -Wextra -pedantic -pthread -I.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -pthread -I.")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../common)
+set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../common)
 
 find_package(SDL2 REQUIRED)
 find_package(Qt5 COMPONENTS Widgets DBus REQUIRED)
@@ -25,30 +25,15 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
 
-qt5_wrap_ui(UIS_HEADERS
-        ${PROJECT_SOURCE_DIR}/qtdesigner/client_connector.ui
-	${PROJECT_SOURCE_DIR}/qtdesigner/client_lobby.ui
-)
-
-SET(UI_RESOURCES
-	${PROJECT_SOURCE_DIR}/qtdesigner/client_resources.qrc
-)
-
-QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
-
 add_executable(	client
 		${PROJECT_SOURCE_DIR}/src/main.cpp 
-		${PROJECT_SOURCE_DIR}/src/client_connector.cpp
-		${PROJECT_SOURCE_DIR}/src/client_lobby.cpp
-		${PROJECT_SOURCE_DIR}/src/client_lobby_feeder.cpp
+		${PROJECT_SOURCE_DIR}/src/model_sender.cpp 
 		${COMMON_SOURCE_DIR}/src/socket.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
 		${COMMON_SOURCE_DIR}/src/protocol.cpp
 		${COMMON_SOURCE_DIR}/src/socket_error.cpp
-		${COMMON_SOURCE_DIR}/src/protocol_error.cpp		
-		${PROJECT_SOURCE_DIR}/src/client_connector.h
-		${PROJECT_SOURCE_DIR}/src/client_lobby.h
-		${PROJECT_SOURCE_DIR}/src/client_lobby_feeder.h
+		${COMMON_SOURCE_DIR}/src/protocol_error.cpp
+		${PROJECT_SOURCE_DIR}/src/model_sender.h
 		${COMMON_SOURCE_DIR}/src/socket.h
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/protocol.h
