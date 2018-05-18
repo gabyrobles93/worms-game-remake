@@ -2,6 +2,8 @@
 
 View::Worm::Worm(SDL_Renderer * r) :
   currentSprite(r) {
+  this->textures[PLAIN_WORM].loadFromFile("../images/plain_worm.png", r);
+
   this->textures[BREATH_1].loadFromFile("../images/Worms/wbrth1.png", r);
   this->textures[BREATH_1_UP].loadFromFile("../images/Worms/wbrth1u.png", r);
   this->textures[BREATH_1_DOWN].loadFromFile("../images/Worms/wbrth1d.png", r);
@@ -11,8 +13,9 @@ View::Worm::Worm(SDL_Renderer * r) :
   this->textures[WALK_DOWN].loadFromFile("../images/Worms/wwalku.png", r);
 
   this->currentSprite.setSpriteSheet(&this->textures[BREATH_1]);
-  this->currentAnimation = BREATH_1;
-  this->currentSprite.start();
+  this->currentAnimation = PLAIN_WORM;
+  this->mirrored = false;
+  // this->currentSprite.start();
 }
 
 View::Worm::~Worm() {
@@ -24,7 +27,7 @@ View::Worm::~Worm() {
 }
 
 void View::Worm::handleEvent(SDL_Event & event) {
-  if (event.type == SDL_KEYDOWN) {
+  /* if (event.type == SDL_KEYDOWN) {
     if (event.key.keysym.sym == SDLK_LEFT) {
       this->currentSprite.stopAnimation();
       this->currentSprite.join();
@@ -41,7 +44,7 @@ void View::Worm::handleEvent(SDL_Event & event) {
     this->currentSprite.setSpriteSheet(&this->textures[BREATH_1]);
     this->currentSprite.start();
   }
-  
+   */
 }
 
 int View::Worm::getWidth(void) {
@@ -61,7 +64,13 @@ int View::Worm::getY(void) {
 }
 
 void View::Worm::render(SDL_Renderer * r, int x, int y) {
-  return;  
+  Texture & current = this->textures[this->currentAnimation];
+  if (this->mirrored) {
+    current.render(r, x - current.getWidth() / 2, y - current.getHeight() / 2, NULL, 0, NULL, SDL_FLIP_HORIZONTAL);
+  } else {
+    current.render(r, x - current.getWidth() / 2, y - current.getHeight() / 2);
+  }
+  
 }
 
 

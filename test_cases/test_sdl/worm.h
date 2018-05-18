@@ -8,6 +8,8 @@
 #include "sprite_animation.h"
 
 typedef enum {
+  PLAIN_WORM,
+
   BREATH_1,
   BREATH_1_UP,
   BREATH_1_DOWN,
@@ -25,6 +27,8 @@ namespace View {
       Texture currentTexture;
 
       std::map<worm_animation_t, Texture> textures;
+
+      bool mirrored;
 
     public:
       Worm(SDL_Renderer *);
