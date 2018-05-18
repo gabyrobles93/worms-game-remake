@@ -17,6 +17,8 @@ set(SOURCE_FILES
 	${SOURCE_DIR}/physics/world/WorldPhysic.h
 	${SOURCE_DIR}/physics/structures/GirderPhysic.cpp
 	${SOURCE_DIR}/physics/structures/GirderPhysic.h
+	${SOURCE_DIR}/game/World.cpp
+	${SOURCE_DIR}/game/World.h
 )
 
 include_directories(${SOURCE_DIR}/entities
@@ -24,6 +26,9 @@ include_directories(${SOURCE_DIR}/entities
 	${SOURCE_DIR}/physics/structures
 	${SOURCE_DIR}/physics/worm
 	${SOURCE_DIR}/entities/structures
+	${SOURCE_DIR}/game	
+	${SOURCE_DIR}/../../common/include/yaml-cpp
+	${SOURCE_DIR}/../../common/include
 	${INCLUDE_DIR})
 
 add_executable(runner
@@ -32,3 +37,4 @@ add_executable(runner
 )
 
 target_link_libraries(runner ${SOURCE_DIR}/../libs/libBox2D.a)
+target_link_libraries(runner ${SOURCE_DIR}/../../common/libs/libyaml-cpp.a)

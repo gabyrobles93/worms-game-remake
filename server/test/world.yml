@@ -1,0 +1,46 @@
+girder:
+  - id: 1
+    x: 234.0
+    y: 123.0
+    angle: 90.0
+    height: 20.0
+    width: 72.0
+  - id: 2
+    x: 134.0
+    y: 223.0
+    angle: 0
+    height: 20.0
+    width: 72.0
+  - id: 3
+    x: 124.0
+    y: 523.0
+    angle: 0.0
+    height: 20.0
+    width: 72.0
+  - id: 4
+    x: 634.0
+    y: 323.0
+    angle: -30.0
+    height: 20.0
+    width: 72.0	
+
+worms:
+  - id: 1
+    team: 1
+    name: groll
+    health: 100
+    x: 45
+    y: 120
+  - id: 2
+    team: 2
+    name: luciano
+    health: 99
+    x: 50
+    y: 130
+  - id: 3
+    team: 3
+    name: kate
+    health: 67
+    x: 60
+    y: 130
+
