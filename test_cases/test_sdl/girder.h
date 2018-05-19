@@ -31,10 +31,12 @@ namespace View {
       void rotateClockwise(void);
       void rotateCounterClockwise(void);
       degrees_t getCurrentDegrees(void);
-      virtual int getWidth();
-      virtual int getHeight();
-      virtual int getX(void);
-      virtual int getY(void);
+      virtual int getWidth() const;
+      virtual int getHeight() const;
+      virtual int getX(void) const;
+      virtual int getY(void) const;
+      virtual void setX(int);
+      virtual void setY(int);
       virtual void render(SDL_Renderer *, int, int);
   };
 }

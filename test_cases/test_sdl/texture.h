@@ -34,12 +34,16 @@ namespace View {
 		  void render(SDL_Renderer *, int x, int y, SDL_Rect* clip, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
       // Dimensiones de la imagen
-      virtual int getWidth(void);
-      virtual int getHeight(void);
+      virtual int getWidth(void) const;
+      virtual int getHeight(void) const;
 
       // Posiciones de la imagen
-      virtual int getX(void);
-      virtual int getY(void);
+      virtual int getX(void) const;
+      virtual int getY(void) const;
+
+      // Seteo de posiciones de la imagen
+      virtual void setX(int);
+      virtual void setY(int);
   };
 }
 

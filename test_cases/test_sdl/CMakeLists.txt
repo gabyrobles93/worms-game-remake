@@ -35,6 +35,7 @@ add_executable(
     sprite_animation.cpp 
     worm.cpp
     map_game.cpp
+    camera.cpp
 )
 
 target_link_libraries(test_sdl ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})

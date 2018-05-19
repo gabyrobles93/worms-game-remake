@@ -16,6 +16,9 @@ View::Worm::Worm(SDL_Renderer * r) :
   this->currentAnimation = PLAIN_WORM;
   this->mirrored = false;
   // this->currentSprite.start();
+
+  this->x = 0;
+  this->y = 0;
 }
 
 View::Worm::~Worm() {
@@ -47,28 +50,56 @@ void View::Worm::handleEvent(SDL_Event & event) {
    */
 }
 
-int View::Worm::getWidth(void) {
-  return this->textures[this->currentAnimation].getWidth();
+int View::Worm::getWidth(void) const {
+  std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);
+  return it->second.getWidth();
 }
 
-int View::Worm::getHeight(void) {
-  return this->textures[this->currentAnimation].getHeight();
+int View::Worm::getHeight(void) const {
+  std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);
+  return it->second.getHeight();
 }
 
-int View::Worm::getX(void) {
-  return this->textures[this->currentAnimation].getX();
+int View::Worm::getX(void) const {
+  //std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);
+  //return it->second.getX();
+  return this->x;
 }
 
-int View::Worm::getY(void) { 
-  return this->textures[this->currentAnimation].getY();
+int View::Worm::getY(void) const { 
+  /*std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);
+  return it->second.getY();*/
+  return this->y;
 }
 
-void View::Worm::render(SDL_Renderer * r, int x, int y) {
+void View::Worm::setX(int x) {
+  this->textures[this->currentAnimation].setX(x);
+  this->x = x;
+}
+
+void View::Worm::setY(int y) {
+  this->textures[this->currentAnimation].setY(y);
+  this->y = y;
+}
+
+void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
   Texture & current = this->textures[this->currentAnimation];
   if (this->mirrored) {
-    current.render(r, x - current.getWidth() / 2, y - current.getHeight() / 2, NULL, 0, NULL, SDL_FLIP_HORIZONTAL);
+    current.render(
+      r, 
+      this->x - (current.getWidth() / 2) - camX, 
+      this->y - (current.getHeight() / 2) - camY, 
+      NULL, 
+      0, 
+      NULL, 
+      SDL_FLIP_HORIZONTAL
+    );
   } else {
-    current.render(r, x - current.getWidth() / 2, y - current.getHeight() / 2);
+    current.render(
+      r, 
+      this->x - (current.getWidth() / 2) - camX, 
+      this->y - (current.getHeight() / 2) - camY
+    );
   }
   
 }

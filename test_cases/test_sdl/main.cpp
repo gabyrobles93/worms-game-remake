@@ -12,6 +12,12 @@ and may not be redistributed without written permission.*/
 #include "girder_long.h"
 #include "map_game.h"
 #include "worm.h"
+#include "camera.h"
+
+
+//The dimensions of the level
+const int LEVEL_WIDTH = 1280;
+const int LEVEL_HEIGHT = 960;
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -65,7 +71,7 @@ bool init()
 		{
 			//Create renderer for window
 			//gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
-			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
+			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 			if( gRenderer == NULL )
 			{
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -148,7 +154,15 @@ int main( int argc, char* args[] )
 			View::Worm myWorm(gRenderer);
 			View::Worm myWorm2(gRenderer);
 			View::GirderShort myShortGirder(gRenderer);
+			View::Camera camera(SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL_WIDTH, LEVEL_HEIGHT);
 
+			myShortGirder.setX(600);
+			myShortGirder.setY(420);
+			myWorm.setX(600);
+			myWorm.setY(400);
+			myWorm2.setX(100);
+			myWorm2.setY(100);
+	
 			//While application is running
 			while( !quit )
 			{
@@ -179,6 +193,21 @@ int main( int argc, char* args[] )
 						(*longGirders.back()).render(gRenderer, xMouse - mouseGirder.getWidth() / 2, yMouse - mouseGirder.getHeight() / 2);
 					}
 					*/
+
+					if (e.type == SDL_KEYDOWN) {
+						if (e.key.keysym.sym == SDLK_LEFT) {
+							camera.setX(camera.getX()-10);
+						}
+						if (e.key.keysym.sym == SDLK_RIGHT) {
+							camera.setX(camera.getX()+10);
+						}
+						if (e.key.keysym.sym == SDLK_UP) {
+							camera.setY(camera.getY()-10);
+						}
+						if (e.key.keysym.sym == SDLK_DOWN) {
+							camera.setY(camera.getY()+10);
+						}
+					}
 				}
 
 				//Clear screen
@@ -186,8 +215,9 @@ int main( int argc, char* args[] )
 				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0x00 );
 				SDL_RenderClear( gRenderer );
 
+				SDL_Rect cam = camera.getCamera();
 				// Dibujo el fondo
-				background.render(gRenderer);
+				background.render(gRenderer, 0, 0, &cam);
 
 				//Render background texture to screen
 				//myGirder.render(gRenderer, 0, 0 );
@@ -198,10 +228,12 @@ int main( int argc, char* args[] )
 				}
 
 				//mouseGirder.render(gRenderer, xMouse - mouseGirder.getWidth() / 2, yMouse - mouseGirder.getHeight() / 2);
-        myShortGirder.render(gRenderer, 300, 300 + 10/*Girder ancho*/ + 10/*Worm*/);
-				myWorm.render(gRenderer, 300, 300);
 				
-				myWorm2.render(gRenderer, 100, 100);        
+        myShortGirder.render(gRenderer, camera.getX(), camera.getY());
+				myWorm.render(gRenderer, camera.getX(), camera.getY());
+				//camera.focus(myShortGirder);
+				
+				myWorm2.render(gRenderer, camera.getX(), camera.getY());        
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );

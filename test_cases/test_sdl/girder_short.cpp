@@ -18,6 +18,8 @@ View::GirderShort::GirderShort(SDL_Renderer * renderer, degrees_t degrees) {
   }
 
   this->currentTexture = this->textures[this->currentDegrees];
+  this->x = 0;
+  this->y = 0;
 }
 
 View::GirderShort::~GirderShort() {}

@@ -91,18 +91,26 @@ void View::Texture::render(
 	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip );
 }
 
-int View::Texture::getWidth(void) {
+int View::Texture::getWidth(void) const {
 	return this->width;
 }
 
-int View::Texture::getHeight(void) {
+int View::Texture::getHeight(void) const {
 	return this->height;
 }
 
-int View::Texture::getX(void) {
+int View::Texture::getX(void) const {
 	return this->x;
 }
 
-int View::Texture::getY(void) {
+int View::Texture::getY(void) const {
 	return this->y;
+}
+
+void View::Texture::setX(int x) {
+	this->x = x;
+}
+
+void View::Texture::setY(int y) {
+	this->y = y;
 }

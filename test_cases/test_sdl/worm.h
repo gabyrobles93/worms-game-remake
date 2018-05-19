@@ -34,10 +34,12 @@ namespace View {
       Worm(SDL_Renderer *);
       ~Worm();
       void handleEvent(SDL_Event &);
-      virtual int getWidth(void);
-      virtual int getHeight(void);
-      virtual int getX(void);
-      virtual int getY(void);
+      virtual int getWidth(void) const;
+      virtual int getHeight(void) const;
+      virtual int getX(void) const;
+      virtual int getY(void) const;
+      virtual void setX(int);
+      virtual void setY(int);
       virtual void render(SDL_Renderer *, int, int);
   };
 }
