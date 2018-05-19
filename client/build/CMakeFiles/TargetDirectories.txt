@@ -1,0 +1,4 @@
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/client/build/CMakeFiles/rebuild_cache.dir
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/client/build/CMakeFiles/client.dir
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/client/build/CMakeFiles/edit_cache.dir
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/client/build/CMakeFiles/client_autogen.dir
