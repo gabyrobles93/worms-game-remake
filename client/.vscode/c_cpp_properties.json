@@ -11,7 +11,8 @@
             "includePath": [
                 "${workspaceFolder}",
                 "${workspaceFolder}/../common/src",
-                "${workspaceFolder}/../common/include/yaml-cpp"
+                "${workspaceFolder}/../common/include/yaml-cpp",
+                "${workspaceFolder}/src/ui"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
