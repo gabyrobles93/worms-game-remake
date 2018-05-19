@@ -2,6 +2,7 @@
 #define __GIRDER_LONG_H__
 
 #include "girder.h"
+#include "resources_paths.h"
 
 namespace View {
   class GirderLong: public Girder {

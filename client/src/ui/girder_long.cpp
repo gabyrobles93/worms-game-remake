@@ -1,15 +1,15 @@
 #include "girder_long.h"
 
 View::GirderLong::GirderLong(SDL_Renderer * renderer, degrees_t degrees) {
-  this->textures[NINETY_DEGREES].loadFromFile("../images/grdl0.png", renderer);
-  this->textures[SIXTY_DEGREES].loadFromFile("../images/grdl1.png", renderer);
-  this->textures[FORTYFIVE_DEGREES].loadFromFile("../images/grdl2.png", renderer);
-  this->textures[THIRTY_DEGREES].loadFromFile("../images/grdl3.png", renderer);
-  this->textures[ZERO_DEGREES].loadFromFile("../images/grdl4.png", renderer);
-  this->textures[NEGATIVE_THIRTY_DEGREES].loadFromFile("../images/grdl5.png", renderer);
-  this->textures[NEGATIVE_FORTYFIVE_DEGREES].loadFromFile("../images/grdl6.png", renderer);
-  this->textures[NEGATIVE_SIXTY_DEGREES].loadFromFile("../images/grdl7.png", renderer);
-  this->textures[NEGATIVE_NINETY_DEGREES].loadFromFile("../images/grdl8.png", renderer);
+  this->textures[NINETY_DEGREES].loadFromFile(PATH_GIRDER_LONG_90, renderer);
+  this->textures[SIXTY_DEGREES].loadFromFile(PATH_GIRDER_LONG_60, renderer);
+  this->textures[FORTYFIVE_DEGREES].loadFromFile(PATH_GIRDER_LONG_45, renderer);
+  this->textures[THIRTY_DEGREES].loadFromFile(PATH_GIRDER_LONG_30, renderer);
+  this->textures[ZERO_DEGREES].loadFromFile(PATH_GIRDER_LONG_0, renderer);
+  this->textures[NEGATIVE_THIRTY_DEGREES].loadFromFile(PATH_GIRDER_LONG_NEGATIVE_30, renderer);
+  this->textures[NEGATIVE_FORTYFIVE_DEGREES].loadFromFile(PATH_GIRDER_LONG_NEGATIVE_45, renderer);
+  this->textures[NEGATIVE_SIXTY_DEGREES].loadFromFile(PATH_GIRDER_LONG_NEGATIVE_60, renderer);
+  this->textures[NEGATIVE_NINETY_DEGREES].loadFromFile(PATH_GIRDER_LONG_NEGATIVE_90, renderer);
 
   if (degrees != ZERO_DEGREES) {
     this->currentDegrees = degrees;

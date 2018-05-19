@@ -156,7 +156,7 @@ int main( int argc, char* args[] )
 			View::GirderShort myGirder(gRenderer);
 			//View::GirderLong mouseGirder(gRenderer);
 			View::Texture background;
-			background.loadFromFile("../images/fondo_grande.jpg", gRenderer);
+			background.loadFromFile("../../resources/graphics/fondo_grande.jpg", gRenderer);
 
             //Main loop flag
 			bool quit = false;

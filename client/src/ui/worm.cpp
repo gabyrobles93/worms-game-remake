@@ -2,15 +2,15 @@
 
 View::Worm::Worm(SDL_Renderer * r) :
   currentSprite(r) {
-  this->textures[PLAIN_WORM].loadFromFile("../images/plain_worm.png", r);
+  this->textures[PLAIN_WORM].loadFromFile(PATH_PLAIN_WORM, r);
 
-  this->textures[BREATH_1].loadFromFile("../images/Worms/wbrth1.png", r);
-  this->textures[BREATH_1_UP].loadFromFile("../images/Worms/wbrth1u.png", r);
-  this->textures[BREATH_1_DOWN].loadFromFile("../images/Worms/wbrth1d.png", r);
+  this->textures[BREATH_1].loadFromFile(PATH_WORM_BREATH_1, r);
+  this->textures[BREATH_1_UP].loadFromFile(PATH_WORM_BREATH_1_UP, r);
+  this->textures[BREATH_1_DOWN].loadFromFile(PATH_WORM_BREATH_1_DOWN, r);
 
-  this->textures[WALK].loadFromFile("../images/Worms/wwalk.png", r);
-  this->textures[WALK_UP].loadFromFile("../images/Worms/wwalkd.png", r);
-  this->textures[WALK_DOWN].loadFromFile("../images/Worms/wwalku.png", r);
+  this->textures[WALK].loadFromFile(PATH_WORM_WALK, r);
+  this->textures[WALK_UP].loadFromFile(PATH_WORM_WALK_UP, r);
+  this->textures[WALK_DOWN].loadFromFile(PATH_WORM_WALK_DOWN, r);
 
   this->currentSprite.setSpriteSheet(&this->textures[BREATH_1]);
   this->currentAnimation = PLAIN_WORM;

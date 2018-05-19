@@ -5,6 +5,7 @@
 #include <map>
 #include "texture.h"
 #include "drawable.h"
+#include "resources_paths.h"
 #include "sprite_animation.h"
 
 typedef enum {
