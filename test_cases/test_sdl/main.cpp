@@ -32,6 +32,10 @@ bool loadMedia();
 //Frees media and shuts down SDL
 void close();
 
+// Monitor resolutions
+int getWidthResolution(void);
+int getHeightResolution(void);
+
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
 
@@ -61,7 +65,7 @@ bool init()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, getWidthResolution(), getHeightResolution(), SDL_WINDOW_FULLSCREEN_DESKTOP );
 		if( gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -120,6 +124,14 @@ void close() {
 	SDL_Quit();
 }
 
+
+
+
+
+
+
+
+//----------------------- MAIN -------------------------------------
 int main( int argc, char* args[] )
 {
 	//Start up SDL and create window
@@ -139,10 +151,12 @@ int main( int argc, char* args[] )
 			YAML::Node nodeModel = YAML::LoadFile("../modelo.yml");
 			View::MapGame myMapGame(gRenderer, nodeModel);
 
+			std::cout << "Resolution " << getWidthResolution() << "x" << getHeightResolution() << std::endl;
+
 			View::GirderShort myGirder(gRenderer);
 			//View::GirderLong mouseGirder(gRenderer);
 			View::Texture background;
-			background.loadFromFile("../images/fondo.jpg", gRenderer);
+			background.loadFromFile("../images/fondo_grande.jpg", gRenderer);
 
             //Main loop flag
 			bool quit = false;
@@ -154,7 +168,7 @@ int main( int argc, char* args[] )
 			View::Worm myWorm(gRenderer);
 			View::Worm myWorm2(gRenderer);
 			View::GirderShort myShortGirder(gRenderer);
-			View::Camera camera(SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL_WIDTH, LEVEL_HEIGHT);
+			View::Camera camera(getWidthResolution(), getHeightResolution(), background.getWidth(), background.getHeight());
 
 			myShortGirder.setX(600);
 			myShortGirder.setY(420);
@@ -248,4 +262,16 @@ int main( int argc, char* args[] )
 	close();
 
 	return 0;
+}
+
+int getWidthResolution(void) {
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	return DM.w;
+}
+
+int getHeightResolution(void) {
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	return DM.h;
 }
