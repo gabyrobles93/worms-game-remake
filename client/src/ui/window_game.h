@@ -23,9 +23,11 @@ namespace View {
       int getHeightResolution(void);
 
     public:
-      WindowGame(int w, int h);
-      WindowGame(void);
-
+      WindowGame(int w = 0, int h = 0);
+      ~WindowGame();
+      SDL_Renderer * getRenderer(void) const;
+      int getWidth(void) const;
+      int getHeight(void) const;
   };
 };
 

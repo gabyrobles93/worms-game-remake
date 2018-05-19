@@ -77,10 +77,10 @@
 "../../resources/graphics/Worms/wwalk.png"
 
 #define PATH_WORM_WALK_UP \
-"../../resources/graphics/Worms/wwalu.png"
+"../../resources/graphics/Worms/wwalku.png"
 
 #define PATH_WORM_WALK_DOWN \
-"../../resources/graphics/Worms/wwald.png"
+"../../resources/graphics/Worms/wwalkd.png"
 /* ----------------------------------- */
 
 #endif

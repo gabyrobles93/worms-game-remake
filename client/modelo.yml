@@ -1,7 +1,7 @@
 background:
-  - file: fondo.jpg
+  - file: ../images/fondo.jpg
 
-girder:
+short_girders:
   - id: 1
     x: 234
     y: 123
@@ -14,7 +14,9 @@ girder:
     x: 124
     y: 523
     angle: 0
-  - id: 4
+
+long_girders:
+  - id: 1
     x: 634
     y: 323
     angle: -30

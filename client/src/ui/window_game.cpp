@@ -8,14 +8,7 @@ View::WindowGame::WindowGame(int w, int h) {
     this->screen_width = w;
     this->screen_height = h;
 
-    this->init();	
-}
-
-View::WindowGame::WindowGame(void) : 
-    View::WindowGame::WindowGame(
-        View::WindowGame::getWidthResolution(),
-        View::WindowGame::getHeightResolution()
-    ) {
+    this->init();
 }
 
 View::WindowGame::~WindowGame() {
@@ -43,14 +36,22 @@ void View::WindowGame::init(void) {
 		if (!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
-		//Create window
+		
+		// Si se inicio con los argumentos en 0 se inicializa con 
+		// el tamano de la pantalla
+		if (!this->screen_width && !this->screen_height) {
+			this->screen_width = this->getWidthResolution();
+			this->screen_height = this->getHeightResolution();
+		}
+
+		// Create window
 		this->window = SDL_CreateWindow(
-            "Worms", 
+            "Worms Taller Party", 
             SDL_WINDOWPOS_UNDEFINED, 
             SDL_WINDOWPOS_UNDEFINED, 
             this->screen_width, 
             this->screen_height, 
-            SDL_WINDOW_SHOWN
+            SDL_WINDOW_FULLSCREEN
         );
 
 		if (this->window == NULL) {
@@ -74,7 +75,6 @@ void View::WindowGame::init(void) {
 	}
 }
 
-
 void View::WindowGame::close(void) {
 	//Destroy window	
 	SDL_DestroyRenderer(this->renderer);
@@ -85,4 +85,16 @@ void View::WindowGame::close(void) {
 	//Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
+}
+
+SDL_Renderer * View::WindowGame::getRenderer(void) const {
+	return this->renderer;
+}
+
+int View::WindowGame::getWidth(void) const {
+	return this->screen_width;
+}
+
+int View::WindowGame::getHeight(void) const {
+	return this->screen_height;
 }
