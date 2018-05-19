@@ -1,6 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include "yaml.h"
+#include "map_game.h"
+#include "worm.h"
+#include "camera.h"
 #include "socket.h"
 #include "socket_error.h"
 #include "protocol.h"
@@ -29,7 +38,6 @@ try {
     do {
         c = getchar();  // UN EVENTO ME GENERA UN MENSAJE PARA EL SERVIDOR
         events.push(c); // AGREGAMOS EL MENSAJE A LA COLA QUE TOMA EL HILO QUE ENVIA AL SERVIDOR
- //       draw(model);    // DIBUJAMOS EL MODELO (TOMANDO LOCK) QUE FUE EDITADO POR EL HILO QUE RECIBE MODELOS DEL SERVIDOR
     } while (c != 'q');
 
     event_sender.stop();
