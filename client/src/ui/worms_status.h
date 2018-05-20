@@ -16,6 +16,7 @@ class View::WormsStatus {
         YAML::Node & dynamicMap;
          std::map<size_t, View::Worm *> worms;
     public:
+        ~WormsStatus(void);
         WormsStatus(YAML::Node &, SDL_Renderer * r);
         void render(SDL_Renderer *, View::Camera &);
         void update(YAML::Node &);
