@@ -1,3 +1,0 @@
-/home/gonza/Desktop/tp-final-taller/server/test/CMakeFiles/edit_cache.dir
-/home/gonza/Desktop/tp-final-taller/server/test/CMakeFiles/rebuild_cache.dir
-/home/gonza/Desktop/tp-final-taller/server/test/CMakeFiles/runner.dir
