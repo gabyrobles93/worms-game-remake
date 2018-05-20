@@ -27,18 +27,23 @@
 int main(/* int argc, char *argv[] */)
 try {
     YAML::Node mapNode;
+
+    // Creo una cola bloqueante de eventos, que son action_t (Ver common/src/types.h)
     BlockingQueue<action_t> events;
     Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
     EventSender event_sender(protocol, events);
     ModelReceiver model_receiver(protocol, mapNode);
 
+    // Recibo el mapa (solo cosas estáticas) del servidor.
     protocol.rcvGameMap(mapNode);
 
+    // Creo la pantalla con dichas cosas estáticas.
 	View::WindowGame mainWindow(mapNode);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
 
+    // Lanzo threads de enviar eventos y de recibir modelos
     event_sender.start();
     model_receiver.start();
 
@@ -49,6 +54,8 @@ try {
 			if (e.type == SDL_QUIT)
 				quit = true;
 			
+            // Chequeo eventos de teclado (ver si se puede hacer mas prolijo)
+            // FALTA CHEQUEAR EVENTOS DE MOUSE (CLICKS, MOVIMIENTOS DE CAMARA, ETC)
 			if (e.type == SDL_KEYDOWN) {
 				if (e.key.keysym.sym == SDLK_KP_4) {
 					camera.setX(camera.getX()-10);
@@ -103,7 +110,12 @@ try {
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);
+        // Dibujo las cosas estáticas: fondo y vigas
 		mainWindow.render(camera);
+        // Aca habría que dibujar las cosas dinámicas que envió el servidor.
+        // El hilo model_receiver recibe un nodo con cosas dinámicas para dibujar.
+        // Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe
+        // y acá hacer pepe.render(renderer, camera) para que dibuje dichas cosas dinámicas
 		SDL_RenderPresent(renderer);
 	}
 
