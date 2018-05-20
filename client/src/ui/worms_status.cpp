@@ -27,7 +27,7 @@ void View::WormsStatus::render(SDL_Renderer * renderer, View::Camera & camera) {
 }
 
 void View::WormsStatus::update(YAML::Node & mapNode) {
-	const YAML::Node & nodeWorms = this->dynamicMap["worms"];
+	const YAML::Node & nodeWorms = mapNode["worms"];
 	View::Worm * worm;
 	YAML::const_iterator it;
 	for (it = nodeWorms.begin() ; it != nodeWorms.end() ; it++) {
