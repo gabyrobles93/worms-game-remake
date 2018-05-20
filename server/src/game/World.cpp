@@ -107,16 +107,6 @@ std::map<int, Girder*> World::getGirders() {
 //     }
 // }
 
-// void World::start() {
-//     while (run) {
-//         this->worldPhysic.step();
-//         this->worldPhysic.clearForces();
-//         //yamlUpdate();
-//         //modelSend();
-//         //MODEL SEND
-//     }
-// }
-
 void World::run() {
     while (keep_running) {
         this->worldPhysic.step();
@@ -124,7 +114,11 @@ void World::run() {
     }
 }
 
-//getModel() 
+std::string World::getModel() {
+    std::stringstream node_stream;
+    node_stream << this->dynamic_node;
+    return node_stream.str();
+}
 
 void World::moveLeft(size_t worm_id) {
     worms[worm_id]->moveLeft();

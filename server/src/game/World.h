@@ -7,6 +7,7 @@
 #include "Worm.h"
 #include "yaml.h"
 #include "thread.h"
+#include <sstream>
 
 class World : public Thread{
 private:
@@ -26,6 +27,7 @@ public:
     std::map<int, Worm*> getWorms();
     std::map<int, Girder*> getGirders();
     virtual void run(void);
+    std::string getModel();
 
     void moveLeft(size_t worm_id);
     void moveRight(size_t worm_id);
