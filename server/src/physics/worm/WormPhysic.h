@@ -12,6 +12,7 @@
 class WormPhysic {
 private:
     b2Body* body;
+    b2World world;
 
 public:
     WormPhysic(b2World& world, float posX, float posY);
