@@ -1,5 +1,8 @@
 #include "girder.h"
 
+View::Girder::~Girder(void) {
+}
+
 void View::Girder::rotateClockwise(void) {
   // Si no es -90 grados
   if (this->currentDegrees != DIFF_POS-1) {

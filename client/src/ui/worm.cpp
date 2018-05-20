@@ -29,8 +29,8 @@ View::Worm::~Worm() {
   
 }
 
-void View::Worm::handleEvent(SDL_Event & event) {
-  /* if (event.type == SDL_KEYDOWN) {
+/* void View::Worm::handleEvent(SDL_Event & event) {
+  if (event.type == SDL_KEYDOWN) {
     if (event.key.keysym.sym == SDLK_LEFT) {
       this->currentSprite.stopAnimation();
       this->currentSprite.join();
@@ -47,8 +47,8 @@ void View::Worm::handleEvent(SDL_Event & event) {
     this->currentSprite.setSpriteSheet(&this->textures[BREATH_1]);
     this->currentSprite.start();
   }
-   */
-}
+
+} */
 
 int View::Worm::getWidth(void) const {
   std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);

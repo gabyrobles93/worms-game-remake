@@ -1,11 +1,9 @@
 #include <iostream>
 #include "model_receiver.h"
 
-typedef char Model;
-
-ModelReceiver::ModelReceiver(Protocol & p, Model & e) :
-protocol(p),
-model(e) {
+ModelReceiver::ModelReceiver(Protocol & prot, YAML::Node & mod) :
+protocol(prot),
+model(mod) {
     keep_runing = true;
 }
 

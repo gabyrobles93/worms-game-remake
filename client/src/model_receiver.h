@@ -8,13 +8,13 @@
 class ModelReceiver : public Thread {
     private:
         Protocol & protocol;
-        Model & model;
+        YAML::Node & model;
         bool keep_runing;
 
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
     public:
-        ModelReceiver(Protocol &, Model &);
+        ModelReceiver(Protocol &, YAML::Node &);
         ~ModelReceiver(void);
         virtual void run(void);
         void stop(void);

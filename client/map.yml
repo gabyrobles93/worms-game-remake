@@ -1,24 +1,36 @@
 background:
-  - file: ../images/fondo.jpg
+  - file: ../../resources/graphics/fondo_grande.jpg
 
 short_girders:
   - id: 1
-    x: 234
-    y: 123
-    angle: 90
+    x: 600
+    y: 420
+    angle: 0
   - id: 2
-    x: 134
-    y: 223
+    x: 700
+    y: 520
     angle: 0
   - id: 3
-    x: 124
-    y: 523
+    x: 800
+    y: 620
     angle: 0
+  - id: 4
+    x: 900
+    y: 720
+    angle: 90
 
 long_girders:
   - id: 1
-    x: 634
-    y: 323
+    x: 1000
+    y: 1000
+    angle: 0
+  - id: 1
+    x: 1000
+    y: 1200
+    angle: 0
+  - id: 1
+    x: 1000
+    y: 1500
     angle: -30
 
 worms:
@@ -40,4 +52,3 @@ worms:
     health: 67
     x: 60
     y: 130
-

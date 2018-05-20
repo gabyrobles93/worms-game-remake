@@ -34,7 +34,7 @@ namespace View {
     public:
       Worm(SDL_Renderer *);
       ~Worm();
-      void handleEvent(SDL_Event &);
+      /* void handleEvent(SDL_Event &); */
       virtual int getWidth(void) const;
       virtual int getHeight(void) const;
       virtual int getX(void) const;

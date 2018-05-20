@@ -7,8 +7,6 @@
 #include <string>
 #include <vector>
 #include "yaml.h"
-#include "map_game.h"
-#include "worm.h"
 #include "camera.h"
 #include "socket.h"
 #include "socket_error.h"
@@ -19,26 +17,95 @@
 #include "yaml.h"
 #include "event_sender.h"
 #include "model_receiver.h"
+#include "window_game.h"
+#include "camera.h"
+#include "types.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
 
 int main(/* int argc, char *argv[] */)
 try {
-    BlockingQueue<char> events;
-    char model;
+    YAML::Node mapNode;
+    BlockingQueue<action_t> events;
     Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
     EventSender event_sender(protocol, events);
-    ModelReceiver model_receiver(protocol, model);
+    ModelReceiver model_receiver(protocol, mapNode);
+
+    protocol.rcvGameMap(mapNode);
+
+	View::WindowGame mainWindow(mapNode);
+	SDL_Renderer * renderer = mainWindow.getRenderer();
+	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
+						mainWindow.getBgWidth(), mainWindow.getBgHeight());
 
     event_sender.start();
     model_receiver.start();
 
-    char c;
-    do {
-        c = getchar();  // UN EVENTO ME GENERA UN MENSAJE PARA EL SERVIDOR
-        events.push(c); // AGREGAMOS EL MENSAJE A LA COLA QUE TOMA EL HILO QUE ENVIA AL SERVIDOR
-    } while (c != 'q');
+	bool quit = false;
+	SDL_Event e;
+	while (!quit) {
+		while (SDL_PollEvent(&e) != 0) {
+			if (e.type == SDL_QUIT)
+				quit = true;
+			
+			if (e.type == SDL_KEYDOWN) {
+				if (e.key.keysym.sym == SDLK_KP_4) {
+					camera.setX(camera.getX()-10);
+				}
+				if (e.key.keysym.sym == SDLK_KP_6) {
+					camera.setX(camera.getX()+10);
+				}
+				if (e.key.keysym.sym == SDLK_KP_8) {
+					camera.setY(camera.getY()-10);
+				}
+				if (e.key.keysym.sym == SDLK_KP_2) {
+					camera.setY(camera.getY()+10);
+				}
+				if (e.key.keysym.sym == SDLK_UP) {
+					events.push(a_pointUp);
+				}
+				if (e.key.keysym.sym == SDLK_DOWN) {
+					events.push(a_pointDown);
+				}
+				if (e.key.keysym.sym == SDLK_LEFT) {
+					events.push(a_moveLeft);
+				}
+				if (e.key.keysym.sym == SDLK_RIGHT) {
+					events.push(a_moveRight);
+				}
+				if (e.key.keysym.sym == SDLK_SPACE) {
+					events.push(a_shoot);
+				}
+				if (e.key.keysym.sym == SDLK_RETURN) {
+					events.push(a_frontJump);
+				}
+				if (e.key.keysym.sym == SDLK_BACKSPACE) {
+					events.push(a_backJump);
+				}
+				if (e.key.keysym.sym == SDLK_1) {
+					events.push(a_choose1SecDeton);
+				}
+				if (e.key.keysym.sym == SDLK_2) {
+					events.push(a_choose2SecDeton);
+				}
+				if (e.key.keysym.sym == SDLK_3) {
+					events.push(a_choose3SecDeton);
+				}
+				if (e.key.keysym.sym == SDLK_4) {
+					events.push(a_choose4SecDeton);
+				}
+				if (e.key.keysym.sym == SDLK_5) {
+					events.push(a_choose5SecDeton);
+				}                
+			}
+		}
+
+		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+		SDL_RenderClear(renderer);
+		mainWindow.render(camera);
+		SDL_RenderPresent(renderer);
+	}
 
     event_sender.stop();
     event_sender.join();

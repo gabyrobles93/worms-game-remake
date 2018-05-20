@@ -93,6 +93,39 @@ void Protocol::sendExitLobby(void) {
     this->skt.shutDown();
 }
 
-void rcvModel(Model & model) {
+void Protocol::rcvGameMap(YAML::Node & mapNode) {
+    uint32_t node_size = 0;
+    skt.getBuffer((uchar *) &node_size, 4);
+    node_size = ntohl(node_size);
+    uchar * buffer = new uchar[node_size];
+    skt.getBuffer(buffer, node_size);
 
+    std::string text_node((char*) buffer);
+    delete buffer;
+
+    mapNode = YAML::Load(text_node);
+}
+
+void Protocol::sendGameMap(YAML::Node & mapNode) {
+    std::stringstream map_dump;
+    map_dump << mapNode;
+    uint32_t node_size = map_dump.str().length();
+    skt.sendBuffer((const uchar *) &node_size, 4);
+    skt.sendBuffer((const uchar *) map_dump.str().c_str(), node_size);
+}
+
+void Protocol::sendEvent(action_t action) {
+    this->skt.sendBuffer((const uchar*)&action, 1);
+}
+
+void Protocol::rcvEvent(action_t action) {
+    this->skt.getBuffer((uchar*)&action, 1);
+}
+
+void Protocol::sendModel(YAML::Node & modelNode) {
+    this->sendGameMap(modelNode);
+}
+
+void Protocol::rcvModel(YAML::Node & modelNode) {
+    this->rcvGameMap(modelNode);
 }

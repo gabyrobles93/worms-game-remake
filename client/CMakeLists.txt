@@ -22,13 +22,15 @@ include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${COMMON_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${COMMON_SOURCE_DIR}/src)
+include_directories(${UI_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
 
 add_executable(	client
-		#${PROJECT_SOURCE_DIR}/src/main.cpp
-		${UI_SOURCE_DIR}/main.cpp 
+		${PROJECT_SOURCE_DIR}/src/main.cpp
+		${PROJECT_SOURCE_DIR}/src/event_sender.cpp
+		${PROJECT_SOURCE_DIR}/src/model_receiver.cpp
 		${COMMON_SOURCE_DIR}/src/socket.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
 		${COMMON_SOURCE_DIR}/src/protocol.cpp
@@ -38,18 +40,20 @@ add_executable(	client
 		${UI_SOURCE_DIR}/girder.cpp
 		${UI_SOURCE_DIR}/girder_long.cpp
 		${UI_SOURCE_DIR}/girder_short.cpp
-		${UI_SOURCE_DIR}/map_game.cpp
 		${UI_SOURCE_DIR}/sprite_animation.cpp
 		${UI_SOURCE_DIR}/texture.cpp
 		${UI_SOURCE_DIR}/view_exceptions.cpp
 		${UI_SOURCE_DIR}/window_game.cpp
 		${UI_SOURCE_DIR}/worm.cpp
+		${PROJECT_SOURCE_DIR}/src/event_sender.h
+		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${COMMON_SOURCE_DIR}/src/socket.h
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/protocol.h
 		${COMMON_SOURCE_DIR}/src/socket_error.h
 		${COMMON_SOURCE_DIR}/src/protocol_error.h
 		${COMMON_SOURCE_DIR}/src/types.h
+		${COMMON_SOURCE_DIR}/src/blocking_queue.h
 		${UI_SOURCE_DIR}/camera.h
 		${UI_SOURCE_DIR}/drawable.h
 		${UI_SOURCE_DIR}/girder.h

@@ -28,6 +28,7 @@ namespace View {
       Texture currentTexture;
 
     public:
+      virtual ~Girder(void);
       void rotateClockwise(void);
       void rotateCounterClockwise(void);
       degrees_t getCurrentDegrees(void);

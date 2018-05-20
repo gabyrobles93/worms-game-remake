@@ -5,8 +5,9 @@
 #include "blocking_queue.h"
 #include "thread.h"
 #include "protocol.h"
+#include "types.h"
 
-EventSender::EventSender(Protocol & p, BlockingQueue<char> & e) :
+EventSender::EventSender(Protocol & p, BlockingQueue<action_t> & e) :
 protocol(p),
 events(e) {
     keep_runing = true;
@@ -25,11 +26,10 @@ size_t EventSender::getId(void) const {
 }
 
 void EventSender::run(void) {
-    char c;
+    action_t action;
     while (keep_runing) {
-        c = this->events.pop();
-        std::cout << "Soy el hilo sender, el evento popeado es: " << c << std::endl;
-        this->protocol.sendEvent(c);
+        action = this->events.pop();
+        this->protocol.sendEvent(action);
     }
 }
 

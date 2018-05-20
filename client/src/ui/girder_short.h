@@ -8,7 +8,7 @@ namespace View {
   class GirderShort: public Girder {
     private:
     public:
-      GirderShort(SDL_Renderer *, degrees_t d = ZERO_DEGREES);
+      GirderShort(SDL_Renderer *, int d = ZERO_DEGREES);
       ~GirderShort();
   };
 }

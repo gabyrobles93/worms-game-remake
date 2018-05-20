@@ -1,6 +1,6 @@
 #include "girder_long.h"
 
-View::GirderLong::GirderLong(SDL_Renderer * renderer, degrees_t degrees) {
+View::GirderLong::GirderLong(SDL_Renderer * renderer, int degrees) {
   this->textures[NINETY_DEGREES].loadFromFile(PATH_GIRDER_LONG_90, renderer);
   this->textures[SIXTY_DEGREES].loadFromFile(PATH_GIRDER_LONG_60, renderer);
   this->textures[FORTYFIVE_DEGREES].loadFromFile(PATH_GIRDER_LONG_45, renderer);

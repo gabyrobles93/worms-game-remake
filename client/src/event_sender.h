@@ -5,17 +5,18 @@
 #include "protocol.h"
 #include "blocking_queue.h"
 #include "socket.h"
+#include "types.h"
 
 class EventSender : public Thread {
     private:
         Protocol & protocol;
-        BlockingQueue<char> & events;
+        BlockingQueue<action_t> & events;
         bool keep_runing;
     
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
     public:
-        EventSender(Protocol &, BlockingQueue<char> &);
+        EventSender(Protocol &, BlockingQueue<action_t> &);
         ~EventSender(void);
         virtual void run(void);
         void stop(void);
