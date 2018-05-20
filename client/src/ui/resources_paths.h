@@ -68,4 +68,30 @@
 
 #define PATH_LAVA "../../resources/graphics/lava_pattern.jpg"
 /* --------------------------- */
+
+
+/* WEAPON ICONS */
+#define PATH_ICON_BAZOOKA "../../resources/graphics/Weapons Icons/bazooka.1.png"
+
+#define PATH_ICON_MORTAR "../../resources/graphics/Weapons Icons/mortar.1.png"
+
+#define PATH_ICON_GREEN_GRENADE "../../resources/graphics/Weapons Icons/grenade.1.png"
+
+#define PATH_ICON_RED_GRENADE "../../resources/graphics/Weapons Icons/cluster.1.png"
+
+#define PATH_ICON_BANANA "../../resources/graphics/Weapons Icons/banana.1.png"
+
+#define PATH_ICON_HOLY_GRENADE "../../resources/graphics/Weapons Icons/hgrenade.1.png"
+
+#define PATH_ICON_DYNAMITE "../../resources/graphics/Weapons Icons/dynamite.1.png"
+
+#define PATH_ICON_BASEBALL "../../resources/graphics/Weapons Icons/baseball.1.png"
+
+#define PATH_ICON_AIR_STRIKE "../../resources/graphics/Weapons Icons/airstrke.1.png"
+
+#define PATH_ICON_TELEPORT "../../resources/graphics/Weapons Icons/teleport.1.png"
+
+
+/* ------------- */
+
 #endif
