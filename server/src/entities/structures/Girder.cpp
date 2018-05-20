@@ -6,13 +6,13 @@ girderPhysic(world, posX, posY, height, width, angle) {
 }
 
 float Girder::getPosX() {
-    this->girderPhysic.getPosX();
+	return this->girderPhysic.getPosX();
 }
 
 float Girder::getPosY() {
-    this->girderPhysic.getPosY();
+    return this->girderPhysic.getPosY();
 }
 
 float Girder::getAngle() {
-    this->girderPhysic.getAngle();
+    return this->girderPhysic.getAngle();
 }
