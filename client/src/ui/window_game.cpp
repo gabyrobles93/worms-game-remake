@@ -5,12 +5,22 @@
 #include "worm.h"
 #include "camera.h"
 
+#define WATER_LEVEL 300
+
 View::WindowGame::WindowGame(YAML::Node & mapNode, int w, int h) : staticMap(mapNode) {
-    this->screen_width = w;
-    this->screen_height = h;
-    this->init();
+	this->screen_width = w;
+	this->screen_height = h;
+	this->init();
 	this->background.loadFromFile(this->staticMap["background"][0]["file"].as<std::string>(), renderer);
-	loadStaticObjects();
+	this->loadStaticObjects();
+	this->water.init(
+		this->renderer,
+		0,
+		this->background.getHeight() - WATER_LEVEL,
+		this->background.getWidth(),
+		this->background.getHeight(),
+		PATH_WATER_2
+	);
 }
 
 void View::WindowGame::loadStaticObjects(void) {
@@ -161,4 +171,6 @@ void View::WindowGame::render(View::Camera & camera) {
 	for (it_s = this->shortGirders.begin(); it_s != this->shortGirders.end(); it_s++) {
 		(*it_s)->render(this->renderer, camera.getX(), camera.getY());
 	}
+
+	this->water.render(this->renderer, camera.getX(), camera.getY());
 }
