@@ -32,6 +32,7 @@ add_executable(	server
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/protocol.h
 		${COMMON_SOURCE_DIR}/src/protocol_error.h
+		${COMMON_SOURCE_DIR}/src/types.h
 		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/Worm.cpp
