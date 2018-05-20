@@ -1,6 +1,6 @@
 #include "WormPhysic.h"
 
-WormPhysic::WormPhysic(b2World& world, float posX, float posY) {
+WormPhysic::WormPhysic(b2World& world, float posX, float posY) : world(world) {
     b2BodyDef wormDef;
     wormDef.type = b2_dynamicBody;
     wormDef.fixedRotation = true;
@@ -16,7 +16,6 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY) {
     wormFixture.friction = WORM_FRICTION;
     body->CreateFixture(&wormFixture);
     this->body = body;
-    this->world = world;
 }
 
 void WormPhysic::moveRight() {
@@ -33,7 +32,7 @@ void WormPhysic::moveLeft() {
 
 void WormPhysic::jump() {
     float impulse = this->body->GetMass() * 5;
-    this->body->ApplyLinearImpulse(b2Vec2(0, impulse), this->body->GetWorldCenter());
+    this->body->ApplyLinearImpulse(b2Vec2(0, impulse), this->body->GetWorldCenter(), true);
 }
 
 void WormPhysic::jumpLeft() {

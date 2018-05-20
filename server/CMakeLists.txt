@@ -20,11 +20,6 @@ include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
 include_directories(${PROJECT_SOURCE_DIR}/src/physics/worm)
 include_directories(${PROJECT_SOURCE_DIR}/src/physics/structures)
 
-file (GLOB PHYSIC_SRC ${PROJECT_SOURCE_DIR}/src/physics/structures
-	"*.cpp"
-	"*.h"
-)
-
 add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/main.cpp 
 		${PROJECT_SOURCE_DIR}/src/client.cpp
