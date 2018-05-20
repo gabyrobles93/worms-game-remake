@@ -44,6 +44,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/sprite_animation.cpp
 		${UI_SOURCE_DIR}/texture.cpp
 		${UI_SOURCE_DIR}/view_exceptions.cpp
+		${UI_SOURCE_DIR}/water.cpp
 		${UI_SOURCE_DIR}/window_game.cpp
 		${UI_SOURCE_DIR}/worm.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
@@ -65,6 +66,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/texture.h
 		${UI_SOURCE_DIR}/view_exceptions.h
 		${UI_SOURCE_DIR}/view_exceptions_messages.h
+		${UI_SOURCE_DIR}/water.h
 		${UI_SOURCE_DIR}/window_game.h
 		${UI_SOURCE_DIR}/worm.h
 		)
