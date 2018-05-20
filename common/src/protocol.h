@@ -25,7 +25,7 @@ class Protocol {
         void rcvGameMap(YAML::Node &);
         void sendGameMap(YAML::Node &);
         void sendEvent(action_t);
-        void rcvEvent(action_t);
+        void rcvEvent(action_t &);
         void sendModel(YAML::Node &);
         void rcvModel(YAML::Node &);
 };

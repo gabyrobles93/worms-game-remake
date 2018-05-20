@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <sstream>
 #include "yaml.h"
 #include "socket.h"
 #include "socket_error.h"
@@ -12,13 +13,14 @@
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
     Protocol protocol(std::move(listener.accept_connection()));
-    YAML::Node mapNode = YAML::Load(MAP_PATH);
+    YAML::Node mapNode = YAML::LoadFile(MAP_PATH);
 
     protocol.sendGameMap(mapNode);
-
+    std::cout << "Mapa enviado" << std::endl;
     bool quit = false;
     while(!quit) {
         action_t event = a_noEvent;
+        std::cout << "Esperando evento del cliente." << std::endl;
         protocol.rcvEvent(event);
         std::cout << "El cliente envió el evento " << event;
         if (event == a_quitGame)

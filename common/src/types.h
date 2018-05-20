@@ -5,6 +5,7 @@
  Se definen tipos de datos comunes al cliente y el servidor.
 */
 typedef enum {
+    a_noEvent,
     a_moveLeft,
     a_moveRight,
     a_pointUp,
@@ -19,7 +20,8 @@ typedef enum {
     a_choose3SecDeton,
     a_choose4SecDeton,
     a_choose5SecDeton,
-    a_showWeaponMenu
+    a_showWeaponMenu,
+    a_quitGame
 } action_t;
 
 typedef unsigned char uchar;

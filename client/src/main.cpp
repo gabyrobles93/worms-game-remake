@@ -45,7 +45,7 @@ try {
 
     // Lanzo threads de enviar eventos y de recibir modelos
     event_sender.start();
-    model_receiver.start();
+    //model_receiver.start();
 
 	bool quit = false;
 	SDL_Event e;
@@ -118,6 +118,8 @@ try {
         // y acá hacer pepe.render(renderer, camera) para que dibuje dichas cosas dinámicas
 		SDL_RenderPresent(renderer);
 	}
+
+	events.push(a_quitGame);
 
     event_sender.stop();
     event_sender.join();
