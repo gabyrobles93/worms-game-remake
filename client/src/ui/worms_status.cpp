@@ -37,3 +37,11 @@ void View::WormsStatus::update(YAML::Node & mapNode) {
 		worm->setY(eachWorm["y"].as<size_t>());
 	}
 }
+
+View::WormsStatus::~WormsStatus(void) {
+	std::map<size_t, View::Worm *>::iterator it;
+
+	for (it = this->worms.begin(); it != this->worms.end(); it++) {
+		delete it->second;
+	}
+}

@@ -137,9 +137,13 @@ try {
 
     event_sender.stop();
     event_sender.join();
-    model_receiver.stop();
-    model_receiver.join();
+    //model_receiver.stop();
+    //model_receiver.join();
+
+	return 0;
 
 } catch(const SocketError & e) {
     std::cout << e.what() << std::endl;
+} catch(const std::exception & e) {
+	std::cout << e.what() << std::endl;
 }
