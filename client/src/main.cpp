@@ -38,12 +38,15 @@ try {
     // Recibo el mapa (solo cosas estáticas) del servidor.
     protocol.rcvGameMap(mapNode);
 
+	YAML::Node staticMap = mapNode["static"];
+	YAML::Node dynamicMap = mapNode["dynamic"];
+
     // Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(mapNode);
+	View::WindowGame mainWindow(staticMap);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
-	View::WormsStatus worms(mapNode);
+	View::WormsStatus worms(dynamicMap, renderer);
     // Lanzo threads de enviar eventos y de recibir modelos
     event_sender.start();
     //model_receiver.start();
@@ -122,7 +125,7 @@ try {
 		SDL_RenderClear(renderer);
         // Dibujo las cosas estáticas: fondo y vigas
 		mainWindow.render(camera);
-		worms.render(renderer,camera);
+		worms.render(renderer, camera);
         // Aca habría que dibujar las cosas dinámicas que envió el servidor.
         // El hilo model_receiver recibe un nodo con cosas dinámicas para dibujar.
         // Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe

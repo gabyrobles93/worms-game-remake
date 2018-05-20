@@ -7,7 +7,7 @@
 
 #define WATER_LEVEL 300
 
-View::WindowGame::WindowGame(YAML::Node & mapNode, int w, int h) : staticMap(mapNode) {
+View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h) : staticMap(staticNode) {
 	this->screen_width = w;
 	this->screen_height = h;
 	this->init();
