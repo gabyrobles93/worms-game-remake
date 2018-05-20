@@ -83,14 +83,14 @@ void View::Inventory::render(SDL_Renderer * renderer, int x, int y) {
   int row = 0;
   int iconWidth = this->items.back()->texture.getWidth();
   int iconHeight = this->items.back()->texture.getHeight();
-
   std::vector<View::WeaponIcon *>::iterator it = this->items.begin();
   while (it != this->items.end()) {
-    for (size_t i ; i < MAX_COLS ; i++) {
+    for (size_t i = 0 ; i < MAX_COLS ; i++) {
       if (it == this->items.end()) {
         break;
       }
       (*it)->texture.render(renderer, x + i * iconWidth, y + row * iconHeight);
+      it++;
     }
     row++;
   }

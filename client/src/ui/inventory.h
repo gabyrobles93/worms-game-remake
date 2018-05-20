@@ -18,7 +18,7 @@
 #define WEAPON_NAME_AIR_STRIKE "Air strike"
 #define WEAPON_NAME_TELEPORT "Teleport"
 
-#define MAX_COLS 5
+#define MAX_COLS 3
 
 namespace View {
   struct WeaponIcon {
