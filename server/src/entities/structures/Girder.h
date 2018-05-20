@@ -1,7 +1,7 @@
 #ifndef GIRDER_H
 #define GIRDER_H
 
-#include "Box2D/Box2D.h"
+#include "Box2D.h"
 #include "GirderPhysic.h"
 
 class Girder {

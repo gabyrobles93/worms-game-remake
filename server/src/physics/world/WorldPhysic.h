@@ -1,7 +1,7 @@
 #ifndef WORLD_PHYSIC_H
 #define WORLD_PHYSIC_H
 
-#include "Box2D/Box2D.h"
+#include "Box2D.h"
 
 class WorldPhysic {
 public:

@@ -4,7 +4,7 @@
 #define GIRDER_DENSITY 1
 #define GIRDER_FRICTION 0
 
-#include "Box2D/Box2D.h"
+#include "Box2D.h"
 
 class GirderPhysic {
 private:

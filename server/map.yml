@@ -1,0 +1,54 @@
+background:
+  - file: ../../resources/graphics/fondo_grande.jpg
+
+short_girders:
+  - id: 1
+    x: 600
+    y: 420
+    angle: 0
+  - id: 2
+    x: 700
+    y: 520
+    angle: 0
+  - id: 3
+    x: 800
+    y: 620
+    angle: 0
+  - id: 4
+    x: 900
+    y: 720
+    angle: 90
+
+long_girders:
+  - id: 1
+    x: 1000
+    y: 1000
+    angle: 0
+  - id: 1
+    x: 1000
+    y: 1200
+    angle: 0
+  - id: 1
+    x: 1000
+    y: 1500
+    angle: -30
+
+worms:
+  - id: 1
+    team: 1
+    name: groll
+    health: 100
+    x: 45
+    y: 120
+  - id: 2
+    team: 2
+    name: luciano
+    health: 99
+    x: 50
+    y: 130
+  - id: 3
+    team: 3
+    name: kate
+    health: 67
+    x: 60
+    y: 130
