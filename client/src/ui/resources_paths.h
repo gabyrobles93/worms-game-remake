@@ -58,4 +58,13 @@
 #define PATH_WORM_WALK_DOWN "../../resources/graphics/Worms/wwalkd.png"
 /* ----------------------------------- */
 
+/* WATER PATHS */
+#define PATH_WATER_DEFAULT "../../resources/graphics/water_gif.gif"
+
+#define PATH_WATER_2 "../../resources/graphics/water_pattern_2.png"
+
+#define PATH_WATER_3 "../../resources/graphics/water_pattern_3.png"
+
+#define PATH_LAVA "../../resources/graphics/lava_pattern.jpg"
+/* --------------------------- */
 #endif

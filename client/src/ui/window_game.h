@@ -8,6 +8,7 @@
 #include "girder_long.h"
 #include "camera.h"
 #include "texture.h"
+#include "water.h"
 #include "yaml.h"
 
 namespace View {
@@ -25,6 +26,7 @@ class View::WindowGame {
     int screen_height;
     View::Texture background;
     YAML::Node & staticMap;
+    Water water;
 
     void init(void);
     bool loadMedia(void);
