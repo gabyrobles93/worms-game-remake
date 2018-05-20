@@ -18,6 +18,7 @@ int main(/* int argc, char *argv[] */) try {
     protocol.sendGameMap(mapNode);
     std::cout << "Mapa enviado" << std::endl;
     bool quit = false;
+    
     while(!quit) {
         action_t event = a_noEvent;
         std::cout << "Esperando evento del cliente." << std::endl;
@@ -28,6 +29,7 @@ int main(/* int argc, char *argv[] */) try {
     }
 
     return 0;
+
 } catch(const SocketError & e) {
     std::cout << e.what() << std::endl;
 }

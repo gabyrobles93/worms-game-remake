@@ -1,7 +1,11 @@
+#include <string>
 #include "worm.h"
 
-View::Worm::Worm(SDL_Renderer * r) :
-  currentSprite(r) {
+View::Worm::Worm(SDL_Renderer * r, std::string & name, std::string & team, int health) :
+  currentSprite(r),
+  name(name),
+  team(team),
+  health(health) {
   this->textures[PLAIN_WORM].loadFromFile(PATH_PLAIN_WORM, r);
 
   this->textures[BREATH_1].loadFromFile(PATH_WORM_BREATH_1, r);
@@ -102,6 +106,14 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
     );
   }
   
+}
+
+void View::Worm::setHealth(int newHealth) {
+  this->health = newHealth;
+}
+
+int View::Worm::getHealth(void) {
+  return this->health;
 }
 
 

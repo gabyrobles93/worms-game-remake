@@ -26,13 +26,14 @@ namespace View {
       View::SpriteAnimation currentSprite;
       worm_animation_t currentAnimation;
       Texture currentTexture;
-
       std::map<worm_animation_t, Texture> textures;
-
       bool mirrored;
+      std::string name;
+      std::string team;
+      int health;
 
     public:
-      Worm(SDL_Renderer *);
+      Worm(SDL_Renderer *, std::string&, std::string &, int);
       ~Worm();
       /* void handleEvent(SDL_Event &); */
       virtual int getWidth(void) const;
@@ -42,6 +43,8 @@ namespace View {
       virtual void setX(int);
       virtual void setY(int);
       virtual void render(SDL_Renderer *, int, int);
+      void setHealth(int);
+      int getHealth(void);
   };
 }
 
