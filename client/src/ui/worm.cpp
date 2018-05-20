@@ -1,7 +1,8 @@
+#include <SDL2/SDL.h>
 #include <string>
 #include "worm.h"
 
-View::Worm::Worm(SDL_Renderer * r, std::string & name, std::string & team, int health) :
+View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   currentSprite(r),
   name(name),
   team(team),
@@ -19,6 +20,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string & name, std::string & team, int h
   this->currentSprite.setSpriteSheet(&this->textures[BREATH_1]);
   this->currentAnimation = PLAIN_WORM;
   this->mirrored = false;
+  this->alive = true;
   // this->currentSprite.start();
 
   this->x = 0;
@@ -116,4 +118,6 @@ int View::Worm::getHealth(void) {
   return this->health;
 }
 
-
+bool View::Worm::isAlive(void) {
+  return this->alive;
+}

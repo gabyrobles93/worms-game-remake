@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <map>
+#include <string>
 #include "texture.h"
 #include "drawable.h"
 #include "resources_paths.h"
@@ -24,16 +25,17 @@ namespace View {
   class Worm: public Drawable {
     private:
       View::SpriteAnimation currentSprite;
+      std::string name;
+      size_t team;
       worm_animation_t currentAnimation;
       Texture currentTexture;
       std::map<worm_animation_t, Texture> textures;
       bool mirrored;
-      std::string name;
-      std::string team;
       int health;
+      bool alive;
 
     public:
-      Worm(SDL_Renderer *, std::string&, std::string &, int);
+      Worm(SDL_Renderer *, std::string, size_t, int);
       ~Worm();
       /* void handleEvent(SDL_Event &); */
       virtual int getWidth(void) const;
@@ -45,6 +47,7 @@ namespace View {
       virtual void render(SDL_Renderer *, int, int);
       void setHealth(int);
       int getHealth(void);
+      bool isAlive(void);
   };
 }
 
