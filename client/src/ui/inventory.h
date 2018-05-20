@@ -36,7 +36,7 @@ namespace View {
 
     public:
       Inventory(SDL_Renderer * r);
-      Inventory();
+      ~Inventory();
       void render(SDL_Renderer *, int, int);
   };
 }

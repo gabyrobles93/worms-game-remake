@@ -81,7 +81,6 @@ View::Inventory::~Inventory() {
 
 void View::Inventory::render(SDL_Renderer * renderer, int x, int y) {
   int row = 0;
-  int col = 0;
   int iconWidth = this->items.back()->texture.getWidth();
   int iconHeight = this->items.back()->texture.getHeight();
 
