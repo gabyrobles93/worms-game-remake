@@ -9,10 +9,17 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}",
                 "${workspaceFolder}/../common/src",
                 "${workspaceFolder}/../common/include/yaml-cpp",
-                "${workspaceFolder}/game"
+                "${workspaceFolder}/src/game",
+                "${workspaceFolder}/src/entities/structures",
+                "${workspaceFolder}/src/entities",
+                "${workspaceFolder}/src/game",
+                "${workspaceFolder}/physics/structures",
+                "${workspaceFolder}/physics/weapons",
+                "${workspaceFolder}/physics/world",
+                "${workspaceFolder}/physics/worm"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

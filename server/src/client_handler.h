@@ -7,15 +7,15 @@
 
 class ClientHandler : public Thread {
     private:
-        World & world;
         Protocol protocol;
-        bool keep_runing;
-        size_t team_name;
+        World& world;
+        bool keep_running;
+        size_t team_id;
         // Game Status
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
     public:
-        ClientHandler(SocketReadWrite, World &);
+        ClientHandler(SocketReadWrite skt, World& w);
         ~ClientHandler(void);
         virtual void run(void);
 };
