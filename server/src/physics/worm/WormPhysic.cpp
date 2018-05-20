@@ -3,6 +3,7 @@
 WormPhysic::WormPhysic(b2World& world, float posX, float posY) {
     b2BodyDef wormDef;
     wormDef.type = b2_dynamicBody;
+    wormDef.fixedRotation = true;
     wormDef.position.Set(posX, posY);
     b2Body* body = world.CreateBody(&wormDef);
 
@@ -15,6 +16,7 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY) {
     wormFixture.friction = WORM_FRICTION;
     body->CreateFixture(&wormFixture);
     this->body = body;
+    this->world = world;
 }
 
 void WormPhysic::moveRight() {
@@ -30,11 +32,14 @@ void WormPhysic::moveLeft() {
 }
 
 void WormPhysic::jump() {
-    //TODO
+    float impulse = this->body->GetMass() * 5;
+    this->body->ApplyLinearImpulse(b2Vec2(0, impulse), this->body->GetWorldCenter());
 }
 
 void WormPhysic::jumpLeft() {
-    //TODO
+    // b2Vec2 velocity = getJumpVelocity();
+    // float impulse = m_worm->GetMass() * 7;
+    // this->body->ApplyAngularImpulse(b2Vec2)
 }
 
 void WormPhysic::jumpRight() {
