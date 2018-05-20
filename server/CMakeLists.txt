@@ -19,6 +19,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include/Box2D)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
 include_directories(${PROJECT_SOURCE_DIR}/src/physics/worm)
 include_directories(${PROJECT_SOURCE_DIR}/src/physics/structures)
+include_directories(${PROJECT_SOURCE_DIR}/src/physics/world)
+include_directories(${PROJECT_SOURCE_DIR}/src/entities/structures)
+include_directories(${PROJECT_SOURCE_DIR}/src/entities)
+include_directories(${PROJECT_SOURCE_DIR}/src/game)
+
 
 add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/main.cpp 
@@ -41,6 +46,12 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.h
+		${PROJECT_SOURCE_DIR}/src/game/World.cpp
+		${PROJECT_SOURCE_DIR}/src/game/World.h
+		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.h
+		${PROJECT_SOURCE_DIR}/src/client_handler.cpp
+		${PROJECT_SOURCE_DIR}/src/client_handler.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

@@ -9,16 +9,22 @@
 
 class World {
 private:
+    bool run = true;
     WorldPhysic _createWorldPhysic();
     WorldPhysic worldPhysic;
     std::map<int, Girder*> girders;
     std::map<int, Worm*> worms;
+    
 public:
     World();
     ~World();
     void initializeWorld();
+    void start();
     std::map<int, Worm*> getWorms();
     std::map<int, Girder*> getGirders();
+
+    void moveLeft(size_t worm_id);
+    void moveRight(size_t worm_id);
 };
 
 #endif

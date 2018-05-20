@@ -21,14 +21,15 @@ void World::initializeWorld() {
     YAML::Node girders = world_file["girder"];
     YAML::Node worms = world_file["worms"];
 
-    for (YAML::const_iterator it = girders.begin(); it != girders.end(); ++it) {
+    for (YAML::iterator it = girders.begin(); it != girders.end(); ++it) {
         YAML::Node girder = *it;
         int id = girder["id"].as<int>();
-        float posX = girder["x"].as<float>();
-        float posY = girder["y"].as<float>();
-        float angle = girder["angle"].as<float>();
-        float height = girder["height"].as<float>();
-        float width = girder["width"].as<float>();
+        float posX = (float) girder["x"].as<int>();
+        float posY = (float) girder["y"].as<int>();
+        float angle = (float) girder["angle"].as<int>();
+        float height = (float) girder["height"].as<int>();
+        float width = (float) girder["width"].as<int>();
+        
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, height, width);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
@@ -39,6 +40,7 @@ void World::initializeWorld() {
     //}
 }
 
+
 std::map<int, Worm*> World::getWorms() {
     return this->worms;
 }
@@ -46,3 +48,34 @@ std::map<int, Worm*> World::getWorms() {
 std::map<int, Girder*> World::getGirders() {
     return this->girders;
 }
+
+// void World::update() {
+//     int id = 1;
+//     for (YAML::iterator it = worms.begin(); it != worms.end(); ++it) {
+//         YAML::Node worm = *it;
+//         worm[id]["x"] = worldPhysic.getPosX(id);
+//         worm[id]["y"] = worldPhysic.getPosY(id);
+//         id++;
+//     }
+// }
+
+// void World::start() {
+//     while (run) {
+//         this->worldPhysic.step();
+//         this->worldPhysic.clearForces();
+//         //yamlUpdate();
+//         //modelSend();
+//         //MODEL SEND
+//     }
+// }
+
+//getModel() 
+
+void World::moveLeft(size_t worm_id) {
+    worms[worm_id]->moveLeft();
+}
+
+void World::moveRight(size_t worm_id) {
+    worms[worm_id]->moveRight();
+}
+
