@@ -4,15 +4,13 @@
             "name": "Linux",
             "browse": {
                 "path": [
-                    "${workspaceFolder}"
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/../../common/include"
                 ],
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "${workspaceFolder}",
-                "${workspaceFolder}/../common/src",
-                "${workspaceFolder}/../common/include/yaml-cpp",
-                "${workspaceFolder}/src/ui"
+                "${workspaceFolder}/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
