@@ -19,18 +19,22 @@ void ClientHandler::run(void) {
     while (keep_running) {
         action_t event;
         this->protocol.rcvEvent(event);
-        if (gameStatus.isMyTurn(this->team_id)) {
-            switch (event): {
+        if (1/* gameStatus.isMyTurn(this->team_id) */) {
+            switch (event) {
                 case a_moveLeft: {
                     this->world.moveLeft(1);
                     break;
                 }
                 case a_moveRight: {
-                    this->world.a_moveRight(1);
+                    this->world.moveRight(1);
                     break;
                 }
                 default: break;
             }
         }
     }
+}
+
+ClientHandler::~ClientHandler(void) {
+
 }
