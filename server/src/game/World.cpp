@@ -40,9 +40,9 @@ void World::initializeWorld(YAML::Node& mapNode) {
     for (YAML::iterator it = short_girders_node.begin(); it != short_girders_node.end(); ++it) {
         YAML::Node  short_girder = *it;
         int id = short_girder["id"].as<int>();
-        float posX = (float) short_girder["x"].as<int>();
-        float posY = (float) short_girder["y"].as<int>();
-        float angle = (float) short_girder["angle"].as<int>();
+        float posX = (float) short_girder["x"].as<int>() * SCALING_FACTOR;
+        float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
+        float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
 
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -51,9 +51,9 @@ void World::initializeWorld(YAML::Node& mapNode) {
     for (YAML::iterator it = long_girders_node.begin(); it != long_girders_node.end(); ++it) {
         YAML::Node  long_girder = *it;
         int id = long_girder["id"].as<int>();
-        float posX = (float) long_girder["x"].as<int>();
-        float posY = (float) long_girder["y"].as<int>();
-        float angle = (float) long_girder["angle"].as<int>();
+        float posX = (float) long_girder["x"].as<int>() * SCALING_FACTOR;
+        float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
+        float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
 
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -62,8 +62,8 @@ void World::initializeWorld(YAML::Node& mapNode) {
     for (YAML::iterator it = worms_node.begin(); it != worms_node.end(); ++it) {
         YAML::Node worm = *it;
         int id = worm["id"].as<int>();
-        float posX = (float) worm["x"].as<int>();
-        float posY = (float) worm["y"].as<int>();
+        float posX = (float) worm["x"].as<int>() * SCALING_FACTOR;
+        float posY = (float) worm["y"].as<int>() * SCALING_FACTOR;
 
         Worm* worm_ptr = new Worm(id, this->worldPhysic.getWorld(), posX, posY);
         this->worms.insert(std::pair<int, Worm*>(id, worm_ptr));
@@ -97,20 +97,20 @@ std::map<int, Girder*> World::getGirders() {
     return this->girders;
 }
 
-// void World::update() {
-//     int id = 1;
-//     for (YAML::iterator it = worms.begin(); it != worms.end(); ++it) {
-//         YAML::Node worm = *it;
-//         worm[id]["x"] = worldPhysic.getPosX(id);
-//         worm[id]["y"] = worldPhysic.getPosY(id);
-//         id++;
-//     }
-// }
+void World::updateWorld() {
+    std::map<int, Worm*>::iterator it;
+    for (it = this->worms.begin(); it != this->worms.end(); it++) {
+       int id = it->first;
+       this->dynamic_node["worms"][id] = worms[id]->getPosX();
+       this->dynamic_node["worms"][id] = worms[id]->getPosY();
+    }
+}
 
 void World::run() {
     while (keep_running) {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
+        updateWorld();
     }
 }
 
@@ -127,4 +127,3 @@ void World::moveLeft(size_t worm_id) {
 void World::moveRight(size_t worm_id) {
     worms[worm_id]->moveRight();
 }
-

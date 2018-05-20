@@ -9,6 +9,9 @@
 #include "thread.h"
 #include <sstream>
 
+#define SCALING_FACTOR 0.0416
+#define GRADTORAD 0.005555556
+
 class World : public Thread{
 private:
     bool keep_running;
@@ -19,6 +22,7 @@ private:
     YAML::Node dynamic_node;
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;
+    void updateWorld();
     
 public:
     World(YAML::Node& mapNode);
