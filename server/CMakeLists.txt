@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(Server)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -Wextra -pedantic -pthread -I.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -Wall -Werror -Wextra -pedantic -pthread -I.")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../common)
@@ -33,16 +33,16 @@ add_executable(	server
 		${COMMON_SOURCE_DIR}/src/protocol.h
 		${COMMON_SOURCE_DIR}/src/protocol_error.h
 		${COMMON_SOURCE_DIR}/src/types.h
-		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.h
-		${PROJECT_SOURCE_DIR}/src/entities/Worm.cpp
-		${PROJECT_SOURCE_DIR}/src/entities/Worm.h
-		${PROJECT_SOURCE_DIR}/src/entities
-		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.h
-		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.cpp
-		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.h
-		${PROJECT_SOURCE_DIR}/include/Box2D/Box2D.h)
+#		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.cpp
+#		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.h
+#		${PROJECT_SOURCE_DIR}/src/entities/Worm.cpp
+#		${PROJECT_SOURCE_DIR}/src/entities/Worm.h
+#		${PROJECT_SOURCE_DIR}/src/entities
+#		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.cpp
+#		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.h
+#		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.cpp
+#		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.h
+		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
-target_link_libraries(server ${PROJECT_SOURCE_DIR}/libs/libBox2D.a)
+#target_link_libraries(server ${PROJECT_SOURCE_DIR}/libs/libBox2D.a)
