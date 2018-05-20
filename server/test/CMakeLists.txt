@@ -29,6 +29,7 @@ include_directories(${SOURCE_DIR}/entities
 	${SOURCE_DIR}/game	
 	${SOURCE_DIR}/../../common/include/yaml-cpp
 	${SOURCE_DIR}/../../common/include
+	${SOURCE_DIR}/../include/Box2D
 	${INCLUDE_DIR})
 
 add_executable(runner
