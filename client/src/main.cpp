@@ -106,6 +106,15 @@ try {
 					events.push(a_choose5SecDeton);
 				}                
 			}
+
+			if (e.type == SDL_KEYUP) {
+				if (e.key.keysym.sym == SDLK_LEFT) {
+					events.push(a_stopMoving);
+				}
+				if (e.key.keysym.sym == SDLK_RIGHT) {
+					events.push(a_stopMoving);
+				}
+			}
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);

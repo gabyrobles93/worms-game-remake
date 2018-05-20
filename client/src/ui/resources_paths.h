@@ -61,6 +61,7 @@
 /* WATER PATHS */
 #define PATH_WATER_DEFAULT "../../resources/graphics/water_gif.gif"
 
+// No engancha verticalmente, si en los laterales
 #define PATH_WATER_2 "../../resources/graphics/water_pattern_2.png"
 
 #define PATH_WATER_3 "../../resources/graphics/water_pattern_3.png"

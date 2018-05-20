@@ -8,6 +8,7 @@ typedef enum {
     a_noEvent,
     a_moveLeft,
     a_moveRight,
+    a_stopMoving,
     a_pointUp,
     a_pointDown,
     a_shoot,
