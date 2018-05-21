@@ -148,8 +148,8 @@ try {
 	}
 
 	events.push(a_quitGame);
-
     event_sender.stop();
+
     event_sender.join();
     //model_receiver.stop();
     //model_receiver.join();

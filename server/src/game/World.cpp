@@ -1,17 +1,17 @@
 #include "World.h"
 #include <iostream>
 
-WorldPhysic World::_createWorldPhysic() {
-    WorldPhysic worldPhysic;
-    return worldPhysic;
-}
-
-World::World(YAML::Node& mapNode) : worldPhysic(_createWorldPhysic()){
+World::World(YAML::Node& mapNode) {
     initializeWorld(mapNode);
+    this->keep_running = true;
 }
 
 World::~World() {
     for (std::map<int, Girder*>::iterator it = this->girders.begin(); it!= this->girders.end(); ++it) {
+        delete it->second;
+    }
+
+    for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
         delete it->second;
     }
 }
@@ -25,10 +25,7 @@ bool World::isRunning(void) const {
 }
 
 void World::initializeWorld(YAML::Node& mapNode) {
-    //YAML::Node world_file = YAML::LoadFile("world.yml");
-    //YAML::Node girders = world_file["girder"];
-    //YAML::Node worms = world_file["worms"];
-
+    std::cout << "Inicializando mundo" << std::endl;
     YAML::Node static_node = mapNode["static"];
     this->dynamic_node = mapNode["dynamic"];
 
@@ -68,24 +65,6 @@ void World::initializeWorld(YAML::Node& mapNode) {
         Worm* worm_ptr = new Worm(id, this->worldPhysic.getWorld(), posX, posY);
         this->worms.insert(std::pair<int, Worm*>(id, worm_ptr));
     }
-
-    // for (YAML::iterator it = girders.begin(); it != girders.end(); ++it) {
-    //     YAML::Node girder = *it;
-    //     int id = girder["id"].as<int>();
-    //     float posX = (float) girder["x"].as<int>();
-    //     float posY = (float) girder["y"].as<int>();
-    //     float angle = (float) girder["angle"].as<int>();
-    //     float height = (float) girder["height"].as<int>();
-    //     float width = (float) girder["width"].as<int>();
-        
-    //     Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, height, width);
-    //     this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
-    // }
-
-
-    //for (YAML::const_iterator it = worms.begin(); it != worms.end() ; ++it) {
-
-    //}
 }
 
 
@@ -107,17 +86,21 @@ void World::updateWorld() {
 }
 
 void World::run() {
-    while (keep_running) {
+    while (this->keep_running) {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         updateWorld();
     }
 }
 
-std::string World::getModel() {
-    std::stringstream node_stream;
-    node_stream << this->dynamic_node;
-    return node_stream.str();
+// std::string World::getModel() {
+//     std::stringstream node_stream;
+//     node_stream << this->dynamic_node;
+//     return node_stream.str();
+// }
+
+YAML::Node World::getSnapshot() {
+    return this->dynamic_node;
 }
 
 void World::moveLeft(size_t worm_id) {
@@ -126,4 +109,8 @@ void World::moveLeft(size_t worm_id) {
 
 void World::moveRight(size_t worm_id) {
     worms[worm_id]->moveRight();
+}
+
+void World::stop() {
+    this->keep_running = false;
 }
