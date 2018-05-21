@@ -13,6 +13,7 @@ public:
     SnapshotSender(BlockingQueue<YAML::Node>& snapshots, Protocol& protocol);
     ~SnapshotSender();
     virtual void run(void);
+    void stop();
 private:
     BlockingQueue<YAML::Node>& snapshots;
     //std::vector<Protocol*>& clients;

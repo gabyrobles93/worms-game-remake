@@ -89,7 +89,7 @@ void Protocol::rcvFile(std::fstream & file) const {
     }
 }
 
-void Protocol::sendExitLobby(void) {
+void Protocol::sendExit(void) {
     this->skt.shutDown();
 }
 

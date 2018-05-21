@@ -21,7 +21,7 @@ class Protocol {
         void sendName(std::string const &) const;
         void rcvFile(std::fstream & file) const;
         void sendFile(std::fstream & file) const;
-        void sendExitLobby(void);
+        void sendExit(void);
         void rcvGameMap(YAML::Node &);
         void sendGameMap(YAML::Node &);
         void sendEvent(action_t);

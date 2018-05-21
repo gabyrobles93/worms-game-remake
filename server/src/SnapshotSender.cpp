@@ -4,6 +4,7 @@ SnapshotSender::SnapshotSender(BlockingQueue<YAML::Node>& snapshots, Protocol& p
 snapshots(snapshots) , 
 /*clients(clients)*/
 protocol(protocol) {
+    this->keep_running = false;
 }
 
 SnapshotSender::~SnapshotSender() {
@@ -26,4 +27,8 @@ size_t SnapshotSender::getId(void) const{
 
 bool SnapshotSender::isRunning(void) const {
     return true;
+}
+
+void SnapshotSender::stop() {
+    this->keep_running = false;
 }

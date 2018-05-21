@@ -3,6 +3,7 @@
 SnapshotPusher::SnapshotPusher(World& world, BlockingQueue<YAML::Node>& snapshots) : 
 world(world) , 
 snapshots(snapshots)  {
+    this->keep_running = true;
 }
 
 SnapshotPusher::~SnapshotPusher(){
@@ -22,4 +23,8 @@ void SnapshotPusher::run() {
         this->snapshot = this->world.getSnapshot();
         snapshots.push(this->snapshot);
     }
+}
+
+void SnapshotPusher::stop() {
+    this->keep_running = false;
 }

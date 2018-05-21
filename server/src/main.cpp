@@ -27,12 +27,12 @@ int main(/* int argc, char *argv[] */) try {
     protocol.sendGameMap(mapNode);
     std::cout << "Mapa enviado" << std::endl;
 
-    world.run();
+    world.start();
     std::cout << "Corriendo mundo" << std::endl;
-    //snapshot_pusher.run();
-    //std::cout << "Tomanso snapshot" << std::endl;
-    //snapshot_sender.run();
-    //std::cout << "Enviando snapshot" << std::endl;
+    snapshot_pusher.start();
+
+    snapshot_sender.start();
+    std::cout << "Enviando snapshot" << std::endl;
 
     bool quit = false;
     while(!quit) {
@@ -44,11 +44,13 @@ int main(/* int argc, char *argv[] */) try {
             quit = true;
     }
 
-
+    std::cout << "EL CLIENTE CERRO LA VENTaNA" << std::endl;
     world.stop();
-    //snapshot_sender.join();
-    //snapshot_pusher.join();
-    
+    snapshot_pusher.stop();
+    snapshot_sender.stop();
+
+    snapshot_sender.join();
+    snapshot_pusher.join();
     std::cout << "HACIENDO JOIN" << std::endl;
     world.join();
     std::cout << "MUNDO JOINEADO" <<std::endl;

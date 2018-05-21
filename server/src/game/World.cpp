@@ -86,13 +86,11 @@ void World::updateWorld() {
 }
 
 void World::run() {
-    while (keep_running) {
-        std::cout << "CORRIENDO MUNDO" << std::endl;
-        //this->worldPhysic.step();
-        //this->worldPhysic.clearForces();
-        //updateWorld();
+    while (this->keep_running) {
+        this->worldPhysic.step();
+        this->worldPhysic.clearForces();
+        updateWorld();
     }
-    std::cout << "TERMINAR DE CORRER MUndo" << std::endl;
 }
 
 // std::string World::getModel() {
