@@ -21,6 +21,7 @@
 #include "camera.h"
 #include "types.h"
 #include "worms_status.h"
+#include "inventory.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
@@ -46,7 +47,11 @@ try {
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
+
 	View::WormsStatus worms(dynamicMap, renderer);
+	std::cout << "creatin inv\n";
+	View::Inventory inventory(renderer);
+	std::cout << "end creatin inv\n";
     // Lanzo threads de enviar eventos y de recibir modelos
     event_sender.start();
     //model_receiver.start();
@@ -110,15 +115,6 @@ try {
 					events.push(a_choose5SecDeton);
 				}                
 			}
-
-			if (e.type == SDL_KEYUP) {
-				if (e.key.keysym.sym == SDLK_LEFT) {
-					events.push(a_stopMoving);
-				}
-				if (e.key.keysym.sym == SDLK_RIGHT) {
-					events.push(a_stopMoving);
-				}
-			}
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -126,6 +122,7 @@ try {
         // Dibujo las cosas estáticas: fondo y vigas
 		mainWindow.render(camera);
 		worms.render(renderer, camera);
+		inventory.render(renderer, camera.getX(), camera.getY());
         // Aca habría que dibujar las cosas dinámicas que envió el servidor.
         // El hilo model_receiver recibe un nodo con cosas dinámicas para dibujar.
         // Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe
@@ -137,9 +134,13 @@ try {
 
     event_sender.stop();
     event_sender.join();
-    model_receiver.stop();
-    model_receiver.join();
+    //model_receiver.stop();
+    //model_receiver.join();
+
+	return 0;
 
 } catch(const SocketError & e) {
     std::cout << e.what() << std::endl;
+} catch(const std::exception & e) {
+	std::cout << e.what() << std::endl;
 }

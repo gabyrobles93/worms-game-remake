@@ -39,7 +39,7 @@ int main(/* int argc, char *argv[] */) try {
         action_t event = a_noEvent;
         std::cout << "Esperando evento del cliente." << std::endl;
         protocol.rcvEvent(event);
-        std::cout << "El cliente envió el evento " << event;
+        std::cout << "El cliente envió el evento " << event << std::endl;
         if (event == a_quitGame)
             quit = true;
     }
