@@ -71,6 +71,8 @@ View::Inventory::Inventory(SDL_Renderer * r) {
   icon->supplies = 10;
   icon->weaponName = WEAPON_NAME_TELEPORT;
   this->items.push_back(icon);
+
+  this->open = false;
 }
 
 View::Inventory::~Inventory() {
@@ -80,19 +82,60 @@ View::Inventory::~Inventory() {
 }
 
 void View::Inventory::render(SDL_Renderer * renderer, int x, int y) {
-  int row = 0;
-  int iconWidth = this->items.back()->texture.getWidth();
-  int iconHeight = this->items.back()->texture.getHeight();
-  std::vector<View::WeaponIcon *>::iterator it = this->items.begin();
-  while (it != this->items.end()) {
-    for (size_t i = 0 ; i < MAX_COLS ; i++) {
-      if (it == this->items.end()) {
-        break;
+  if (this->open) {
+    int row = 0;
+    int iconWidth = this->items.back()->texture.getWidth();
+    int iconHeight = this->items.back()->texture.getHeight();
+
+    std::vector<View::WeaponIcon *>::iterator it = this->items.begin();
+    while (it != this->items.end()) {
+      for (size_t i = 0 ; i < MAX_COLS ; i++) {
+        if (it == this->items.end()) {
+          break;
+        }
+        // MAGIA OSCURA:
+        // X e Y seran respecto de la camara
+        (*it)->texture.render(renderer, x + i * iconWidth, y + row * iconHeight);
+
+        if ((*it)->selected) {
+          SDL_Rect outlineRect = { 
+            x + (int)i * iconWidth,
+            y + row * iconHeight,
+            iconWidth, 
+            iconHeight
+          };
+          // Color verde
+          SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); 
+          // Dibujamos rectangulo verde en arma seleccionada       
+          SDL_RenderDrawRect(renderer, &outlineRect);
+        }
+
+        it++;
       }
-      (*it)->texture.render(renderer, x + i * iconWidth, y + row * iconHeight);
-      it++;
+      row++;
     }
-    row++;
   }
-  
+}
+
+void View::Inventory::toggleOpen(void) {
+  this->open = !this->open;
+}
+
+void View::Inventory::pickNextWeapon(void) {
+  for (size_t i = 0; i < this->items.size() ; i++) {
+    if (this->items.at(i)->selected == true) {
+      if (i == this->items.size() - 1) {
+        this->items.back()->selected = false;
+        this->items.front()->selected = true;
+      } else {
+        this->items.at(i)->selected = false;
+        this->items.at(i+1)->selected = true;
+      }
+      break;
+    }
+  }
+}
+
+bool View::Inventory::isOpen(void) const {
+  return this->open;
 }

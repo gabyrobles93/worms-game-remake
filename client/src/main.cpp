@@ -49,9 +49,7 @@ try {
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
 
 	View::WormsStatus worms(dynamicMap, renderer);
-	std::cout << "creatin inv\n";
 	View::Inventory inventory(renderer);
-	std::cout << "end creatin inv\n";
     // Lanzo threads de enviar eventos y de recibir modelos
     event_sender.start();
     //model_receiver.start();
@@ -67,16 +65,16 @@ try {
             // FALTA CHEQUEAR EVENTOS DE MOUSE (CLICKS, MOVIMIENTOS DE CAMARA, ETC)
 			if (e.type == SDL_KEYDOWN) {
 				if (e.key.keysym.sym == SDLK_KP_4) {
-					camera.setX(camera.getX()-10);
+					camera.setX(camera.getX()-100);
 				}
 				if (e.key.keysym.sym == SDLK_KP_6) {
-					camera.setX(camera.getX()+10);
+					camera.setX(camera.getX()+100);
 				}
 				if (e.key.keysym.sym == SDLK_KP_8) {
-					camera.setY(camera.getY()-10);
+					camera.setY(camera.getY()-100);
 				}
 				if (e.key.keysym.sym == SDLK_KP_2) {
-					camera.setY(camera.getY()+10);
+					camera.setY(camera.getY()+100);
 				}
 				if (e.key.keysym.sym == SDLK_UP) {
 					events.push(a_pointUp);
@@ -113,8 +111,24 @@ try {
 				}
 				if (e.key.keysym.sym == SDLK_5) {
 					events.push(a_choose5SecDeton);
-				}                
+				}
+
+				// Si es TAB y el inventario esta abierto
+				// elige el arma siguiente
+				if (e.key.keysym.sym == SDLK_TAB) {
+					if (inventory.isOpen()) {
+						inventory.pickNextWeapon();
+					}
+				}           
 			}
+
+			if (e.type == SDL_MOUSEBUTTONDOWN) {
+				if (e.button.button == SDL_BUTTON_RIGHT) {
+					inventory.toggleOpen();
+				}
+			}
+			std::cout << "Cam X: " << camera.getX() << " Cam Y: " << camera.getY() << std::endl;
+			std::cout << "Cam width: " << camera.getCamera().w << " Cam height: " << camera.getCamera().h << std::endl;
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -122,7 +136,10 @@ try {
         // Dibujo las cosas estáticas: fondo y vigas
 		mainWindow.render(camera);
 		worms.render(renderer, camera);
-		inventory.render(renderer, camera.getX(), camera.getY());
+
+		// Dibuja respecto de la camara
+		inventory.render(renderer, 10, 10);
+
         // Aca habría que dibujar las cosas dinámicas que envió el servidor.
         // El hilo model_receiver recibe un nodo con cosas dinámicas para dibujar.
         // Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe
