@@ -14,7 +14,7 @@ events(e) {
 }
 
 EventSender::~EventSender(void) {
-
+    this->protocol.sendExit();
 }
 
 bool EventSender::isRunning(void) const {
@@ -29,7 +29,12 @@ void EventSender::run(void) {
     action_t action;
     while (keep_runing) {
         action = this->events.pop();
-        this->protocol.sendEvent(action);
+        if (action != a_quitGame)
+            this->protocol.sendEvent(action);
+        else {
+            this->protocol.sendEvent(a_quitGame);
+            return;
+        }
     }
 }
 
