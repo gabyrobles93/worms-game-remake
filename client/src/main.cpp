@@ -57,6 +57,7 @@ try {
 	bool quit = false;
 	SDL_Event e;
 	while (!quit) {
+		std::cout << "Paso a esperar un evento." << std::endl;
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
 				quit = true;
@@ -145,6 +146,7 @@ try {
         // Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe
         // y acá hacer pepe.render(renderer, camera) para que dibuje dichas cosas dinámicas
 		SDL_RenderPresent(renderer);
+		SDL_Delay(10);
 	}
 
 	events.push(a_quitGame);
