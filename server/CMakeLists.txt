@@ -52,6 +52,10 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.h
 		${PROJECT_SOURCE_DIR}/src/client_handler.cpp
 		${PROJECT_SOURCE_DIR}/src/client_handler.h
+		${PROJECT_SOURCE_DIR}/src/SnapshotPusher.cpp
+		${PROJECT_SOURCE_DIR}/src/SnapshotPusher.h
+		${PROJECT_SOURCE_DIR}/src/SnapshotSender.cpp
+		${PROJECT_SOURCE_DIR}/src/SnapshotSender.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

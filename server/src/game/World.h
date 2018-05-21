@@ -31,10 +31,11 @@ public:
     std::map<int, Worm*> getWorms();
     std::map<int, Girder*> getGirders();
     virtual void run(void);
-    std::string getModel();
-
+    //std::string getModel();
+    YAML::Node getSnapshot();
     void moveLeft(size_t worm_id);
     void moveRight(size_t worm_id);
+    void stop();
 };
 
 #endif

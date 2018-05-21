@@ -133,3 +133,33 @@ void Protocol::sendModel(YAML::Node & modelNode) {
 void Protocol::rcvModel(YAML::Node & modelNode) {
     this->rcvGameMap(modelNode);
 }
+
+// void Protocol::sendSnapshot(std::string const & snapshot) const {
+//     this->sendName(snapshot);
+// }
+
+// void Protocol::rcvSnapshot(std::string & snapshot) {
+//     uint32_t length;
+//     char* buffer = new char[length];
+
+
+//     this->skt.getBuffer((uchar*)&length, 4);
+//     length = ntohl(length);
+
+//     int remain = length;
+//     int received = 0;
+    
+//     while (remain) {
+//         if (remain < FILE_TRANSFER_CHOP_SIZE) {
+//             received = this->skt.getBuffer(snapshot_chop, remain);
+//         } else {
+//             received = this->skt.getBuffer(snapshot_chop, FILE_TRANSFER_CHOP_SIZE);
+//         }
+//         remain -= received;
+//         std::string ret_snapshot((char*) snapshot_chop, received);
+//         snapshot += ret_snapshot;
+//     }
+
+//     //std::string ret_snapshot((char*) snapshot_chop, (int) length);
+//     //snapshot = ret_snapshot;
+// }

@@ -28,6 +28,8 @@ class Protocol {
         void rcvEvent(action_t &);
         void sendModel(YAML::Node &);
         void rcvModel(YAML::Node &);
+        void sendSnapshot(std::string const &) const;
+        void rcvSnapshot(std::string &);
 };
 
 #endif
