@@ -31,7 +31,6 @@ int main(/* int argc, char *argv[] */) try {
     world.start();
     std::cout << "Corriendo mundo" << std::endl;
 
-    //world.getSnapshot();
     //snapshot_pusher.start();
 
     //snapshot_sender.start();
@@ -48,6 +47,12 @@ int main(/* int argc, char *argv[] */) try {
     }
 
     std::cout << "EL CLIENTE CERRO LA VENTaNA" << std::endl;
+
+    YAML::Node snapshot = world.getSnapshot();
+    std::stringstream ss;
+    ss << snapshot;
+    std::cout << ss.str() << std::endl;
+
     world.stop();
     //snapshot_pusher.stop();
     //snapshot_sender.stop();

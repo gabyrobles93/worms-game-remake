@@ -85,10 +85,12 @@ void World::updateYAML() {
     std::string x;
     std::string y;
     for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
-        x = this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR;
-        y = this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR;
+        x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
+        y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
         (*it)["x"] = x;
         (*it)["y"] = y;
+/*      std::cout << "x: " << x << std::endl;
+        std::cout << "y: " << y << std::endl; */
     }
 }
 
@@ -100,12 +102,6 @@ void World::run() {
         updateYAML();
     }
 }
-
-// std::string World::getModel() {
-//     std::stringstream node_stream;
-//     node_stream << this->dynamic_node;
-//     return node_stream.str();
-// }
 
 YAML::Node World::getSnapshot() {
     return this->node_map["dynamic"];
