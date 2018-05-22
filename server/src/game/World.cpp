@@ -1,4 +1,5 @@
 #include "World.h"
+#include <unistd.h>
 #include <iostream>
 
 World::World(std::string & map_path) {
@@ -93,6 +94,7 @@ void World::updateYAML() {
 
 void World::run() {
     while (this->keep_running) {
+        usleep(1000);
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         updateYAML();
