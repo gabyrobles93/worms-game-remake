@@ -1,10 +1,11 @@
 #include "SnapshotSender.h"
+#include <iostream>
 
 SnapshotSender::SnapshotSender(BlockingQueue<YAML::Node>& snapshots, Protocol& protocol) : 
 snapshots(snapshots) , 
 /*clients(clients)*/
 protocol(protocol) {
-    this->keep_running = false;
+    this->keep_running = true;
 }
 
 SnapshotSender::~SnapshotSender() {
