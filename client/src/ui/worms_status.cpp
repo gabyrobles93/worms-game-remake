@@ -3,10 +3,7 @@
 #include "worms_status.h"
 #include "worm.h"
 
-View::WormsStatus::WormsStatus(YAML::Node & mapNode, SDL_Renderer * rend) :
-dynamicMap(mapNode) {
-	const YAML::Node & nodeWorms = this->dynamicMap["worms"];
-
+View::WormsStatus::WormsStatus(YAML::Node & nodeWorms, SDL_Renderer * rend) {
 	YAML::const_iterator it;
 	for (it = nodeWorms.begin() ; it != nodeWorms.end() ; it++) {
 		const YAML::Node & eachWorm = *it;
@@ -28,16 +25,18 @@ void View::WormsStatus::render(SDL_Renderer * renderer, View::Camera & camera) {
 	}
 }
 
-void View::WormsStatus::update(YAML::Node & mapNode) {
-	const YAML::Node & nodeWorms = mapNode["worms"];
+void View::WormsStatus::update(YAML::Node wormsNode) {
 	View::Worm * worm;
 	YAML::const_iterator it;
-	for (it = nodeWorms.begin() ; it != nodeWorms.end() ; it++) {
+	for (it = wormsNode.begin() ; it != wormsNode.end() ; it++) {
 		const YAML::Node & eachWorm = *it;
+		std::cout << "Accediendo a worm." << std::endl;
 		worm = this->worms[eachWorm["id"].as<size_t>()];
-		worm->setX(eachWorm["x"].as<size_t>());
-		worm->setY(eachWorm["y"].as<size_t>());
+		std::cout << "Worm accedido." << std::endl;
+		worm->setX(eachWorm["x"].as<int>());
+		worm->setY(eachWorm["y"].as<int>());
 	}
+	std::cout << "Worms actualizados!" << std::endl;
 }
 
 View::WormsStatus::~WormsStatus(void) {

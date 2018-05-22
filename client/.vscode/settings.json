@@ -40,6 +40,9 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "hash_map": "cpp",
+        "cmath": "cpp",
+        "mutex": "cpp"
     }
 }

@@ -88,14 +88,14 @@ void View::WindowGame::init(void) {
 
 		// Create window
 		this->window = SDL_CreateWindow(
-			"Worms Taller Party", 
-			SDL_WINDOWPOS_UNDEFINED, 
-			SDL_WINDOWPOS_UNDEFINED, 
-			this->screen_width, 
-			this->screen_height, 
-			//SDL_WINDOW_SHOWN
-			SDL_WINDOW_FULLSCREEN
-		);
+            "Worms Taller Party", 
+            SDL_WINDOWPOS_UNDEFINED, 
+            SDL_WINDOWPOS_UNDEFINED, 
+            this->screen_width, 
+            this->screen_height, 
+            SDL_WINDOW_SHOWN
+			//SDL_WINDOW_FULLSCREEN
+        );
 
 		if (this->window == NULL) {
 			throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_CREATE_WINDOW, SDL_GetError());
