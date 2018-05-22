@@ -40,8 +40,8 @@ dynamic:
       team: 1
       name: ariel
       health: 100
-      x: 1000
-      y: 1000
+      x: 0
+      y: 0
     - id: 2
       team: 1
       name: gonza
@@ -56,19 +56,19 @@ dynamic:
       y: 900
     - id: 4
       team: 2
-      name: micho
+      name: martin
       health: 100
       x: 1200
       y: 1000
     - id: 5
       team: 3
-      name: tito
+      name: bianca
       health: 100
       x: 1300
       y: 1000
     - id: 6
       team: 3
-      name: gordo
+      name: cami
       health: 100
       x: 1400
       y: 1000
@@ -80,7 +80,7 @@ dynamic:
       y: 1000
     - id: 8
       team: 1
-      name: cabezon
+      name: ezequiel
       health: 100
       x: 1600
       y: 1000

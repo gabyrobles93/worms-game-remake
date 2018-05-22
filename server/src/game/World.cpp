@@ -96,7 +96,7 @@ void World::updateYAML() {
 
 void World::run() {
     while (this->keep_running) {
-        usleep(1000);
+        usleep(100);
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         updateYAML();

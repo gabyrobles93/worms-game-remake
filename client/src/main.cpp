@@ -140,15 +140,15 @@ try {
 		// Dibuja respecto de la camara
 		inventory.render(renderer, 10, 10);
 
-        // Aca habría que dibujar las cosas dinámicas que envió el servidor.
-        // El hilo model_receiver recibe un nodo con cosas dinámicas para dibujar.
-        // Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe
-        // y acá hacer pepe.render(renderer, camera) para que dibuje dichas cosas dinámicas
+		// Aca habría que dibujar las cosas dinámicas que envió el servidor.
+		// El hilo model_receiver recibe un nodo con cosas dinámicas para dibujar.
+		// Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe
+		// y acá hacer pepe.render(renderer, camera) para que dibuje dichas cosas dinámicas
 		SDL_RenderPresent(renderer);
 		SDL_Delay(10);
 	}
 
-	events.push(a_quitGame);
+		events.push(a_quitGame);
     event_sender.stop();
 
     event_sender.join();
@@ -158,7 +158,7 @@ try {
 	return 0;
 
 } catch(const SocketError & e) {
-    std::cout << e.what() << std::endl;
+  std::cout << e.what() << std::endl;
 } catch(const std::exception & e) {
 	std::cout << e.what() << std::endl;
 }

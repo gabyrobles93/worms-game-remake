@@ -24,25 +24,30 @@ typedef enum {
 } worm_animation_t;
 
 const SDL_Color colors[] = {
-  {0, 0, 0},
-  {255, 0, 0},
-  {0, 255, 0},
-  {0, 0, 255}
+  {0, 0, 0, 0},
+  {255, 0, 0, 0},
+  {0, 255, 0, 0},
+  {0, 0, 255, 0}
 };
 
 namespace View {
   class Worm: public Drawable {
     private:
-      View::SpriteAnimation currentSprite;
-      std::string name;
-      size_t team;
+      // Animation
+      View::SpriteAnimation sprite;
       worm_animation_t currentAnimation;
-      Texture currentTexture;
       std::map<worm_animation_t, Texture> textures;
-      bool mirrored;
-      int health;
+      
+      // Animation state
+      bool mirrored;      
       bool alive;
 
+      // Worm data
+      std::string name;
+      size_t team;
+      int health;
+
+      // Worm data UI
       Font font;
       Texture nameText;
       Texture healthText;
@@ -58,6 +63,7 @@ namespace View {
       virtual void setX(int);
       virtual void setY(int);
       virtual void render(SDL_Renderer *, int, int);
+      void renderWormData(SDL_Renderer *, int, int);
       void setHealth(int);
       int getHealth(void);
       bool isAlive(void);
