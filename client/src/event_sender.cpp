@@ -29,9 +29,9 @@ void EventSender::run(void) {
     action_t action;
     while (keep_runing) {
         action = this->events.pop();
-        if (action != a_quitGame)
+        if (action != a_quitGame) {
             this->protocol.sendEvent(action);
-        else {
+        } else {
             this->protocol.sendEvent(a_quitGame);
             return;
         }

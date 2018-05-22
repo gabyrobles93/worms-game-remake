@@ -18,7 +18,7 @@
 #define WEAPON_NAME_AIR_STRIKE "Air strike"
 #define WEAPON_NAME_TELEPORT "Teleport"
 
-#define MAX_COLS 3
+#define MAX_COLS 5
 
 namespace View {
   struct WeaponIcon {
@@ -37,6 +37,16 @@ namespace View {
     public:
       Inventory(SDL_Renderer * r);
       ~Inventory();
+      
+      // Checkea si el inventario esta abierto
+      bool isOpen(void) const;
+
+      // Invierte el estado de 'open'
+      void toggleOpen(void);
+
+      // Marca como seleccionada el arma siguiente
+      void pickNextWeapon(void);
+
       void render(SDL_Renderer *, int, int);
   };
 }
