@@ -20,6 +20,11 @@ class Worm {
         void moveRight();
         float getPosY();
         float getPosX();
+        int getId();
+        int getTeam();
+        int getHealth();
+        std::string getName();
+
 };
 
 #endif

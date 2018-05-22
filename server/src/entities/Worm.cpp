@@ -31,3 +31,19 @@ float Worm::getPosX() {
 float Worm::getPosY() {
     return this->wormPhysic.getPosY();
 }
+
+int Worm::getId() {
+    return 1;
+}
+
+int Worm::getTeam() {
+    return 2;
+}
+
+int Worm::getHealth() {
+    return 100;
+}
+
+std::string Worm::getName() {
+    return "Pepe";
+}
