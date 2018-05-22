@@ -1,0 +1,3 @@
+/home/grobles/tp-final-taller/test_cases/test_yaml/emitter/build/CMakeFiles/rebuild_cache.dir
+/home/grobles/tp-final-taller/test_cases/test_yaml/emitter/build/CMakeFiles/client.dir
+/home/grobles/tp-final-taller/test_cases/test_yaml/emitter/build/CMakeFiles/edit_cache.dir

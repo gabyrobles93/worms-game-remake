@@ -19,15 +19,15 @@ private:
     WorldPhysic worldPhysic;
     std::map<int, Girder*> girders;
     std::map<int, Worm*> worms;
-    YAML::Node dynamic_node;
+    YAML::Node node_map;
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;
-    void updateWorld();
+    void updateYAML();
     
 public:
-    World(YAML::Node& mapNode);
+    World(std::string &);
     ~World(void);
-    void initializeWorld(YAML::Node& mapNode);
+    void initializeWorld();
     std::map<int, Worm*> getWorms();
     std::map<int, Girder*> getGirders();
     virtual void run(void);
