@@ -18,19 +18,20 @@
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
     Protocol protocol(std::move(listener.accept_connection()));
-    YAML::Node mapNode = YAML::LoadFile(MAP_PATH);
-    World world(mapNode);
+    std::string world_path(MAP_PATH);
+    World world(world_path);
 
     BlockingQueue<YAML::Node> models;
     SnapshotPusher snapshot_pusher(world, models);
     SnapshotSender snapshot_sender(models, protocol);
+    YAML::Node mapNode = YAML::LoadFile(world_path);
     protocol.sendGameMap(mapNode);
     std::cout << "Mapa enviado" << std::endl;
 
     world.start();
     std::cout << "Corriendo mundo" << std::endl;
 
-    world.getSnapshot();
+    //world.getSnapshot();
     //snapshot_pusher.start();
 
     //snapshot_sender.start();

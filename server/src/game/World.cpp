@@ -1,8 +1,9 @@
 #include "World.h"
 #include <iostream>
 
-World::World(YAML::Node& mapNode) {
-    initializeWorld(mapNode);
+World::World(std::string & map_path) {
+    this->node_map = YAML::LoadFile(map_path);
+    initializeWorld();
     this->keep_running = true;
 }
 
@@ -24,10 +25,10 @@ bool World::isRunning(void) const {
     return true;
 }
 
-void World::initializeWorld(YAML::Node& mapNode) {
+void World::initializeWorld() {
     std::cout << "Inicializando mundo" << std::endl;
-    const YAML::Node& static_node = mapNode["static"];
-    this->dynamic_node = mapNode["dynamic"];
+    const YAML::Node& static_node = this->node_map["static"];
+    const YAML::Node& dynamic_node = this->node_map["dynamic"];
 
     const YAML::Node & short_girders_node = static_node["short_girders"];
     const YAML::Node & long_girders_node = static_node["long_girders"];
@@ -78,50 +79,23 @@ std::map<int, Girder*> World::getGirders() {
     return this->girders;
 }
 
-void World::updateWorld() {
-    const YAML::Node& worms_node = this->dynamic_node["worms"];
-    int id;
-
-    for (YAML::Node worm : worms_node) {
-        id = worm["id"].as<int>();
-        worm["x"] = (int) this->worms[id]->getPosX();
-        worm["y"] = (int) this->worms[id]->getPosY();
+void World::updateYAML() {
+    YAML::Node::iterator it;
+    std::string x;
+    std::string y;
+    for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
+        x = this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR;
+        y = this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR;
+        (*it)["x"] = x;
+        (*it)["y"] = y;
     }
-
-    // for (YAML::const_iterator it = worms_node.begin(); it != worms_node.end(); it++) {
-    //     const YAML::Node& worm = *it;
-
-    //     id = worm["id"].as<int>();
-    
-        // worm["x"] = (int) this->worms[id]->getPosX();
-        // worm["y"] = (int) this->worms[id]->getPosY();
-        //std::cout << this->worms[id]->getPosX() << std::endl;
-        //std::cout << this->worms[id]->getPosY() << std::endl;
-    //}
-    //std::cout << "ACTUALIZO MUNDO " << std::endl;
-    // std::map<int, Worm*>::iterator it;
-    // for (it = this->worms.begin(); it != this->worms.end(); ++it) {
-    //    int id = it->first;
-
- 	// 	std::cout << "Nuevo worm: " << std:: endl;
-	// 	std::cout << "Id: " << this->dynamic_node["worms"]["id"].as<int>() << std::endl;
-    //     std::cout << "Nombre: " << this->dynamic_node["worms"]["name"].as<std::string>() << std::endl;
-    //     std::cout << "Team Id: " << this->dynamic_node["worms"]["team"].as<int>() << std::endl;
-	// 	std::cout << "Pos X: " << this->dynamic_node["worms"]["x"].as<int>() << std::endl;
-	// 	std::cout << "Pos Y: " << this->dynamic_node["worms"]["y"].as<int>() << std::endl;
-
-    //    std::cout << "EL ID ES " << id << std::endl;
-    //    std::cout << this->dynamic_node["worms"][std::to_string(id)]["name"].as<std::string>() << std::endl;
-    //    //this->dynamic_node["worms"][id]["x"] = worms[id]->getPosX();
-    //    //this->dynamic_node["worms"][id]["y"] = worms[id]->getPosY();
-    // }
 }
 
 void World::run() {
     while (this->keep_running) {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
-        //updateWorld();
+        updateYAML();
     }
 }
 
@@ -132,41 +106,7 @@ void World::run() {
 // }
 
 YAML::Node World::getSnapshot() {
-    YAML::Emitter snapshot;
-    snapshot << YAML::BeginMap;
-    snapshot << YAML::Key << "worms";
-    int id;
-    Worm* worm = nullptr;
-    for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
-        worm = it->second;
-        snapshot << YAML::BeginMap;
-        snapshot << YAML::Key << "id" << YAML::Value << worm->getId();
-        //snapshot << YAML::Value << worm->getId();;
-        snapshot << YAML::Key << "team";
-        snapshot << YAML::Value << worm->getTeam();
-        snapshot << YAML::Key << "name";
-        snapshot << YAML::Value << worm->getName();
-        snapshot << YAML::Key << "health";
-        snapshot << YAML::Value << worm->getHealth();
-        snapshot << YAML::Key << "x";
-        snapshot << YAML::Value << (int) worm->getPosX();
-        snapshot << YAML::Key << "y";
-        snapshot << YAML::Value <<  (int) worm->getPosY();
-        snapshot << YAML::EndMap;
-    }
-    snapshot << YAML::EndMap;
-
-    std::string pepe(snapshot.c_str());
-    
-    std::cout << pepe << std::endl;
-    
-    YAML::Node node(pepe);
-
-    std::stringstream ss;
-    ss << node;
-    //std::cout << ss.str() << std::endl;
-
-    return node;
+    return this->node_map["dynamic"];
 }
 
 void World::moveLeft(size_t worm_id) {
