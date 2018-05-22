@@ -137,7 +137,10 @@ try {
         // Dibujo las cosas estáticas: fondo y vigas
 		mainWindow.render(camera);
 		// Dibujo los worms
-		worms.update(pdynamics.getWorms());
+		
+		YAML::Node new_worms_positions = pdynamics.getWorms();
+		worms.update(new_worms_positions);
+
 		worms.render(renderer, camera);
 
 		// Dibuja respecto de la camara
