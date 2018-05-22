@@ -28,13 +28,10 @@ void View::WormsStatus::update(YAML::Node wormsNode) {
 	YAML::const_iterator it;
 	for (it = wormsNode.begin() ; it != wormsNode.end() ; it++) {
 		const YAML::Node & eachWorm = *it;
-		std::cout << "Accediendo a worm." << std::endl;
 		worm = this->worms[eachWorm["id"].as<size_t>()];
-		std::cout << "Worm accedido." << std::endl;
 		worm->setX(eachWorm["x"].as<int>());
 		worm->setY(eachWorm["y"].as<int>());
 	}
-	std::cout << "Worms actualizados!" << std::endl;
 }
 
 View::WormsStatus::~WormsStatus(void) {

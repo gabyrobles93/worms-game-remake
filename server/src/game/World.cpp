@@ -86,7 +86,7 @@ void World::updateYAML() {
     std::string y;
     for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
         x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
-        y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
+        y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / -SCALING_FACTOR));
         (*it)["x"] = x;
         (*it)["y"] = y;
 /*      std::cout << "x: " << x << std::endl;
@@ -96,7 +96,7 @@ void World::updateYAML() {
 
 void World::run() {
     while (this->keep_running) {
-        usleep(1000);
+        usleep(16666);
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         updateYAML();

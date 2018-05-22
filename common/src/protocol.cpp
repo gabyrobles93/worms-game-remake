@@ -98,11 +98,16 @@ void Protocol::rcvGameMap(YAML::Node & mapNode) {
     skt.getBuffer((uchar *) &node_size, 4);
     node_size = ntohl(node_size);
     std::cout << "Recibido tamaño del mapa " << node_size << std::endl;
-    uchar * buffer = new uchar[node_size];
+    uchar * buffer = new uchar[node_size+1];
     skt.getBuffer(buffer, node_size);
+    buffer[node_size] = '\0';
     std::cout << "Recibido mapa" << std::endl;
     std::string text_node((char*) buffer);
     delete buffer;
+
+/*     std::cout << "CLIENTE RECIBIO ESTE SNAPSHOOT:" << std::endl;
+    std::cout << text_node << std::endl;
+ */
 
     mapNode = YAML::Load(text_node);
 }
