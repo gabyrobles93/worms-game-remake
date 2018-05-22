@@ -60,7 +60,6 @@ try {
 	bool quit = false;
 	SDL_Event e;
 	while (!quit) {
-		std::cout << "Paso a esperar un evento." << std::endl;
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
 				quit = true;
@@ -131,8 +130,6 @@ try {
 					inventory.toggleOpen();
 				}
 			}
-			std::cout << "Cam X: " << camera.getX() << " Cam Y: " << camera.getY() << std::endl;
-			std::cout << "Cam width: " << camera.getCamera().w << " Cam height: " << camera.getCamera().h << std::endl;
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
