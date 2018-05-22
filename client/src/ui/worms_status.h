@@ -14,7 +14,7 @@ namespace View {
 class View::WormsStatus {
     private:
         YAML::Node & dynamicMap;
-         std::map<size_t, View::Worm *> worms;
+        std::map<size_t, View::Worm *> worms;
     public:
         ~WormsStatus(void);
         WormsStatus(YAML::Node &, SDL_Renderer * r);

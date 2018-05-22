@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -22,6 +23,7 @@
 #include "types.h"
 #include "worms_status.h"
 #include "inventory.h"
+#include "font.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
@@ -127,8 +129,6 @@ try {
 					inventory.toggleOpen();
 				}
 			}
-			std::cout << "Cam X: " << camera.getX() << " Cam Y: " << camera.getY() << std::endl;
-			std::cout << "Cam width: " << camera.getCamera().w << " Cam height: " << camera.getCamera().h << std::endl;
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);

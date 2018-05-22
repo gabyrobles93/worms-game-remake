@@ -19,8 +19,19 @@
 #define ERR_MSG_SDL_IMAGE_INIT \
 "No se pudo inicializar la imagen de SDL"
 
+#define ERR_MSG_SDL_TTF_INIT \
+"No se pudo inicializar TTF de SDL"
+
 #define ERR_MSG_CREATE_TEXTURE \
 "No se pudo crear la textura"
 
+#define ERR_MSG_OPEN_FONT \
+"No se pudo abrir la fuente especificada"
+
+#define ERR_MSG_RENDER_TEXT_SURFACE \
+"No se pudo renderizar superficie de texto"
+
+#define ERR_MSG_CREATE_TEXTURE_TEXT \
+"No se pudo crear la textura con el texto"
 
 #endif

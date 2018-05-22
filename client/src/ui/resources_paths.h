@@ -90,8 +90,12 @@
 #define PATH_ICON_AIR_STRIKE "../../resources/graphics/Weapon Icons/airstrke.1.png"
 
 #define PATH_ICON_TELEPORT "../../resources/graphics/Weapon Icons/teleport.1.png"
-
-
 /* ------------- */
+
+/* FONTS */
+
+#define PATH_FONT_WORM_DATA "../../resources/fonts/arial.ttf"
+
+#define PATH_FONT_GROBOLD "../../resources/fonts/GROBOLD.ttf"
 
 #endif

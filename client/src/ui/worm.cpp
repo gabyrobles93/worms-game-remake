@@ -6,7 +6,8 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   currentSprite(r),
   name(name),
   team(team),
-  health(health) {
+  health(health),
+  font(PATH_FONT_WORM_DATA, 12) {
   this->textures[PLAIN_WORM].loadFromFile(PATH_PLAIN_WORM, r);
 
   this->textures[BREATH_1].loadFromFile(PATH_WORM_BREATH_1, r);
@@ -25,6 +26,9 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
 
   this->x = 0;
   this->y = 0;
+
+  this->nameText.loadFromRenderedText(r, this->font, this->name, colors[this->team]);
+  this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
 }
 
 View::Worm::~Worm() {
@@ -79,13 +83,15 @@ int View::Worm::getY(void) const {
 }
 
 void View::Worm::setX(int x) {
-  this->textures[this->currentAnimation].setX(x);
-  this->x = x;
+  Texture & current = this->textures[this->currentAnimation];
+  current.setX(x);
+  this->x = x - (current.getWidth() / 2);
 }
 
 void View::Worm::setY(int y) {
-  this->textures[this->currentAnimation].setY(y);
-  this->y = y;
+  Texture & current = this->textures[this->currentAnimation];
+  current.setY(y);
+  this->y = y - (current.getHeight() / 2);
 }
 
 void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
@@ -93,8 +99,8 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
   if (this->mirrored) {
     current.render(
       r, 
-      this->x - (current.getWidth() / 2) - camX, 
-      this->y - (current.getHeight() / 2) - camY, 
+      this->x - camX, 
+      this->y - camY, 
       NULL, 
       0, 
       NULL, 
@@ -103,11 +109,23 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
   } else {
     current.render(
       r, 
-      this->x - (current.getWidth() / 2) - camX, 
-      this->y - (current.getHeight() / 2) - camY
+      this->x - camX, 
+      this->y - camY
     );
   }
   
+  // Display de la data
+  //Render health
+  SDL_Rect fillRect = { 
+    this->x - this->healthText.getWidth() / 2 - camX, 
+    this->y - current.getHeight() / 2 - this->healthText.getHeight() / 2 - camY, 
+    this->healthText.getWidth(), 
+    this->healthText.getHeight()
+  };
+  SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
+  SDL_RenderFillRect(r, &fillRect);
+
+  this->healthText.render(r, this->x - this->healthText.getWidth() / 2 - camX, this->y - current.getHeight() / 2 - this->healthText.getHeight() / 2 - camY);
 }
 
 void View::Worm::setHealth(int newHealth) {
