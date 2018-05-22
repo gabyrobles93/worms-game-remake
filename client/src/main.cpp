@@ -22,6 +22,7 @@
 #include "types.h"
 #include "worms_status.h"
 #include "inventory.h"
+#include "protected_dynamics.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
@@ -29,18 +30,20 @@
 int main(/* int argc, char *argv[] */)
 try {
     YAML::Node mapNode;
-
     // Creo una cola bloqueante de eventos, que son action_t (Ver common/src/types.h)
     BlockingQueue<action_t> events;
     Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
     EventSender event_sender(protocol, events);
-    ModelReceiver model_receiver(protocol, mapNode);
 
     // Recibo el mapa (solo cosas estáticas) del servidor.
     protocol.rcvGameMap(mapNode);
 
 	YAML::Node staticMap = mapNode["static"];
 	YAML::Node dynamicMap = mapNode["dynamic"];
+	YAML::Node wormsNode = dynamicMap["worms"];
+
+	ProtectedDynamics pdynamics(dynamicMap);
+	ModelReceiver model_receiver(protocol, pdynamics);
 
     // Creo la pantalla con dichas cosas estáticas.
 	View::WindowGame mainWindow(staticMap);
@@ -48,11 +51,11 @@ try {
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
 
-	View::WormsStatus worms(dynamicMap, renderer);
+	View::WormsStatus worms(wormsNode, renderer);
 	View::Inventory inventory(renderer);
     // Lanzo threads de enviar eventos y de recibir modelos
     event_sender.start();
-    //model_receiver.start();
+    model_receiver.start();
 
 	bool quit = false;
 	SDL_Event e;
@@ -136,6 +139,8 @@ try {
 		SDL_RenderClear(renderer);
         // Dibujo las cosas estáticas: fondo y vigas
 		mainWindow.render(camera);
+		// Dibujo los worms
+		worms.update(pdynamics.getWorms());
 		worms.render(renderer, camera);
 
 		// Dibuja respecto de la camara
@@ -150,11 +155,11 @@ try {
 	}
 
 	events.push(a_quitGame);
-    event_sender.stop();
+     event_sender.stop();
 
     event_sender.join();
-    //model_receiver.stop();
-    //model_receiver.join();
+    model_receiver.stop();
+    model_receiver.join();
 
 	return 0;
 

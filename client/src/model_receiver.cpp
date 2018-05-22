@@ -1,9 +1,10 @@
 #include <iostream>
 #include "model_receiver.h"
+#include "protected_dynamics.h"
 
-ModelReceiver::ModelReceiver(Protocol & prot, YAML::Node & mod) :
+ModelReceiver::ModelReceiver(Protocol & prot, ProtectedDynamics & dyn) :
 protocol(prot),
-model(mod) {
+dynamics(dyn) {
     keep_runing = true;
 }
 
@@ -20,8 +21,11 @@ size_t ModelReceiver::getId(void) const {
 }
 
 void ModelReceiver::run(void) {
-    while (keep_runing)
-        this->protocol.rcvModel(this->model);
+    while (keep_runing) {
+        YAML::Node newDynamics;
+        this->protocol.rcvModel(newDynamics);
+        this->dynamics.update(newDynamics);
+    }
 }
 
 void ModelReceiver::stop(void) {
