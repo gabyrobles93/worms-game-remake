@@ -89,7 +89,7 @@ void World::run() {
     while (this->keep_running) {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
-        updateWorld();
+        //updateWorld();
     }
 }
 

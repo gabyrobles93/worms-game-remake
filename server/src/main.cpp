@@ -29,9 +29,9 @@ int main(/* int argc, char *argv[] */) try {
 
     world.start();
     std::cout << "Corriendo mundo" << std::endl;
-    snapshot_pusher.start();
+    //snapshot_pusher.start();
 
-    snapshot_sender.start();
+    //snapshot_sender.start();
     std::cout << "Enviando snapshot" << std::endl;
 
     bool quit = false;
@@ -46,11 +46,11 @@ int main(/* int argc, char *argv[] */) try {
 
     std::cout << "EL CLIENTE CERRO LA VENTaNA" << std::endl;
     world.stop();
-    snapshot_pusher.stop();
-    snapshot_sender.stop();
+    //snapshot_pusher.stop();
+    //snapshot_sender.stop();
 
-    snapshot_sender.join();
-    snapshot_pusher.join();
+    //snapshot_sender.join();
+    //snapshot_pusher.join();
     std::cout << "HACIENDO JOIN" << std::endl;
     world.join();
     std::cout << "MUNDO JOINEADO" <<std::endl;

@@ -2,12 +2,14 @@
 #include <string>
 #include "worm.h"
 
+#define PADDING 1
+
 View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   currentSprite(r),
   name(name),
   team(team),
   health(health),
-  font(PATH_FONT_WORM_DATA, 12) {
+  font(PATH_FONT_ARIAL_BOLD, 14) {
   this->textures[PLAIN_WORM].loadFromFile(PATH_PLAIN_WORM, r);
 
   this->textures[BREATH_1].loadFromFile(PATH_WORM_BREATH_1, r);
@@ -117,15 +119,36 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
   // Display de la data
   //Render health
   SDL_Rect fillRect = { 
-    this->x - this->healthText.getWidth() / 2 - camX, 
-    this->y - current.getHeight() / 2 - this->healthText.getHeight() / 2 - camY, 
-    this->healthText.getWidth(), 
-    this->healthText.getHeight()
+    this->x + (current.getWidth() - this->healthText.getWidth()) / 2  - camX - PADDING, 
+    this->y - this->healthText.getHeight() / 2 - camY - PADDING, 
+    this->healthText.getWidth() + PADDING * 2, 
+    this->healthText.getHeight() + PADDING * 2
   };
   SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
   SDL_RenderFillRect(r, &fillRect);
 
-  this->healthText.render(r, this->x - this->healthText.getWidth() / 2 - camX, this->y - current.getHeight() / 2 - this->healthText.getHeight() / 2 - camY);
+  this->healthText.render(
+    r, 
+    this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX, 
+    this->y - this->healthText.getHeight() / 2 - camY
+  );
+
+  // Render name
+  SDL_Rect fillRectName = { 
+    this->x + (current.getWidth() - this->nameText.getWidth()) / 2  - camX - PADDING, 
+    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - camY - PADDING - PADDING * 2, 
+    this->nameText.getWidth() + PADDING * 2, 
+    this->nameText.getHeight() + PADDING * 2
+  };
+
+  SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
+  SDL_RenderFillRect(r, &fillRectName);
+  
+  this->nameText.render(
+    r, 
+    this->x + (current.getWidth() - this->nameText.getWidth()) / 2  - camX, 
+    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - camY - PADDING * 2
+  );
 }
 
 void View::Worm::setHealth(int newHealth) {

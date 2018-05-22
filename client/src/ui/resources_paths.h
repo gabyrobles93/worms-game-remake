@@ -98,4 +98,8 @@
 
 #define PATH_FONT_GROBOLD "../../resources/fonts/GROBOLD.ttf"
 
+#define PATH_FONT_VERDANA_BOLD "../../resources/fonts/verdanab.ttf"
+
+#define PATH_FONT_ARIAL_BOLD "../../resources/fonts/arialb.ttf"
+
 #endif

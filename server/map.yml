@@ -40,37 +40,49 @@ dynamic:
       team: 1
       name: ariel
       health: 100
-      x: 45
-      y: 120
+      x: 1000
+      y: 1000
     - id: 2
       team: 1
       name: gonza
       health: 100
-      x: 75
-      y: 120
+      x: 1100
+      y: 1000
     - id: 3
       team: 2
       name: gaby
       health: 100
-      x: 50
-      y: 130
+      x: 900
+      y: 900
     - id: 4
       team: 2
       name: micho
       health: 100
-      x: 60
-      y: 130
+      x: 1200
+      y: 1000
     - id: 5
       team: 3
       name: tito
       health: 100
-      x: 450
-      y: 450
+      x: 1300
+      y: 1000
     - id: 6
       team: 3
       name: gordo
       health: 100
-      x: 470
-      y: 450
+      x: 1400
+      y: 1000
+    - id: 7
+      team: 2
+      name: y
+      health: 100
+      x: 1500
+      y: 1000
+    - id: 8
+      team: 1
+      name: cabezon
+      health: 100
+      x: 1600
+      y: 1000
 
   

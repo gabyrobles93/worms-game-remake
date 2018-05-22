@@ -59,7 +59,6 @@ try {
 	bool quit = false;
 	SDL_Event e;
 	while (!quit) {
-		std::cout << "Paso a esperar un evento." << std::endl;
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
 				quit = true;
