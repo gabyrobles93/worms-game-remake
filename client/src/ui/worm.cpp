@@ -96,13 +96,13 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
 
 void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
   Texture & current = this->textures[this->currentAnimation];
-  int offsetX = (current.getWidth() / 2);
-  int offsetY = (current.getWidth() / 2);
+  //int offsetX = (current.getWidth() / 2);
+  //int offsetY = (current.getWidth() / 2);
 
   //Render health
   SDL_Rect fillRect = { 
-    this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - offsetX - camX - PADDING, 
-    this->y - this->healthText.getHeight() / 2 - offsetY - camY - PADDING, 
+    this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX - PADDING, 
+    this->y - this->healthText.getHeight() / 2 - camY - PADDING, 
     this->healthText.getWidth() + PADDING * 2, 
     this->healthText.getHeight() + PADDING * 2
   };
@@ -111,14 +111,14 @@ void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
 
   this->healthText.render(
     r, 
-    this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - offsetX - camX, 
-    this->y - this->healthText.getHeight() / 2 - offsetY - camY
+    this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX, 
+    this->y - this->healthText.getHeight() / 2 - camY
   );
 
   // Render name
   SDL_Rect fillRectName = { 
-    this->x + (current.getWidth() - this->nameText.getWidth()) / 2 - offsetX - camX - PADDING, 
-    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - offsetY - camY - PADDING - PADDING * 2, 
+    this->x + (current.getWidth() - this->nameText.getWidth()) / 2 - camX - PADDING, 
+    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - camY - PADDING - PADDING * 2, 
     this->nameText.getWidth() + PADDING * 2, 
     this->nameText.getHeight() + PADDING * 2
   };
@@ -128,8 +128,8 @@ void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
   
   this->nameText.render(
     r, 
-    this->x + (current.getWidth() - this->nameText.getWidth()) / 2 - offsetX - camX, 
-    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - offsetY - camY - PADDING * 2
+    this->x + (current.getWidth() - this->nameText.getWidth()) / 2  - camX, 
+    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2  - camY - PADDING * 2
   );
 }
 
