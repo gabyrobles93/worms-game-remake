@@ -8,7 +8,7 @@
 #include "types.h"
 #include "event.h"
 
-EventSender::EventSender(Protocol & p, BlockingQueue<Event> & e) :
+EventSender::EventSender(Protocol & p, Queue<Event> & e) :
 protocol(p),
 events(e) {
     keep_runing = true;

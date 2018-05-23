@@ -3,34 +3,49 @@
 
 #include <mutex>
 #include <condition_variable>
-#include <deque>
-
-#define MAX_QUEUE_SIZE 256
+#include <queue>
 
 template <typename T>
-class BlockingQueue
-{
-private:
-    std::mutex              d_mutex;
-    std::condition_variable d_condition;
-    std::deque<T>           d_queue;
-public:
-    void push(T const& value) {
-        {
-            std::unique_lock<std::mutex> lock(this->d_mutex);
-            if (this->d_queue.size() < MAX_QUEUE_SIZE) {
-                d_queue.push_front(value);
+class Queue {
+    private:
+        std::queue<T> q;
+	    const unsigned int max_size;
+        std::mutex mtx;
+        std::condition_variable is_not_full;
+        std::condition_variable is_not_empty;
+
+        Queue(const Queue&) = delete;
+        Queue& operator=(const Queue&) = delete;
+
+    public:
+        Queue(const unsigned int ms) : max_size(ms) {};
+
+        void push(const T & val) {
+            std::unique_lock<std::mutex> lck(mtx);
+            if (q.empty()) {
+                is_not_empty.notify_all();
             }
+
+            while (q.size() >= this->max_size) {
+                is_not_full.wait(lck);
+            }
+
+            q.push(val);           
         }
-        this->d_condition.notify_one();
-    }
-    T pop() {
-        std::unique_lock<std::mutex> lock(this->d_mutex);
-        this->d_condition.wait(lock, [=]{ return !this->d_queue.empty(); });
-        T rc(std::move(this->d_queue.back()));
-        this->d_queue.pop_back();
-        return rc;
-    }
+
+        T pop(void) {
+            std::unique_lock<std::mutex> lck(mtx);
+
+            while (q.empty()) {
+                is_not_empty.wait(lck);
+            }
+
+            const T val = q.front();
+            q.pop();
+            is_not_full.notify_all();
+
+            return val;            
+        }
 };
 
 #endif

@@ -28,12 +28,13 @@
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
+#define MAX_QUEUE_MODELS 256
 #define TEAM_ID 1
 
 int main(/* int argc, char *argv[] */)
 try {
     YAML::Node mapNode;
-    BlockingQueue<Event> events;
+    Queue<Event> events(MAX_QUEUE_MODELS);
     Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
     EventSender event_sender(protocol, events);
     protocol.rcvGameMap(mapNode);
