@@ -3,7 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
+#include "font.h"
 #include "view_exceptions.h"
 #include "drawable.h"
 
@@ -44,6 +46,18 @@ namespace View {
       // Seteo de posiciones de la imagen
       virtual void setX(int);
       virtual void setY(int);
+
+      //Creates image from font string
+      void loadFromRenderedText(SDL_Renderer *, Font &, std::string textureText, SDL_Color textColor);
+
+      //Set color modulation
+      void setColor(Uint8 red, Uint8 green, Uint8 blue);
+
+      //Set blending
+      void setBlendMode(SDL_BlendMode blending);
+
+      //Set alpha modulation
+      void setAlpha(Uint8 alpha);
   };
 }
 

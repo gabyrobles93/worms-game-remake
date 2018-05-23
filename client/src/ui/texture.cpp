@@ -44,6 +44,31 @@ void View::Texture::loadFromFile(std::string path, SDL_Renderer * renderer) {
 	this->texture = newTexture;
 }
 
+void View::Texture::loadFromRenderedText(SDL_Renderer * r, Font & font, std::string textureText, SDL_Color textColor) {
+	//Get rid of preexisting texture
+	free();
+
+	//Render text surface
+	SDL_Surface * textSurface = TTF_RenderText_Solid(font.getFont(), textureText.c_str(), textColor);
+	if (textSurface == NULL) {
+		throw View::Exception("%s. %s: %s", ERR_MSG_RENDER_TEXT_SURFACE, "SDL_ttf Error", TTF_GetError());
+	}	else {
+		//Create texture from surface pixels
+    this->texture = SDL_CreateTextureFromSurface(r, textSurface);
+		if (this->texture == NULL) {
+			throw View::Exception("%s. %s: %s", ERR_MSG_CREATE_TEXTURE_TEXT, "SDL Error", SDL_GetError());
+		}
+		else {
+			//Get image dimensions
+			this->width = textSurface->w;
+			this->height = textSurface->h;
+		}
+
+		//Get rid of old surface
+		SDL_FreeSurface( textSurface );
+	}
+}
+
 void View::Texture::free() {
 	//Free texture if it exists
 	if (this->texture != NULL) {
@@ -113,4 +138,19 @@ void View::Texture::setX(int x) {
 
 void View::Texture::setY(int y) {
 	this->y = y;
+}
+
+void View::Texture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
+	//Modulate texture rgb
+	SDL_SetTextureColorMod(this->texture, red, green, blue);
+}
+
+void View::Texture::setBlendMode(SDL_BlendMode blending) {
+	//Set blending function
+	SDL_SetTextureBlendMode(this->texture, blending);
+}
+
+void View::Texture::setAlpha(Uint8 alpha) {
+	//Modulate texture alpha
+	SDL_SetTextureAlphaMod(this->texture, alpha);
 }

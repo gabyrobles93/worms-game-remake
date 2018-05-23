@@ -43,6 +43,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/girder_long.cpp
 		${UI_SOURCE_DIR}/girder_short.cpp
 		${UI_SOURCE_DIR}/inventory.cpp
+		${UI_SOURCE_DIR}/font.cpp
 		${UI_SOURCE_DIR}/sprite_animation.cpp
 		${UI_SOURCE_DIR}/texture.cpp
 		${UI_SOURCE_DIR}/view_exceptions.cpp
@@ -66,6 +67,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/girder_long.h
 		${UI_SOURCE_DIR}/girder_short.h
 		${UI_SOURCE_DIR}/inventory.h
+		${UI_SOURCE_DIR}/font.h
 		${UI_SOURCE_DIR}/sprite_animation.h
 		${UI_SOURCE_DIR}/texture.h
 		${UI_SOURCE_DIR}/view_exceptions.h

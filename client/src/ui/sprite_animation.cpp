@@ -1,80 +1,64 @@
 #include "sprite_animation.h"
 
-View::SpriteAnimation::SpriteAnimation(SDL_Renderer * r) : renderer(r) {
-  this->running = false;
+View::SpriteAnimation::SpriteAnimation(size_t fpc) : fpc(fpc) {
+  this->reverse = false;
+  this->counter = 0;
 }
 
-View::SpriteAnimation::~SpriteAnimation() {
+View::SpriteAnimation::~SpriteAnimation() {}
 
-}
-
-void View::SpriteAnimation::run() {
-  this->running = true;
-  int clipWidth = this->currentSpriteSheet->getWidth();
-  int clipHeight = clipWidth;
-  int numClips = this->currentSpriteSheet->getHeight() / clipWidth;
-  int fpc = 50;
-  while (this->running) {
-    // Ida
-    for (int i = 0 ; i < numClips * fpc && this->running; i++) {
-      SDL_SetRenderDrawColor( this->renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-      SDL_RenderClear( this->renderer );
+// Funciona y no le deseo a nadie que tenga
+// que intentar de entender como es que funciona
+// y mucho menos tener que debuggear este metodo.
+SDL_Rect View::SpriteAnimation::getNextClip(void) {
+  if (this->reverse == false) {
+    if (this->counter < this->numClips * this->fpc) {
       SDL_Rect currentClip = {
-        0,
-        0 + (i / fpc ) * clipHeight,
-        clipWidth,
-        clipHeight
+          0,
+          0 + (this->counter / this->fpc ) * this->clipHeight,
+          this->clipWidth,
+          this->clipHeight
       };
-      //std::cout << "SDL RECT Y " << currentClip.y << std::endl;
-      //std::cout << "i % fpc: " << i << " mod " << fpc << " " << i%fpc << std::endl;
-      this->currentSpriteSheet->render(
-        this->renderer,
-        this->currentSpriteSheet->getX(),
-        this->currentSpriteSheet->getY(),
-        &currentClip);
-
-      SDL_RenderPresent(this->renderer);
+      this->counter++;
+      return currentClip;
     }
-    
-    // Y vuelta
-    for (int i = numClips * fpc ; i >= 0 && this->running ; i--) {
-      SDL_SetRenderDrawColor( this->renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-      SDL_RenderClear( this->renderer );
-      SDL_Rect currentClip = {
-        0,
-        0 + (i / fpc ) * clipHeight,
-        clipWidth,
-        clipHeight
-      };
-      //std::cout << "SDL RECT Y " << currentClip.y << std::endl;
-      //std::cout << "i % fpc: " << i << " mod " << fpc << " " << i%fpc << std::endl;
-      this->currentSpriteSheet->render(
-        this->renderer,
-        this->currentSpriteSheet->getX(),
-        this->currentSpriteSheet->getY(),
-        &currentClip);
 
-      SDL_RenderPresent(this->renderer);
-    }
+    this->reverse = true;
+    this->counter = ((this->numClips - 1) * fpc) - 1;
   }
 
-  this->running = false;
+  if (this->reverse == true) {
+    if (this->counter >= this->fpc) {
+      SDL_Rect currentClip = {
+          0,
+          0 + (this->counter / this->fpc ) * this->clipHeight,
+          this->clipWidth,
+          this->clipHeight
+      };
+      this->counter--;
+      return currentClip;
+    }
+
+    this->counter = 0;
+    this->reverse = false;
+  }
+
+  SDL_Rect secondClip = {
+    0,
+    0 + (this->counter / this->fpc ) * this->clipHeight,
+    this->clipWidth,
+    this->clipHeight
+  };
+
+  this->counter++;
+  return secondClip;
 }
 
 void View::SpriteAnimation::setSpriteSheet(Texture * newTexture) {
-  if (!this->running) {
-    this->currentSpriteSheet = newTexture;
-  }
-}
-
-void View::SpriteAnimation::stopAnimation(void) {
-  this->running = false;
-}
-
-bool View::SpriteAnimation::isRunning(void) const {
-  return this->running;
-}
-
-size_t View::SpriteAnimation::getId(void) const {
-    return 0;
+  this->currentSpriteSheet = newTexture;
+  this->clipWidth = this->currentSpriteSheet->getWidth();
+  this->clipHeight = clipWidth;
+  this->numClips = this->currentSpriteSheet->getHeight() / clipWidth;
+  this->reverse = false;
+  this->counter = 0;
 }

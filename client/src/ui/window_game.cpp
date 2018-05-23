@@ -98,20 +98,25 @@ void View::WindowGame::init(void) {
         );
 
 		if (this->window == NULL) {
-            throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_CREATE_WINDOW, SDL_GetError());
+			throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_CREATE_WINDOW, SDL_GetError());
 		} else {
 			//Create this->renderer for window
 			//this->renderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
 			this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 			if (this->renderer == NULL) {
-                throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_CREATE_RENDERER, SDL_GetError());
+				throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_CREATE_RENDERER, SDL_GetError());
 			} else {
 				//Initialize this->renderer color
 				SDL_SetRenderDrawColor( this->renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags)) {
-                    throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_IMAGE_INIT, IMG_GetError());
+					throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_IMAGE_INIT, IMG_GetError());
+				}
+
+				// Inicializamos TTF
+				if (TTF_Init() == -1) {
+					throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_TTF_INIT, TTF_GetError());
 				}
 			}
 		}

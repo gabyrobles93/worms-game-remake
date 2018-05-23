@@ -9,6 +9,8 @@
 #include "resources_paths.h"
 #include "sprite_animation.h"
 
+#include "font.h"
+
 typedef enum {
   PLAIN_WORM,
 
@@ -21,18 +23,34 @@ typedef enum {
   WALK_DOWN,
 } worm_animation_t;
 
+const SDL_Color colors[] = {
+  {0, 0, 0, 0},
+  {255, 0, 0, 0},
+  {0, 255, 0, 0},
+  {0, 0, 255, 0}
+};
+
 namespace View {
   class Worm: public Drawable {
     private:
-      View::SpriteAnimation currentSprite;
+      // Animation
+      View::SpriteAnimation sprite;
+      worm_animation_t currentAnimation;
+      std::map<worm_animation_t, Texture> textures;
+      
+      // Animation state
+      bool mirrored;      
+      bool alive;
+
+      // Worm data
       std::string name;
       size_t team;
-      worm_animation_t currentAnimation;
-      Texture currentTexture;
-      std::map<worm_animation_t, Texture> textures;
-      bool mirrored;
       int health;
-      bool alive;
+
+      // Worm data UI
+      Font font;
+      Texture nameText;
+      Texture healthText;
 
     public:
       Worm(SDL_Renderer *, std::string, size_t, int);
@@ -45,6 +63,7 @@ namespace View {
       virtual void setX(int);
       virtual void setY(int);
       virtual void render(SDL_Renderer *, int, int);
+      void renderWormData(SDL_Renderer *, int, int);
       void setHealth(int);
       int getHealth(void);
       bool isAlive(void);

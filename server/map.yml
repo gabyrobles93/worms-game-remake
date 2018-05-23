@@ -40,6 +40,7 @@ dynamic:
       team: 1
       name: ariel
       health: 100
+
       x: 1500
       y: 0
     - id: 2
@@ -62,7 +63,7 @@ dynamic:
       y: 0
     - id: 5
       team: 3
-      name: tito
+      name: bianca
       health: 100
       x: 1900
       y: 0

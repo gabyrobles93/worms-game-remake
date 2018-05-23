@@ -2,25 +2,25 @@
 #define __SPRITE_ANIMATION_H__
 
 #include "texture.h"
-#include "thread.h"
 
 namespace View {
-  class SpriteAnimation: public Thread {
+  class SpriteAnimation {
     private:
-      bool running;
       Texture * currentSpriteSheet;
-      SDL_Renderer * renderer;
-
-      virtual size_t getId(void) const;
+      
+      int fpc; // Frames per clip
+      int counter;
+      int clipWidth;
+      int clipHeight;
+      int numClips;
+      bool reverse;
 
     public:
-      SpriteAnimation(SDL_Renderer *);
+      SpriteAnimation(size_t);
       ~SpriteAnimation();
       void setSpriteSheet(Texture *);
-      void stopAnimation(void);
 
-      virtual void run(void);
-      virtual bool isRunning(void) const;
+      SDL_Rect getNextClip(void);
   };
 }
 
