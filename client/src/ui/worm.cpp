@@ -24,7 +24,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->currentAnimation = BREATH_1;
   this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
   
-  this->mirrored = false;
+  this->mirrored = true;
   this->alive = true;
 
   this->x = 0;
