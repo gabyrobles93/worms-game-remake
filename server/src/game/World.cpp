@@ -45,7 +45,7 @@ void World::initializeWorld() {
 
         std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl;
 
-        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 3);
+        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
 
@@ -58,7 +58,7 @@ void World::initializeWorld() {
         
         std::cout<< "LONG GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl;
 
-        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 6);
+        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
 
