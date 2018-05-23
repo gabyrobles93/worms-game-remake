@@ -10,7 +10,7 @@
 #include <sstream>
 
 #define SCALING_FACTOR 0.0416
-#define GRADTORAD 0.005555556
+#define GRADTORAD 0.0174533
 
 class World : public Thread{
 private:

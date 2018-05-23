@@ -1,10 +1,11 @@
 #include "SnapshotSender.h"
+#include <iostream>
 
 SnapshotSender::SnapshotSender(BlockingQueue<YAML::Node>& snapshots, Protocol& protocol) : 
 snapshots(snapshots) , 
 /*clients(clients)*/
 protocol(protocol) {
-    this->keep_running = false;
+    this->keep_running = true;
 }
 
 SnapshotSender::~SnapshotSender() {
@@ -14,6 +15,13 @@ SnapshotSender::~SnapshotSender() {
 void SnapshotSender::run() {
     while (keep_running) {
         YAML::Node snapshot = this->snapshots.pop();
+
+        // Imprimimos snapshot a enviar
+        std::stringstream ss;
+        ss << snapshot;
+        std::cout << "SERVIDOR ENVIARA ESTE SNAPSHOOT:" << std::endl;
+        std::cout << ss.str() << std::endl;
+        
         this->protocol.sendModel(snapshot);
         //for (std::vector<Protocol*>::iterator it = clients.begin(); it != clients.end(); ++it ){
             //TODO *it.send(snapshot);

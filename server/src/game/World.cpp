@@ -43,7 +43,9 @@ void World::initializeWorld() {
         float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
 
-        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 3);
+        std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl;
+
+        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
 
@@ -53,8 +55,10 @@ void World::initializeWorld() {
         float posX = (float) long_girder["x"].as<int>() * SCALING_FACTOR;
         float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
+        
+        std::cout<< "LONG GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl;
 
-        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 6);
+        Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
 
@@ -96,7 +100,7 @@ void World::updateYAML() {
 
 void World::run() {
     while (this->keep_running) {
-        usleep(100);
+        usleep(16666);
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         updateYAML();

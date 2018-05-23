@@ -24,6 +24,13 @@ void ModelReceiver::run(void) {
     while (keep_runing) {
         YAML::Node newDynamics;
         this->protocol.rcvModel(newDynamics);
+
+        // Imprimimos snapshot recibido por cliente
+        std::stringstream ss;
+        ss << newDynamics;
+        std::cout << "CLIENTE RECIBIO ESTE SNAPSHOOT:" << std::endl;
+        std::cout << ss.str() << std::endl; 
+
         this->dynamics.update(newDynamics);
     }
 }

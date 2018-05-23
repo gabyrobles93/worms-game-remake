@@ -1,7 +1,7 @@
 #include "WorldPhysic.h"
 
 b2Vec2 WorldPhysic::_generateGravity() {
-    b2Vec2 gravity(0.0f, -10.0f);
+    b2Vec2 gravity(0.0f, 9.8f);
     return gravity;
 }
 
