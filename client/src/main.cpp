@@ -114,10 +114,12 @@ try {
 				if (e.key.keysym.sym == SDLK_5) {
 					events.push(a_choose5SecDeton);
 				}
-
-				// Si es TAB y el inventario esta abierto
-				// elige el arma siguiente
 				if (e.key.keysym.sym == SDLK_TAB) {
+					events.push(a_changeWorm);
+				}
+				// Si es Q y el inventario esta abierto
+				// elige el arma siguiente
+				if (e.key.keysym.sym == SDLK_q) {
 					if (inventory.isOpen()) {
 						inventory.pickNextWeapon();
 					}

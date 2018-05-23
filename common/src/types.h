@@ -22,6 +22,7 @@ typedef enum {
     a_choose4SecDeton,
     a_choose5SecDeton,
     a_showWeaponMenu,
+    a_changeWorm,
     a_quitGame
 } action_t;
 

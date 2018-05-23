@@ -102,7 +102,6 @@ void Protocol::rcvGameMap(YAML::Node & mapNode) {
 void Protocol::sendGameMap(YAML::Node & mapNode) {
     std::stringstream map_dump;
     map_dump << mapNode;
-    std::cout << map_dump.str() << std::endl;
     uint32_t node_size = map_dump.str().length();
     uint32_t net_node_size = htonl(node_size);
     skt.sendBuffer((const uchar *) &net_node_size, 4);
