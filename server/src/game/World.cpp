@@ -43,6 +43,8 @@ void World::initializeWorld() {
         float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
 
+        std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl;
+
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
@@ -53,6 +55,8 @@ void World::initializeWorld() {
         float posX = (float) long_girder["x"].as<int>() * SCALING_FACTOR;
         float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
+        
+        std::cout<< "LONG GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl;
 
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -86,7 +90,7 @@ void World::updateYAML() {
     std::string y;
     for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
         x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
-        y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / -SCALING_FACTOR));
+        y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
         (*it)["x"] = x;
         (*it)["y"] = y;
 /*      std::cout << "x: " << x << std::endl;
