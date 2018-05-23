@@ -15,6 +15,7 @@
 
 #define PORT "8080"
 #define MAP_PATH "../map.yml"
+#define MAX_QUEUE_SNAPSHOTS 256
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
@@ -24,7 +25,7 @@ int main(/* int argc, char *argv[] */) try {
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
-    BlockingQueue<YAML::Node> models;
+    Queue<YAML::Node> models(MAX_QUEUE_SNAPSHOTS);
     SnapshotPusher snapshot_pusher(world, models);
     SnapshotSender snapshot_sender(models, protocol);
 

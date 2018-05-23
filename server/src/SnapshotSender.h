@@ -10,12 +10,12 @@
 
 class SnapshotSender : public Thread {
 public:
-    SnapshotSender(BlockingQueue<YAML::Node>& snapshots, Protocol& protocol);
+    SnapshotSender(Queue<YAML::Node> & snapshots, Protocol & protocol);
     ~SnapshotSender();
     virtual void run(void);
     void stop();
 private:
-    BlockingQueue<YAML::Node>& snapshots;
+    Queue<YAML::Node> & snapshots;
     //std::vector<Protocol*>& clients;
     Protocol& protocol;
     bool keep_running;

@@ -9,14 +9,14 @@
 
 class SnapshotPusher : public Thread {
 public:
-    SnapshotPusher(World& world, BlockingQueue<YAML::Node>& models);
+    SnapshotPusher(World & world, Queue<YAML::Node> & models);
     ~SnapshotPusher();
     virtual void run(void);
     void stop();
 private:
     bool keep_running;
     World& world;
-    BlockingQueue<YAML::Node>& snapshots;
+    Queue<YAML::Node> & snapshots;
     //std::string snapshot;
     YAML::Node snapshot;
     virtual bool isRunning(void) const;

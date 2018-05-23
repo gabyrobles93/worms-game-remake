@@ -3,7 +3,7 @@
 #include "SnapshotPusher.h"
 
 
-SnapshotPusher::SnapshotPusher(World& world, BlockingQueue<YAML::Node>& snapshots) : 
+SnapshotPusher::SnapshotPusher(World& world, Queue<YAML::Node> & snapshots) : 
 world(world) , 
 snapshots(snapshots)  {
     this->keep_running = true;

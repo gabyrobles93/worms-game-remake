@@ -2,7 +2,7 @@
 #include "socket_error.h"
 #include <iostream>
 
-SnapshotSender::SnapshotSender(BlockingQueue<YAML::Node>& snapshots, Protocol& protocol) : 
+SnapshotSender::SnapshotSender(Queue<YAML::Node> & snapshots, Protocol& protocol) : 
 snapshots(snapshots) , 
 /*clients(clients)*/
 protocol(protocol) {
