@@ -31,12 +31,9 @@
 int main(/* int argc, char *argv[] */)
 try {
     YAML::Node mapNode;
-    // Creo una cola bloqueante de eventos, que son action_t (Ver common/src/types.h)
     BlockingQueue<action_t> events;
     Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
     EventSender event_sender(protocol, events);
-
-    // Recibo el mapa (solo cosas estáticas) del servidor.
     protocol.rcvGameMap(mapNode);
 
 	YAML::Node staticMap = mapNode["static"];
@@ -58,7 +55,8 @@ try {
     event_sender.start();
     model_receiver.start();
 
-	bool quit = false;
+	// Comienza el ciclo del juego para el cliente
+	bool quit = false;	
 	SDL_Event e;
 	while (!quit) {
 		while (SDL_PollEvent(&e) != 0) {
@@ -135,29 +133,24 @@ try {
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);
-        // Dibujo las cosas estáticas: fondo y vigas
-		mainWindow.render(camera);
-		// Dibujo los worms
 		
-		YAML::Node new_worms_positions = pdynamics.getWorms();
-		worms.update(new_worms_positions);
-
-		worms.render(renderer, camera);
-
-		// Dibuja respecto de la camara
+        // Dibujamos cosas estáticas
+		mainWindow.render(camera);
 		inventory.render(renderer, 10, 10);
 
-		// Aca habría que dibujar las cosas dinámicas que envió el servidor.
-		// El hilo model_receiver recibe un nodo con cosas dinámicas para dibujar.
-		// Quizá estaría bueno encapsular todo eso en un objeto, por ejemplo, llamado pepe
-		// y acá hacer pepe.render(renderer, camera) para que dibuje dichas cosas dinámicas
+		// Dibujamos cosas dinámicas
+		worms.update(pdynamics.getWorms());
+		worms.render(renderer, camera);
+		
 		SDL_RenderPresent(renderer);
 		SDL_Delay(10);
 	}
 
-		events.push(a_quitGame);
-    event_sender.stop();
+	// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
+	events.push(a_quitGame);
 
+	// Stop y Join de threads
+    event_sender.stop();
     event_sender.join();
     model_receiver.stop();
     model_receiver.join();

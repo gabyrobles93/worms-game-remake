@@ -18,8 +18,9 @@ public:
     void push(T const& value) {
         {
             std::unique_lock<std::mutex> lock(this->d_mutex);
-            if (this->d_queue.size() < MAX_QUEUE_SIZE)
+            if (this->d_queue.size() < MAX_QUEUE_SIZE) {
                 d_queue.push_front(value);
+            }
         }
         this->d_condition.notify_one();
     }
