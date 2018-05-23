@@ -57,7 +57,7 @@ int View::Worm::getY(void) const {
 void View::Worm::setX(int x) {
   Texture & current = this->textures[this->currentAnimation];
   current.setX(x);
-  this->x = x;
+  this->x = x - (current.getWidth() / 2);
 }
 
 void View::Worm::setY(int y) {
@@ -65,7 +65,7 @@ void View::Worm::setY(int y) {
   current.setY(y);
   // Uso get width porque el offset es de un solo clip
   // Y los clips de los data sheets son cuadrados
-  this->y = y;
+  this->y = y - (current.getWidth() / 2);
 }
 
 void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
@@ -74,8 +74,8 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
   if (this->mirrored) {
     current.render(
       r, 
-      this->x - (current.getWidth() / 2) - camX, 
-      this->y - (current.getWidth() / 2) - camY, 
+      this->x - camX, 
+      this->y - camY, 
       &clip, 
       0, 
       NULL, 
@@ -96,8 +96,6 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
 
 void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
   Texture & current = this->textures[this->currentAnimation];
-  //int offsetX = (current.getWidth() / 2);
-  //int offsetY = (current.getWidth() / 2);
 
   //Render health
   SDL_Rect fillRect = { 

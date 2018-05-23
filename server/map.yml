@@ -4,7 +4,7 @@ static:
 
   short_girders:
     - id: 1
-      x: 1550
+      x: 1500
       y: 1500
       angle: 0
     - id: 2
@@ -13,8 +13,8 @@ static:
       angle: 0
     - id: 3
       x: 1800
-      y: 1800
-      angle: 0
+      y: 1300
+      angle: 30
     - id: 4
       x: 1900
       y: 1900
@@ -22,25 +22,35 @@ static:
 
   long_girders:
     - id: 1
+      x: 0
+      y: 50
+      angle: 0
+    - id: 2
       x: 2000
       y: 2000
       angle: 0
-    - id: 1
+    - id: 3
       x: 2100
       y: 2100
       angle: 0
-    - id: 1
+    - id: 4
       x: 2200
       y: 2200
       angle: 0
 
 dynamic:
   worms:
+    - id: 0
+      team: 1
+      name: Worm Test
+      health: 100
+      x: 0
+      y: 0
+
     - id: 1
       team: 1
       name: ariel
       health: 100
-
       x: 1500
       y: 0
     - id: 2
@@ -60,7 +70,7 @@ dynamic:
       name: pedro
       health: 100
       x: 1800
-      y: 0
+      y: 1300
     - id: 5
       team: 3
       name: bianca
