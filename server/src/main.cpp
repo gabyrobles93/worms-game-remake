@@ -11,6 +11,7 @@
 #include "SnapshotPusher.h"
 #include "SnapshotSender.h"
 #include "blocking_queue.h"
+#include "event.h"
 
 #define PORT "8080"
 #define MAP_PATH "../map.yml"
@@ -38,11 +39,10 @@ int main(/* int argc, char *argv[] */) try {
 
     bool quit = false;
     while(!quit) {
-        action_t event = a_noEvent;
         std::cout << "Esperando evento del cliente." << std::endl;
-        protocol.rcvEvent(event);
-        std::cout << "El cliente envió el evento " << event << std::endl;
-        if (event == a_quitGame)
+        Event event = protocol.rcvEvent();
+        event.print();
+        if (event.quit())
             quit = true;
     }
 

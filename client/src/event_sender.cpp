@@ -6,8 +6,9 @@
 #include "thread.h"
 #include "protocol.h"
 #include "types.h"
+#include "event.h"
 
-EventSender::EventSender(Protocol & p, BlockingQueue<action_t> & e) :
+EventSender::EventSender(Protocol & p, BlockingQueue<Event> & e) :
 protocol(p),
 events(e) {
     keep_runing = true;
@@ -26,13 +27,14 @@ size_t EventSender::getId(void) const {
 }
 
 void EventSender::run(void) {
-    action_t action;
     while (keep_runing) {
-        action = this->events.pop();
-        if (action != a_quitGame) {
-            this->protocol.sendEvent(action);
+        Event event = this->events.pop();
+        if (!event.quit()) {
+            std::cout << "Se va a mandar evento que no es quit" << std::endl;
+            this->protocol.sendEvent(event);
         } else {
-            this->protocol.sendEvent(a_quitGame);
+            std::cout << "Se va a mandar evento que es quit" << std::endl;
+            this->protocol.sendEvent(event);
             return;
         }
     }

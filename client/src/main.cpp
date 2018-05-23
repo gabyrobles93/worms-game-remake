@@ -24,14 +24,16 @@
 #include "worms_status.h"
 #include "inventory.h"
 #include "protected_dynamics.h"
+#include "event.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
+#define TEAM_ID 1
 
 int main(/* int argc, char *argv[] */)
 try {
     YAML::Node mapNode;
-    BlockingQueue<action_t> events;
+    BlockingQueue<Event> events;
     Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
     EventSender event_sender(protocol, events);
     protocol.rcvGameMap(mapNode);
@@ -79,43 +81,56 @@ try {
 					camera.setY(camera.getY()+100);
 				}
 				if (e.key.keysym.sym == SDLK_UP) {
-					events.push(a_pointUp);
+					Event event(a_pointUp, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_DOWN) {
-					events.push(a_pointDown);
+					Event event(a_pointDown, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_LEFT) {
-					events.push(a_moveLeft);
+					Event event(a_moveLeft, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_RIGHT) {
-					events.push(a_moveRight);
+					Event event(a_moveRight, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_SPACE) {
-					events.push(a_shoot);
+					Event event(a_shoot, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_RETURN) {
-					events.push(a_frontJump);
+					Event event(a_frontJump, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_BACKSPACE) {
-					events.push(a_backJump);
+					Event event(a_backJump, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_1) {
-					events.push(a_choose1SecDeton);
+					Event event(a_choose1SecDeton, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_2) {
-					events.push(a_choose2SecDeton);
+					Event event(a_choose2SecDeton, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_3) {
-					events.push(a_choose3SecDeton);
+					Event event(a_choose3SecDeton, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_4) {
-					events.push(a_choose4SecDeton);
+					Event event(a_choose4SecDeton, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_5) {
-					events.push(a_choose5SecDeton);
+					Event event(a_choose5SecDeton, TEAM_ID);
+					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_TAB) {
-					events.push(a_changeWorm);
+					Event event(a_changeWorm, TEAM_ID);
+					events.push(event);
 				}
 				// Si es Q y el inventario esta abierto
 				// elige el arma siguiente
@@ -149,7 +164,8 @@ try {
 	}
 
 	// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
-	events.push(a_quitGame);
+	Event event(a_quitGame, TEAM_ID);
+	events.push(event);
 
 	// Stop y Join de threads
     event_sender.stop();

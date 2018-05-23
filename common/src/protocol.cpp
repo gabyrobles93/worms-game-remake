@@ -7,6 +7,7 @@
 #include "socket.h"
 #include "socket_error.h"
 #include "protocol_error.h"
+#include "event.h"
 
 #define MSG_PROTOCOL_CLOSE_PEER "El servidor cerró el socket. "
 
@@ -108,12 +109,29 @@ void Protocol::sendGameMap(YAML::Node & mapNode) {
     skt.sendBuffer((const uchar *) map_dump.str().c_str(), node_size);
 }
 
-void Protocol::sendEvent(action_t action) {
-    this->skt.sendBuffer((const uchar*)&action, 1);
+void Protocol::sendEvent(Event event) {
+    std::stringstream ss;
+    ss << event;
+    uint32_t event_size = ss.str().length();
+    uint32_t net_event_size = htonl(event_size);
+    this->skt.sendBuffer((const uchar *) &net_event_size, 4);
+    this->skt.sendBuffer((const uchar*)ss.str().c_str(), event_size);
 }
 
-void Protocol::rcvEvent(action_t & action) {
-    this->skt.getBuffer((uchar*)&action, 1);
+Event Protocol::rcvEvent(void) {
+    uint32_t event_size = 0;
+    skt.getBuffer((uchar *) &event_size, 4);
+    event_size = ntohl(event_size);
+    uchar * buffer = new uchar[event_size+1];
+    skt.getBuffer(buffer, event_size);
+    buffer[event_size] = '\0';
+    std::string serialized_event((char*) buffer);
+    delete buffer;
+
+    Event event;
+    event.load(serialized_event);
+
+    return event;
 }
 
 void Protocol::sendModel(YAML::Node & modelNode) {

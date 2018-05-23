@@ -16,10 +16,10 @@ size_t ClientHandler::getId(void) const {
 }
 
 void ClientHandler::run(void) {
-    while (keep_running) {
+/*     while (keep_running) {
         action_t event;
         this->protocol.rcvEvent(event);
-        if (1/* gameStatus.isMyTurn(this->team_id) */) {
+        if (1 gameStatus.isMyTurn(this->team_id) ) {
             switch (event) {
                 case a_moveLeft: {
                     this->world.moveLeft(1);
@@ -32,7 +32,7 @@ void ClientHandler::run(void) {
                 default: break;
             }
         }
-    }
+    } */
 }
 
 ClientHandler::~ClientHandler(void) {

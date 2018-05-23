@@ -42,7 +42,11 @@
                 "${workspaceFolder}/box2d/Box2D/Box2D",
                 "${workspaceFolder}/box2d/Box2D",
                 "${workspaceFolder}/common/include/yaml-cpp",
-                "${workspaceFolder}/common/include"
+                "${workspaceFolder}/common/include",
+                "${workspaceFolder}/common/src",
+                "${workspaceFolder}/client/src",
+                "${workspaceFolder}/client/src/ui",
+                "${workspaceFolder}/server/src"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

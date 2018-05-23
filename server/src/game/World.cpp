@@ -43,7 +43,7 @@ void World::initializeWorld() {
         float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
 
-        /* std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl; */
+        std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl; 
 
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -56,7 +56,7 @@ void World::initializeWorld() {
         float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
         
-        /* std::cout<< "LONG GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl; */
+         std::cout<< "LONG GIRDER SETEADA EN POX: " << posX / SCALING_FACTOR << " POSY: " << posY / SCALING_FACTOR << "ANGULO" << angle << std::endl;
 
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
