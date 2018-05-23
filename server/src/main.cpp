@@ -21,20 +21,20 @@ int main(/* int argc, char *argv[] */) try {
     std::string world_path(MAP_PATH);
     World world(world_path);
 
+    // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
+    // y que Mandan las fotos por socket al cliente (SnapshotSender)
     BlockingQueue<YAML::Node> models;
     SnapshotPusher snapshot_pusher(world, models);
     SnapshotSender snapshot_sender(models, protocol);
+
     YAML::Node mapNode = YAML::LoadFile(world_path);
     protocol.sendGameMap(mapNode);
-    std::cout << "Mapa enviado" << std::endl;
 
     world.start();
-    std::cout << "Corriendo mundo" << std::endl;
 
+    // Lanzo hilos
     snapshot_pusher.start();
-
     snapshot_sender.start();
-    //std::cout << "Enviando snapshot" << std::endl;
 
     bool quit = false;
     while(!quit) {
@@ -46,23 +46,17 @@ int main(/* int argc, char *argv[] */) try {
             quit = true;
     }
 
-    std::cout << "EL CLIENTE CERRO LA VENTaNA" << std::endl;
+    std::cout << "El cliente cerró la ventana." << std::endl;
 
-    YAML::Node snapshot = world.getSnapshot();
-    std::stringstream ss;
-    ss << snapshot;
-    std::cout << ss.str() << std::endl;
-
+    //Stops y joins de los hilos lanzados
     world.stop();
     snapshot_pusher.stop();
     snapshot_sender.stop();
-
     snapshot_sender.join();
     snapshot_pusher.join();
-    
-    std::cout << "HACIENDO JOIN" << std::endl;
     world.join();
-    std::cout << "MUNDO JOINEADO" <<std::endl;
+
+    std::cout << "Server finalizado." << std::endl;
     return 0;
 
 } catch(const SocketError & e) {

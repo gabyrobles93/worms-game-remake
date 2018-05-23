@@ -1,5 +1,7 @@
-#include "SnapshotPusher.h"
+#include <unistd.h>
 #include <iostream>
+#include "SnapshotPusher.h"
+
 
 SnapshotPusher::SnapshotPusher(World& world, BlockingQueue<YAML::Node>& snapshots) : 
 world(world) , 
@@ -21,10 +23,9 @@ size_t SnapshotPusher::getId(void) const {
 
 void SnapshotPusher::run() {
     while (keep_running) {
+        usleep(16666);
         this->snapshot = this->world.getSnapshot();
-        //std::cout << "Voy a pushear \n";
         snapshots.push(this->snapshot);
-        //std::cout << "Pushie\n" << std::endl;
     }
 }
 

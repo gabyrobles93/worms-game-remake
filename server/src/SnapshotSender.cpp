@@ -1,4 +1,5 @@
 #include "SnapshotSender.h"
+#include "socket_error.h"
 #include <iostream>
 
 SnapshotSender::SnapshotSender(BlockingQueue<YAML::Node>& snapshots, Protocol& protocol) : 
@@ -9,20 +10,16 @@ protocol(protocol) {
 }
 
 SnapshotSender::~SnapshotSender() {
-    
 }
 
 void SnapshotSender::run() {
     while (keep_running) {
         YAML::Node snapshot = this->snapshots.pop();
-
-        // Imprimimos snapshot a enviar
-        std::stringstream ss;
-        ss << snapshot;
-        std::cout << "SERVIDOR ENVIARA ESTE SNAPSHOOT:" << std::endl;
-        std::cout << ss.str() << std::endl;
-        
-        this->protocol.sendModel(snapshot);
+        try {
+            this->protocol.sendModel(snapshot);
+        } catch(const SocketError & e) {
+            return;
+        }
         //for (std::vector<Protocol*>::iterator it = clients.begin(); it != clients.end(); ++it ){
             //TODO *it.send(snapshot);
         //} 
