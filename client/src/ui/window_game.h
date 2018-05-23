@@ -24,9 +24,13 @@ class View::WindowGame {
     std::vector<View::GirderShort *> shortGirders;
     int screen_width;
     int screen_height;
-    View::Texture background;
+    
     YAML::Node & staticMap;
     Water water;
+
+    // TODO: Crear clase background y encapsular esto
+    View::Texture background;
+    std::string backgroundDisplayMode;
 
     void init(void);
     bool loadMedia(void);
@@ -44,6 +48,13 @@ class View::WindowGame {
     int getBgWidth(void) const;
     int getBgHeight(void) const;
     void render(View::Camera &);
+
+    // El agua debe ser lo ultimo que se dibuja
+    void renderWater(View::Camera &);
+
+    // Renderiza el fondo. Se puede programar
+    // para que sea en mosaico, centrado o expandido
+    void renderBackground(View::Camera &);
 };
 
 #endif

@@ -5,20 +5,22 @@
 #include "worm.h"
 #include "camera.h"
 
-#define WATER_LEVEL 300
+#define MAP_WIDTH 2500
+#define MAP_HEIGHT 1500
 
 View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h) : staticMap(staticNode) {
 	this->screen_width = w;
 	this->screen_height = h;
 	this->init();
-	this->background.loadFromFile(this->staticMap["background"][0]["file"].as<std::string>(), renderer);
+	this->background.loadFromFile(this->staticMap["background"]["file"].as<std::string>(), renderer);
+	this->backgroundDisplayMode = this->staticMap["background"]["display"].as<std::string>();
 	this->loadStaticObjects();
 	this->water.init(
 		this->renderer,
 		0,
-		this->background.getHeight() - WATER_LEVEL,
-		this->background.getWidth(),
-		this->background.getHeight(),
+		MAP_HEIGHT - this->staticMap["water_level"].as<int>(),
+		MAP_WIDTH,
+		MAP_HEIGHT,
 		PATH_WATER_2
 	);
 }
@@ -157,16 +159,17 @@ int View::WindowGame::getScreenHeight(void) const {
 }
 
 int View::WindowGame::getBgWidth(void) const {
-	return this->background.getWidth();
+	//return this->background.getWidth();
+	return MAP_WIDTH;
 }
 
 int View::WindowGame::getBgHeight(void) const {
-	return this->background.getHeight();
+	//return this->background.getHeight();
+	return MAP_HEIGHT;
 }
 
 void View::WindowGame::render(View::Camera & camera) {
-	SDL_Rect cam = camera.getCamera();
-	this->background.render(this->renderer, 0, 0, &cam);
+	this->renderBackground(camera);
 
 	std::vector<View::GirderLong *>::iterator it_l;
 	for (it_l = this->longGirders.begin(); it_l != this->longGirders.end(); it_l++) {
@@ -177,6 +180,39 @@ void View::WindowGame::render(View::Camera & camera) {
 	for (it_s = this->shortGirders.begin(); it_s != this->shortGirders.end(); it_s++) {
 		(*it_s)->render(this->renderer, camera.getX(), camera.getY());
 	}
+}
 
+void View::WindowGame::renderWater(View::Camera & camera) {
 	this->water.render(this->renderer, camera.getX(), camera.getY());
+}
+
+void View::WindowGame::renderBackground(Camera & c) {
+	// Expandida
+	if (this->backgroundDisplayMode == "expanded") {
+		this->background.render(this->renderer, 0 - c.getX(), 0 - c.getY(), MAP_WIDTH, MAP_HEIGHT);
+		return;
+	}	
+
+	// Mosaico
+	int bgW = this->background.getWidth();
+	int bgH = this->background.getHeight();
+	if (this->backgroundDisplayMode == "mosaic") {
+		for (size_t i = 0 ; i * bgW < MAP_WIDTH ; i++) {
+			for (size_t j = 0 ; j * bgH < MAP_HEIGHT ; j++) {
+				this->background.render(this->renderer, i * bgW - c.getX(), j * bgH - c.getY());
+			}
+		}
+	}
+
+	// Centrado
+	if (this->backgroundDisplayMode == "centered") {
+		if (bgW < MAP_WIDTH && bgH < MAP_HEIGHT) {
+			this->background.render(this->renderer, (MAP_WIDTH - bgW) / 2 - c.getX(), (MAP_HEIGHT - bgH) / 2 - c.getY());
+		} else {
+			// Si la imagen es mas grande que el mapa
+			// se dibuja el fondo centrado
+			this->background.render(this->renderer, 0 - c.getX(), 0 - c.getY(), MAP_WIDTH, MAP_HEIGHT);
+			return;
+		}
+	}
 }

@@ -20,7 +20,7 @@ namespace View {
     public:
       Water();
       ~Water();
-      void init(SDL_Renderer * r, int x, int y, int levelWidth, int levelHeight, const char * patterPath = NULL);
+      void init(SDL_Renderer * r, int x, int y, int levelWidth, int levelHeight, const char * waterPath = NULL);
       virtual void render(SDL_Renderer *, int, int);
       virtual int getWidth(void) const;
       virtual int getHeight(void) const;

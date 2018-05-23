@@ -151,14 +151,19 @@ try {
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);
 		
-        // Dibujamos cosas estáticas
+    // Dibujamos cosas estáticas
 		mainWindow.render(camera);
-		inventory.render(renderer, 10, 10);
 
 		// Dibujamos cosas dinámicas
 		worms.update(pdynamics.getWorms());
 		worms.render(renderer, camera);
-		
+
+		// El agua va sobre todo menos el inventario
+		mainWindow.renderWater(camera);
+
+		// El inventario va adelante de todo
+		inventory.render(renderer, 10, 10);
+
 		SDL_RenderPresent(renderer);
 		SDL_Delay(10);
 	}
