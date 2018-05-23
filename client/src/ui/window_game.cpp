@@ -170,7 +170,7 @@ void View::WindowGame::render(View::Camera & camera) {
 
 	std::vector<View::GirderLong *>::iterator it_l;
 	for (it_l = this->longGirders.begin(); it_l != this->longGirders.end(); it_l++) {
-		(*it_l)->render(this->renderer, camera.getX(), -camera.getY());
+		(*it_l)->render(this->renderer, camera.getX(), camera.getY());
 	}
 
 	std::vector<View::GirderShort *>::iterator it_s;
@@ -178,5 +178,5 @@ void View::WindowGame::render(View::Camera & camera) {
 		(*it_s)->render(this->renderer, camera.getX(), camera.getY());
 	}
 
-	this->water.render(this->renderer, camera.getX(), -camera.getY());
+	this->water.render(this->renderer, camera.getX(), camera.getY());
 }

@@ -13,8 +13,8 @@ static:
       angle: 0
     - id: 3
       x: 1800
-      y: 1800
-      angle: 0
+      y: 1300
+      angle: 30
     - id: 4
       x: 1900
       y: 1900
@@ -70,7 +70,7 @@ dynamic:
       name: pedro
       health: 100
       x: 1800
-      y: 0
+      y: 1300
     - id: 5
       team: 3
       name: bianca
