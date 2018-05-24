@@ -26,6 +26,7 @@ int main(int argc, char * argv[]) {
 	std::string display; // centered | expanded | mosaic
 	int waterLevel; // Todavia no defini un maximo de nivel del agua pero sera 0 < waterlevel < MAX_WATER_LEVEL
 	int teamsAmount; // 2 o mas team
+	int wormsHealth; // 1 < wormsHealth < 100
 
 	if (argc == 1) {
 		// Parametros por default
@@ -34,6 +35,7 @@ int main(int argc, char * argv[]) {
 		display = "expanded";
 		waterLevel = 300;
 		teamsAmount = 3;
+		wormsHealth = 100;
 	}
 	
 	YAML::Node map;
@@ -73,13 +75,15 @@ int main(int argc, char * argv[]) {
 	int mouseX;
 	int mouseY;
 
-	View::Inventory editorInventory(renderer, teamsAmount);
+	View::Inventory editorInventory(renderer, teamsAmount, wormsHealth);
 	editorInventory.toggleOpen();
 
 	View::GirderShort shortGirder(renderer);
 	View::GirderLong longGirder(renderer);
 
 	std::vector<View::GirderShort*> shortCollection;
+	std::vector<View::GirderLong*> longCollection;
+	std::map<std::size_t, std::vector<View::Worm*>> wormsCollection;
 
 	// Comienza el ciclo del juego para el cliente
 	bool quit = false;	
@@ -93,15 +97,7 @@ int main(int argc, char * argv[]) {
 				quit = true;
 			}
 
-			editorInventory.handleEvent(e);
-
-			if (e.type == SDL_MOUSEBUTTONDOWN) {
-				if (e.button.button == SDL_BUTTON_LEFT) {
-					shortCollection.push_back(new View::GirderShort(renderer, shortGirder.getCurrentDegrees()));
-					shortCollection.back()->setX(camX + mouseX);
-					shortCollection.back()->setY(camY + mouseY);
-				}
-			}
+			editorInventory.handleEvent(renderer, e, shortCollection, longCollection, wormsCollection, camX, camY);
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -115,11 +111,29 @@ int main(int argc, char * argv[]) {
 		// Funciona asi, no entiendo por que
 		shortGirder.setX(0);
 		shortGirder.setY(0);
-		shortGirder.render(renderer, -mouseX, -mouseY);
+		//shortGirder.render(renderer, -mouseX, -mouseY);
 
 		for (size_t i = 0 ; i < shortCollection.size() ; i++) {
 			shortCollection.at(i)->render(renderer, camX, camY);
 		}
+
+		for (size_t i = 0 ; i < longCollection.size() ; i++) {
+			longCollection.at(i)->render(renderer, camX, camY);
+		}
+
+		std::map<std::size_t, std::vector<View::Worm*>>::iterator itMap = wormsCollection.begin();
+
+		
+		for (; itMap != wormsCollection.end() ; itMap++) {
+			std::vector<View::Worm*>::iterator it = itMap->second.begin();
+			for (; it != itMap->second.end() ; it++) {
+				(*it)->render(renderer, camX, camY);
+			}
+		}
+
+
+
+		editorInventory.renderSelectedInMouse(renderer);
 
 		editorWindow.renderWater(camera);
 
