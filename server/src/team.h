@@ -6,11 +6,14 @@
 
 class Team {
     private:
-        size_t team_id;
-        std::map<size_t, Worm*> & worms;
+        int team_id;
+        std::map<int, Worm*> worms;
 
     public:
-        Team(size_t, )
+        Team(int);
+        ~Team(void);
+        void addMember(Worm *);
+        void print(void) const;
 };
 
 #endif

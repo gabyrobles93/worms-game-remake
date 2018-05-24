@@ -3,16 +3,20 @@
 
 #include "WormPhysic.h"
 #include "Box2D/Box2D.h"
+#include <string>
 
 class Worm {
     private:
-        int life;
+        int health;
         int id;
+        int team_id;
         float posX;
         float posY;
         WormPhysic wormPhysic;
+        std::string name;
+
     public:
-        Worm(int id, b2World& World, float posX, float posY);
+        Worm(std::string, int id, int team_id, int h, b2World& World, float posX, float posY);
         void jump();
         void jumpLeft();
         void jumpRight();
@@ -24,7 +28,6 @@ class Worm {
         int getTeam();
         int getHealth();
         std::string getName();
-
 };
 
 #endif

@@ -26,7 +26,13 @@ include_directories(${PROJECT_SOURCE_DIR}/src/game)
 
 
 add_executable(	server
-		${PROJECT_SOURCE_DIR}/src/main.cpp 
+		${PROJECT_SOURCE_DIR}/src/main.cpp
+		${PROJECT_SOURCE_DIR}/src/team.cpp
+		${PROJECT_SOURCE_DIR}/src/team.h
+		${PROJECT_SOURCE_DIR}/src/team_turns.cpp
+		${PROJECT_SOURCE_DIR}/src/team_turns.h
+		${PROJECT_SOURCE_DIR}/src/match.cpp
+		${PROJECT_SOURCE_DIR}/src/match.h
 		${COMMON_SOURCE_DIR}/src/socket.cpp
 		${COMMON_SOURCE_DIR}/src/socket_error.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp

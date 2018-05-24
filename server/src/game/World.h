@@ -28,7 +28,7 @@ public:
     World(std::string &);
     ~World(void);
     void initializeWorld();
-    std::map<int, Worm*> getWorms();
+    std::map<int, Worm*> & getWorms();
     std::map<int, Girder*> getGirders();
     virtual void run(void);
     //std::string getModel();

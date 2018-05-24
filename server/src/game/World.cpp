@@ -27,7 +27,7 @@ bool World::isRunning(void) const {
 }
 
 void World::initializeWorld() {
-    std::cout << "Inicializando mundo" << std::endl;
+    /* std::cout << "Inicializando mundo" << std::endl; */
     const YAML::Node& static_node = this->node_map["static"];
     const YAML::Node& dynamic_node = this->node_map["dynamic"];
 
@@ -43,7 +43,7 @@ void World::initializeWorld() {
         float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
 
-        std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl; 
+        /* std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl; */ 
 
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -56,27 +56,31 @@ void World::initializeWorld() {
         float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
         
-         std::cout<< "LONG GIRDER SETEADA EN POX: " << posX / SCALING_FACTOR << " POSY: " << posY / SCALING_FACTOR << "ANGULO" << angle << std::endl;
+        /* std::cout<< "LONG GIRDER SETEADA EN POX: " << posX / SCALING_FACTOR << " POSY: " << posY / SCALING_FACTOR << "ANGULO" << angle << std::endl; */
 
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
 
-    int id;
+    int id, tid, health;
     float x;
     float y;
+    std::string name;
     for (YAML::const_iterator it = worms_node.begin(); it != worms_node.end(); it++) {
         const YAML::Node& worm = *it;
+        name = worm["name"].as<std::string>();
         id = worm["id"].as<int>();
+        tid = worm["team"].as<int>();
+        health = worm["health"].as<int>();
         x = (float) worm["x"].as<int>() * SCALING_FACTOR;
         y = (float) worm["y"].as<int>() * SCALING_FACTOR;
-        Worm * new_worm = new Worm(id, this->worldPhysic.getWorld(), x, y);
+        Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
         this->worms.insert(std::pair<int, Worm*>(id, new_worm));
     }
 }
 
 
-std::map<int, Worm*> World::getWorms() {
+std::map<int, Worm*> & World::getWorms() {
     return this->worms;
 }
 

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <map>
 #include "yaml.h"
 #include "socket.h"
 #include "socket_error.h"
@@ -12,6 +13,7 @@
 #include "SnapshotSender.h"
 #include "blocking_queue.h"
 #include "event.h"
+#include "match.h"
 
 #define PORT "8080"
 #define MAP_PATH "../map.yml"
@@ -21,16 +23,19 @@ int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
     Protocol protocol(std::move(listener.accept_connection()));
     std::string world_path(MAP_PATH);
-    World world(world_path);
+
+    YAML::Node mapNode = YAML::LoadFile(world_path);
+    protocol.sendGameMap(mapNode);
+
+    World world(world_path);    
+    Match match(world.getWorms());
+    match.printTeams();
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
     Queue<YAML::Node> models(MAX_QUEUE_SNAPSHOTS);
     SnapshotPusher snapshot_pusher(world, models);
     SnapshotSender snapshot_sender(models, protocol);
-
-    YAML::Node mapNode = YAML::LoadFile(world_path);
-    protocol.sendGameMap(mapNode);
 
     world.start();
 
@@ -43,6 +48,7 @@ int main(/* int argc, char *argv[] */) try {
         std::cout << "Esperando evento del cliente." << std::endl;
         Event event = protocol.rcvEvent();
         event.print();
+        std::cout << "Es el turno de: " << match.getTeamTurn() << std::endl;
         if (event.quit())
             quit = true;
     }
