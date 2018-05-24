@@ -1,5 +1,8 @@
 #include "inventory.h"
 
+#define AMOUNT_WORMS_PER_TEAM 3
+#define PADDING 5
+
 View::Inventory::Inventory(SDL_Renderer * r) {
   WeaponIcon * icon = new WeaponIcon;
 
@@ -139,3 +142,110 @@ void View::Inventory::pickNextWeapon(void) {
 bool View::Inventory::isOpen(void) const {
   return this->open;
 }
+
+
+// Editor de mapas
+View::Inventory::Inventory(SDL_Renderer * r, size_t amountTeams) :
+  amountTeams(amountTeams) {
+  
+  // Short girder
+  WeaponIcon * icon = new WeaponIcon;
+  icon->texture.loadFromFile(PATH_ICON_SHORT_GIRDER, r);
+  icon->selected = true;
+  icon->supplies = AMOUNT_WORMS_PER_TEAM;
+  icon->weaponName = WEAPON_NAME_SHORT_GIRDER;
+  this->items.push_back(icon);
+
+  icon = new WeaponIcon;
+  icon->texture.loadFromFile(PATH_ICON_LONG_GIRDER, r);
+  icon->selected = false;
+  icon->supplies = AMOUNT_WORMS_PER_TEAM;
+  icon->weaponName = WEAPON_NAME_LONG_GIRDER;
+  this->items.push_back(icon);
+
+  // Worms teams
+  for (size_t i = 1 ; i <= amountTeams ; i++) {
+    icon = new WeaponIcon;
+    icon->texture.loadFromFile(PATH_PLAIN_WORM, r);
+    icon->selected = false;
+    icon->supplies = AMOUNT_WORMS_PER_TEAM;
+    icon->weaponName = std::to_string(i); // Team ID
+    this->items.push_back(icon);
+  }
+
+  this->open = false;
+}
+
+void View::Inventory::renderEditorInventory(SDL_Renderer * r, int x, int y) {
+  if (this->open) {
+    SDL_Color colors[] = {
+      {0, 0, 0, 0},
+      {255, 0, 0, 0},
+      {0, 255, 0, 0},
+      {0, 0, 255, 0}
+    };
+   
+    std::vector<View::WeaponIcon *>::iterator it = this->items.begin();
+    int iconWidth = this->items.back()->texture.getWidth();
+    int iconHeight = this->items.back()->texture.getHeight();
+
+    // Render short girder
+    (*it)->texture.render(r, x, y, iconWidth, iconHeight);
+    if ((*it)->selected) {
+      this->renderItemSelected(r, x, y, iconWidth, iconHeight);
+    }
+    it++;
+
+    (*it)->texture.render(r, x, y + iconHeight, iconWidth, iconHeight);
+    if ((*it)->selected) {
+      this->renderItemSelected(r, x, y + iconHeight, iconWidth, iconHeight);
+    }
+    it++;
+
+    for (int i = 2 ; it != this->items.end() ; it++, i++) {
+      size_t teamId = std::stoi((*it)->weaponName);
+
+      // Black rect
+      SDL_Rect blackRect = {
+        x,
+        y + i * iconHeight,
+        iconWidth,
+        iconHeight
+      };
+      SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF);        
+      SDL_RenderFillRect(r, &blackRect);
+
+      // Color rect
+      SDL_Rect colorRect = {
+        x + PADDING,
+        y + i * iconHeight + PADDING,
+        iconWidth - 2 * PADDING,
+        iconHeight - 2 * PADDING
+      };
+      SDL_SetRenderDrawColor(r, colors[teamId].r, colors[teamId].g, colors[teamId].b, 0xFF);
+      SDL_RenderFillRect(r, &colorRect);
+
+      // Worm icon
+      (*it)->texture.render(r, x, y + i * iconHeight);
+
+      if ((*it)->selected) {
+        this->renderItemSelected(r, x, y, iconWidth, y + i * iconHeight);
+      }   
+    }
+  }
+}
+
+void View::Inventory::renderItemSelected(SDL_Renderer * renderer, int x, int y, int width, int height) {
+  SDL_Rect outlineRect = { 
+    x,
+    y,
+    width, 
+    height
+  };
+
+  // Color blanco
+  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF); 
+  // Dibujamos rectangulo blanco en item seleccionado       
+  SDL_RenderDrawRect(renderer, &outlineRect);
+}
+          

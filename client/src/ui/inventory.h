@@ -18,7 +18,10 @@
 #define WEAPON_NAME_AIR_STRIKE "Air strike"
 #define WEAPON_NAME_TELEPORT "Teleport"
 
-#define MAX_COLS 5
+#define WEAPON_NAME_SHORT_GIRDER "Short girder"
+#define WEAPON_NAME_LONG_GIRDER "Long girder"
+
+#define MAX_COLS 4
 
 namespace View {
   struct WeaponIcon {
@@ -34,8 +37,22 @@ namespace View {
       WeaponIcon selected;
       bool open;
 
+      // Atributos para el inventario del editor
+      size_t amountTeams;
+      
     public:
+      // Constructor estandar para un inventario
+      // de armas, con las armas indicadas en el 
+      // enunciado del tp.
       Inventory(SDL_Renderer * r);
+
+      // Constructor de inventario de editor de
+      // mapas. En un futuro se podria separar
+      // estas dos clases y que el comportamiento
+      // compartido este en una clase padre
+      Inventory(SDL_Renderer *, size_t);
+
+      // Destructor
       ~Inventory();
       
       // Checkea si el inventario esta abierto
@@ -48,6 +65,12 @@ namespace View {
       void pickNextWeapon(void);
 
       void render(SDL_Renderer *, int, int);
+
+      // Render del inventario del editor de mapas
+      void renderEditorInventory(SDL_Renderer *, int, int);
+
+      // Dibuja rect blanco en item seleccionado
+      void renderItemSelected(SDL_Renderer *, int, int, int, int);
   };
 }
 

@@ -23,13 +23,6 @@ typedef enum {
   WALK_DOWN,
 } worm_animation_t;
 
-const SDL_Color colors[] = {
-  {0, 0, 0, 0},
-  {255, 0, 0, 0},
-  {0, 255, 0, 0},
-  {0, 0, 255, 0}
-};
-
 namespace View {
   class Worm: public Drawable {
     private:

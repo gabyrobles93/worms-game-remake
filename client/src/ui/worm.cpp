@@ -11,6 +11,14 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   team(team),
   health(health),
   font(PATH_FONT_ARIAL_BOLD, 20) {
+
+  const SDL_Color colors[] = {
+    {0, 0, 0, 0},
+    {255, 0, 0, 0},
+    {0, 255, 0, 0},
+    {0, 0, 255, 0}
+  };
+
   this->textures[PLAIN_WORM].loadFromFile(PATH_PLAIN_WORM, r);
 
   this->textures[BREATH_1].loadFromFile(PATH_WORM_BREATH_1, r);

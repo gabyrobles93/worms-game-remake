@@ -5,6 +5,7 @@
 #include "window_game.h"
 #include "girder_long.h"
 #include "girder_short.h"
+#include "inventory.h"
 #include "worm.h"
 #include "yaml.h"
 
@@ -18,15 +19,21 @@ int validateArgs(int, char*[]);
 int main(int argc, char * argv[]) {
 
 	//validateArgs(argc, argv);
-	std::string path;
-	std::string display;
-	int waterLevel;
+
+	// Parametros configurables por el usuario
+	// a la derecha las configuraciones
+	std::string path; // Archivo valido
+	std::string display; // centered | expanded | mosaic
+	int waterLevel; // Todavia no defini un maximo de nivel del agua pero sera 0 < waterlevel < MAX_WATER_LEVEL
+	int teamsAmount; // 2 o mas team
 
 	if (argc == 1) {
+		// Parametros por default
 		std::cout << "Default configuration" << std::endl;
 		path = "../../resources/graphics/lava_pattern.jpg";
 		display = "expanded";
 		waterLevel = 300;
+		teamsAmount = 3;
 	}
 	
 	YAML::Node map;
@@ -37,8 +44,6 @@ int main(int argc, char * argv[]) {
 	map["static"]["long_girders"];
 	map["dynamic"]["worms"];*/
 
-	std::cout << "NODO DE MAPA VACIO CREADO:" << std::endl;
-	std::cout << map << std::endl;
 	/* Luego hay que cargarle secuencias de nodos.
 	YAML::Node girderNode1;
 	girderNode1["id"] = 1;
@@ -63,8 +68,13 @@ int main(int argc, char * argv[]) {
 		editorWindow.getBgHeight()
 	);
 
+
+
 	int mouseX;
 	int mouseY;
+
+	View::Inventory editorInventory(renderer, teamsAmount);
+	editorInventory.toggleOpen();
 
 	View::GirderShort shortGirder(renderer);
 	View::GirderLong longGirder(renderer);
@@ -110,9 +120,11 @@ int main(int argc, char * argv[]) {
 		}
 
 		editorWindow.renderWater(camera);
+
+		editorInventory.renderEditorInventory(renderer, 10, 10);
 		
 		SDL_RenderPresent(renderer);
-		SDL_Delay(10);
+		SDL_Delay(10); // Para no usar al mango el CPU
 	}
 				
 

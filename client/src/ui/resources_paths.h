@@ -90,6 +90,10 @@
 #define PATH_ICON_AIR_STRIKE "../../resources/graphics/Weapon Icons/airstrke.1.png"
 
 #define PATH_ICON_TELEPORT "../../resources/graphics/Weapon Icons/teleport.1.png"
+
+#define PATH_ICON_SHORT_GIRDER "../../resources/graphics/Weapon Icons/girder.2.png"
+
+#define PATH_ICON_LONG_GIRDER "../../resources/graphics/Weapon Icons/girders.1.png"
 /* ------------- */
 
 /* FONTS */
