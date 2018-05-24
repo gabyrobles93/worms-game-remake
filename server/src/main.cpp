@@ -18,7 +18,7 @@
 #define PORT "8080"
 #define MAP_PATH "../map.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define ROUND_DURATION_SEC 5
+#define ROUND_DURATION_SEC 10
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
@@ -50,6 +50,10 @@ int main(/* int argc, char *argv[] */) try {
     while(!quit) {
         std::cout << "Esperando evento del cliente." << std::endl;
         Event event = protocol.rcvEvent();
+
+        if (event.quit())
+            quit = true;
+
         if (match.isTeamTurnOf(event.getTeamId())) {
             std::cout << "Team " << event.getTeamId() << " habilitado para efectuar turno." << std::endl;
             std::cout << "Ejecutará la acción " << event.getAction() << " con el Worm de Id: " << match.getWormTurn(match.getTeamTurn()) << std::endl;
@@ -57,8 +61,6 @@ int main(/* int argc, char *argv[] */) try {
             std::cout << "Team " << event.getTeamId() << " NO habilitado para efectuar turno." << std::endl;
             std::cout << "Es el turno del Team ID: " << match.getTeamTurn() << " con su Worm Id: " << match.getWormTurn(match.getTeamTurn()) << std::endl;
         }
-        if (event.quit())
-            quit = true;
     }
 
     std::cout << "El cliente cerró la ventana." << std::endl;
