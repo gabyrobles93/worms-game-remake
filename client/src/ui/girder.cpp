@@ -27,7 +27,7 @@ void View::Girder::rotateCounterClockwise(void) {
 
 void View::Girder::render(SDL_Renderer * renderer, int camX, int camY) {
   Texture & current = this->currentTexture;
-  current.render(renderer, this->x - (current.getWidth() / 2) - camX, this->y - (current.getHeight() / 2) - camY);
+  current.render(renderer, this->x - camX, this->y - camY);
 }
 
 degrees_t View::Girder::getCurrentDegrees(void) {
@@ -52,10 +52,10 @@ int View::Girder::getY(void) const {
 
 void View::Girder::setX(int x) {
   this->currentTexture.setX(x);
-  this->x = x;
+  this->x = x- (this->currentTexture.getWidth() / 2);
 }
 
 void View::Girder::setY(int y) {
   this->currentTexture.setY(y);
-  this->y = y;
+  this->y = y - (this->currentTexture.getHeight() / 2);
 }

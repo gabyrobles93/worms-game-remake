@@ -40,7 +40,11 @@ class View::WindowGame {
     void loadStaticObjects(void);
 
   public:
+    // Constructor para el cliente
     WindowGame(YAML::Node &, int w = 0, int h = 0);
+    
+    // Constructor para el editor de mapas
+    WindowGame(std::string pathToBg, int waterLevel);
     ~WindowGame();
     SDL_Renderer * getRenderer(void) const;
     int getScreenWidth(void) const;

@@ -69,18 +69,8 @@ try {
             // Chequeo eventos de teclado (ver si se puede hacer mas prolijo)
             // FALTA CHEQUEAR EVENTOS DE MOUSE (CLICKS, MOVIMIENTOS DE CAMARA, ETC)
 			if (e.type == SDL_KEYDOWN) {
-				if (e.key.keysym.sym == SDLK_a) {
-					camera.setX(camera.getX()-100);
-				}
-				if (e.key.keysym.sym == SDLK_d) {
-					camera.setX(camera.getX()+100);
-				}
-				if (e.key.keysym.sym == SDLK_w) {
-					camera.setY(camera.getY()-100);
-				}
-				if (e.key.keysym.sym == SDLK_s) {
-					camera.setY(camera.getY()+100);
-				}
+				camera.handleEvent(e);
+				
 				if (e.key.keysym.sym == SDLK_UP) {
 					Event event(a_pointUp, TEAM_ID);
 					events.push(event);
