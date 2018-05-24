@@ -65,6 +65,10 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/SnapshotPusher.h
 		${PROJECT_SOURCE_DIR}/src/SnapshotSender.cpp
 		${PROJECT_SOURCE_DIR}/src/SnapshotSender.h
+		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.h
+		${PROJECT_SOURCE_DIR}/src/entities/Water.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/Water.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
