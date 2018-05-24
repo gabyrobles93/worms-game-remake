@@ -54,13 +54,14 @@ int main(/* int argc, char *argv[] */) try {
         if (event.quit())
             quit = true;
 
-        if (match.isTeamTurnOf(event.getTeamId())) {
+        /*if (match.isTeamTurnOf(event.getTeamId())) {
             std::cout << "Team " << event.getTeamId() << " habilitado para efectuar turno." << std::endl;
             std::cout << "Ejecutará la acción " << event.getAction() << " con el Worm de Id: " << match.getWormTurn(match.getTeamTurn()) << std::endl;
         } else {
             std::cout << "Team " << event.getTeamId() << " NO habilitado para efectuar turno." << std::endl;
             std::cout << "Es el turno del Team ID: " << match.getTeamTurn() << " con su Worm Id: " << match.getWormTurn(match.getTeamTurn()) << std::endl;
-        }
+        }*/
+        world.executeAction(event.getAction(),2 /*match.getWormTurn(match.getTeamTurn()*/);
     }
 
     std::cout << "El cliente cerró la ventana." << std::endl;

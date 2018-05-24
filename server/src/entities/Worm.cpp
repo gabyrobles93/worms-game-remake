@@ -20,11 +20,11 @@ void Worm::jumpLeft() {
 }
 
 void Worm::moveRight() {
-    this->wormPhysic.jumpRight();
+    this->wormPhysic.moveRight();
 }
 
 void Worm::moveLeft() {
-    this->wormPhysic.jumpLeft();
+    this->wormPhysic.moveLeft();
 }
 
 float Worm::getPosX() {

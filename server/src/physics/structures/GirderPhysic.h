@@ -6,6 +6,7 @@
 #define SLIPPERY_GIRDER 0
 
 #include "Box2D.h"
+#include "PhysicEntity.h"
 
 class GirderPhysic {
 private:
