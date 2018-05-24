@@ -7,7 +7,7 @@
 
 // [1]
 Match::Match(std::map<int, Worm*> & worms, size_t rd) :
-turns(createTeams(worms)) {
+turns(createTeams(worms), teams) {
     this->keep_running = true;
     this->round_duration_sec = rd;
 }
@@ -43,8 +43,8 @@ void Match::printTeams(void) {
     }   
 }
 
-bool Match::isTurnOf(int team_id) {
-    return (this->turns.getTurn() == team_id ? true : false);
+bool Match::isTeamTurnOf(int team_id) {
+    return (this->turns.getTeamTurn() == team_id ? true : false);
 }
 
 void Match::advanceTurn(void) {
@@ -52,7 +52,11 @@ void Match::advanceTurn(void) {
 }
 
 int Match::getTeamTurn(void) {
-    return this->turns.getTurn();
+    return this->turns.getTeamTurn();
+}
+
+int Match::getWormTurn(int team_id) {
+    return this->turns.getWormTurn(team_id);
 }
 
 bool Match::isRunning(void) const {
@@ -64,9 +68,16 @@ size_t Match::getId(void) const {
 }
 
 void Match::run(void) {
+    unsigned int counter_ms = 0;
+    const unsigned int time_fraction_ms = 500;
     while (keep_running) {
-        usleep(this->round_duration_sec * US_SEC_FACTOR);
-        advanceTurn();
+        usleep(time_fraction_ms);
+        counter_ms += time_fraction_ms;
+        if (counter_ms >= (this->round_duration_sec * US_SEC_FACTOR)) {
+            advanceTurn();
+            std::cout << "Turno cambiado!" << std::endl;
+            counter_ms = 0;
+        }    
     }
 }
 

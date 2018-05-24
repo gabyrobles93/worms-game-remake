@@ -24,8 +24,9 @@ class Match : public Thread {
         virtual void run(void);
         void stop(void);
         void printTeams(void);
-        bool isTurnOf(int);
+        bool isTeamTurnOf(int);
         int getTeamTurn(void);
+        int getWormTurn(int);
 };
 
 #endif

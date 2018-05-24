@@ -40,3 +40,7 @@ void Event::print(void) {
 size_t Event::getTeamId(void) {
     return this->team_id;
 }
+
+action_t Event::getAction(void) {
+    return this->action;
+}
