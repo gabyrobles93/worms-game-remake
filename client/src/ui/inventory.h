@@ -6,6 +6,9 @@
 #include <SDL2/SDL.h>
 #include "texture.h"
 #include "resources_paths.h"
+#include "worm.h"
+#include "girder_short.h"
+#include "girder_long.h"
 
 #define WEAPON_NAME_BAZOOKA "Bazooka"
 #define WEAPON_NAME_MORTAR "Mortar"
@@ -39,6 +42,11 @@ namespace View {
 
       // Atributos para el inventario del editor
       size_t amountTeams;
+      degrees_t girdersDegrees;
+      int wormsHealth;
+
+      // Devuelve el indice del item seleccionado
+      int getIndexSelected(void);
       
     public:
       // Constructor estandar para un inventario
@@ -50,7 +58,7 @@ namespace View {
       // mapas. En un futuro se podria separar
       // estas dos clases y que el comportamiento
       // compartido este en una clase padre
-      Inventory(SDL_Renderer *, size_t);
+      Inventory(SDL_Renderer *, size_t, int);
 
       // Destructor
       ~Inventory();
@@ -72,9 +80,24 @@ namespace View {
       // Dibuja rect blanco en item seleccionado
       void renderItemSelected(SDL_Renderer *, int, int, int, int);
 
+      // Dibuja el item elegido en la posicion del mouse
+      void renderSelectedInMouse(SDL_Renderer *);
+
       // Click derecho abre/cierra el inventario
       // letra Q cambia el item al siguiente si esta abierto
       void handleEvent(SDL_Event &);
+
+      // Se le agrega al inventario del editor
+      // que actualice las colecciones de objetos estaticos
+      void handleEvent(
+        SDL_Renderer *,
+        SDL_Event &, 
+        std::vector<View::GirderShort*> &, 
+        std::vector<View::GirderLong*> &, 
+        std::map<std::size_t, std::vector<View::Worm*>> &,
+        int,
+        int
+      );
   };
 }
 

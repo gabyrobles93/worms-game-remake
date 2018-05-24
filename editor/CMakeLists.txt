@@ -33,6 +33,7 @@ add_executable(	editor
 		${CLIENT_RESOURCES}/girder.cpp
 		${CLIENT_RESOURCES}/girder_long.cpp
 		${CLIENT_RESOURCES}/girder_short.cpp
+		${CLIENT_RESOURCES}/inventory.cpp
 		${CLIENT_RESOURCES}/font.cpp
 		${CLIENT_RESOURCES}/texture.cpp
 		${CLIENT_RESOURCES}/view_exceptions.cpp

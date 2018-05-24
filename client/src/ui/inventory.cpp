@@ -3,6 +3,9 @@
 #define AMOUNT_WORMS_PER_TEAM 3
 #define PADDING 5
 
+#define POS_GIRDER_SHORT 0
+#define POS_GIRDER_LONG 1
+
 View::Inventory::Inventory(SDL_Renderer * r) {
   WeaponIcon * icon = new WeaponIcon;
 
@@ -76,6 +79,8 @@ View::Inventory::Inventory(SDL_Renderer * r) {
   this->items.push_back(icon);
 
   this->open = false;
+  this->girdersDegrees = ZERO_DEGREES;
+  this->wormsHealth = 0;
 }
 
 View::Inventory::~Inventory() {
@@ -145,7 +150,7 @@ bool View::Inventory::isOpen(void) const {
 
 
 // Editor de mapas
-View::Inventory::Inventory(SDL_Renderer * r, size_t amountTeams) :
+View::Inventory::Inventory(SDL_Renderer * r, size_t amountTeams, int healthConfig) :
   amountTeams(amountTeams) {
   
   // Short girder
@@ -174,6 +179,8 @@ View::Inventory::Inventory(SDL_Renderer * r, size_t amountTeams) :
   }
 
   this->open = false;
+  this->girdersDegrees = ZERO_DEGREES;
+  this->wormsHealth = healthConfig;
 }
 
 void View::Inventory::renderEditorInventory(SDL_Renderer * r, int x, int y) {
@@ -249,6 +256,36 @@ void View::Inventory::renderItemSelected(SDL_Renderer * renderer, int x, int y, 
   SDL_RenderDrawRect(renderer, &outlineRect);
 }
 
+void View::Inventory::renderSelectedInMouse(SDL_Renderer * r) {
+  int mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+
+  for (size_t i = 0; i < this->items.size() ; i++) {
+    if (this->items.at(i)->selected) {
+      // Short girder
+      if (i == POS_GIRDER_SHORT) {
+        View::GirderShort g(r);
+        g.setX(0);
+        g.setY(0);
+        g.render(r, -mouseX, -mouseY);
+      } else if (i == POS_GIRDER_LONG) {
+        View::GirderLong g(r);
+        g.setX(0);
+        g.setY(0);
+        g.render(r, -mouseX, -mouseY);
+      } else {
+        if (this->items.at(i)->supplies) {
+          std::string name("Worm " + std::to_string(AMOUNT_WORMS_PER_TEAM - this->items.at(i)->supplies + 1));
+          View::Worm w(r, name, std::stoi(this->items.at(i)->weaponName), this->wormsHealth);
+          w.setX(0);
+          w.setY(0);
+          w.render(r, -mouseX, -mouseY);
+        }        
+      }
+    }
+  }
+}
+
 void View::Inventory::handleEvent(SDL_Event & e) {
   if (e.type == SDL_KEYDOWN) {
     // Si es Q y el inventario esta abierto
@@ -258,13 +295,67 @@ void View::Inventory::handleEvent(SDL_Event & e) {
         this->pickNextWeapon();
       }
     } 
+  }
 
-    // Click derecho abre o cierra el inventario
-    if (e.type == SDL_MOUSEBUTTONDOWN) {
-      if (e.button.button == SDL_BUTTON_RIGHT) {
-        this->toggleOpen();
+  // Click derecho abre o cierra el inventario
+  if (e.type == SDL_MOUSEBUTTONDOWN) {
+    if (e.button.button == SDL_BUTTON_RIGHT) {
+      this->toggleOpen();
+    }
+  }
+}
+
+// Evite mirar y entender este metodo
+// puede causar migraña
+void View::Inventory::handleEvent(
+  SDL_Renderer * r,
+  SDL_Event & e, 
+  std::vector<View::GirderShort*> & gs, 
+  std::vector<View::GirderLong*> & gl, 
+  std::map<std::size_t, std::vector<View::Worm*>> & w,
+  int camX,
+  int camY
+  ) {
+  
+  this->handleEvent(e);
+
+  // Click izquierdo actualiza la coleccion de objetos estaticos
+  if (e.type == SDL_MOUSEBUTTONDOWN) {
+    if (e.button.button == SDL_BUTTON_LEFT) {
+      int mouseX, mouseY;
+      SDL_GetMouseState(&mouseX, &mouseY);
+
+      size_t index = this->getIndexSelected();
+      
+      if (index == POS_GIRDER_SHORT) {
+        gs.push_back(new View::GirderShort(r, this->girdersDegrees));
+        gs.back()->setX(camX + mouseX);
+        gs.back()->setY(camY + mouseY);			
+      } else if (index == POS_GIRDER_LONG) {
+        gl.push_back(new View::GirderLong(r, this->girdersDegrees));
+        gl.back()->setX(camX + mouseX);
+        gl.back()->setY(camY + mouseY);
+      } else {
+        if (this->items.at(index)->supplies) {
+          int teamId = std::stoi(this->items.at(index)->weaponName);
+          std::string name("Worm " + std::to_string(AMOUNT_WORMS_PER_TEAM - this->items.at(index)->supplies + 1));
+          w[teamId].push_back(new View::Worm(r, name, teamId, this->wormsHealth));
+          w[teamId].back()->setX(camX + mouseX);
+          w[teamId].back()->setY(camY + mouseY);
+          this->items.at(index)->supplies--;
+        }
+        
       }
     }
   }
+}
+
+int View::Inventory::getIndexSelected(void) {
+  for (size_t i = 0 ; i < this->items.size() ; i++) {
+    if (this->items.at(i)->selected) {
+      return i;
+    }
+  }
+  return -1;
 }
           
