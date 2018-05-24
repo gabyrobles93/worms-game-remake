@@ -54,7 +54,7 @@ int main(int argc, char * argv[]) {
 
 	YAML::Node staticMap = map["static"];
 
-	View::WindowGame editorWindow(staticMap);
+	View::WindowGame editorWindow(staticMap, 800, 600);
 	SDL_Renderer * renderer = editorWindow.getRenderer();
 	View::Camera camera(
 		editorWindow.getScreenWidth(), 
@@ -97,6 +97,8 @@ int main(int argc, char * argv[]) {
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);
+
+		camera.updateCameraPosition();
 
 		editorWindow.render(camera);
 

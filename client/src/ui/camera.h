@@ -17,6 +17,8 @@ namespace View {
       int levelWidth;
       int levelHeight;
 
+      bool moving;
+
     public:
       Camera(int camW, int camH, int levelW, int levelH);
       ~Camera();
@@ -38,6 +40,11 @@ namespace View {
 
       // Mueve la camara si recibe el evento correspondiente
       void handleEvent(SDL_Event &);
+
+      // Actualiza la posicion de la camara 
+      // respecto de donde
+      // esta ubicado el mouse
+      void updateCameraPosition(void);
   };
 }
 

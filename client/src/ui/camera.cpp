@@ -1,5 +1,7 @@
 #include "camera.h"
 
+#define OFFSET_NEAR 10
+
 View::Camera::Camera(int camW, int camH, int levelW, int levelH) :
   width(camW), height(camH), levelWidth(levelW), levelHeight(levelH) {
     // Inicializamos la camara centrada al nivel
@@ -9,6 +11,8 @@ View::Camera::Camera(int camW, int camH, int levelW, int levelH) :
       this->width,
       this->height
     };
+
+    this->moving = false;
 }
 
 View::Camera::~Camera() {}
@@ -65,6 +69,10 @@ void View::Camera::focus(Drawable & d) {
 }
 
 void View::Camera::handleEvent(SDL_Event & e) {
+  if (e.type == SDL_MOUSEMOTION) {
+    
+  }
+
   if (e.key.keysym.sym == SDLK_a) {
     this->setX(this->camera.x - 100);
   }
@@ -76,5 +84,34 @@ void View::Camera::handleEvent(SDL_Event & e) {
   }
   if (e.key.keysym.sym == SDLK_s) {
     this->setY(this->camera.y + 100);
+  }
+}
+
+void View::Camera::updateCameraPosition(void) {
+  int mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+
+  if (
+    mouseX > 0 + OFFSET_NEAR &&
+    mouseX < this->camera.w - OFFSET_NEAR &&
+    mouseY > 0 + OFFSET_NEAR &&
+    mouseY < this->camera.y - OFFSET_NEAR
+  ) {
+    this->moving = false;
+  } else {
+    if (mouseX < 0 + OFFSET_NEAR || this->moving) {
+      this->setX(this->camera.x - 10);
+    }
+    if (mouseX > this->camera.w - OFFSET_NEAR || this->moving) {
+      this->setX(this->camera.x + 10);
+    }
+    if (mouseY < 0 + OFFSET_NEAR || this->moving) {
+      this->setY(this->camera.y - 10);
+    }
+    if (mouseY > this->camera.y -OFFSET_NEAR || this->moving) {
+      this->setY(this->camera.y + 10);
+    }
+    this->moving = true;
+    return;
   }
 }
