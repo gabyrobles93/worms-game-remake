@@ -93,8 +93,10 @@ int main(int argc, char * argv[]) {
 				quit = true;
 			}
 
+			editorInventory.handleEvent(e);
+
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
-				if (SDL_BUTTON(SDL_BUTTON_LEFT)) {
+				if (e.button.button == SDL_BUTTON_LEFT) {
 					shortCollection.push_back(new View::GirderShort(renderer, shortGirder.getCurrentDegrees()));
 					shortCollection.back()->setX(camX + mouseX);
 					shortCollection.back()->setY(camY + mouseY);

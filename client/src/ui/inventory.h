@@ -71,6 +71,10 @@ namespace View {
 
       // Dibuja rect blanco en item seleccionado
       void renderItemSelected(SDL_Renderer *, int, int, int, int);
+
+      // Click derecho abre/cierra el inventario
+      // letra Q cambia el item al siguiente si esta abierto
+      void handleEvent(SDL_Event &);
   };
 }
 

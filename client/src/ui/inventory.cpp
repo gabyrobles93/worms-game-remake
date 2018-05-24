@@ -229,7 +229,7 @@ void View::Inventory::renderEditorInventory(SDL_Renderer * r, int x, int y) {
       (*it)->texture.render(r, x, y + i * iconHeight);
 
       if ((*it)->selected) {
-        this->renderItemSelected(r, x, y, iconWidth, y + i * iconHeight);
+        this->renderItemSelected(r, x, y + i * iconHeight, iconWidth, iconHeight);
       }   
     }
   }
@@ -247,5 +247,24 @@ void View::Inventory::renderItemSelected(SDL_Renderer * renderer, int x, int y, 
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF); 
   // Dibujamos rectangulo blanco en item seleccionado       
   SDL_RenderDrawRect(renderer, &outlineRect);
+}
+
+void View::Inventory::handleEvent(SDL_Event & e) {
+  if (e.type == SDL_KEYDOWN) {
+    // Si es Q y el inventario esta abierto
+    // elige el arma siguiente
+    if (e.key.keysym.sym == SDLK_q) {
+      if (this->isOpen()) {
+        this->pickNextWeapon();
+      }
+    } 
+
+    // Click derecho abre o cierra el inventario
+    if (e.type == SDL_MOUSEBUTTONDOWN) {
+      if (e.button.button == SDL_BUTTON_RIGHT) {
+        this->toggleOpen();
+      }
+    }
+  }
 }
           
