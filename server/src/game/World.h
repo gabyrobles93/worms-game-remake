@@ -6,6 +6,7 @@
 #include "Girder.h"
 #include "Worm.h"
 #include "yaml.h"
+#include "Water.h"
 #include "thread.h"
 #include <sstream>
 

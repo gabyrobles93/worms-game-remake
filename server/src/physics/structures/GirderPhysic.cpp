@@ -12,8 +12,13 @@ GirderPhysic::GirderPhysic(b2World& world, float posX, float posY, float height,
 
     b2FixtureDef girderFixture;
     girderFixture.shape = &girderShape;
+    
+    if (angle <= 0.8 && angle >= -0.8) {
+        girderFixture.friction = GIRDER_FRICTION;
+    } else {
+        girderFixture.friction = SLIPPERY_GIRDER;
+    }
     girderFixture.density = GIRDER_DENSITY;
-    girderFixture.friction = GIRDER_FRICTION;
 
     body->CreateFixture(&girderFixture);
 
