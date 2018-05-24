@@ -8,6 +8,7 @@
 #include "yaml.h"
 #include "Water.h"
 #include "thread.h"
+#include "types.h"
 #include <sstream>
 
 #define SCALING_FACTOR 0.0416
@@ -37,6 +38,7 @@ public:
     void moveLeft(size_t worm_id);
     void moveRight(size_t worm_id);
     void stop();
+    void executeAction(action_t action, int id);
 };
 
 #endif
