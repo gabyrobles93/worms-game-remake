@@ -17,7 +17,10 @@ namespace View {
       int levelWidth;
       int levelHeight;
 
-      bool moving;
+      bool movingLeft;
+      bool movingRight;
+      bool movingUp;
+      bool movingDown;
 
     public:
       Camera(int camW, int camH, int levelW, int levelH);

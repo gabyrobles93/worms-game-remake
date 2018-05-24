@@ -1,6 +1,8 @@
 #include "camera.h"
+#include <iostream>
 
-#define OFFSET_NEAR 10
+#define OFFSET_NEAR 25
+#define MOVE_PER_FRAME 15
 
 View::Camera::Camera(int camW, int camH, int levelW, int levelH) :
   width(camW), height(camH), levelWidth(levelW), levelHeight(levelH) {
@@ -12,7 +14,10 @@ View::Camera::Camera(int camW, int camH, int levelW, int levelH) :
       this->height
     };
 
-    this->moving = false;
+    this->movingLeft = false;
+    this->movingRight = false;
+    this->movingUp = false;
+    this->movingDown = false;
 }
 
 View::Camera::~Camera() {}
@@ -69,10 +74,6 @@ void View::Camera::focus(Drawable & d) {
 }
 
 void View::Camera::handleEvent(SDL_Event & e) {
-  if (e.type == SDL_MOUSEMOTION) {
-    
-  }
-
   if (e.key.keysym.sym == SDLK_a) {
     this->setX(this->camera.x - 100);
   }
@@ -93,25 +94,31 @@ void View::Camera::updateCameraPosition(void) {
 
   if (
     mouseX > 0 + OFFSET_NEAR &&
-    mouseX < this->camera.w - OFFSET_NEAR &&
+    mouseX < this->width - OFFSET_NEAR &&
     mouseY > 0 + OFFSET_NEAR &&
-    mouseY < this->camera.y - OFFSET_NEAR
+    mouseY < this->height - OFFSET_NEAR
   ) {
-    this->moving = false;
+    this->movingLeft = false;
+    this->movingRight = false;
+    this->movingUp = false;
+    this->movingDown = false;
   } else {
-    if (mouseX < 0 + OFFSET_NEAR || this->moving) {
-      this->setX(this->camera.x - 10);
+    if (mouseX < 0 + OFFSET_NEAR || this->movingLeft) {
+      this->setX(this->camera.x - MOVE_PER_FRAME);
+      this->movingLeft = true;
     }
-    if (mouseX > this->camera.w - OFFSET_NEAR || this->moving) {
-      this->setX(this->camera.x + 10);
+    if (mouseX > this->width - OFFSET_NEAR || this->movingRight) {
+      this->setX(this->camera.x + MOVE_PER_FRAME);
+      this->movingRight = true;
     }
-    if (mouseY < 0 + OFFSET_NEAR || this->moving) {
-      this->setY(this->camera.y - 10);
+    if (mouseY < 0 + OFFSET_NEAR || this->movingUp) {
+      this->setY(this->camera.y - MOVE_PER_FRAME);
+      this->movingUp = true;
     }
-    if (mouseY > this->camera.y -OFFSET_NEAR || this->moving) {
-      this->setY(this->camera.y + 10);
+    if (mouseY > this->height -OFFSET_NEAR || this->movingDown) {
+      this->setY(this->camera.y + MOVE_PER_FRAME);
+      this->movingDown = true;
     }
-    this->moving = true;
     return;
   }
 }

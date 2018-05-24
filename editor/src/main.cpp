@@ -54,7 +54,7 @@ int main(int argc, char * argv[]) {
 
 	YAML::Node staticMap = map["static"];
 
-	View::WindowGame editorWindow(staticMap, 800, 600);
+	View::WindowGame editorWindow(staticMap);
 	SDL_Renderer * renderer = editorWindow.getRenderer();
 	View::Camera camera(
 		editorWindow.getScreenWidth(), 
@@ -85,14 +85,11 @@ int main(int argc, char * argv[]) {
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 				if (SDL_BUTTON(SDL_BUTTON_LEFT)) {
-					std::cout << "size: " << shortCollection.size() << std::endl;
 					shortCollection.push_back(new View::GirderShort(renderer, shortGirder.getCurrentDegrees()));
 					shortCollection.back()->setX(camX + mouseX);
 					shortCollection.back()->setY(camY + mouseY);
 				}
 			}
-			std::cout << "Cam handle\n";
-			camera.handleEvent(e);
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
