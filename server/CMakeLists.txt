@@ -23,6 +23,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/physics/world)
 include_directories(${PROJECT_SOURCE_DIR}/src/entities/structures)
 include_directories(${PROJECT_SOURCE_DIR}/src/entities)
 include_directories(${PROJECT_SOURCE_DIR}/src/game)
+include_directories(${PROJECT_SOURCE_DIR}/src/physics)
 
 
 add_executable(	server
@@ -69,6 +70,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/Water.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Water.h
+		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.h
+		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.cpp
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
