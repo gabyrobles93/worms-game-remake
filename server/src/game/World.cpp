@@ -2,6 +2,10 @@
 #include <unistd.h>
 #include <iostream>
 
+#define MAP_WIDTH 2500
+#define MAP_HEIGTH 1500
+#define WATER_LEVEL 200
+
 World::World(std::string & map_path) {
     this->node_map = YAML::LoadFile(map_path);
     initializeWorld();
@@ -28,6 +32,13 @@ bool World::isRunning(void) const {
 
 void World::initializeWorld() {
     /* std::cout << "Inicializando mundo" << std::endl; */
+
+    float water_posX = (MAP_WIDTH / 2) * SCALING_FACTOR;
+    float water_posY = (MAP_HEIGTH) * SCALING_FACTOR ;
+    float water_height = WATER_LEVEL * SCALING_FACTOR;
+    float water_width =   MAP_WIDTH * SCALING_FACTOR;
+
+    Water water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
     const YAML::Node& static_node = this->node_map["static"];
     const YAML::Node& dynamic_node = this->node_map["dynamic"];
 
