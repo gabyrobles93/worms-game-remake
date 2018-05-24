@@ -19,7 +19,8 @@
                 "${workspaceFolder}/physics/structures",
                 "${workspaceFolder}/physics/weapons",
                 "${workspaceFolder}/physics/world",
-                "${workspaceFolder}/physics/worm"
+                "${workspaceFolder}/physics/worm",
+                "${workspaceFolder}/src/physics/world"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
