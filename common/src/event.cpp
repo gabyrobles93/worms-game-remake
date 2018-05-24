@@ -36,3 +36,7 @@ void Event::print(void) {
     std::cout << "Team ID: " << this->team_id << std::endl;
     std::cout << "Action:  " << this->action << std::endl;
 }
+
+size_t Event::getTeamId(void) {
+    return this->team_id;
+}

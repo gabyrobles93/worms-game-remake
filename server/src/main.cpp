@@ -18,6 +18,7 @@
 #define PORT "8080"
 #define MAP_PATH "../map.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
+#define ROUND_DURATION_SEC 2
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
@@ -28,7 +29,7 @@ int main(/* int argc, char *argv[] */) try {
     protocol.sendGameMap(mapNode);
 
     World world(world_path);    
-    Match match(world.getWorms());
+    Match match(world.getWorms(), ROUND_DURATION_SEC);
     match.printTeams();
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
@@ -43,12 +44,18 @@ int main(/* int argc, char *argv[] */) try {
     snapshot_pusher.start();
     snapshot_sender.start();
 
+    match.start();
+
     bool quit = false;
     while(!quit) {
         std::cout << "Esperando evento del cliente." << std::endl;
         Event event = protocol.rcvEvent();
-        event.print();
         std::cout << "Es el turno de: " << match.getTeamTurn() << std::endl;
+        if (match.isTurnOf(event.getTeamId())) {
+            std::cout << "Es el turno de quien envio el evento, se va a procesar su accion." << std::endl;
+        } else {
+            std::cout << "No es el turno de quien envio el evento, se va a ignorar su accion." << std::endl;
+        }
         if (event.quit())
             quit = true;
     }
@@ -59,9 +66,11 @@ int main(/* int argc, char *argv[] */) try {
     world.stop();
     snapshot_pusher.stop();
     snapshot_sender.stop();
+    match.stop();
     snapshot_sender.join();
     snapshot_pusher.join();
     world.join();
+    match.join();
 
     std::cout << "Server finalizado." << std::endl;
     return 0;

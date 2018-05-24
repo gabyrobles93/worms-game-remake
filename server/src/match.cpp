@@ -1,10 +1,15 @@
 #include <iostream>
+#include <unistd.h>
 #include "team.h"
 #include "match.h"
 
+#define US_SEC_FACTOR 1000000
+
 // [1]
-Match::Match(std::map<int, Worm*> & worms) :
+Match::Match(std::map<int, Worm*> & worms, size_t rd) :
 turns(createTeams(worms)) {
+    this->keep_running = true;
+    this->round_duration_sec = rd;
 }
 
 // Crea los equipos y devuelve la cantidad de quipos que creó
@@ -48,4 +53,23 @@ void Match::advanceTurn(void) {
 
 int Match::getTeamTurn(void) {
     return this->turns.getTurn();
+}
+
+bool Match::isRunning(void) const {
+    return true;
+}
+
+size_t Match::getId(void) const {
+    return 0;
+}
+
+void Match::run(void) {
+    while (keep_running) {
+        usleep(this->round_duration_sec * US_SEC_FACTOR);
+        advanceTurn();
+    }
+}
+
+void Match::stop(void) { 
+    this->keep_running = false;
 }

@@ -15,6 +15,7 @@ class Event {
         bool quit(void);
         void load(const std::string & input);
         void print(void);
+        size_t getTeamId(void);
 };
 
 std::ostream& operator<<(std::ostream &, Event &);
