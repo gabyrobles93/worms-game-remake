@@ -37,14 +37,14 @@ void WormPhysic::jump() {
     this->body->ApplyLinearImpulse(b2Vec2(0, impulse), this->body->GetWorldCenter(), true);
 }
 
-void WormPhysic::jumpLeft() {
-    // b2Vec2 velocity = getJumpVelocity();
-    // float impulse = m_worm->GetMass() * 7;
-    // this->body->ApplyAngularImpulse(b2Vec2)
+void WormPhysic::frontJump() {
+    float impulse = this->body->GetMass() * 5;
+    this->body->ApplyLinearImpulse(b2Vec2(impulse,-impulse), this->body->GetWorldCenter(), true);
 }
 
-void WormPhysic::jumpRight() {
-    //TODO
+void WormPhysic::backJump() {
+    float impulse = this->body->GetMass() * 5;
+    this->body->ApplyLinearImpulse(b2Vec2(-impulse, -impulse), this->body->GetWorldCenter(), true);
 }
 
 float WormPhysic::getPosX() {

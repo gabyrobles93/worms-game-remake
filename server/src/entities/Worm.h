@@ -18,8 +18,8 @@ class Worm {
     public:
         Worm(std::string, int id, int team_id, int h, b2World& World, float posX, float posY);
         void jump();
-        void jumpLeft();
-        void jumpRight();
+        void frontJump();
+        void backJump();
         void moveLeft();
         void moveRight();
         float getPosY();

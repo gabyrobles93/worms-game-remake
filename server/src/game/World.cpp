@@ -147,6 +147,13 @@ void World::executeAction(action_t action, int id) {
         case a_moveRight:
             this->worms[id]->moveRight();
             break;
+        case a_frontJump:
+            this->worms[id]->frontJump();
+            std::cout << "FRONT JUMP" << std::endl;
+            break;
+        case a_backJump:
+            this->worms[id]->backJump();
+            break;
         default: break;
     }
 

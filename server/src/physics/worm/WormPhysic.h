@@ -18,8 +18,8 @@ private:
 public:
     WormPhysic(b2World& world, float posX, float posY);
     void jump();
-    void jumpRight();
-    void jumpLeft();
+    void frontJump();
+    void backJump();
     void jumpFoward();
     void moveRight();
     void moveLeft();

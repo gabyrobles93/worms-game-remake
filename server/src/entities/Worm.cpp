@@ -11,12 +11,12 @@ void Worm::jump() {
     this->wormPhysic.jump();
 }
 
-void Worm::jumpRight() {
-    this->wormPhysic.jumpRight();
+void Worm::frontJump() {
+    this->wormPhysic.frontJump();
 }
 
-void Worm::jumpLeft() {
-    this->wormPhysic.jumpLeft();
+void Worm::backJump() {
+    this->wormPhysic.backJump();
 }
 
 void Worm::moveRight() {
