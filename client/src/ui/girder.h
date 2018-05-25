@@ -23,7 +23,7 @@ typedef enum {
 namespace View {
   class Girder: public Drawable {
     protected:
-      std::map<std::size_t, Texture> textures;
+      std::map<int, Texture> textures;
       std::size_t currentDegrees;
       Texture currentTexture;
 

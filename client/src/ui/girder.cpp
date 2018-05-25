@@ -31,7 +31,23 @@ void View::Girder::render(SDL_Renderer * renderer, int camX, int camY) {
 }
 
 degrees_t View::Girder::getCurrentDegrees(void) {
-  return (degrees_t)this->currentDegrees;
+  degrees_t vec[] = {
+    NINETY_DEGREES,
+    SIXTY_DEGREES,
+    FORTYFIVE_DEGREES,
+    THIRTY_DEGREES,
+    ZERO_DEGREES,
+    NEGATIVE_THIRTY_DEGREES,
+    NEGATIVE_FORTYFIVE_DEGREES,
+    NEGATIVE_SIXTY_DEGREES,
+    NEGATIVE_NINETY_DEGREES
+  };
+  for (size_t i = 0 ; i < DIFF_POS ; i++) {
+    std::cout << "Curr degrees " << this->currentDegrees << std::endl;
+    std::cout << "Vec degrest " << vec[i] << std::endl; 
+  }
+  //std::cout << "current degrees " << vec[this->currentDegrees]<< std::endl;
+  return vec[this->currentDegrees];
 }
 
 int View::Girder::getWidth(void) const {

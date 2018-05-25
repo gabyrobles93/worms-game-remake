@@ -16,6 +16,16 @@
 
 int validateArgs(int, char*[]);
 
+// Dibuja lo que ya fue clickeado por el usuario
+void renderObjectsPlaced(
+	SDL_Renderer * r,
+	std::vector<View::GirderShort*>  & shortCollection,
+	std::vector<View::GirderLong*> & longCollection,
+	std::map<std::size_t, std::vector<View::Worm*>> & wormsCollection,
+	int camX,
+	int camY
+);
+
 int main(int argc, char * argv[]) {
 
 	//validateArgs(argc, argv);
@@ -70,17 +80,12 @@ int main(int argc, char * argv[]) {
 		editorWindow.getBgHeight()
 	);
 
-
-
-	int mouseX;
-	int mouseY;
-
 	View::Inventory editorInventory(renderer, teamsAmount, wormsHealth);
 	editorInventory.toggleOpen();
 
-	View::GirderShort shortGirder(renderer);
-	View::GirderLong longGirder(renderer);
-
+	// Estructuras donde se guardan lo que se va dibujando.
+	// Al final del programa se libera la memomria y se 
+	// pasa esta data a un archvio YAML
 	std::vector<View::GirderShort*> shortCollection;
 	std::vector<View::GirderLong*> longCollection;
 	std::map<std::size_t, std::vector<View::Worm*>> wormsCollection;
@@ -89,7 +94,6 @@ int main(int argc, char * argv[]) {
 	bool quit = false;	
 	SDL_Event e;
 	while (!quit) {
-		SDL_GetMouseState(&mouseX, &mouseY);
 		int camX = camera.getX(), camY = camera.getY();
 		
 		while (SDL_PollEvent(&e) != 0) {
@@ -107,32 +111,8 @@ int main(int argc, char * argv[]) {
 
 		editorWindow.render(camera);
 
-		// Render de girder del mouse
-		// Funciona asi, no entiendo por que
-		shortGirder.setX(0);
-		shortGirder.setY(0);
-		//shortGirder.render(renderer, -mouseX, -mouseY);
-
-		for (size_t i = 0 ; i < shortCollection.size() ; i++) {
-			shortCollection.at(i)->render(renderer, camX, camY);
-		}
-
-		for (size_t i = 0 ; i < longCollection.size() ; i++) {
-			longCollection.at(i)->render(renderer, camX, camY);
-		}
-
-		std::map<std::size_t, std::vector<View::Worm*>>::iterator itMap = wormsCollection.begin();
-
+		renderObjectsPlaced(renderer, shortCollection, longCollection, wormsCollection, camX, camY);
 		
-		for (; itMap != wormsCollection.end() ; itMap++) {
-			std::vector<View::Worm*>::iterator it = itMap->second.begin();
-			for (; it != itMap->second.end() ; it++) {
-				(*it)->render(renderer, camX, camY);
-			}
-		}
-
-
-
 		editorInventory.renderSelectedInMouse(renderer);
 
 		editorWindow.renderWater(camera);
@@ -162,3 +142,28 @@ int validateArgs(int argc, char * argv[]) {
 	return 0;
 }
 
+void renderObjectsPlaced(
+	SDL_Renderer * renderer,
+	std::vector<View::GirderShort*>  & shortCollection,
+	std::vector<View::GirderLong*> & longCollection,
+	std::map<std::size_t, std::vector<View::Worm*>> & wormsCollection,
+	int camX,
+	int camY
+) {
+
+	for (size_t i = 0 ; i < shortCollection.size() ; i++) {
+		shortCollection.at(i)->render(renderer, camX, camY);
+	}
+
+	for (size_t i = 0 ; i < longCollection.size() ; i++) {
+		longCollection.at(i)->render(renderer, camX, camY);
+	}
+
+	std::map<std::size_t, std::vector<View::Worm*>>::iterator itMap = wormsCollection.begin();
+	for (; itMap != wormsCollection.end() ; itMap++) {
+		std::vector<View::Worm*>::iterator it = itMap->second.begin();
+		for (; it != itMap->second.end() ; it++) {
+			(*it)->render(renderer, camX, camY);
+		}
+	}
+}

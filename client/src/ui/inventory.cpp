@@ -264,12 +264,12 @@ void View::Inventory::renderSelectedInMouse(SDL_Renderer * r) {
     if (this->items.at(i)->selected) {
       // Short girder
       if (i == POS_GIRDER_SHORT) {
-        View::GirderShort g(r);
+        View::GirderShort g(r, this->girdersDegrees);
         g.setX(0);
         g.setY(0);
         g.render(r, -mouseX, -mouseY);
       } else if (i == POS_GIRDER_LONG) {
-        View::GirderLong g(r);
+        View::GirderLong g(r, this->girdersDegrees);
         g.setX(0);
         g.setY(0);
         g.render(r, -mouseX, -mouseY);
@@ -318,6 +318,22 @@ void View::Inventory::handleEvent(
   ) {
   
   this->handleEvent(e);
+
+  // Rotamos el dibujo de las vigas
+  if (e.type == SDL_MOUSEWHEEL) {
+    if (e.wheel.y > 0) {
+      std::cout << "clock degrees_t son: " << this->girdersDegrees << std::endl;
+      View::GirderShort g(r, this->girdersDegrees);
+      g.rotateClockwise();
+      this->girdersDegrees = g.getCurrentDegrees();
+    }
+    if (e.wheel.y < 0) {
+      View::GirderShort g(r, this->girdersDegrees);
+      std::cout << "counter clock degrees_t son: " << this->girdersDegrees << std::endl;
+      g.rotateCounterClockwise();
+      this->girdersDegrees = g.getCurrentDegrees();
+    }
+  }
 
   // Click izquierdo actualiza la coleccion de objetos estaticos
   if (e.type == SDL_MOUSEBUTTONDOWN) {
