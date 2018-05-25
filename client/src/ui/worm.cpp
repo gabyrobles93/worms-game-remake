@@ -103,8 +103,17 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
 }
 
 void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
+
+  const SDL_Color colors[] = {
+    {0, 0, 0, 0},
+    {255, 0, 0, 0},
+    {0, 255, 0, 0},
+    {0, 0, 255, 0}
+  };
+
   Texture & current = this->textures[this->currentAnimation];
 
+  this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
   //Render health
   SDL_Rect fillRect = { 
     this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX - PADDING, 
@@ -114,6 +123,8 @@ void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
   };
   SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
   SDL_RenderFillRect(r, &fillRect);
+
+  
 
   this->healthText.render(
     r, 

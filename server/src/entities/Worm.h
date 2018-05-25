@@ -14,25 +14,30 @@ class Worm : public Entity {
         int foot_contact;
         float posX;
         float posY;
+        bool mirrored;
         WormPhysic wormPhysic;
         std::string name;
 
     public:
-        Worm(std::string, int id, int team_id, int h, b2World& World, float posX, float posY);
-        void jump();
-        void frontJump();
-        void backJump();
-        void moveLeft();
-        void moveRight();
-        float getPosY();
-        float getPosX();
-        int getId();
-        int getTeam();
-        int getHealth();
-        std::string getName();
+        // mirrored = true significa mirando a derecha
+        Worm(std::string, bool mirrored, int id, int team_id, int h, b2World& World, float posX, float posY);
+        virtual ~Worm(void);
+        void hurt(int);
+        void jump(void);
+        void frontJump(void);
+        void backJump(void);
+        void moveLeft(void);
+        void moveRight(void);
+        float getPosY(void);
+        float getPosX(void);
+        int getId(void);
+        int getTeam(void);
+        int getHealth(void);
+        std::string getName(void);
         entity_t getEntityType() {return WORM;}
-        void addFootContact();
-        void deleteFootContact();
+        void addFootContact(void);
+        void deleteFootContact(void);
+        bool isMirrored(void);
 };
 
 #endif

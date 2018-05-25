@@ -16,3 +16,7 @@ float Girder::getPosY() {
 float Girder::getAngle() {
     return this->girderPhysic.getAngle();
 }
+
+Girder::~Girder(void) {
+
+}

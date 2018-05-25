@@ -74,6 +74,7 @@ void World::initializeWorld() {
     int id, tid, health;
     float x;
     float y;
+    int mirrored;
     std::string name;
     for (YAML::const_iterator it = worms_node.begin(); it != worms_node.end(); it++) {
         const YAML::Node& worm = *it;
@@ -83,7 +84,8 @@ void World::initializeWorld() {
         health = worm["health"].as<int>();
         x = (float) worm["x"].as<int>() * SCALING_FACTOR;
         y = (float) worm["y"].as<int>() * SCALING_FACTOR;
-        Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
+        mirrored = worm["status"]["mirrored"].as<int>();
+        Worm * new_worm = new Worm(name, mirrored, id, tid, health, this->worldPhysic.getWorld(), x, y);
         this->worms.insert(std::pair<int, Worm*>(id, new_worm));
     }
 }
@@ -101,11 +103,17 @@ void World::updateYAML() {
     YAML::Node::iterator it;
     std::string x;
     std::string y;
+    std::string health;
+    std::string mirrored;
     for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
         x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
         y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
+        health = std::to_string(this->worms[(*it)["id"].as<int>()]->getHealth());
+        mirrored = std::to_string(this->worms[(*it)["id"].as<int>()]->isMirrored());
         (*it)["x"] = x;
         (*it)["y"] = y;
+        (*it)["health"] = health;
+        (*it)["status"]["mirrored"] = mirrored;
 /*      std::cout << "x: " << x << std::endl;
         std::cout << "y: " << y << std::endl; */
     }

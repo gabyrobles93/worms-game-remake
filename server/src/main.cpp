@@ -48,9 +48,7 @@ int main(/* int argc, char *argv[] */) try {
 
     bool quit = false;
     while(!quit) {
-        std::cout << "Esperando evento del cliente." << std::endl;
         Event event = protocol.rcvEvent();
-
         if (event.quit())
             quit = true;
 
