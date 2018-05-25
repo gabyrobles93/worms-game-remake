@@ -161,3 +161,7 @@ int View::Worm::getHealth(void) {
 bool View::Worm::isAlive(void) {
   return this->alive;
 }
+
+void View::Worm::setMirrored(bool mirr) {
+  this->mirrored = mirr;
+}

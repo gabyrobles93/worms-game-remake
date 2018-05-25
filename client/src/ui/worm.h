@@ -55,6 +55,7 @@ namespace View {
       virtual int getY(void) const;
       virtual void setX(int);
       virtual void setY(int);
+      void setMirrored(bool);
       virtual void render(SDL_Renderer *, int, int);
       void renderWormData(SDL_Renderer *, int, int);
       void setHealth(int);
