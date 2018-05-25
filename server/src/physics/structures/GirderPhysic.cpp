@@ -1,19 +1,20 @@
 #include "GirderPhysic.h"
 
-GirderPhysic::GirderPhysic(b2World& world, float posX, float posY, float height, float width, float angle) {
+GirderPhysic::GirderPhysic(b2World& world, float posX, float posY, float height, float width, float angle, Entity* entity) {
     b2BodyDef girderDef;
     girderDef.type = b2_staticBody;
     girderDef.position.Set(posX, posY);
     girderDef.angle = angle;
     b2Body* body = world.CreateBody(&girderDef);
+    body->SetUserData(entity);
 
     b2PolygonShape girderShape;
     girderShape.SetAsBox(width/2, height/2);
 
     b2FixtureDef girderFixture;
     girderFixture.shape = &girderShape;
-    girderFixture.filter.categoryBits = STRUCTURE;
-    girderFixture.filter.maskBits = WORM;
+    girderFixture.filter.categoryBits = STRUCTURE_PHYSIC;
+    girderFixture.filter.maskBits = WORM_PHYSIC;
     if (angle <= 0.8 && angle >= -0.8) {
         girderFixture.friction = GIRDER_FRICTION;
     } else {

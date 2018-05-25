@@ -9,6 +9,7 @@
 #include "Water.h"
 #include "thread.h"
 #include "types.h"
+#include "ContactListener.h"
 #include <sstream>
 
 #define SCALING_FACTOR 0.0416

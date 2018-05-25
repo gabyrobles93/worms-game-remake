@@ -1,10 +1,11 @@
 #include "Worm.h"
 // AGREGAR EL HEALTH DE LOS GUSANOS
-Worm::Worm(std::string n, int id, int tid, int h, b2World& world, float posX, float posY) : wormPhysic(world, posX, posY) {
+Worm::Worm(std::string n, int id, int tid, int h, b2World& world, float posX, float posY) : wormPhysic(world, posX, posY, this) {
     this->id = id;
     this->team_id = tid;
     this->health = h;
     this->name = n;
+    this->foot_contact = 0;
 }
 
 void Worm::jump() {
@@ -49,4 +50,12 @@ int Worm::getHealth() {
 
 std::string Worm::getName() {
     return this->name;
+}
+
+void Worm::addFootContact() {
+    this->wormPhysic.addFootContact();
+}
+
+void Worm::deleteFootContact() {
+    this->wormPhysic.deleteFootContact();
 }

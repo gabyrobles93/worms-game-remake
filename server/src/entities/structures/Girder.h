@@ -3,8 +3,9 @@
 
 #include "Box2D.h"
 #include "GirderPhysic.h"
+#include "Entity.h"
 
-class Girder {
+class Girder : public Entity {
 private:
     int id;
     GirderPhysic girderPhysic;
@@ -13,6 +14,7 @@ public:
     float getPosX();
     float getPosY();
     float getAngle();
+    entity_t getEntityType() {return STRUCTURE;}
 };
 
 #endif

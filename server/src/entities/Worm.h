@@ -3,13 +3,15 @@
 
 #include "WormPhysic.h"
 #include "Box2D/Box2D.h"
+#include "Entity.h"
 #include <string>
 
-class Worm {
+class Worm : public Entity {
     private:
         int health;
         int id;
         int team_id;
+        int foot_contact;
         float posX;
         float posY;
         WormPhysic wormPhysic;
@@ -28,6 +30,9 @@ class Worm {
         int getTeam();
         int getHealth();
         std::string getName();
+        entity_t getEntityType() {return WORM;}
+        void addFootContact();
+        void deleteFootContact();
 };
 
 #endif

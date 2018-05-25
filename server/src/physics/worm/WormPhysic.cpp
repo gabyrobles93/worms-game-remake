@@ -1,11 +1,12 @@
 #include "WormPhysic.h"
 
-WormPhysic::WormPhysic(b2World& world, float posX, float posY) : world(world) {
+WormPhysic::WormPhysic(b2World& world, float posX, float posY, Entity* entity) : world(world) {
     b2BodyDef wormDef;
     wormDef.type = b2_dynamicBody;
     wormDef.fixedRotation = true;
     wormDef.position.Set(posX, posY);
     b2Body* body = world.CreateBody(&wormDef);
+    body->SetUserData(entity);
 
     b2PolygonShape wormShape;
     wormShape.SetAsBox(WORM_WIDTH/2, WORM_HEIGHT/2);
@@ -14,10 +15,16 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY) : world(world) {
     wormFixture.shape = &wormShape;
     wormFixture.density = WORM_DENSITY;
     wormFixture.friction = WORM_FRICTION;
-    wormFixture.filter.categoryBits = WORM;
-    wormFixture.filter.maskBits = STRUCTURE | WATER;
+    wormFixture.filter.categoryBits = WORM_PHYSIC;
+    wormFixture.filter.maskBits = STRUCTURE_PHYSIC | WATER_PHYSIC;
     body->CreateFixture(&wormFixture);
+
+    // wormShape.SetAsBox(0.3, 0.3, b2Vec2(0,-1), 0);
+    // wormFixture.isSensor = true;
+    // b2Fixture * footSensorFixture = body->CreateFixture(&wormFixture);
+    // footSensorFixture->SetUserData((void*) WORM_FOOT);
     this->body = body;
+    this->numFootContacts = 0;
 }
 
 void WormPhysic::moveRight() {
@@ -33,16 +40,19 @@ void WormPhysic::moveLeft() {
 }
 
 void WormPhysic::jump() {
+    if (this->numFootContacts <= 0) return;
     float impulse = this->body->GetMass() * 5;
     this->body->ApplyLinearImpulse(b2Vec2(0, impulse), this->body->GetWorldCenter(), true);
 }
 
 void WormPhysic::frontJump() {
+    if (this->numFootContacts <= 0) return;
     float impulse = this->body->GetMass() * 5;
     this->body->ApplyLinearImpulse(b2Vec2(impulse,-impulse), this->body->GetWorldCenter(), true);
 }
 
 void WormPhysic::backJump() {
+    if (this->numFootContacts <= 0) return;
     float impulse = this->body->GetMass() * 5;
     this->body->ApplyLinearImpulse(b2Vec2(-impulse, -impulse), this->body->GetWorldCenter(), true);
 }
@@ -53,4 +63,12 @@ float WormPhysic::getPosX() {
 
 float WormPhysic::getPosY() {
     return this->body->GetPosition().y;
+}
+
+void WormPhysic::addFootContact() {
+    this->numFootContacts++;
+}
+
+void WormPhysic::deleteFootContact() {
+    this->numFootContacts--;
 }

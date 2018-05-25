@@ -6,6 +6,7 @@ b2Vec2 WorldPhysic::_generateGravity() {
 }
 
 WorldPhysic::WorldPhysic() : world(_generateGravity()) {
+    this->world.SetContactListener(&contactListener);
 }
 
 b2World& WorldPhysic::getWorld() {

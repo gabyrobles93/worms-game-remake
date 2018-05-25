@@ -4,9 +4,9 @@
 #include "Box2D.h"
 
 enum _entityCategory {
-    WORM = 0x0001,
-    STRUCTURE = 0x0002,
-    WATER = 0x0004,
+    WORM_PHYSIC = 0x0001,
+    STRUCTURE_PHYSIC = 0x0002,
+    WATER_PHYSIC = 0x0004,
 };
 
 class PhysicEntity {

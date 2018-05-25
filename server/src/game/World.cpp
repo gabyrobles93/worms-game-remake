@@ -31,8 +31,6 @@ bool World::isRunning(void) const {
 }
 
 void World::initializeWorld() {
-    /* std::cout << "Inicializando mundo" << std::endl; */
-
     float water_posX = (MAP_WIDTH / 2) * SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * SCALING_FACTOR ;
     float water_height = WATER_LEVEL * SCALING_FACTOR;

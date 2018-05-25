@@ -13,8 +13,8 @@ WaterPhysic::WaterPhysic(b2World& world, float posX, float posY, float width, fl
     waterFixture.shape = &waterShape;
     waterFixture.density = 1;
     waterFixture.friction = 1;
-    waterFixture.filter.categoryBits = WATER;
-    waterFixture.filter.maskBits = WORM;
+    waterFixture.filter.categoryBits = WATER_PHYSIC;
+    waterFixture.filter.maskBits = WORM_PHYSIC;
     body->CreateFixture(&waterFixture);
 
     this->body = body;

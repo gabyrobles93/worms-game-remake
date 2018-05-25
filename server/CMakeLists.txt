@@ -72,6 +72,9 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/Water.h
 		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.h
 		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/ContactListener.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/ContactListener.h
+		${PROJECT_SOURCE_DIR}/src/entities/Entity.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
