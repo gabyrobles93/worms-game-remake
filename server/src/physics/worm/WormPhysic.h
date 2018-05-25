@@ -2,6 +2,7 @@
 #define WORM_PHYSIC_H
 
 #include "Box2D/Box2D.h"
+#include "PhysicEntity.h"
 
 #define MOVE_VELOCITY 2.0f
 #define WORM_HEIGHT 0.8f

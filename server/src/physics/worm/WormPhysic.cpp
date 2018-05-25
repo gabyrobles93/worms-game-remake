@@ -14,19 +14,21 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY) : world(world) {
     wormFixture.shape = &wormShape;
     wormFixture.density = WORM_DENSITY;
     wormFixture.friction = WORM_FRICTION;
+    wormFixture.filter.categoryBits = WORM;
+    wormFixture.filter.maskBits = STRUCTURE | WATER;
     body->CreateFixture(&wormFixture);
     this->body = body;
 }
 
 void WormPhysic::moveRight() {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    velocity.x = -MOVE_VELOCITY;
+    velocity.x = MOVE_VELOCITY;
     this->body->SetLinearVelocity(velocity);
 }
 
 void WormPhysic::moveLeft() {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    velocity.y = MOVE_VELOCITY;
+    velocity.x = -MOVE_VELOCITY;
     this->body->SetLinearVelocity(velocity);
 }
 

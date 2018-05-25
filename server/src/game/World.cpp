@@ -4,7 +4,7 @@
 
 #define MAP_WIDTH 2500
 #define MAP_HEIGTH 1500
-#define WATER_LEVEL 200
+#define WATER_LEVEL 300
 
 World::World(std::string & map_path) {
     this->node_map = YAML::LoadFile(map_path);
@@ -34,7 +34,7 @@ void World::initializeWorld() {
     /* std::cout << "Inicializando mundo" << std::endl; */
 
     float water_posX = (MAP_WIDTH / 2) * SCALING_FACTOR;
-    float water_posY = (MAP_HEIGTH) * SCALING_FACTOR ;
+    float water_posY = (MAP_HEIGTH - 100) * SCALING_FACTOR ;
     float water_height = WATER_LEVEL * SCALING_FACTOR;
     float water_width =   MAP_WIDTH * SCALING_FACTOR;
 
@@ -136,4 +136,18 @@ void World::moveRight(size_t worm_id) {
 
 void World::stop() {
     this->keep_running = false;
+}
+
+void World::executeAction(action_t action, int id) {
+    switch(action) {
+        case a_moveLeft: 
+            this->worms[id]->moveLeft();
+            std::cout << "MOVIENDO EL GUSANO A LA IZQUIERDA" << std::endl;
+            break;
+        case a_moveRight:
+            this->worms[id]->moveRight();
+            break;
+        default: break;
+    }
+
 }

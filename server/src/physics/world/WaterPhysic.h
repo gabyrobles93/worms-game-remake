@@ -2,6 +2,7 @@
 #define WATER_PHYSIC_H
 
 #include "Box2D.h"
+#include "PhysicEntity.h"
 
 class WaterPhysic {
 private:

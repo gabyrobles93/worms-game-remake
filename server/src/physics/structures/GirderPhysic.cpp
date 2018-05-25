@@ -12,7 +12,8 @@ GirderPhysic::GirderPhysic(b2World& world, float posX, float posY, float height,
 
     b2FixtureDef girderFixture;
     girderFixture.shape = &girderShape;
-    
+    girderFixture.filter.categoryBits = STRUCTURE;
+    girderFixture.filter.maskBits = WORM;
     if (angle <= 0.8 && angle >= -0.8) {
         girderFixture.friction = GIRDER_FRICTION;
     } else {
