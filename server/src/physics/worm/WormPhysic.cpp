@@ -92,3 +92,7 @@ bool WormPhysic::haveVerticalSpeed(void) {
     }
     return false;
 } 
+
+bool WormPhysic::isGrounded(void) {
+    return numFootContacts > 0;
+}

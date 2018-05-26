@@ -32,6 +32,7 @@ public:
     void deleteFootContact();
     bool haveHorizontalSpeed(void);
     bool haveVerticalSpeed(void);
+    bool isGrounded(void);
 };
 
 #endif
