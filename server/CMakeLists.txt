@@ -86,6 +86,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Dynamite.h
 		${PROJECT_SOURCE_DIR}/src/physics/ExplosionManager.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/ExplosionManager.h
+		${PROJECT_SOURCE_DIR}/src/physics/QueryCallback.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/QueryCallback.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

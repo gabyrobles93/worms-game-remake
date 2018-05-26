@@ -5,6 +5,7 @@ typedef enum {
     WORM,
     STRUCTURE,
     DYNAMITE,
+    WATER,
 } entity_t;
 
 class Entity {

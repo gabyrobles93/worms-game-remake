@@ -23,6 +23,7 @@ private:
     WorldPhysic worldPhysic;
     std::map<int, Girder*> girders;
     std::map<int, Worm*> worms;
+    Water* water;
     YAML::Node node_map;
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;

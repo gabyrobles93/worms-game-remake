@@ -18,19 +18,21 @@ void ContactListener::BeginContact(b2Contact* contact) {
         //WORM FOOT CONTACT
         if (entityA_type == WORM && entityB_type == STRUCTURE) {
             static_cast<Worm*>(bodyAUserData)->addFootContact();
-        //     float ground_angle = static_cast<Girder*>(bodyBUserData)->getAngle();
-        //     static_cast<Worm*>(bodyAUserData)->setAngle(ground_angle);
         }
         if (entityB_type == WORM && entityA_type == STRUCTURE) {
             static_cast<Worm*>(bodyBUserData)->addFootContact();
-            // float ground_angle = static_cast<Girder*>(bodyAUserData)->getAngle();
-            // static_cast<Worm*>(bodyBUserData)->setAngle(ground_angle);
         }
 
         //WORM WATER CONTACT
-        // if (entityA_type == WORM && entityB_type == WATER) {
-        //     static_cast<Worm*>(bodyAUserData)->die();
-        // }
+         if (entityA_type == WORM && entityB_type == WATER) {
+            static_cast<Worm*>(bodyAUserData)->hurt(100);
+            std::cout << static_cast<Worm*>(bodyAUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyAUserData)->isDead() << std::endl;
+         }
+
+         if (entityB_type == WORM && entityA_type == WATER) {
+            static_cast<Worm*>(bodyBUserData)->hurt(100);
+            std::cout << static_cast<Worm*>(bodyBUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyBUserData)->isDead() << std::endl;
+         }
     }
 }
 

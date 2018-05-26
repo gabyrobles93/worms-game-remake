@@ -1,10 +1,11 @@
 #include "WaterPhysic.h"
 
-WaterPhysic::WaterPhysic(b2World& world, float posX, float posY, float width, float height) {
+WaterPhysic::WaterPhysic(b2World& world, float posX, float posY, float width, float height, Entity* entity) {
     b2BodyDef waterDef;
     waterDef.type = b2_staticBody;
     waterDef.position.Set(posX, posY);
     b2Body* body = world.CreateBody(&waterDef);
+    body->SetUserData(entity);
 
     b2PolygonShape waterShape;
     waterShape.SetAsBox(width/2, height/2);

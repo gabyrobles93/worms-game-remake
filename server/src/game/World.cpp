@@ -36,7 +36,7 @@ void World::initializeWorld() {
     float water_height = WATER_LEVEL * SCALING_FACTOR;
     float water_width =   MAP_WIDTH * SCALING_FACTOR;
 
-    Water water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
+    this->water = new Water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
     const YAML::Node& static_node = this->node_map["static"];
     const YAML::Node& dynamic_node = this->node_map["dynamic"];
 

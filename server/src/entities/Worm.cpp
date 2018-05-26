@@ -112,3 +112,7 @@ bool Worm::isFalling(void) {
 bool Worm::isGrounded(void) {
     return this->wormPhysic.isGrounded();
 }
+
+bool Worm::isDead(void) {
+    return this->health == 0;
+}

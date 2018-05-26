@@ -43,6 +43,7 @@ class Worm : public Entity {
         bool isWalking(void);
         bool isFalling(void);
         bool isGrounded(void);
+        bool isDead(void);
 };
 
 #endif

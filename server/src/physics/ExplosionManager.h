@@ -3,11 +3,13 @@
 
 #define NUM_RAYS 32
 #define GRADTORAD 0.0174533
+#define REDUCE_FACTOR 50
 
 #include "Box2D.h"
 #include "Entity.h"
 #include "Worm.h"
 #include "RayCastClosestCallBack.h"
+#include "QueryCallback.h"
 
 class ExplosionManager {
 private:
