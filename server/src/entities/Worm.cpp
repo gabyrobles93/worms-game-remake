@@ -27,13 +27,17 @@ void Worm::backJump(void) {
 }
 
 void Worm::moveRight(void) {
-    this->wormPhysic.moveRight();
-    this->mirrored = true;
+    if (isGrounded()) {
+        this->wormPhysic.moveRight();
+        this->mirrored = true;
+    }
 }
 
 void Worm::moveLeft(void) {
-    this->wormPhysic.moveLeft();
-    this->mirrored = false;
+    if (isGrounded()) {
+        this->wormPhysic.moveLeft();
+        this->mirrored = false;
+    }
 }
 
 bool Worm::isMirrored(void) {

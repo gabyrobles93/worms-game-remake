@@ -107,6 +107,7 @@ void World::updateYAML() {
     std::string mirrored;
     std::string walking;
     std::string falling;
+    std::string grounded;
     for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
         x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
         y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
@@ -114,12 +115,14 @@ void World::updateYAML() {
         mirrored = std::to_string(this->worms[(*it)["id"].as<int>()]->isMirrored());
         walking = std::to_string(this->worms[(*it)["id"].as<int>()]->isWalking());
         falling = std::to_string(this->worms[(*it)["id"].as<int>()]->isFalling());
+        grounded = std::to_string(this->worms[(*it)["id"].as<int>()]->isGrounded());
         (*it)["x"] = x;
         (*it)["y"] = y;
         (*it)["health"] = health;
         (*it)["status"]["mirrored"] = mirrored;
         (*it)["status"]["walking"] = walking;
         (*it)["status"]["falling"] = falling;
+        (*it)["status"]["grounded"] = grounded;
 /*      std::cout << "x: " << x << std::endl;
         std::cout << "y: " << y << std::endl; */
     }
@@ -152,7 +155,7 @@ void World::stop() {
 
 void World::executeAction(action_t action, int id) {
     switch(action) {
-        case a_moveLeft: 
+        case a_moveLeft:
             this->worms[id]->moveLeft();
             std::cout << "MOVIENDO EL GUSANO A LA IZQUIERDA" << std::endl;
             break;
