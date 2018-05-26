@@ -19,7 +19,6 @@ void View::WormsStatus::render(SDL_Renderer * renderer, View::Camera & camera) {
 
 	for (it = this->worms.begin(); it != this->worms.end(); it++) {
 		if (it->second->isAlive()) {
-			//it->second->setX(it->second->getX()+1); // Para mover los gusanos y debuggear
 			it->second->render(renderer, camera.getX(), camera.getY());
 		}
 	}

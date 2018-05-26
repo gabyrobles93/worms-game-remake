@@ -60,7 +60,8 @@
                 "${workspaceFolder}/server/src/entities/structures",
                 "${workspaceFolder}/server/src/entities",
                 "${workspaceFolder}/server/src/physics",
-                "${workspaceFolder}/server/src/entities/weapons"
+                "${workspaceFolder}/server/src/entities/weapons",
+                "/usr/include"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

@@ -162,6 +162,9 @@ void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
 
 void View::Worm::setHealth(int newHealth) {
   this->health = newHealth;
+  if (this->health <= 0) {
+    this->alive = false;
+  }
 }
 
 int View::Worm::getHealth(void) {
