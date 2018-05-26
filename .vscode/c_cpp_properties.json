@@ -58,7 +58,8 @@
                 "${workspaceFolder}/server/src/physics/worm",
                 "${workspaceFolder}/server/include",
                 "${workspaceFolder}/server/src/entities/structures",
-                "${workspaceFolder}/server/src/entities"
+                "${workspaceFolder}/server/src/entities",
+                "${workspaceFolder}/server/src/physics"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

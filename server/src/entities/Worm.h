@@ -1,7 +1,6 @@
 #ifndef WORM_H
 #define WORM_H
 
-
 #include "WormPhysic.h"
 #include "Box2D/Box2D.h"
 #include "Entity.h"
