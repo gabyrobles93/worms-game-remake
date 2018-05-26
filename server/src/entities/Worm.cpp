@@ -108,3 +108,7 @@ bool Worm::isFalling(void) {
     }
     return this->wormPhysic.haveVerticalSpeed();
 }
+
+bool Worm::isGrounded(void) {
+    return this->wormPhysic.isGrounded();
+}

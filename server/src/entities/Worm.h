@@ -43,6 +43,7 @@ class Worm : public Entity {
         void shoot(entity_t weapon);
         bool isWalking(void);
         bool isFalling(void);
+        bool isGrounded(void);
 };
 
 #endif
