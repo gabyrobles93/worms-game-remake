@@ -54,12 +54,12 @@ int main(/* int argc, char *argv[] */) try {
         if (event.quit())
             quit = true;
 
-       if (match.isTeamTurnOf(event.getTeamId())) {
-            std::cout << "Ejecutando acción." << std::endl;
-            world.executeAction(event.getAction(), match.getWormTurn(match.getTeamTurn()));
-        } else {
-            std::cout << "Acción ignorada." << std::endl;
-        }
+       //if (match.isTeamTurnOf(event.getTeamId())) {
+       //     std::cout << "Ejecutando acción." << std::endl;
+            world.executeAction(event.getAction(), 1);
+       // } else {
+       //     std::cout << "Acción ignorada." << std::endl;
+       // }
     }
 
     std::cout << "El cliente cerró la ventana." << std::endl;
