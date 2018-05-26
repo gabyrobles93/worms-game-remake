@@ -6,8 +6,8 @@ ContactListener::~ContactListener() {}
 
 
 void ContactListener::BeginContact(b2Contact* contact) {
-    void* fixtureAUserData = contact->GetFixtureA()->GetUserData();
-    void* fixtureBUserData = contact->GetFixtureB()->GetUserData();
+/*     void* fixtureAUserData = contact->GetFixtureA()->GetUserData();
+    void* fixtureBUserData = contact->GetFixtureB()->GetUserData(); */
     void* bodyAUserData = contact->GetFixtureA()->GetBody()->GetUserData();
     void* bodyBUserData = contact->GetFixtureB()->GetBody()->GetUserData();
    

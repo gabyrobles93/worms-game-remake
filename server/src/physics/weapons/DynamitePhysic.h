@@ -10,7 +10,7 @@
 #define NUM_RAYS 32
 #define GRADTORAD 0.0174533
 #define BLAST_RADIUS 4.0
-#define BLAST_POWER 100
+#define BLAST_POWER 50
 
 
 class DynamitePhysic {

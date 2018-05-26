@@ -63,7 +63,7 @@ dynamic:
       status:
         grounded: 0
         falling: 1
-        mirrored: 1
+        mirrored: 0
     - id: 2
       team: 1
       name: ariel
@@ -83,7 +83,7 @@ dynamic:
       status:
         grounded: 0
         falling: 1
-        mirrored: 1
+        mirrored: 0
     - id: 4
       team: 2
       name: gaby
@@ -93,7 +93,7 @@ dynamic:
       status:
         grounded: 0
         falling: 1
-        mirrored: 1
+        mirrored: 0
     - id: 5
       team: 2
       name: pedro
@@ -103,7 +103,7 @@ dynamic:
       status:
         grounded: 0
         falling: 1
-        mirrored: 1
+        mirrored: 0
     - id: 6
       team: 3
       name: bianca
@@ -113,7 +113,7 @@ dynamic:
       status:
         grounded: 0
         falling: 1
-        mirrored: 1
+        mirrored: 0
     - id: 7
       team: 3
       name: gus
@@ -123,6 +123,6 @@ dynamic:
       status:
         grounded: 0
         falling: 1
-        mirrored: 1
+        mirrored: 0
 
   
