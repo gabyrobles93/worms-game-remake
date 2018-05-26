@@ -17,10 +17,14 @@ void ContactListener::BeginContact(b2Contact* contact) {
 
         //WORM FOOT CONTACT
         if (entityA_type == WORM && entityB_type == STRUCTURE) {
-            static_cast<Worm*>(bodyAUserData)->addFootContact();
+            float angle = static_cast<Girder*>(bodyBUserData)->getAngle();
+            if (angle <= 0.8 && angle >= -0,8) 
+                static_cast<Worm*>(bodyAUserData)->addFootContact();
         }
         if (entityB_type == WORM && entityA_type == STRUCTURE) {
-            static_cast<Worm*>(bodyBUserData)->addFootContact();
+            float angle = static_cast<Girder*>(bodyAUserData)->getAngle();
+            if (angle <= 0.8 && angle >= -0.8)
+                static_cast<Worm*>(bodyBUserData)->addFootContact();
         }
 
         //WORM WATER CONTACT
