@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <unistd.h>
 #include "model_receiver.h"
 #include "protected_dynamics.h"
@@ -25,6 +26,9 @@ void ModelReceiver::run(void) {
     while (keep_runing) {
         YAML::Node newDynamics;
         this->protocol.rcvModel(newDynamics);
+        std::stringstream ss;
+        ss << newDynamics;
+        std::cout << ss.str() << std::endl;
         this->dynamics.update(newDynamics);
     }
 }

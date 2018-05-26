@@ -42,6 +42,7 @@ class Worm : public Entity {
         void setAngle(float angle);
         void shoot(entity_t weapon);
         bool isWalking(void);
+        bool isFalling(void);
 };
 
 #endif

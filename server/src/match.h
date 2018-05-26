@@ -17,7 +17,7 @@ class Match : public Thread {
         int createTeams(std::map<int, Worm*> &);
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
-        void advanceTurn(void);
+        
     public:
         Match(std::map<int, Worm*> &, size_t);
         ~Match(void);
@@ -27,6 +27,7 @@ class Match : public Thread {
         bool isTeamTurnOf(int);
         int getTeamTurn(void);
         int getWormTurn(int);
+        void advanceTurn(void);
 };
 
 #endif

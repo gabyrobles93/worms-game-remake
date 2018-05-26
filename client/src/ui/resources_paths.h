@@ -56,6 +56,8 @@
 #define PATH_WORM_WALK_UP "../../resources/graphics/Worms/wwalku.png"
 
 #define PATH_WORM_WALK_DOWN "../../resources/graphics/Worms/wwalkd.png"
+
+#define PATH_WORM_FALL_DN "../../resources/graphics/Worms/wfall.png"
 /* ----------------------------------- */
 
 /* WATER PATHS */

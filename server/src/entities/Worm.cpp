@@ -101,3 +101,10 @@ bool Worm::isWalking(void) {
     }
     return this->wormPhysic.haveHorizontalSpeed();
 }
+
+bool Worm::isFalling(void) {
+    if (this->wormPhysic.haveHorizontalSpeed()) {
+        return false;
+    }
+    return this->wormPhysic.haveVerticalSpeed();
+}

@@ -21,6 +21,8 @@ typedef enum {
   WALK,
   WALK_UP,
   WALK_DOWN,
+
+  FALLDN
 } worm_animation_t;
 
 namespace View {
@@ -34,7 +36,9 @@ namespace View {
       // Animation state
       bool mirrored;
       bool walking;
+      bool falling;
       bool alive;
+
 
       // Worm data
       std::string name;
@@ -61,6 +65,7 @@ namespace View {
       virtual void render(SDL_Renderer *, int, int);
       void renderWormData(SDL_Renderer *, int, int);
       void setHealth(int);
+      void setFalling(bool);
       int getHealth(void);
       bool isAlive(void);
   };

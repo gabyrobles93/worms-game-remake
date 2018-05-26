@@ -29,12 +29,15 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->textures[WALK_UP].loadFromFile(PATH_WORM_WALK_UP, r);
   this->textures[WALK_DOWN].loadFromFile(PATH_WORM_WALK_DOWN, r);
 
+  this->textures[FALLDN].loadFromFile(PATH_WORM_FALL_DN, r);
+
   this->currentAnimation = BREATH_1;
   this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
   
   this->mirrored = false;
   this->walking = false;
   this->alive = true;
+  this->falling = false;
 
   this->x = 0;
   this->y = 0;
@@ -175,4 +178,8 @@ void View::Worm::setMirrored(bool mirr) {
 
 void View::Worm::setWalking(bool walk) {
   this->walking = walk;
+}
+
+void View::Worm::setFalling(bool fall) {
+  this->falling = fall;
 }
