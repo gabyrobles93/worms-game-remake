@@ -41,6 +41,7 @@ class Worm : public Entity {
         bool isMirrored(void);
         void setAngle(float angle);
         void shoot(entity_t weapon);
+        bool isWalking(void);
 };
 
 #endif

@@ -35,6 +35,7 @@ void View::WormsStatus::update(YAML::Node wormsNode) {
 		worm->setY(eachWorm["y"].as<int>());
 		worm->setHealth(eachWorm["health"].as<int>());
 		worm->setMirrored(eachWorm["status"]["mirrored"].as<int>());
+		worm->setWalking(eachWorm["status"]["walking"].as<int>());
 	}
 }
 

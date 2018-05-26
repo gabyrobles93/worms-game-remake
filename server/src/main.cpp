@@ -18,7 +18,7 @@
 #define PORT "8080"
 #define MAP_PATH "../map.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define ROUND_DURATION_SEC 10
+#define ROUND_DURATION_SEC 60
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);

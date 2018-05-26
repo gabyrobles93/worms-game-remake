@@ -19,11 +19,11 @@ void Worm::jump(void) {
 }
 
 void Worm::frontJump(void) {
-    this->wormPhysic.frontJump();
+    this->wormPhysic.frontJump(this->mirrored);
 }
 
 void Worm::backJump(void) {
-    this->wormPhysic.backJump();
+    this->wormPhysic.backJump(this->mirrored);
 }
 
 void Worm::moveRight(void) {
@@ -93,4 +93,11 @@ void Worm::hurt(int damage) {
     } else {
         this->health -= damage;
     }
+}
+
+bool Worm::isWalking(void) {
+    if (this->wormPhysic.haveVerticalSpeed()) {
+        return false;
+    }
+    return this->wormPhysic.haveHorizontalSpeed();
 }

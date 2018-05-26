@@ -105,13 +105,20 @@ void World::updateYAML() {
     std::string y;
     std::string health;
     std::string mirrored;
+    std::string walking;
     for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
         x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
         y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
         health = std::to_string(this->worms[(*it)["id"].as<int>()]->getHealth());
         mirrored = std::to_string(this->worms[(*it)["id"].as<int>()]->isMirrored());
+        walking = std::to_string(this->worms[(*it)["id"].as<int>()]->isWalking());
         (*it)["x"] = x;
         (*it)["y"] = y;
+        (*it)["health"] = health;
+        (*it)["status"]["mirrored"] = mirrored;
+        (*it)["status"]["walking"] = walking;
+/*      std::cout << "x: " << x << std::endl;
+        std::cout << "y: " << y << std::endl; */
     }
 }
 
