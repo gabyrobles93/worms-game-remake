@@ -1,11 +1,12 @@
 #include "Worm.h"
 // AGREGAR EL HEALTH DE LOS GUSANOS
-Worm::Worm(std::string n, int id, int tid, int h, b2World& world, float posX, float posY) : wormPhysic(world, posX, posY, this) {
+Worm::Worm(std::string n, int id, int tid, int h, b2World& world, float posX, float posY) : 
+wormPhysic(world, posX, posY, this),
+world(world) {
     this->id = id;
     this->team_id = tid;
     this->health = h;
     this->name = n;
-    this->foot_contact = 0;
 }
 
 void Worm::jump() {
@@ -58,4 +59,19 @@ void Worm::addFootContact() {
 
 void Worm::deleteFootContact() {
     this->wormPhysic.deleteFootContact();
+}
+
+void Worm::setAngle(float angle) {
+    this->wormPhysic.setAngle(angle);
+}
+
+void Worm::shoot(entity_t weapon) {
+    // switch(weapon) {
+    //     case DYNAMITE : {
+    //         Dynamite dynamite(this->world, posX, posY);
+    //         dynamite.explode();
+    //         break;
+    //     }
+    //     default: break;
+    // }
 }

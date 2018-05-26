@@ -24,6 +24,9 @@ include_directories(${PROJECT_SOURCE_DIR}/src/entities/structures)
 include_directories(${PROJECT_SOURCE_DIR}/src/entities)
 include_directories(${PROJECT_SOURCE_DIR}/src/game)
 include_directories(${PROJECT_SOURCE_DIR}/src/physics)
+include_directories(${PROJECT_SOURCE_DIR}/src/entities/weapons)
+include_directories(${PROJECT_SOURCE_DIR}/src/physics/weapons)
+
 
 
 add_executable(	server
@@ -74,7 +77,15 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/ContactListener.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/ContactListener.h
+		${PROJECT_SOURCE_DIR}/src/physics/RayCastClosestCallBack.h
+		${PROJECT_SOURCE_DIR}/src/physics/RayCastClosestCallBack.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Entity.h
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/DynamitePhysic.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/DynamitePhysic.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Dynamite.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Dynamite.h
+		${PROJECT_SOURCE_DIR}/src/physics/ExplosionManager.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/ExplosionManager.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

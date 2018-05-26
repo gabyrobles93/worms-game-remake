@@ -11,6 +11,7 @@
 #include "types.h"
 #include "ContactListener.h"
 #include <sstream>
+#include <Dynamite.h>
 
 #define SCALING_FACTOR 0.0416
 #define GRADTORAD 0.0174533

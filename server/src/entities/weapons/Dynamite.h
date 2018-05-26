@@ -10,7 +10,7 @@ private:
     DynamitePhysic dynamitePhysic;
 public:
     Dynamite(b2World& world, float posX, float posY);
-    void expload();
+    void explode();
 };
 
 #endif

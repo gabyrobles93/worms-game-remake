@@ -12,22 +12,25 @@ void ContactListener::BeginContact(b2Contact* contact) {
     void* bodyBUserData = contact->GetFixtureB()->GetBody()->GetUserData();
    
     if (bodyAUserData && bodyBUserData) {
-        std::cout << "SALDKFJASOEIJFASOIEJFASOEIJF" << std::endl;
         entity_t entityA_type = static_cast<Entity*>(bodyAUserData)->getEntityType(); 
         entity_t entityB_type = static_cast<Entity*>(bodyBUserData)->getEntityType();    
-
-        std::cout << "ENTity A " << entityA_type << "ENTITY B" << entityB_type << std::endl;   
 
         //WORM FOOT CONTACT
         if (entityA_type == WORM && entityB_type == STRUCTURE) {
             static_cast<Worm*>(bodyAUserData)->addFootContact();
-            std::cout << "GUSANO EN CONTACTO CON VIGA" << std::endl;
+        //     float ground_angle = static_cast<Girder*>(bodyBUserData)->getAngle();
+        //     static_cast<Worm*>(bodyAUserData)->setAngle(ground_angle);
         }
-
         if (entityB_type == WORM && entityA_type == STRUCTURE) {
             static_cast<Worm*>(bodyBUserData)->addFootContact();
-            std::cout << "GUSANO EN CONTACTO CON VIGA" << std::endl;
+            // float ground_angle = static_cast<Girder*>(bodyAUserData)->getAngle();
+            // static_cast<Worm*>(bodyBUserData)->setAngle(ground_angle);
         }
+
+        //WORM WATER CONTACT
+        // if (entityA_type == WORM && entityB_type == WATER) {
+        //     static_cast<Worm*>(bodyAUserData)->die();
+        // }
     }
 }
 

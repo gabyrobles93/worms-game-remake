@@ -106,8 +106,6 @@ void World::updateYAML() {
         y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
         (*it)["x"] = x;
         (*it)["y"] = y;
-/*      std::cout << "x: " << x << std::endl;
-        std::cout << "y: " << y << std::endl; */
     }
 }
 
@@ -152,6 +150,12 @@ void World::executeAction(action_t action, int id) {
         case a_backJump:
             this->worms[id]->backJump();
             break;
+        case a_shoot : {
+            std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
+            Dynamite dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY());
+            dynamite.explode();
+            break;
+        }
         default: break;
     }
 

@@ -1,6 +1,7 @@
 #ifndef WORM_H
 #define WORM_H
 
+
 #include "WormPhysic.h"
 #include "Box2D/Box2D.h"
 #include "Entity.h"
@@ -11,11 +12,11 @@ class Worm : public Entity {
         int health;
         int id;
         int team_id;
-        int foot_contact;
         float posX;
         float posY;
         WormPhysic wormPhysic;
         std::string name;
+        b2World& world;
 
     public:
         Worm(std::string, int id, int team_id, int h, b2World& World, float posX, float posY);
@@ -33,6 +34,8 @@ class Worm : public Entity {
         entity_t getEntityType() {return WORM;}
         void addFootContact();
         void deleteFootContact();
+        void setAngle(float angle);
+        void shoot(entity_t weapon);
 };
 
 #endif

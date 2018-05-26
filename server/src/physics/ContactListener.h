@@ -3,6 +3,7 @@
 
 #include "Box2D.h"
 #include "Entity.h"
+#include "Girder.h"
 #include "Worm.h"
 
 class ContactListener : public b2ContactListener {

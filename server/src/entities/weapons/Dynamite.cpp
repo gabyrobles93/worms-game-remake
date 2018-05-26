@@ -1,9 +1,12 @@
 #include "Dynamite.h"
+#include <iostream>
 
-Dynamite::Dynamite(b2World& world, float posX, float posY) : dynamitePhysic(world, posX, posY) {
+Dynamite::Dynamite(b2World& world, float posX, float posY) :
+ dynamitePhysic(world, posX, posY) {
+     std::cout << "DINAMITA CREADA" << std::endl;
 
 }
 
-void Dynamite::expload() {
-    //TODO
+void Dynamite::explode() {
+    this->dynamitePhysic.explode();
 }

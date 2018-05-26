@@ -19,10 +19,6 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY, Entity* entity) :
     wormFixture.filter.maskBits = STRUCTURE_PHYSIC | WATER_PHYSIC;
     body->CreateFixture(&wormFixture);
 
-    // wormShape.SetAsBox(0.3, 0.3, b2Vec2(0,-1), 0);
-    // wormFixture.isSensor = true;
-    // b2Fixture * footSensorFixture = body->CreateFixture(&wormFixture);
-    // footSensorFixture->SetUserData((void*) WORM_FOOT);
     this->body = body;
     this->numFootContacts = 0;
 }
@@ -71,4 +67,8 @@ void WormPhysic::addFootContact() {
 
 void WormPhysic::deleteFootContact() {
     this->numFootContacts--;
+}
+
+void WormPhysic::setAngle(float angle) {
+    this->body->SetTransform(this->body->GetPosition(), angle);
 }

@@ -2,7 +2,7 @@
 #define GIRDER_PHYSIC_H
 
 #define GIRDER_DENSITY 1
-#define GIRDER_FRICTION 50
+#define GIRDER_FRICTION 10
 #define SLIPPERY_GIRDER 0
 
 #include "Box2D.h"
