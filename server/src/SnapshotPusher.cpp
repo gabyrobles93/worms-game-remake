@@ -3,8 +3,9 @@
 #include "SnapshotPusher.h"
 
 
-SnapshotPusher::SnapshotPusher(World& world, Queue<YAML::Node> & snapshots) : 
-world(world) , 
+SnapshotPusher::SnapshotPusher(World & world, Match & match, Queue<YAML::Node> & snapshots) : 
+world(world),
+match(match),
 snapshots(snapshots)  {
     this->keep_running = true;
 }
@@ -25,6 +26,7 @@ void SnapshotPusher::run() {
     while (keep_running) {
         usleep(16666);
         this->snapshot = this->world.getSnapshot();
+        this->snapshot["camera"]["worm"] = this->match.getWormTurn(match.getTeamTurn());
         snapshots.push(this->snapshot);
     }
 }

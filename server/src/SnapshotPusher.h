@@ -6,16 +6,18 @@
 #include "blocking_queue.h"
 #include <string>
 #include "thread.h"
+#include "match.h"
 
 class SnapshotPusher : public Thread {
 public:
-    SnapshotPusher(World & world, Queue<YAML::Node> & models);
+    SnapshotPusher(World & world, Match &, Queue<YAML::Node> & models);
     ~SnapshotPusher();
     virtual void run(void);
     void stop();
 private:
     bool keep_running;
-    World& world;
+    World & world;
+    Match & match;
     Queue<YAML::Node> & snapshots;
     //std::string snapshot;
     YAML::Node snapshot;

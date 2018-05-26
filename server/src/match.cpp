@@ -70,13 +70,11 @@ size_t Match::getId(void) const {
 void Match::run(void) {
     unsigned int counter_ms = 0;
     const unsigned int time_fraction_ms = 500;
-    std::cout << "Ahora es el turno del equipo: " << getTeamTurn() << " con su gusano ID: " << getWormTurn(getTeamTurn()) << std::endl;
     while (keep_running) {
         usleep(time_fraction_ms);
         counter_ms += time_fraction_ms;
         if (counter_ms >= (this->round_duration_sec * US_SEC_FACTOR)) {
             advanceTurn();
-            std::cout << "Ahora es el turno del equipo: " << getTeamTurn() << " con su gusano ID: " << getWormTurn(getTeamTurn()) << std::endl;
             counter_ms = 0;
         }    
     }

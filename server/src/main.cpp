@@ -18,7 +18,7 @@
 #define PORT "8080"
 #define MAP_PATH "../map2.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define ROUND_DURATION_SEC 60
+#define ROUND_DURATION_SEC 1
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
@@ -35,7 +35,7 @@ int main(/* int argc, char *argv[] */) try {
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
     Queue<YAML::Node> models(MAX_QUEUE_SNAPSHOTS);
-    SnapshotPusher snapshot_pusher(world, models);
+    SnapshotPusher snapshot_pusher(world, match, models);
     SnapshotSender snapshot_sender(models, protocol);
 
     world.start();
@@ -52,8 +52,6 @@ int main(/* int argc, char *argv[] */) try {
         if (event.quit())
             quit = true;
 
-        if (event.getAction() == a_changeWorm)
-            match.advanceTurn();
        //if (match.isTeamTurnOf(event.getTeamId())) {
        //     std::cout << "Ejecutando acción." << std::endl;
         world.executeAction(event.getAction(), match.getWormTurn(match.getTeamTurn()));
