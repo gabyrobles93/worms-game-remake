@@ -18,7 +18,7 @@
 #define PORT "8080"
 #define MAP_PATH "../map.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define ROUND_DURATION_SEC 10
+#define ROUND_DURATION_SEC 60
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
@@ -53,10 +53,10 @@ int main(/* int argc, char *argv[] */) try {
             quit = true;
 
        if (match.isTeamTurnOf(event.getTeamId())) {
-            std::cout << "Ejecutando acción." << std::endl;
+/*             std::cout << "Ejecutando acción." << std::endl; */
             world.executeAction(event.getAction(), match.getWormTurn(match.getTeamTurn()));
         } else {
-            std::cout << "Acción ignorada." << std::endl;
+/*             std::cout << "Acción ignorada." << std::endl; */
         }
     }
 

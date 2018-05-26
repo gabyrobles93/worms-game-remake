@@ -33,6 +33,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
   
   this->mirrored = false;
+  this->walking = false;
   this->alive = true;
 
   this->x = 0;
@@ -77,6 +78,12 @@ void View::Worm::setY(int y) {
 }
 
 void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
+  if (this->walking) {
+    this->currentAnimation = WALK;
+  } else {
+    this->currentAnimation = BREATH_1;
+  }
+
   Texture & current = this->textures[this->currentAnimation];
   SDL_Rect clip = this->sprite.getNextClip();
   if (this->mirrored) {
@@ -164,4 +171,8 @@ bool View::Worm::isAlive(void) {
 
 void View::Worm::setMirrored(bool mirr) {
   this->mirrored = mirr;
+}
+
+void View::Worm::setWalking(bool walk) {
+  this->walking = walk;
 }

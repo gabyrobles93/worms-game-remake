@@ -38,6 +38,7 @@ class Worm : public Entity {
         void addFootContact(void);
         void deleteFootContact(void);
         bool isMirrored(void);
+        bool isWalking(void);
 };
 
 #endif

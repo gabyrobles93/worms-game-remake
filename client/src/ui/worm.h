@@ -32,7 +32,8 @@ namespace View {
       std::map<worm_animation_t, Texture> textures;
       
       // Animation state
-      bool mirrored;      
+      bool mirrored;
+      bool walking;
       bool alive;
 
       // Worm data
@@ -56,6 +57,7 @@ namespace View {
       virtual void setX(int);
       virtual void setY(int);
       void setMirrored(bool);
+      void setWalking(bool);
       virtual void render(SDL_Renderer *, int, int);
       void renderWormData(SDL_Renderer *, int, int);
       void setHealth(int);

@@ -20,8 +20,8 @@ private:
 public:
     WormPhysic(b2World& world, float posX, float posY, Entity* entity);
     void jump();
-    void frontJump();
-    void backJump();
+    void frontJump(bool);
+    void backJump(bool);
     void jumpFoward();
     void moveRight();
     void moveLeft();
@@ -29,6 +29,8 @@ public:
     float getPosY();
     void addFootContact();
     void deleteFootContact();
+    bool haveHorizontalSpeed(void);
+    bool haveVerticalSpeed(void);
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "WormPhysic.h"
+#include <iostream>
 
 WormPhysic::WormPhysic(b2World& world, float posX, float posY, Entity* entity) : world(world) {
     b2BodyDef wormDef;
@@ -45,16 +46,20 @@ void WormPhysic::jump() {
     this->body->ApplyLinearImpulse(b2Vec2(0, impulse), this->body->GetWorldCenter(), true);
 }
 
-void WormPhysic::frontJump() {
+void WormPhysic::frontJump(bool mirrored) {
     if (this->numFootContacts <= 0) return;
+    float factor;
+    mirrored == true ? factor = 1.0 : factor = -1.0;
     float impulse = this->body->GetMass() * 5;
-    this->body->ApplyLinearImpulse(b2Vec2(impulse,-impulse), this->body->GetWorldCenter(), true);
+    this->body->ApplyLinearImpulse(b2Vec2(impulse * factor,-impulse), this->body->GetWorldCenter(), true);
 }
 
-void WormPhysic::backJump() {
+void WormPhysic::backJump(bool mirrored) {
     if (this->numFootContacts <= 0) return;
+    float factor;
+    mirrored == true ? factor = 1.0 : factor = -1.0;
     float impulse = this->body->GetMass() * 5;
-    this->body->ApplyLinearImpulse(b2Vec2(-impulse, -impulse), this->body->GetWorldCenter(), true);
+    this->body->ApplyLinearImpulse(b2Vec2(-impulse * factor, -impulse), this->body->GetWorldCenter(), true);
 }
 
 float WormPhysic::getPosX() {
@@ -72,3 +77,19 @@ void WormPhysic::addFootContact() {
 void WormPhysic::deleteFootContact() {
     this->numFootContacts--;
 }
+
+bool WormPhysic::haveHorizontalSpeed(void) {
+    b2Vec2 velocity = this->body->GetLinearVelocity();
+    if (velocity.x != 0) {
+        return true;
+    }
+    return false;
+}
+
+bool WormPhysic::haveVerticalSpeed(void) {
+    b2Vec2 velocity = this->body->GetLinearVelocity();
+    if (velocity.y != 0) {
+        return true;
+    }
+    return false;
+} 
