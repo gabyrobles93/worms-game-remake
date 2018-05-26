@@ -34,6 +34,7 @@ namespace View {
       std::map<worm_animation_t, Texture> textures;
       
       // Animation state
+      bool grounded;
       bool mirrored;
       bool walking;
       bool falling;
@@ -68,6 +69,7 @@ namespace View {
       void setFalling(bool);
       int getHealth(void);
       bool isAlive(void);
+      void setGrounded(bool);
   };
 }
 

@@ -183,3 +183,7 @@ void View::Worm::setWalking(bool walk) {
 void View::Worm::setFalling(bool fall) {
   this->falling = fall;
 }
+
+void View::Worm::setGrounded(bool grd) {
+  this->grounded = grd;
+}
