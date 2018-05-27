@@ -24,6 +24,10 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY, Entity* entity) :
     this->numFootContacts = 0;
 }
 
+WormPhysic::~WormPhysic() {
+    this->world.DestroyBody(this->body);
+}
+
 void WormPhysic::moveRight() {
     b2Vec2 velocity = this->body->GetLinearVelocity();
     velocity.x = MOVE_VELOCITY;

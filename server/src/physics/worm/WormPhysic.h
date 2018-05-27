@@ -19,6 +19,7 @@ private:
 
 public:
     WormPhysic(b2World& world, float posX, float posY, Entity* entity);
+    ~WormPhysic();
     void jump();
     void setAngle(float angle);
     void frontJump(bool);
