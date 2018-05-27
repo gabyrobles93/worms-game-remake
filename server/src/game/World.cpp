@@ -128,11 +128,28 @@ void World::updateYAML() {
     }
 }
 
+void World::updateBodies() {
+    for( std::list<Weapon*>::iterator it=this->weapons.begin();it != this->weapons.end();) {
+        if ((*it)->hasExploded()) {
+            delete (*it);
+            it = this->weapons.erase(it);
+        } else {
+            (*it)->update();
+            it++;
+        }
+    }
+
+    // for(std::map<int, Worm*>::iterator it= this->worms.begin(); it != this->worms.end(); ++it) {
+    //     *(it->second)->update();
+    // }
+}
+
 void World::run() {
     while (this->keep_running) {
         usleep(16666);
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
+        updateBodies();
         updateYAML();
     }
 }
@@ -171,8 +188,8 @@ void World::executeAction(action_t action, int id) {
             break;
         case a_shoot : {
             std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
-            Dynamite dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY());
-            dynamite.explode();
+            Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5 /*DELAY EN SEGUNDOS*/);
+            this->weapons.push_front(dynamite);
             break;
         }
         default: break;
