@@ -102,3 +102,7 @@ bool WormPhysic::haveVerticalSpeed(void) {
 bool WormPhysic::isGrounded(void) {
     return numFootContacts > 0;
 }
+
+float WormPhysic::getVerticalSpeed() {
+    return this->body->GetLinearVelocity().y;
+}

@@ -14,7 +14,11 @@ class Worm : public Entity {
         float posX;
         float posY;
         float angle;
+        float fallenDistance;
+
+        bool falled;        
         bool mirrored;
+        bool falling;
         WormPhysic wormPhysic;
         std::string name;
         b2World& world;
@@ -45,6 +49,9 @@ class Worm : public Entity {
         bool isFalling(void);
         bool isGrounded(void);
         bool isDead(void);
+
+        void setFalling(bool);
+        void update(void);
 };
 
 #endif

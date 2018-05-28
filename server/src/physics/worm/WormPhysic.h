@@ -34,6 +34,7 @@ public:
     bool haveHorizontalSpeed(void);
     bool haveVerticalSpeed(void);
     bool isGrounded(void);
+    float getVerticalSpeed(void);
 };
 
 #endif

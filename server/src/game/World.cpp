@@ -108,6 +108,7 @@ void World::updateYAML() {
     std::string walking;
     std::string falling;
     std::string grounded;
+
     for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
         x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
         y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
@@ -133,15 +134,18 @@ void World::updateBodies() {
         if ((*it)->hasExploded()) {
             delete (*it);
             it = this->weapons.erase(it);
+            std::cout << "UPDATING BODIES" << std::endl;
         } else {
             (*it)->update();
             it++;
         }
     }
 
-    // for(std::map<int, Worm*>::iterator it= this->worms.begin(); it != this->worms.end(); ++it) {
-    //     *(it->second)->update();
-    // }
+    for (std::map<int,Worm*>::iterator it=this->worms.begin(); it != this->worms.end(); ++it) {
+        Worm* worm = it->second;
+        if (!worm->isDead())
+            worm->update();
+    }
 }
 
 void World::run() {

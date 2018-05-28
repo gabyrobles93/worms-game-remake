@@ -18,5 +18,8 @@ float Girder::getAngle() {
 }
 
 Girder::~Girder(void) {
+}
+
+void Girder::update() {
 
 }

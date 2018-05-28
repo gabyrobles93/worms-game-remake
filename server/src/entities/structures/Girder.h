@@ -16,6 +16,7 @@ public:
     float getPosY();
     float getAngle();
     entity_t getEntityType() {return STRUCTURE;}
+    void update(void);
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "Worm.h"
-// AGREGAR EL HEALTH DE LOS GUSANOS
+#include <iostream>
+
 Worm::Worm(std::string n, bool mirrored, int id, int tid, int h, b2World& world, float posX, float posY) : 
 wormPhysic(world, posX, posY, this),
 world(world) {
@@ -9,6 +10,7 @@ world(world) {
     this->name = n;
     this->mirrored = mirrored;
     this->angle = 0;
+    this->falling = false;
 }
 
 Worm::~Worm(void) {
@@ -120,4 +122,27 @@ bool Worm::isDead(void) {
 
 void Worm::setAngle(float angle) {
     this->angle = angle;
+}
+
+void Worm::setFalling(bool falling) {
+    this->falling = falling;
+}
+
+void Worm::update() {
+    float verticalSpeed = this->wormPhysic.getVerticalSpeed();
+    if (!this->isGrounded()) {
+        if (this->falled && (getPosY() < this->fallenDistance)) {
+            this->fallenDistance = getPosY();
+        } else if (!this->falled){
+            this->fallenDistance = getPosY();
+            this->falled = true;
+        }
+    } else if (isGrounded() && (falled)) {
+        this->fallenDistance = getPosY() - this->fallenDistance; 
+        if (this->fallenDistance > 2) {
+            hurt(this->fallenDistance);
+        }
+        this->falled = false;
+        this->fallenDistance = 0;
+    }
 }
