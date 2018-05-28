@@ -34,6 +34,8 @@ add_executable(	editor
 		${CLIENT_RESOURCES}/girder_long.cpp
 		${CLIENT_RESOURCES}/girder_short.cpp
 		${CLIENT_RESOURCES}/inventory.cpp
+		${CLIENT_RESOURCES}/inventory_weapons.cpp
+		${CLIENT_RESOURCES}/inventory_editor.cpp
 		${CLIENT_RESOURCES}/font.cpp
 		${CLIENT_RESOURCES}/texture.cpp
 		${CLIENT_RESOURCES}/view_exceptions.cpp
@@ -49,6 +51,8 @@ add_executable(	editor
 		${CLIENT_RESOURCES}/girder_long.h
 		${CLIENT_RESOURCES}/girder_short.h
 		${CLIENT_RESOURCES}/inventory.h
+		${CLIENT_RESOURCES}/inventory_weapons.h
+		${CLIENT_RESOURCES}/inventory_editor.h
 		${CLIENT_RESOURCES}/font.h
 		${CLIENT_RESOURCES}/sprite_animation.h
 		${CLIENT_RESOURCES}/texture.h

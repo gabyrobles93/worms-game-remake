@@ -23,6 +23,7 @@
 #include "types.h"
 #include "worms_status.h"
 #include "inventory.h"
+#include "inventory_weapons.h"
 #include "protected_dynamics.h"
 #include "event.h"
 
@@ -53,7 +54,7 @@ try {
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
 
 	View::WormsStatus worms(wormsNode, renderer);
-	View::Inventory inventory(renderer);
+	View::WeaponsInventory inventory(renderer);
     // Lanzo threads de enviar eventos y de recibir modelos
     event_sender.start();
     model_receiver.start();
@@ -127,7 +128,7 @@ try {
 				// elige el arma siguiente
 				if (e.key.keysym.sym == SDLK_q) {
 					if (inventory.isOpen()) {
-						inventory.pickNextWeapon();
+						inventory.pickNextItem();
 					}
 				}           
 			}

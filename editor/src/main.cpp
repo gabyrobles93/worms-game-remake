@@ -5,7 +5,7 @@
 #include "window_game.h"
 #include "girder_long.h"
 #include "girder_short.h"
-#include "inventory.h"
+#include "inventory_editor.h"
 #include "worm.h"
 #include "yaml.h"
 
@@ -80,7 +80,7 @@ int main(int argc, char * argv[]) {
 		editorWindow.getBgHeight()
 	);
 
-	View::Inventory editorInventory(renderer, teamsAmount, wormsHealth);
+	View::EditorInventory editorInventory(renderer, teamsAmount, wormsHealth);
 	editorInventory.toggleOpen();
 
 	// Estructuras donde se guardan lo que se va dibujando.
@@ -117,7 +117,7 @@ int main(int argc, char * argv[]) {
 
 		editorWindow.renderWater(camera);
 
-		editorInventory.renderEditorInventory(renderer, 10, 10);
+		editorInventory.render(renderer, 10, 10);
 		
 		SDL_RenderPresent(renderer);
 		SDL_Delay(10); // Para no usar al mango el CPU
