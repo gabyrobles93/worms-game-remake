@@ -9,8 +9,11 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY, Entity* entity) :
     b2Body* body = world.CreateBody(&wormDef);
     body->SetUserData(entity);
 
-    b2PolygonShape wormShape;
-    wormShape.SetAsBox(WORM_WIDTH/2, WORM_HEIGHT/2);
+    //b2PolygonShape wormShape;
+    //wormShape.SetAsBox(WORM_WIDTH/2, WORM_HEIGHT/2);
+
+    b2CircleShape wormShape;
+    wormShape.m_radius = WORM_RADIUS;
 
     b2FixtureDef wormFixture;
     wormFixture.shape = &wormShape;
@@ -28,15 +31,17 @@ WormPhysic::~WormPhysic() {
     this->world.DestroyBody(this->body);
 }
 
-void WormPhysic::moveRight() {
+void WormPhysic::moveRight(float angle) {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    velocity.x = MOVE_VELOCITY;
+    velocity.x = cosf(angle) * MOVE_VELOCITY;
+    velocity.y = sinf(angle) * MOVE_VELOCITY;
     this->body->SetLinearVelocity(velocity);
 }
 
-void WormPhysic::moveLeft() {
+void WormPhysic::moveLeft(float angle) {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    velocity.x = -MOVE_VELOCITY;
+    velocity.x = cosf(angle) * -MOVE_VELOCITY;
+    velocity.y = sinf(angle) * -MOVE_VELOCITY;
     this->body->SetLinearVelocity(velocity);
 }
 
@@ -50,7 +55,7 @@ void WormPhysic::frontJump(bool mirrored) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * 5;
+    float impulse = this->body->GetMass() * 4;
     this->body->ApplyLinearImpulse(b2Vec2(impulse * factor,-impulse), this->body->GetWorldCenter(), true);
 }
 
@@ -58,7 +63,7 @@ void WormPhysic::backJump(bool mirrored) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * 5;
+    float impulse = this->body->GetMass() * 4;
     this->body->ApplyLinearImpulse(b2Vec2(-impulse * factor, -impulse), this->body->GetWorldCenter(), true);
 }
 
@@ -78,9 +83,6 @@ void WormPhysic::deleteFootContact() {
     this->numFootContacts--;
 }
 
-void WormPhysic::setAngle(float angle) {
-    this->body->SetTransform(this->body->GetPosition(), angle);
-}
 bool WormPhysic::haveHorizontalSpeed(void) {
     b2Vec2 velocity = this->body->GetLinearVelocity();
     if (velocity.x != 0) {
