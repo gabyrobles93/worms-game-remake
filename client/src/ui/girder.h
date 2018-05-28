@@ -24,7 +24,7 @@ namespace View {
   class Girder: public Drawable {
     protected:
       std::map<int, Texture> textures;
-      std::size_t currentDegrees;
+      std::size_t currentIndexDegrees;
       Texture currentTexture;
 
     public:

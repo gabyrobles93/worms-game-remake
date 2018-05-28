@@ -23,11 +23,11 @@ View::GirderLong::GirderLong(SDL_Renderer * renderer, int degrees) {
   index[NEGATIVE_NINETY_DEGREES] = 8;
 
   if (degrees != ZERO_DEGREES) {
-    this->currentDegrees = index[degrees];
+    this->currentIndexDegrees = index[degrees];
     this->currentTexture = this->textures[degrees];
   } else {
-    this->currentDegrees = ZERO_DEGREES;
-    this->currentTexture = this->textures[this->currentDegrees];
+    this->currentIndexDegrees = 4; // Hardcoded
+    this->currentTexture = this->textures[this->getCurrentDegrees()];
   }  
 
   this->x = 0;
