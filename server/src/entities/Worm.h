@@ -13,6 +13,7 @@ class Worm : public Entity {
         int team_id;
         float posX;
         float posY;
+        float angle;
         bool mirrored;
         WormPhysic wormPhysic;
         std::string name;
@@ -30,6 +31,7 @@ class Worm : public Entity {
         void moveRight(void);
         float getPosY(void);
         float getPosX(void);
+        void setAngle(float angle);
         int getId(void);
         int getTeam(void);
         int getHealth(void);
@@ -38,7 +40,6 @@ class Worm : public Entity {
         void addFootContact(void);
         void deleteFootContact(void);
         bool isMirrored(void);
-        void setAngle(float angle);
         void shoot(entity_t weapon);
         bool isWalking(void);
         bool isFalling(void);

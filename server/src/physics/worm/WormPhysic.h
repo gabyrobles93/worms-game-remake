@@ -7,6 +7,7 @@
 
 #define MOVE_VELOCITY 2.0f
 #define WORM_HEIGHT 0.8f
+#define WORM_RADIUS 0.54f
 #define WORM_WIDTH 0.8f
 #define WORM_DENSITY 1.0f
 #define WORM_FRICTION 0.3f
@@ -21,12 +22,11 @@ public:
     WormPhysic(b2World& world, float posX, float posY, Entity* entity);
     ~WormPhysic();
     void jump();
-    void setAngle(float angle);
     void frontJump(bool);
     void backJump(bool);
     void jumpFoward();
-    void moveRight();
-    void moveLeft();
+    void moveRight(float angle);
+    void moveLeft(float angle);
     float getPosX();
     float getPosY();
     void addFootContact();

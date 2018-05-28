@@ -8,6 +8,7 @@ world(world) {
     this->health = h;
     this->name = n;
     this->mirrored = mirrored;
+    this->angle = 0;
 }
 
 Worm::~Worm(void) {
@@ -28,14 +29,14 @@ void Worm::backJump(void) {
 
 void Worm::moveRight(void) {
     if (isGrounded()) {
-        this->wormPhysic.moveRight();
+        this->wormPhysic.moveRight(this->angle);
         this->mirrored = true;
     }
 }
 
 void Worm::moveLeft(void) {
     if (isGrounded()) {
-        this->wormPhysic.moveLeft();
+        this->wormPhysic.moveLeft(this->angle);
         this->mirrored = false;
     }
 }
@@ -74,10 +75,6 @@ void Worm::addFootContact(void) {
 
 void Worm::deleteFootContact(void) {
     this->wormPhysic.deleteFootContact();
-}
-
-void Worm::setAngle(float angle) {
-    this->wormPhysic.setAngle(angle);
 }
 
 void Worm::shoot(entity_t weapon) {
@@ -119,4 +116,8 @@ bool Worm::isGrounded(void) {
 
 bool Worm::isDead(void) {
     return this->health == 0;
+}
+
+void Worm::setAngle(float angle) {
+    this->angle = angle;
 }
