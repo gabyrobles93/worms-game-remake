@@ -45,7 +45,6 @@ add_executable(	client
 		${UI_SOURCE_DIR}/girder_short.cpp
 		${UI_SOURCE_DIR}/inventory.cpp
 		${UI_SOURCE_DIR}/inventory_weapons.cpp
-		${UI_SOURCE_DIR}/inventory_editor.cpp
 		${UI_SOURCE_DIR}/font.cpp
 		${UI_SOURCE_DIR}/sprite_animation.cpp
 		${UI_SOURCE_DIR}/texture.cpp
@@ -72,7 +71,6 @@ add_executable(	client
 		${UI_SOURCE_DIR}/girder_short.h
 		${UI_SOURCE_DIR}/inventory.h
 		${UI_SOURCE_DIR}/inventory_weapons.h
-		${UI_SOURCE_DIR}/inventory_editor.h
 		${UI_SOURCE_DIR}/font.h
 		${UI_SOURCE_DIR}/sprite_animation.h
 		${UI_SOURCE_DIR}/texture.h

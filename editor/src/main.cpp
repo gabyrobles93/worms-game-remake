@@ -6,6 +6,7 @@
 #include "girder_long.h"
 #include "girder_short.h"
 #include "inventory_editor.h"
+#include "map_game.h"
 #include "worm.h"
 #include "yaml.h"
 
@@ -16,19 +17,24 @@
 
 int validateArgs(int, char*[]);
 
-// Dibuja lo que ya fue clickeado por el usuario
-void renderObjectsPlaced(
-	SDL_Renderer * r,
-	std::vector<View::GirderShort*>  & shortCollection,
-	std::vector<View::GirderLong*> & longCollection,
-	std::map<std::size_t, std::vector<View::Worm*>> & wormsCollection,
-	int camX,
-	int camY
-);
-
 int main(int argc, char * argv[]) {
 
 	//validateArgs(argc, argv);
+
+	/* PRUEBA */
+	std::vector<int> v;
+	size_t ind = 0;
+	v.push_back(0);
+	ind++;
+	v.push_back(1);
+	ind++;
+	v.push_back(2);
+	ind++;
+	v.push_back(3);
+	v.push_back(4);
+	v.push_back(5);
+
+	////////////////////////
 
 	// Parametros configurables por el usuario
 	// a la derecha las configuraciones
@@ -52,22 +58,8 @@ int main(int argc, char * argv[]) {
 	map["static"]["background"]["file"] = path;
 	map["static"]["background"]["display"] = display;
 	map["static"]["water_level"] = waterLevel;
-	/*map["static"]["short_girders"];
-	map["static"]["long_girders"];
-	map["dynamic"]["worms"];*/
 
-	/* Luego hay que cargarle secuencias de nodos.
-	YAML::Node girderNode1;
-	girderNode1["id"] = 1;
-	girderNode1["x"] = 100;
-	girderNode1["y"] = 200;
-	YAML::Node girderNode2;
-	girderNode2["id"] = 2;
-	girderNode2["x"] = 10;
-	girderNode2["y"] = 20;
-	map["static"]["long_girders"].push_back(girderNode1);
-	map["static"]["long_girders"].push_back(girderNode2);
-	*/
+	View::MapGame mapGame(map);
 
 	YAML::Node staticMap = map["static"];
 
@@ -83,14 +75,6 @@ int main(int argc, char * argv[]) {
 	View::EditorInventory editorInventory(renderer, teamsAmount, wormsHealth);
 	editorInventory.toggleOpen();
 
-	// Estructuras donde se guardan lo que se va dibujando.
-	// Al final del programa se libera la memomria y se 
-	// pasa esta data a un archvio YAML
-	std::vector<View::GirderShort*> shortCollection;
-	std::vector<View::GirderLong*> longCollection;
-	std::map<std::size_t, std::vector<View::Worm*>> wormsCollection;
-
-	// Comienza el ciclo del juego para el cliente
 	bool quit = false;	
 	SDL_Event e;
 	while (!quit) {
@@ -101,7 +85,21 @@ int main(int argc, char * argv[]) {
 				quit = true;
 			}
 
-			editorInventory.handleEvent(renderer, e, shortCollection, longCollection, wormsCollection, camX, camY);
+			if (e.type == SDL_KEYDOWN) {
+				
+					if (e.key.keysym.sym == SDLK_z && (e.key.keysym.mod & KMOD_CTRL)) {
+						mapGame.setPreviousState(editorInventory);
+						mapGame.printCurrentState();
+					}
+					
+					if (e.key.keysym.sym == SDLK_y && (e.key.keysym.mod & KMOD_CTRL)) {
+						mapGame.setNextState(editorInventory);
+						mapGame.printCurrentState();
+					}
+				
+			}
+
+			editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -111,7 +109,7 @@ int main(int argc, char * argv[]) {
 
 		editorWindow.render(camera);
 
-		renderObjectsPlaced(renderer, shortCollection, longCollection, wormsCollection, camX, camY);
+		mapGame.render(renderer, camX, camY);
 		
 		editorInventory.renderSelectedInMouse(renderer);
 
@@ -140,30 +138,4 @@ int validateArgs(int argc, char * argv[]) {
 		std::cerr << "display mode disponibles: mosaic | centered | expanded \n";
 	}
 	return 0;
-}
-
-void renderObjectsPlaced(
-	SDL_Renderer * renderer,
-	std::vector<View::GirderShort*>  & shortCollection,
-	std::vector<View::GirderLong*> & longCollection,
-	std::map<std::size_t, std::vector<View::Worm*>> & wormsCollection,
-	int camX,
-	int camY
-) {
-
-	for (size_t i = 0 ; i < shortCollection.size() ; i++) {
-		shortCollection.at(i)->render(renderer, camX, camY);
-	}
-
-	for (size_t i = 0 ; i < longCollection.size() ; i++) {
-		longCollection.at(i)->render(renderer, camX, camY);
-	}
-
-	std::map<std::size_t, std::vector<View::Worm*>>::iterator itMap = wormsCollection.begin();
-	for (; itMap != wormsCollection.end() ; itMap++) {
-		std::vector<View::Worm*>::iterator it = itMap->second.begin();
-		for (; it != itMap->second.end() ; it++) {
-			(*it)->render(renderer, camX, camY);
-		}
-	}
 }

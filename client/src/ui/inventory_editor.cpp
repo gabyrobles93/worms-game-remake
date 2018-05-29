@@ -1,5 +1,3 @@
-#include <iostream>
-#include "inventory.h"
 #include "inventory_editor.h"
 
 #define AMOUNT_WORMS_PER_TEAM 3
@@ -7,6 +5,7 @@
 
 #define POS_GIRDER_SHORT 0
 #define POS_GIRDER_LONG 1
+#define POS_FIRST_WORMS_TEAM 2
 
 View::EditorInventory::EditorInventory(SDL_Renderer * r, size_t amountTeams, int healthConfig) :
   amountTeams(amountTeams) {
@@ -154,10 +153,8 @@ void View::EditorInventory::renderSelectedInMouse(SDL_Renderer * r) {
 // puede causar migraña
 void View::EditorInventory::handleEvent(
   SDL_Renderer * r,
-  SDL_Event & e, 
-  std::vector<View::GirderShort*> & gs, 
-  std::vector<View::GirderLong*> & gl, 
-  std::map<std::size_t, std::vector<View::Worm*>> & w,
+  SDL_Event & e,
+  View::MapGame & map, 
   int camX,
   int camY
   ) {
@@ -167,14 +164,12 @@ void View::EditorInventory::handleEvent(
   // Rotamos el dibujo de las vigas
   if (e.type == SDL_MOUSEWHEEL) {
     if (e.wheel.y > 0) {
-      std::cout << "clock degrees_t son: " << this->girdersDegrees << std::endl;
       View::GirderShort g(r, this->girdersDegrees);
       g.rotateClockwise();
       this->girdersDegrees = g.getCurrentDegrees();
     }
     if (e.wheel.y < 0) {
       View::GirderShort g(r, this->girdersDegrees);
-      std::cout << "counter clock degrees_t son: " << this->girdersDegrees << std::endl;
       g.rotateCounterClockwise();
       this->girdersDegrees = g.getCurrentDegrees();
     }
@@ -189,20 +184,14 @@ void View::EditorInventory::handleEvent(
       size_t index = this->getIndexSelected();
       
       if (index == POS_GIRDER_SHORT) {
-        gs.push_back(new View::GirderShort(r, this->girdersDegrees));
-        gs.back()->setX(camX + mouseX);
-        gs.back()->setY(camY + mouseY);			
+        map.addShortGirder(this->girdersDegrees, camX + mouseX, camY + mouseY);		
       } else if (index == POS_GIRDER_LONG) {
-        gl.push_back(new View::GirderLong(r, this->girdersDegrees));
-        gl.back()->setX(camX + mouseX);
-        gl.back()->setY(camY + mouseY);
+        map.addLongGirder(this->girdersDegrees, camX + mouseX, camY + mouseY);
       } else {
         if (this->items.at(index)->supplies) {
           int teamId = std::stoi(this->items.at(index)->itemName);
           std::string name("Worm " + std::to_string(AMOUNT_WORMS_PER_TEAM - this->items.at(index)->supplies + 1));
-          w[teamId].push_back(new View::Worm(r, name, teamId, this->wormsHealth));
-          w[teamId].back()->setX(camX + mouseX);
-          w[teamId].back()->setY(camY + mouseY);
+          map.addWormInTeam(teamId, name, this->wormsHealth, camX + mouseX, camY + mouseY);
           this->items.at(index)->supplies--;
         }
         
@@ -218,4 +207,22 @@ int View::EditorInventory::getIndexSelected(void) {
     }
   }
   return -1;
+}
+
+void View::EditorInventory::updateWormsTeamSupplies(const YAML::Node & wormsNode) {
+  std::map<int, size_t> teams;
+  for (size_t i = 1 ; i <= this->amountTeams ; i++) {
+    teams[i] = 0;
+  }
+
+  YAML::const_iterator it = wormsNode.begin();
+  for (; it != wormsNode.end() ; it++) {
+    const YAML::Node & eachWorm = *it;
+    teams[eachWorm["team"].as<int>()]++;
+  }
+
+  for (size_t i = 0 ; i < this->amountTeams ; i++) {
+    ItemIcon * wormTeam = this->items[i + POS_FIRST_WORMS_TEAM];
+    wormTeam->supplies = AMOUNT_WORMS_PER_TEAM - teams[std::stoi(wormTeam->itemName)];
+  }
 }

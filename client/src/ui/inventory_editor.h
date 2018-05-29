@@ -6,11 +6,15 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "inventory.h"
+#include "map_game.h"
+#include "yaml.h"
 
 #define WEAPON_NAME_SHORT_GIRDER "Short girder"
 #define WEAPON_NAME_LONG_GIRDER "Long girder"
 
 namespace View {
+  class MapGame;
+
   class EditorInventory: public Inventory {
     private:
       size_t amountTeams;
@@ -40,12 +44,15 @@ namespace View {
       void handleEvent(
         SDL_Renderer *,
         SDL_Event &, 
-        std::vector<View::GirderShort*> &, 
-        std::vector<View::GirderLong*> &, 
-        std::map<std::size_t, std::vector<View::Worm*>> &,
+        View::MapGame &,
         int,
         int
       );
+
+      // Actualiza la cantidad de worms que se pueden poner
+      // Este metodo lo utiliza el map game dependiendo de cuantos
+      // gusanos hay en el mapa en el estado actual
+      void updateWormsTeamSupplies(const YAML::Node &);
   };
 }
 

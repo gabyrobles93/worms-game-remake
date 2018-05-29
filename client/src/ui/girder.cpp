@@ -42,9 +42,6 @@ degrees_t View::Girder::getCurrentDegrees(void) {
     NEGATIVE_SIXTY_DEGREES,
     NEGATIVE_NINETY_DEGREES
   };
-    std::cout << "Curr degrees " << this->currentIndexDegrees << std::endl;
-    std::cout << "Vec degrest " << vec[this->currentIndexDegrees] << std::endl; 
-  //std::cout << "current degrees " << vec[this->currentIndexDegrees]<< std::endl;
   return vec[this->currentIndexDegrees];
 }
 
@@ -66,7 +63,7 @@ int View::Girder::getY(void) const {
 
 void View::Girder::setX(int x) {
   this->currentTexture.setX(x);
-  this->x = x- (this->currentTexture.getWidth() / 2);
+  this->x = x - (this->currentTexture.getWidth() / 2);
 }
 
 void View::Girder::setY(int y) {
