@@ -216,3 +216,11 @@ void View::WindowGame::renderBackground(Camera & c) {
 		}
 	}
 }
+
+void View::WindowGame::hide(void) {
+	SDL_HideWindow(this->window);
+}
+
+void View::WindowGame::show(void) {
+	SDL_ShowWindow(this->window);
+}

@@ -1,12 +1,5 @@
 #include "inventory_editor.h"
 
-#define AMOUNT_WORMS_PER_TEAM 3
-#define PADDING 5
-
-#define POS_GIRDER_SHORT 0
-#define POS_GIRDER_LONG 1
-#define POS_FIRST_WORMS_TEAM 2
-
 View::EditorInventory::EditorInventory(SDL_Renderer * r, size_t amountTeams, int healthConfig) :
   amountTeams(amountTeams) {
   

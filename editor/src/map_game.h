@@ -5,12 +5,15 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <fstream>
 #include "girder_long.h"
 #include "girder_short.h"
 #include "inventory_editor.h"
 #include "girder.h"
 #include "worm.h"
 #include "yaml.h"
+
+#define MAPS_SERVER_DIR "../../server/maps/"
 
 namespace View {
   class EditorInventory;
@@ -65,6 +68,15 @@ namespace View {
 
       // Actualiza el indice y libera los estados basura
       void updateIndex(void);
+
+      // Guarda el mapa en la carpeta de mapas del servidor
+      // bajo el nombre indicado
+      void saveAs(std::string);
+
+      // Verifica si el mapa
+      // tiene todos los gusanos
+      // posibles dibujados
+      bool hasAllTheWorms(int, int);
   };
 }
 

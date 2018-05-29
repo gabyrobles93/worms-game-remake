@@ -59,6 +59,12 @@ class View::WindowGame {
     // Renderiza el fondo. Se puede programar
     // para que sea en mosaico, centrado o expandido
     void renderBackground(View::Camera &);
+
+    // Esconde la ventana
+    void hide(void);
+
+    // Muestra la ventana
+    void show(void);
 };
 
 #endif

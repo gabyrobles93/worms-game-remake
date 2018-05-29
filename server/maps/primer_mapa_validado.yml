@@ -1,0 +1,115 @@
+static:
+  background:
+    file: ../../resources/graphics/lava_pattern.jpg
+    display: expanded
+  water_level: 300
+  short_girders:
+    - id: 1
+      x: 947
+      y: 807
+      angle: 0
+    - id: 2
+      x: 1238
+      y: 787
+      angle: 0
+dynamic:
+  worms:
+    - id: 1
+      team: 1
+      name: Worm 1
+      health: 100
+      x: 1245
+      y: 756
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 2
+      team: 1
+      name: Worm 2
+      health: 100
+      x: 946
+      y: 780
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 3
+      team: 1
+      name: Worm 3
+      health: 100
+      x: 1216
+      y: 765
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 1
+      team: 2
+      name: Worm 1
+      health: 100
+      x: 918
+      y: 780
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 1
+      team: 3
+      name: Worm 1
+      health: 100
+      x: 979
+      y: 777
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 2
+      team: 3
+      name: Worm 2
+      health: 100
+      x: 1023
+      y: 777
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 3
+      team: 3
+      name: Worm 3
+      health: 100
+      x: 1045
+      y: 777
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 2
+      team: 2
+      name: Worm 2
+      health: 100
+      x: 1163
+      y: 894
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 3
+      team: 2
+      name: Worm 3
+      health: 100
+      x: 1251
+      y: 894
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0

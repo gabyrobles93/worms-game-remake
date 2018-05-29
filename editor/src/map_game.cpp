@@ -210,3 +210,34 @@ int View::MapGame::getNextWormId(int teamId) {
 
   return id;
 }
+
+void View::MapGame::saveAs(std::string mapName) {
+  std::ofstream fout(MAPS_SERVER_DIR + mapName + ".yml");
+  YAML::Node * state = this->mapStates[this->stateIndex];
+
+  fout << *state;
+  fout.close();
+}
+
+bool View::MapGame::hasAllTheWorms(int teamsAmount, int amountWormsPerTeam) {
+  YAML::Node * state = this->mapStates[this->stateIndex];
+  const YAML::Node & worms = (*state)["dynamic"]["worms"];
+  YAML::const_iterator it;
+
+  for (int id = 1 ; id <= teamsAmount ; id++) {
+    int occurrences = 0;
+    it = worms.begin();
+    for (; it != worms.end() ; it++) {
+      const YAML::Node & eachWorm = *it;
+      if (id == eachWorm["team"].as<int>()) {
+        occurrences++;
+      }
+    }
+
+    if (occurrences != amountWormsPerTeam) {
+      return false;
+    }
+  }
+
+  return true;
+}
