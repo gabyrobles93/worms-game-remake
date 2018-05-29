@@ -1,0 +1,120 @@
+static:
+  background:
+    file: ../../resources/graphics/lava_pattern.jpg
+    display: expanded
+  water_level: 300
+  short_girders:
+    - id: 1
+      x: 1240
+      y: 904
+      angle: 0
+  long_girders:
+    - id: 1
+      x: 1047
+      y: 842
+      angle: 0
+    - id: 2
+      x: 1636
+      y: 825
+      angle: 0
+dynamic:
+  worms:
+    - id: 1
+      team: 1
+      name: Worm 1
+      health: 100
+      x: 998
+      y: 810
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 2
+      team: 1
+      name: Worm 2
+      health: 100
+      x: 1040
+      y: 810
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 3
+      team: 1
+      name: Worm 3
+      health: 100
+      x: 1089
+      y: 812
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 1
+      team: 2
+      name: Worm 1
+      health: 100
+      x: 1209
+      y: 875
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 2
+      team: 2
+      name: Worm 2
+      health: 100
+      x: 1255
+      y: 875
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 3
+      team: 2
+      name: Worm 3
+      health: 100
+      x: 1580
+      y: 797
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 1
+      team: 3
+      name: Worm 1
+      health: 100
+      x: 1628
+      y: 806
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 2
+      team: 3
+      name: Worm 2
+      health: 100
+      x: 1680
+      y: 806
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 3
+      team: 3
+      name: Worm 3
+      health: 100
+      x: 1651
+      y: 806
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
