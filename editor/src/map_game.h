@@ -33,9 +33,8 @@ namespace View {
       size_t stateIndex;
 
       // Obtiene el id del proximo
-      // worm a agregar del correspondiente
-      // team id pasado por parametro
-      int getNextWormId(int);
+      // worm a agregar
+      int getNextWormId(void);
 
     public:
       // Constructor, recibe el nodo YAML

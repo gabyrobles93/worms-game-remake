@@ -130,20 +130,22 @@ int main(int argc, char * argv[]) {
 		SDL_Delay(10); // Para no usar al mango el CPU
 	}
 
-	std::string ans;
-	std::cout << "Desea guardar el mapa? [y/n]" << std::endl;
-	while (std::cin >> ans) {
-		if (ans == "n" || ans == "y") {
-			break;
-		}
+	if (validMap) {
+		std::string ans;
 		std::cout << "Desea guardar el mapa? [y/n]" << std::endl;
-	}			
-	
-	if (ans == "y") {
-		std::cout << "Ingrese el nombre del mapa" << std::endl;
-		std::cin >> ans;
+		while (std::cin >> ans) {
+			if (ans == "n" || ans == "y") {
+				break;
+			}
+			std::cout << "Desea guardar el mapa? [y/n]" << std::endl;
+		}			
+		
+		if (ans == "y") {
+			std::cout << "Ingrese el nombre del mapa" << std::endl;
+			std::cin >> ans;
 
-		mapGame.saveAs(ans);
+			mapGame.saveAs(ans);
+		}
 	}
 
 	return 0;

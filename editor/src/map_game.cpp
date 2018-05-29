@@ -142,7 +142,7 @@ void View::MapGame::addWormInTeam(int teamId, std::string & name, int health, in
   // Creamos el nuevo nodo correspondiente
   // al nuevo gusano
   YAML::Node newNode;
-  newNode["id"] = this->getNextWormId(teamId);
+  newNode["id"] = this->getNextWormId();
   newNode["team"] = teamId;
   newNode["name"] = name;
   newNode["health"] = health;
@@ -195,20 +195,11 @@ void View::MapGame::updateIndex(void) {
   }
 }
 
-int View::MapGame::getNextWormId(int teamId) {
-  int id = 1;
+int View::MapGame::getNextWormId(void) {
   YAML::Node * state = this->mapStates[this->stateIndex];
 
   const YAML::Node & worms = (*state)["dynamic"]["worms"];
-  YAML::const_iterator it = worms.begin();
-  for (; it != worms.end() ; it++) {
-    const YAML::Node & eachWorm = *it;
-    if (teamId == eachWorm["team"].as<int>()) {
-      id++;
-    }
-  }
-
-  return id;
+  return worms.size() + 1;
 }
 
 void View::MapGame::saveAs(std::string mapName) {
