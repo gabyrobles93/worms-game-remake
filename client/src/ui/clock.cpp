@@ -9,6 +9,8 @@ View::Clock::Clock(int x, int y, int width, int height) :
   this->y = y;
   this->width = width;
   this->height = height;
+
+  this->hide = false;
 }
 
 View::Clock::~Clock(void) {
@@ -43,30 +45,36 @@ void View::Clock::setTime(int newTime) {
   this->time = newTime;
 }
 
+void View::Clock::toggleHide(bool newState) {
+  this->hide = newState;
+}
+
 void View::Clock::render(SDL_Renderer * r, int x, int y) {
-  SDL_Color color = {255, 255, 255, 0};
+  if (!this->hide) {
+    SDL_Color color = {255, 255, 255, 0};
 
-  if (this->time < HURRY_TIME) {
-    color = {255, 0, 0, 0};
+    if (this->time < HURRY_TIME) {
+      color = {255, 0, 0, 0};
+    }
+
+    this->timeTexture.loadFromRenderedText(r, this->font, std::to_string(this->time), color);
+    
+    // Black rect
+    SDL_Rect blackRect = {
+      this->x,
+      this->y,
+      this->width,
+      this->height,
+    };
+    SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF);        
+    SDL_RenderFillRect(r, &blackRect);
+
+    // Render time text
+    this->timeTexture.render(
+      r, 
+      this->x + this->width / 2 - this->timeTexture.getWidth() / 2, 
+      this->y + this->height / 2 - this->timeTexture.getHeight() / 2
+    );
   }
-
-  this->timeTexture.loadFromRenderedText(r, this->font, std::to_string(this->time), color);
-  
-  // Black rect
-  SDL_Rect blackRect = {
-    this->x,
-    this->y,
-    this->width,
-    this->height,
-  };
-  SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF);        
-  SDL_RenderFillRect(r, &blackRect);
-
-  // Render time text
-  this->timeTexture.render(
-    r, 
-    this->x + this->width / 2 - this->timeTexture.getWidth() / 2, 
-    this->y + this->height / 2 - this->timeTexture.getHeight() / 2
-  );
 }
 

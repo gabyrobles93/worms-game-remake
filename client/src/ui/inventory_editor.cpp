@@ -1,20 +1,20 @@
 #include "inventory_editor.h"
 
 View::EditorInventory::EditorInventory(SDL_Renderer * r, size_t amountTeams, int healthConfig) :
-  amountTeams(amountTeams) {
+  amountTeams(amountTeams), font(PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
   
   // Short girder
   ItemIcon * icon = new ItemIcon;
   icon->texture.loadFromFile(PATH_ICON_SHORT_GIRDER, r);
   icon->selected = true;
-  icon->supplies = AMOUNT_WORMS_PER_TEAM;
+  icon->supplies = INFINITY_SUPPLIES;
   icon->itemName = WEAPON_NAME_SHORT_GIRDER;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
   icon->texture.loadFromFile(PATH_ICON_LONG_GIRDER, r);
   icon->selected = false;
-  icon->supplies = AMOUNT_WORMS_PER_TEAM;
+  icon->supplies = INFINITY_SUPPLIES;
   icon->itemName = WEAPON_NAME_LONG_GIRDER;
   this->items.push_back(icon);
 
@@ -56,13 +56,13 @@ void View::EditorInventory::render(SDL_Renderer * r) {
     // Render short girder
     (*it)->texture.render(r, this->xOffset, this->yOffset, this->iconWidth, this->iconHeight);
     if ((*it)->selected) {
-      this->renderItemSelected(r, this->xOffset, this->yOffset);
+      this->renderItemSelected(r, this->xOffset, this->yOffset, *it);
     }
     it++;
 
     (*it)->texture.render(r, this->xOffset, this->yOffset + this->iconHeight, this->iconWidth, this->iconHeight);
     if ((*it)->selected) {
-      this->renderItemSelected(r, this->xOffset, this->yOffset + this->iconHeight);
+      this->renderItemSelected(r, this->xOffset, this->yOffset + this->iconHeight, *it);
     }
     it++;
 
@@ -93,13 +93,13 @@ void View::EditorInventory::render(SDL_Renderer * r) {
       (*it)->texture.render(r, this->xOffset, this->yOffset + i * this->iconHeight);
 
       if ((*it)->selected) {
-        this->renderItemSelected(r, this->xOffset, this->yOffset + i * this->iconHeight);
-      }   
+        this->renderItemSelected(r, this->xOffset, this->yOffset + i * this->iconHeight, *it);
+      } 
     }
   }
 }
 
-void View::EditorInventory::renderItemSelected(SDL_Renderer * renderer, int x, int y) {
+void View::EditorInventory::renderItemSelected(SDL_Renderer * renderer, int x, int y, ItemIcon * item) {
   SDL_Rect outlineRect = { 
     x,
     y,
@@ -111,6 +111,31 @@ void View::EditorInventory::renderItemSelected(SDL_Renderer * renderer, int x, i
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF); 
   // Dibujamos rectangulo blanco en item seleccionado       
   SDL_RenderDrawRect(renderer, &outlineRect);
+
+  // Render text supplies
+  SDL_Color white = {255, 255, 255, 0};
+
+  std::string supplies;
+  if (item->supplies != INFINITY_SUPPLIES) {
+    supplies = std::to_string(item->supplies);
+  } else {
+    supplies = "oo";
+  }
+  this->suppliesTexture.loadFromRenderedText(renderer, this->font, "Supplies " + supplies, white);
+
+  SDL_Rect rectSupplies = { 
+    x + this->iconWidth + PADDING,
+    y + this->iconHeight / 2 - (this->suppliesTexture.getHeight() + PADDING * 2) / 2,
+    this->suppliesTexture.getWidth() + PADDING * 2, 
+    this->suppliesTexture.getHeight() + PADDING * 2,
+  };
+
+  // Color negro
+  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF); 
+  // Dibujamos rectangulo negro en item seleccionado       
+  SDL_RenderFillRect(renderer, &rectSupplies);
+
+  this->suppliesTexture.render(renderer, x + this->iconWidth + PADDING * 2, y + this->iconHeight / 2 - (this->suppliesTexture.getHeight() + PADDING * 2) / 2 + PADDING);
 }
 
 void View::EditorInventory::renderSelectedInMouse(SDL_Renderer * r) {
@@ -159,6 +184,15 @@ void View::EditorInventory::handleEvent(
     if (e.key.keysym.sym == SDLK_q) {
       if (this->isOpen()) {
         this->pickNextItem();
+      }
+    } 
+    // Si es R y el inventario esta abierto
+    // rotamos las vigas (para usuarios sin ruedita)
+    if (e.key.keysym.sym == SDLK_r) {
+      if (this->isOpen()) {
+        View::GirderShort g(r, this->girdersDegrees);
+        g.rotateClockwise();
+        this->girdersDegrees = g.getCurrentDegrees();
       }
     } 
   }

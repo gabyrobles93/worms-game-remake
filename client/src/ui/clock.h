@@ -16,11 +16,15 @@ namespace View {
       Font font;
       int time;
       Texture timeTexture;
+      bool hide;
+
+
 
     public:
       Clock(int x, int y, int width, int height);
       ~Clock();
       void setTime(int);
+      void toggleHide(bool);
 
       virtual void render(SDL_Renderer *, int, int);
       virtual int getWidth(void) const;

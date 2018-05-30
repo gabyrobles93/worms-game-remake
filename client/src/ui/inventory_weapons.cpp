@@ -1,7 +1,8 @@
 #include "inventory.h"
 #include "inventory_weapons.h"
 
-View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) {
+View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
+  font(PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
   ItemIcon * icon = new ItemIcon;
 
   icon->texture.loadFromFile(PATH_ICON_BAZOOKA, r);
@@ -74,8 +75,14 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) {
   this->items.push_back(icon);
 
   this->open = false;
-  this->iconWidth = this->items.back()->texture.getWidth();
-  this->iconHeight = this->items.back()->texture.getHeight();
+
+  // Tamanio de la imagen de los iconos
+  /* this->iconWidth = this->items.back()->texture.getWidth();
+  this->iconHeight = this->items.back()->texture.getHeight(); */
+
+  // Tamanio grande hardcodeado
+  this->iconWidth = 60;
+  this->iconHeight = 60;
 }
 
 View::WeaponsInventory::~WeaponsInventory() {
@@ -96,19 +103,10 @@ void View::WeaponsInventory::render(SDL_Renderer * renderer) {
         }
         // MAGIA OSCURA:
         // X e Y seran respecto de la camara
-        (*it)->texture.render(renderer, this->xOffset + i * this->iconWidth, this->yOffset + row * this->iconHeight);
+        (*it)->texture.render(renderer, this->xOffset + i * this->iconWidth, this->yOffset + row * this->iconHeight, this->iconWidth, this->iconHeight);
 
         if ((*it)->selected) {
-          SDL_Rect outlineRect = { 
-            this->xOffset + (int)i * this->iconWidth,
-            this->yOffset + row * this->iconHeight,
-            this->iconWidth, 
-            this->iconHeight
-          };
-          // Color verde
-          SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); 
-          // Dibujamos rectangulo verde en arma seleccionada       
-          SDL_RenderDrawRect(renderer, &outlineRect);
+          this->renderItemSelected(renderer, this->xOffset, this->yOffset + row * this->iconHeight, *it);
         }
 
         it++;
@@ -116,6 +114,44 @@ void View::WeaponsInventory::render(SDL_Renderer * renderer) {
       row++;
     }
   }
+}
+
+void View::WeaponsInventory::renderItemSelected(SDL_Renderer * renderer, int x, int y, ItemIcon * item) {
+  SDL_Rect outlineRect = { 
+    x,
+    y,
+    this->iconWidth, 
+    this->iconHeight
+  };
+  // Color verde
+  SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); 
+  // Dibujamos rectangulo verde en arma seleccionada       
+  SDL_RenderDrawRect(renderer, &outlineRect);
+
+  // Render text supplies
+  SDL_Color white = {255, 255, 255, 0};
+
+  std::string supplies;
+  if (item->supplies != INFINITY_SUPPLIES) {
+    supplies = std::to_string(item->supplies);
+  } else {
+    supplies = "oo";
+  }
+  this->suppliesTexture.loadFromRenderedText(renderer, this->font, "Supplies " + supplies, white);
+
+  SDL_Rect rectSupplies = { 
+    x + this->iconWidth + PADDING,
+    y + this->iconHeight / 2 - (this->suppliesTexture.getHeight() + PADDING * 2) / 2,
+    this->suppliesTexture.getWidth() + PADDING * 2, 
+    this->suppliesTexture.getHeight() + PADDING * 2,
+  };
+
+  // Color negro
+  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF); 
+  // Dibujamos rectangulo negro en item seleccionado       
+  SDL_RenderFillRect(renderer, &rectSupplies);
+
+  this->suppliesTexture.render(renderer, x + this->iconWidth + PADDING * 2, y + this->iconHeight / 2 - (this->suppliesTexture.getHeight() + PADDING * 2) / 2 + PADDING);
 }
 
 void View::WeaponsInventory::handleEvent(SDL_Event & e) {

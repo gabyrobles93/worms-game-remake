@@ -5,8 +5,11 @@
 #include <string>
 #include <vector>
 #include <SDL2/SDL.h>
+#include "font.h"
 #include "inventory.h"
 #include "map_game.h"
+#include "resources_paths.h"
+#include "texture.h"
 #include "yaml.h"
 
 #define WEAPON_NAME_SHORT_GIRDER "Short girder"
@@ -19,6 +22,8 @@
 #define POS_GIRDER_LONG 1
 #define POS_FIRST_WORMS_TEAM 2
 
+#define TEXT_SUPPLIES_SIZE 15
+
 namespace View {
   class MapGame;
 
@@ -28,11 +33,14 @@ namespace View {
       degrees_t girdersDegrees;
       int wormsHealth;
 
+      Font font;
+      Texture suppliesTexture;
+
       // Devuelve el indice del item seleccionado
       int getIndexSelected(void);
 
-      // Dibuja rect blanco en item seleccionado
-      void renderItemSelected(SDL_Renderer *, int, int);
+      // Dibuja rect blanco en item seleccionado y el texto de supplies
+      void renderItemSelected(SDL_Renderer *, int, int, ItemIcon *);
 
       // Handlea el click izquierdo del mouse
       virtual void handleClick(void);

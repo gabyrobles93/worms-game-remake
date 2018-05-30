@@ -11,10 +11,12 @@
 #include "girder_short.h"
 #include "girder_long.h"
 
+#define INFINITY_SUPPLIES -1
+
 struct ItemIcon {
   View::Texture texture;
   std::string itemName;
-  size_t supplies;
+  int supplies;
   bool selected;
 };
 
