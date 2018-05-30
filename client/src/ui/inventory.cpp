@@ -26,23 +26,4 @@ void View::Inventory::pickNextItem(void) {
 bool View::Inventory::isOpen(void) const {
   return this->open;
 }
-
-void View::Inventory::handleEvent(SDL_Event & e) {
-  if (e.type == SDL_KEYDOWN) {
-    // Si es Q y el inventario esta abierto
-    // elige el arma siguiente
-    if (e.key.keysym.sym == SDLK_q) {
-      if (this->isOpen()) {
-        this->pickNextItem();
-      }
-    } 
-  }
-
-  // Click derecho abre o cierra el inventario
-  if (e.type == SDL_MOUSEBUTTONDOWN) {
-    if (e.button.button == SDL_BUTTON_RIGHT) {
-      this->toggleOpen();
-    }
-  }
-}
           

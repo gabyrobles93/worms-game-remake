@@ -27,6 +27,9 @@ namespace View {
       const int yOffset = 10;
       int iconWidth;
       int iconHeight;
+
+      virtual void handleClick(void) = 0;
+      virtual bool isMouseOnInventoryRanges(int, int) = 0;
       
     public:
       virtual ~Inventory();
@@ -39,10 +42,6 @@ namespace View {
 
       // Marca como seleccionada el item siguiente
       void pickNextItem(void);
-
-      // Click derecho abre/cierra el inventario
-      // letra Q cambia el item al siguiente si esta abierto
-      void handleEvent(SDL_Event &);
 
       virtual void render(SDL_Renderer *) = 0;
   };

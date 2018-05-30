@@ -35,9 +35,11 @@ namespace View {
       void renderItemSelected(SDL_Renderer *, int, int);
 
       // Handlea el click izquierdo del mouse
-      void handleClick(void);
+      virtual void handleClick(void);
 
-      bool isMouseOnInventoryRanges(int, int);
+      // Checkea si el mouse esta en las
+      // dimensiones del dibujo del inventario
+      virtual bool isMouseOnInventoryRanges(int, int);
 
     public:
       // Constructor por default con todas las armas

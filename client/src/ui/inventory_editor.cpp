@@ -52,19 +52,17 @@ void View::EditorInventory::render(SDL_Renderer * r) {
     };
 
     std::vector<ItemIcon *>::iterator it = this->items.begin();
-    int iconWidth = this->items.back()->texture.getWidth();
-    int iconHeight = this->items.back()->texture.getHeight();
 
     // Render short girder
     (*it)->texture.render(r, this->xOffset, this->yOffset, this->iconWidth, this->iconHeight);
     if ((*it)->selected) {
-      this->renderItemSelected(r, this->xOffset, this->yOffset, this->iconWidth, this->iconHeight);
+      this->renderItemSelected(r, this->xOffset, this->yOffset);
     }
     it++;
 
     (*it)->texture.render(r, this->xOffset, this->yOffset + this->iconHeight, this->iconWidth, this->iconHeight);
     if ((*it)->selected) {
-      this->renderItemSelected(r, this->xOffset, this->yOffset + this->iconHeight, this->iconWidth, this->iconHeight);
+      this->renderItemSelected(r, this->xOffset, this->yOffset + this->iconHeight);
     }
     it++;
 
@@ -154,8 +152,23 @@ void View::EditorInventory::handleEvent(
   int camX,
   int camY
   ) {
-  
-  this->Inventory::handleEvent(e);
+
+  if (e.type == SDL_KEYDOWN) {
+    // Si es Q y el inventario esta abierto
+    // elige el arma siguiente
+    if (e.key.keysym.sym == SDLK_q) {
+      if (this->isOpen()) {
+        this->pickNextItem();
+      }
+    } 
+  }
+
+  // Click derecho abre o cierra el inventario
+  if (e.type == SDL_MOUSEBUTTONDOWN) {
+    if (e.button.button == SDL_BUTTON_RIGHT) {
+      this->toggleOpen();
+    }
+  }
 
   if (e.type == SDL_MOUSEBUTTONDOWN) {
     int mouseX, mouseY;
@@ -241,7 +254,7 @@ bool View::EditorInventory::isMouseOnInventoryRanges(int x, int y) {
     (this->xOffset < x) && 
     (x < this->xOffset + this->iconWidth) &&
     (y > this->yOffset) &&
-    (y < this->yOffset + this->items.size() * this->iconHeight)
+    (y < this->yOffset + (int)this->items.size() * this->iconHeight)
   );
 }
 

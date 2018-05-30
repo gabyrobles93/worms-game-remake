@@ -123,21 +123,10 @@ try {
 				if (e.key.keysym.sym == SDLK_TAB) {
 					Event event(a_changeWorm, TEAM_ID);
 					events.push(event);
-				}
-				// Si es Q y el inventario esta abierto
-				// elige el arma siguiente
-				if (e.key.keysym.sym == SDLK_q) {
-					if (inventory.isOpen()) {
-						inventory.pickNextItem();
-					}
-				}           
+				}         
 			}
 
-			if (e.type == SDL_MOUSEBUTTONDOWN) {
-				if (e.button.button == SDL_BUTTON_RIGHT) {
-					inventory.toggleOpen();
-				}
-			}
+			inventory.handleEvent(e); 
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
