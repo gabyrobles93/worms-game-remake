@@ -50,28 +50,6 @@ dynamic:
         mirrored: 0
         walking: 0
     - id: 2
-      team: 1
-      name: ariel
-      health: 100
-      x: 900
-      y: 550
-      status:
-        grounded: 0
-        falling: 1
-        mirrored: 1
-        walking: 0
-    - id: 3
-      team: 1
-      name: gonza
-      health: 100
-      x: 1100
-      y: 550
-      status:
-        grounded: 0
-        falling: 1
-        mirrored: 0
-        walking: 0
-    - id: 4
       team: 2
       name: gaby
       health: 100
@@ -82,18 +60,7 @@ dynamic:
         falling: 1
         mirrored: 0
         walking: 0
-    - id: 5
-      team: 2
-      name: pedro
-      health: 100
-      x: 1500
-      y: 550
-      status:
-        grounded: 0
-        falling: 1
-        mirrored: 0
-        walking: 0
-    - id: 6
+    - id: 3
       team: 3
       name: bianca
       health: 100
@@ -104,16 +71,4 @@ dynamic:
         falling: 1
         mirrored: 0
         walking: 0
-    - id: 7
-      team: 3
-      name: gus
-      health: 100
-      x: 1900
-      y: 550
-      status:
-        grounded: 0
-        falling: 1
-        mirrored: 0
-        walking: 0
-
   

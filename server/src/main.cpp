@@ -19,7 +19,7 @@
 #define PORT "8080"
 #define MAP_PATH "../map2.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define TURN_DURATION_SEC 5
+#define TURN_DURATION_SEC 15
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
@@ -47,14 +47,17 @@ int main(/* int argc, char *argv[] */) try {
     unsigned int timer = 0;
     match.start(world.getTimeSeconds()); //NO LANZA UN HILO, EMPIEZA LA PARTIDA.
     while(!event_receiver.quitEvent() && !match.finished()) {
-        usleep(15000);
+        usleep(16666);
         timer = world.getTimeSeconds();
         /* std::cout << timer << " Segundos." << std::endl; */
         match.update(timer);
     }
 
-    std::cout << "El cliente cerró la ventana." << std::endl;
-
+    if (event_receiver.quitEvent()) {
+        std::cout << "El cliente cerró la ventana." << std::endl;
+    } else if (match.finished()) {
+        std::cout << "La partida finalizó y el ganador es " << match.getWinner() << std::endl;
+    }
     //Stops y joins de los hilos lanzados
     world.stop();
     snapshot_sender.stop();

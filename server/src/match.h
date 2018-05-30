@@ -17,8 +17,10 @@ class Match {
         unsigned int turn_duration_sec;
         unsigned int actual_turn_start_time;
         bool match_finished;
+        int winner_team;
 
         void createTeams(std::map<int, Worm*> &);
+        int removeDeadTeamsTurns(void);
         void removeDeadWormsTurns(void);
 
     public:
@@ -30,6 +32,7 @@ class Match {
         int nextTurn(void);
         void update(unsigned int);
         bool finished(void);
+        int getWinner(void);
 };
 
 #endif
