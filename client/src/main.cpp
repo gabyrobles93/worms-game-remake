@@ -9,6 +9,7 @@
 #include <vector>
 #include "yaml.h"
 #include "camera.h"
+#include "clock.h"
 #include "socket.h"
 #include "socket_error.h"
 #include "protocol.h"
@@ -31,6 +32,11 @@
 #define CONNECTION_PORT "8080"
 #define MAX_QUEUE_MODELS 256
 #define TEAM_ID 1
+
+#define CLOCK_X_OFFSET 10
+#define CLOCK_Y_OFFSET 10
+#define CLOCK_WIDTH 120
+#define CLOCK_HEIGHT 120
 
 int main(/* int argc, char *argv[] */)
 try {
@@ -59,6 +65,10 @@ try {
     event_sender.start();
     model_receiver.start();
 
+	View::Clock clock(CLOCK_X_OFFSET, mainWindow.getScreenHeight() - CLOCK_Y_OFFSET - CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_HEIGHT);
+	int currentTime = 20;
+	clock.setTime(currentTime);
+	size_t counter = 1;
 	// Comienza el ciclo del juego para el cliente
 	bool quit = false;	
 	SDL_Event e;
@@ -70,7 +80,6 @@ try {
             // Chequeo eventos de teclado (ver si se puede hacer mas prolijo)
             // FALTA CHEQUEAR EVENTOS DE MOUSE (CLICKS, MOVIMIENTOS DE CAMARA, ETC)
 			if (e.type == SDL_KEYDOWN) {
-				camera.handleEvent(e);
 				
 				if (e.key.keysym.sym == SDLK_UP) {
 					Event event(a_pointUp, TEAM_ID);
@@ -129,6 +138,8 @@ try {
 			inventory.handleEvent(e); 
 		}
 
+		camera.updateCameraPosition();
+
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);
 		
@@ -142,11 +153,19 @@ try {
 		// El agua va sobre todo menos el inventario
 		mainWindow.renderWater(camera);
 
-		// El inventario va adelante de todo
+		// El inventario y el timer va adelante de todo
 		inventory.render(renderer);
+		clock.render(renderer, 0, 0);
 
 		SDL_RenderPresent(renderer);
 		SDL_Delay(10);
+
+		if (counter == 100) {
+			counter = 0;
+			currentTime--;
+			clock.setTime(currentTime);
+		}
+		counter++;
 	}
 
 	// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
