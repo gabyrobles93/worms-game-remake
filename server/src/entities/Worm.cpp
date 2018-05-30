@@ -79,7 +79,7 @@ void Worm::deleteFootContact(void) {
     this->wormPhysic.deleteFootContact();
 }
 
-void Worm::shoot(entity_t weapon) {
+void Worm::shoot(/* entity_t weapon */) {
     // switch(weapon) {
     //     case DYNAMITE : {
     //         Dynamite dynamite(this->world, posX, posY);
@@ -129,7 +129,7 @@ void Worm::setFalling(bool falling) {
 }
 
 void Worm::update() {
-    float verticalSpeed = this->wormPhysic.getVerticalSpeed();
+    /* float verticalSpeed = this->wormPhysic.getVerticalSpeed(); */
     if (!this->isGrounded()) {
         if (this->falled && (getPosY() < this->fallenDistance)) {
             this->fallenDistance = getPosY();

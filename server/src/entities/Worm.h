@@ -44,7 +44,7 @@ class Worm : public Entity {
         void addFootContact(void);
         void deleteFootContact(void);
         bool isMirrored(void);
-        void shoot(entity_t weapon);
+        void shoot(/* entity_t weapon */);
         bool isWalking(void);
         bool isFalling(void);
         bool isGrounded(void);

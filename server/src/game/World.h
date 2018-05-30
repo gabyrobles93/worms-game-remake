@@ -12,38 +12,43 @@
 #include "ContactListener.h"
 #include <sstream>
 #include <Dynamite.h>
+#include "blocking_queue.h"
+#include "event.h"
 
 #define SCALING_FACTOR 0.0416
 #define GRADTORAD 0.0174533
 
-class World : public Thread{
+class World : public Thread {
 private:
+    Queue<YAML::Node> & snapshots;
     bool keep_running;
-    WorldPhysic _createWorldPhysic();
     WorldPhysic worldPhysic;
-    std::map<int, Girder*> girders;
-    std::map<int, Worm*> worms;
-    std::list<Weapon*> weapons;
-    Water* water;
+    std::map<int, Girder *> girders;
+    std::map<int, Worm *> worms;
+    std::list<Weapon *> weapons;
+    Water * water;
     YAML::Node node_map;
+    unsigned int time_sec;
+
+    WorldPhysic _createWorldPhysic();
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;
     void updateYAML();
     void updateBodies();
     
 public:
-    World(std::string &);
+    World(std::string &, Queue<YAML::Node> &);
     ~World(void);
     void initializeWorld();
-    std::map<int, Worm*> & getWorms();
-    std::map<int, Girder*> getGirders();
+    std::map<int, Worm *> & getWorms();
+    std::map<int, Girder *> getGirders();
     virtual void run(void);
-    //std::string getModel();
     YAML::Node getSnapshot();
     void moveLeft(size_t worm_id);
     void moveRight(size_t worm_id);
     void stop();
-    void executeAction(action_t action, int id);
+    void executeAction(action_t, size_t);
+    unsigned int getTimeSeconds(void);
 };
 
 #endif

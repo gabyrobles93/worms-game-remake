@@ -36,5 +36,19 @@ std::vector<int> Team::getWormsID(void) {
     return ids;
 }
 
+int Team::getTeamId(void) {
+    return this->team_id;
+}
+
 Team::~Team(void) {
+}
+
+bool Team::haveAliveMember(void) {
+    std::map<int, Worm*>::const_iterator it;
+    for (it = this->worms.begin(); it != this->worms.end(); it++) {
+        if (!it->second->isDead()) {
+            return true;
+        }
+    }
+    return false;
 }

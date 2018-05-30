@@ -33,8 +33,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/team.cpp
 		${PROJECT_SOURCE_DIR}/src/team.h
-		${PROJECT_SOURCE_DIR}/src/team_turns.cpp
-		${PROJECT_SOURCE_DIR}/src/team_turns.h
+		${PROJECT_SOURCE_DIR}/src/event_receiver.cpp
+		${PROJECT_SOURCE_DIR}/src/event_receiver.h
 		${PROJECT_SOURCE_DIR}/src/match.cpp
 		${PROJECT_SOURCE_DIR}/src/match.h
 		${COMMON_SOURCE_DIR}/src/socket.cpp
@@ -65,10 +65,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.h
 		${PROJECT_SOURCE_DIR}/src/client_handler.cpp
 		${PROJECT_SOURCE_DIR}/src/client_handler.h
-		${PROJECT_SOURCE_DIR}/src/SnapshotPusher.cpp
-		${PROJECT_SOURCE_DIR}/src/SnapshotPusher.h
-		${PROJECT_SOURCE_DIR}/src/SnapshotSender.cpp
-		${PROJECT_SOURCE_DIR}/src/SnapshotSender.h
+		${PROJECT_SOURCE_DIR}/src/snapshot_sender.cpp
+		${PROJECT_SOURCE_DIR}/src/snapshot_sender.h
 		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/Water.cpp

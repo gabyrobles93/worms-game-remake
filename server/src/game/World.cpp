@@ -6,10 +6,12 @@
 #define MAP_HEIGTH 1500
 #define WATER_LEVEL 300
 
-World::World(std::string & map_path) {
+World::World(std::string & map_path, Queue<YAML::Node> & snps) :
+snapshots(snps) {
     this->node_map = YAML::LoadFile(map_path);
     initializeWorld();
     this->keep_running = true;
+    this->time_sec = 0;
 }
 
 World::~World() {
@@ -149,16 +151,24 @@ void World::updateBodies() {
 }
 
 void World::run() {
+    unsigned int step_counter = 0;
     while (this->keep_running) {
         usleep(16666);
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         updateBodies();
-        updateYAML();
+        this->snapshots.push(getSnapshot());
+        step_counter++;
+
+        if (step_counter == 60) {
+            this->time_sec++;
+            step_counter = 0;
+        }
     }
 }
 
 YAML::Node World::getSnapshot() {
+    updateYAML();
     return this->node_map["dynamic"];
 }
 
@@ -174,7 +184,11 @@ void World::stop() {
     this->keep_running = false;
 }
 
-void World::executeAction(action_t action, int id) {
+unsigned int World::getTimeSeconds(void) {
+    return this->time_sec;
+}
+
+void World::executeAction(action_t action, size_t id) {
     switch(action) {
         case a_moveLeft:
             this->worms[id]->moveLeft();
@@ -192,7 +206,7 @@ void World::executeAction(action_t action, int id) {
             break;
         case a_shoot : {
             std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
-            Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5 /*DELAY EN SEGUNDOS*/);
+            Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5);
             this->weapons.push_front(dynamite);
             break;
         }

@@ -2,32 +2,34 @@
 #define __MATCH_H__
 
 #include <map>
+#include <vector>
+#include <queue>
 #include "team.h"
 #include "Worm.h"
-#include "team_turns.h"
 #include "thread.h"
 
-class Match : public Thread {
+class Match {
     private:
-        std::map<int, Team*> teams;
-        TeamTurns turns;
-        bool keep_running;
-        size_t round_duration_sec;
+        std::map<int, Team *> teams;
+        std::map<int, Worm *> & worms;
+        std::queue<int> team_turn_order;
+        std::map<int, std::queue<int>> worm_turn_order;
+        unsigned int turn_duration_sec;
+        unsigned int actual_turn_start_time;
+        bool match_finished;
 
-        int createTeams(std::map<int, Worm*> &);
-        virtual bool isRunning(void) const;
-        virtual size_t getId(void) const;
-        
+        void createTeams(std::map<int, Worm*> &);
+        void removeDeadWormsTurns(void);
+
     public:
         Match(std::map<int, Worm*> &, size_t);
-        ~Match(void);
-        virtual void run(void);
-        void stop(void);
         void printTeams(void);
-        bool isTeamTurnOf(int);
         int getTeamTurn(void);
         int getWormTurn(int);
-        void advanceTurn(void);
+        void start(unsigned int);
+        int nextTurn(void);
+        void update(unsigned int);
+        bool finished(void);
 };
 
 #endif

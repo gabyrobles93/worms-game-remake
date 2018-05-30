@@ -17,6 +17,8 @@ class Team {
         void addMember(Worm *);
         std::vector<int> getWormsID(void);
         void print(void) const;
+        int getTeamId(void);
+        bool haveAliveMember(void);
 };
 
 #endif

@@ -1,10 +1,9 @@
-#include "SnapshotSender.h"
+#include "snapshot_sender.h"
 #include "socket_error.h"
 #include <iostream>
 
 SnapshotSender::SnapshotSender(Queue<YAML::Node> & snapshots, Protocol& protocol) : 
-snapshots(snapshots) , 
-/*clients(clients)*/
+snapshots(snapshots) ,
 protocol(protocol) {
     this->keep_running = true;
 }
@@ -15,14 +14,7 @@ SnapshotSender::~SnapshotSender() {
 void SnapshotSender::run() {
     while (keep_running) {
         YAML::Node snapshot = this->snapshots.pop();
-        try {
-            this->protocol.sendModel(snapshot);
-        } catch(const SocketError & e) {
-            return;
-        }
-        //for (std::vector<Protocol*>::iterator it = clients.begin(); it != clients.end(); ++it ){
-            //TODO *it.send(snapshot);
-        //} 
+        this->protocol.sendModel(snapshot);
     }
 }
 
@@ -31,7 +23,7 @@ size_t SnapshotSender::getId(void) const{
 }
 
 bool SnapshotSender::isRunning(void) const {
-    return true;
+    return this->keep_running;
 }
 
 void SnapshotSender::stop() {

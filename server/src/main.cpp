@@ -3,22 +3,23 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <unistd.h>
 #include "yaml.h"
 #include "socket.h"
 #include "socket_error.h"
 #include "protocol.h"
 #include "types.h"
 #include "World.h"
-#include "SnapshotPusher.h"
-#include "SnapshotSender.h"
+#include "snapshot_sender.h"
 #include "blocking_queue.h"
 #include "event.h"
 #include "match.h"
+#include "event_receiver.h"
 
 #define PORT "8080"
 #define MAP_PATH "../map2.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define ROUND_DURATION_SEC 1
+#define TURN_DURATION_SEC 5
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);
@@ -28,49 +29,39 @@ int main(/* int argc, char *argv[] */) try {
     YAML::Node mapNode = YAML::LoadFile(world_path);
     protocol.sendGameMap(mapNode);
 
-    World world(world_path);    
-    Match match(world.getWorms(), ROUND_DURATION_SEC);
+    Queue<YAML::Node> snapshots(MAX_QUEUE_SNAPSHOTS);
+    World world(world_path, snapshots);    
+    Match match(world.getWorms(), TURN_DURATION_SEC);
     match.printTeams();
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
-    Queue<YAML::Node> models(MAX_QUEUE_SNAPSHOTS);
-    SnapshotPusher snapshot_pusher(world, match, models);
-    SnapshotSender snapshot_sender(models, protocol);
-
-    world.start();
+    SnapshotSender snapshot_sender(snapshots, protocol);
+    EventReceiver event_receiver(protocol, world, 1);
 
     // Lanzo hilos
-    snapshot_pusher.start();
+    world.start();
     snapshot_sender.start();
-
-    match.start();
-
-    bool quit = false;
-    while(!quit) {
-        Event event = protocol.rcvEvent();
-        if (event.quit())
-            quit = true;
-
-       //if (match.isTeamTurnOf(event.getTeamId())) {
-       //     std::cout << "Ejecutando acción." << std::endl;
-        world.executeAction(event.getAction(), match.getWormTurn(match.getTeamTurn()));
-       // } else {
-       //     std::cout << "Acción ignorada." << std::endl;
-       // }
+    event_receiver.start();
+    
+    unsigned int timer = 0;
+    match.start(world.getTimeSeconds()); //NO LANZA UN HILO, EMPIEZA LA PARTIDA.
+    while(!event_receiver.quitEvent() && !match.finished()) {
+        usleep(15000);
+        timer = world.getTimeSeconds();
+        std::cout << timer << " Segundos." << std::endl;
+        match.update(timer);
     }
 
     std::cout << "El cliente cerró la ventana." << std::endl;
 
     //Stops y joins de los hilos lanzados
     world.stop();
-    snapshot_pusher.stop();
     snapshot_sender.stop();
-    match.stop();
+    event_receiver.stop();
     snapshot_sender.join();
-    snapshot_pusher.join();
     world.join();
-    match.join();
+    event_receiver.join();
 
     std::cout << "Server finalizado." << std::endl;
     return 0;
