@@ -1,0 +1,123 @@
+static:
+  background:
+    file: ../../resources/graphics/lava_pattern.jpg
+    display: expanded
+  water_level: 300
+  long_girders:
+    - id: 1
+      x: 746
+      y: 837
+      angle: -30
+    - id: 2
+      x: 888
+      y: 872
+      angle: 0
+    - id: 3
+      x: 1034
+      y: 876
+      angle: 0
+    - id: 4
+      x: 1189
+      y: 875
+      angle: 0
+dynamic:
+  worms:
+    - id: 1
+      team: 1
+      name: Worm 1
+      health: 100
+      x: 749
+      y: 823
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 2
+      team: 1
+      name: Worm 2
+      health: 100
+      x: 867
+      y: 846
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 3
+      team: 1
+      name: Worm 3
+      health: 100
+      x: 945
+      y: 855
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 4
+      team: 2
+      name: Worm 1
+      health: 100
+      x: 1001
+      y: 837
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 5
+      team: 2
+      name: Worm 2
+      health: 100
+      x: 1042
+      y: 846
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 6
+      team: 2
+      name: Worm 3
+      health: 100
+      x: 1094
+      y: 850
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 7
+      team: 3
+      name: Worm 1
+      health: 100
+      x: 1141
+      y: 844
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 8
+      team: 3
+      name: Worm 2
+      health: 100
+      x: 1169
+      y: 847
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
+    - id: 9
+      team: 3
+      name: Worm 3
+      health: 100
+      x: 1198
+      y: 843
+      status:
+        grounded: 0
+        falling: 1
+        mirrored: 0
+        walking: 0
