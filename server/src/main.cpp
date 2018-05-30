@@ -37,7 +37,7 @@ int main(/* int argc, char *argv[] */) try {
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
     SnapshotSender snapshot_sender(snapshots, protocol);
-    EventReceiver event_receiver(protocol, world, 1);
+    EventReceiver event_receiver(protocol, world, match, 1);
 
     // Lanzo hilos
     world.start();
@@ -49,7 +49,7 @@ int main(/* int argc, char *argv[] */) try {
     while(!event_receiver.quitEvent() && !match.finished()) {
         usleep(15000);
         timer = world.getTimeSeconds();
-        std::cout << timer << " Segundos." << std::endl;
+        /* std::cout << timer << " Segundos." << std::endl; */
         match.update(timer);
     }
 

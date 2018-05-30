@@ -10,6 +10,7 @@ class EventReceiver : public Thread {
     private:
         Protocol & protocol;
         World & world;
+        Match & match;
         size_t team_id;
         bool keep_running;
         bool quit_event; 
@@ -18,7 +19,7 @@ class EventReceiver : public Thread {
         virtual size_t getId(void) const;
 
     public:
-        EventReceiver(Protocol &, World &, size_t);
+        EventReceiver(Protocol &, World &, Match &, size_t);
         virtual void run(void);
         void stop(void);
         bool quitEvent(void);

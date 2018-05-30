@@ -3,9 +3,10 @@
 #include "event.h"
 #include "match.h"
 
-EventReceiver::EventReceiver(Protocol & prt, World & w, size_t id) :
+EventReceiver::EventReceiver(Protocol & prt, World & w, Match & match, size_t id) :
 protocol(prt),
 world(w),
+match(match),
 team_id(id) {
     this->keep_running = true;
     this->quit_event = false;
@@ -27,7 +28,8 @@ void EventReceiver::run(void) {
             stop();
             return;
         }
-        this->world.executeAction(new_event.getAction(), new_event.getTeamId());
+        int team_turn = match.getTeamTurn();
+        this->world.executeAction(new_event.getAction(), match.getWormTurn(team_turn));
     }
 }
 
