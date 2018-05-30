@@ -154,7 +154,7 @@ try {
 		mainWindow.renderWater(camera);
 
 		// El inventario va adelante de todo
-		inventory.render(renderer, 10, 10);
+		inventory.render(renderer);
 
 		SDL_RenderPresent(renderer);
 		SDL_Delay(10);

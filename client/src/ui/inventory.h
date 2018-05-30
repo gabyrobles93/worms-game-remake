@@ -23,6 +23,10 @@ namespace View {
     protected:
       std::vector<ItemIcon *> items;
       bool open;
+      const int xOffset = 10;
+      const int yOffset = 10;
+      int iconWidth;
+      int iconHeight;
       
     public:
       virtual ~Inventory();
@@ -40,7 +44,7 @@ namespace View {
       // letra Q cambia el item al siguiente si esta abierto
       void handleEvent(SDL_Event &);
 
-      virtual void render(SDL_Renderer *, int, int) = 0;
+      virtual void render(SDL_Renderer *) = 0;
   };
 }
 

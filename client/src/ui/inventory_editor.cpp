@@ -31,6 +31,9 @@ View::EditorInventory::EditorInventory(SDL_Renderer * r, size_t amountTeams, int
   this->open = false;
   this->girdersDegrees = ZERO_DEGREES;
   this->wormsHealth = healthConfig;
+
+  this->iconWidth = this->items.back()->texture.getWidth();
+  this->iconHeight = this->items.back()->texture.getHeight();
 }
 
 View::EditorInventory::~EditorInventory() {
@@ -39,7 +42,7 @@ View::EditorInventory::~EditorInventory() {
   }
 }
 
-void View::EditorInventory::render(SDL_Renderer * r, int x, int y) {
+void View::EditorInventory::render(SDL_Renderer * r) {
   if (this->open) {
     SDL_Color colors[] = {
       {0, 0, 0, 0},
@@ -53,57 +56,57 @@ void View::EditorInventory::render(SDL_Renderer * r, int x, int y) {
     int iconHeight = this->items.back()->texture.getHeight();
 
     // Render short girder
-    (*it)->texture.render(r, x, y, iconWidth, iconHeight);
+    (*it)->texture.render(r, this->xOffset, this->yOffset, this->iconWidth, this->iconHeight);
     if ((*it)->selected) {
-      this->renderItemSelected(r, x, y, iconWidth, iconHeight);
+      this->renderItemSelected(r, this->xOffset, this->yOffset, this->iconWidth, this->iconHeight);
     }
     it++;
 
-    (*it)->texture.render(r, x, y + iconHeight, iconWidth, iconHeight);
+    (*it)->texture.render(r, this->xOffset, this->yOffset + this->iconHeight, this->iconWidth, this->iconHeight);
     if ((*it)->selected) {
-      this->renderItemSelected(r, x, y + iconHeight, iconWidth, iconHeight);
+      this->renderItemSelected(r, this->xOffset, this->yOffset + this->iconHeight, this->iconWidth, this->iconHeight);
     }
     it++;
 
-    for (int i = 2 ; it != this->items.end() ; it++, i++) {
+    for (int i = POS_FIRST_WORMS_TEAM ; it != this->items.end() ; it++, i++) {
       size_t teamId = std::stoi((*it)->itemName);
 
       // Black rect
       SDL_Rect blackRect = {
-        x,
-        y + i * iconHeight,
-        iconWidth,
-        iconHeight
+        this->xOffset,
+        this->yOffset + i * this->iconHeight,
+        this->iconWidth,
+        this->iconHeight
       };
       SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF);        
       SDL_RenderFillRect(r, &blackRect);
 
       // Color rect
       SDL_Rect colorRect = {
-        x + PADDING,
-        y + i * iconHeight + PADDING,
-        iconWidth - 2 * PADDING,
-        iconHeight - 2 * PADDING
+        this->xOffset + PADDING,
+        this->yOffset + i * this->iconHeight + PADDING,
+        this->iconWidth - 2 * PADDING,
+        this->iconHeight - 2 * PADDING
       };
       SDL_SetRenderDrawColor(r, colors[teamId].r, colors[teamId].g, colors[teamId].b, 0xFF);
       SDL_RenderFillRect(r, &colorRect);
 
       // Worm icon
-      (*it)->texture.render(r, x, y + i * iconHeight);
+      (*it)->texture.render(r, this->xOffset, this->yOffset + i * this->iconHeight);
 
       if ((*it)->selected) {
-        this->renderItemSelected(r, x, y + i * iconHeight, iconWidth, iconHeight);
+        this->renderItemSelected(r, this->xOffset, this->yOffset + i * this->iconHeight);
       }   
     }
   }
 }
 
-void View::EditorInventory::renderItemSelected(SDL_Renderer * renderer, int x, int y, int width, int height) {
+void View::EditorInventory::renderItemSelected(SDL_Renderer * renderer, int x, int y) {
   SDL_Rect outlineRect = { 
     x,
     y,
-    width, 
-    height
+    this->iconWidth, 
+    this->iconHeight
   };
 
   // Color blanco
@@ -154,6 +157,19 @@ void View::EditorInventory::handleEvent(
   
   this->Inventory::handleEvent(e);
 
+  if (e.type == SDL_MOUSEBUTTONDOWN) {
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    if (
+      e.button.button == SDL_BUTTON_LEFT && 
+      this->isMouseOnInventoryRanges(mouseX, mouseY) &&
+      this->isOpen()
+    ) {
+      this->handleClick();
+      return;
+    }
+  }
+
   // Rotamos el dibujo de las vigas
   if (e.type == SDL_MOUSEWHEEL) {
     if (e.wheel.y > 0) {
@@ -191,6 +207,42 @@ void View::EditorInventory::handleEvent(
       }
     }
   }
+}
+
+void View::EditorInventory::handleClick(void) {
+  int mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+
+  if (this->isMouseOnInventoryRanges(mouseX, mouseY)) {
+    for (size_t i = 0 ; i < this->items.size() ; i++) {
+      ItemIcon * current = this->items[i];
+      int lowLimit = this->yOffset + i * this->iconHeight;
+      int upLimit = lowLimit + this->iconHeight;
+      if (current->selected && mouseY > lowLimit && mouseY < upLimit) {
+        // Si clickeo el que ya estaba seleccionado no hacemos nada
+        break;
+      }
+
+      // El seleccionado viejo hay que desseleccionarlo
+      if (current->selected) {
+        current->selected = false;
+      }
+
+      // Y el clickeado hay que seleccionarlo
+      if (mouseY > lowLimit && mouseY < upLimit) {
+        current->selected = true;
+      }
+    }
+  }
+}
+
+bool View::EditorInventory::isMouseOnInventoryRanges(int x, int y) {
+  return (
+    (this->xOffset < x) && 
+    (x < this->xOffset + this->iconWidth) &&
+    (y > this->yOffset) &&
+    (y < this->yOffset + this->items.size() * this->iconHeight)
+  );
 }
 
 int View::EditorInventory::getIndexSelected(void) {

@@ -32,7 +32,12 @@ namespace View {
       int getIndexSelected(void);
 
       // Dibuja rect blanco en item seleccionado
-      void renderItemSelected(SDL_Renderer *, int, int, int, int);
+      void renderItemSelected(SDL_Renderer *, int, int);
+
+      // Handlea el click izquierdo del mouse
+      void handleClick(void);
+
+      bool isMouseOnInventoryRanges(int, int);
 
     public:
       // Constructor por default con todas las armas
@@ -41,7 +46,7 @@ namespace View {
       // Destructor
       ~EditorInventory();
 
-      virtual void render(SDL_Renderer *, int, int);
+      virtual void render(SDL_Renderer *);
 
       // Dibuja el item elegido en la posicion del mouse
       void renderSelectedInMouse(SDL_Renderer *);

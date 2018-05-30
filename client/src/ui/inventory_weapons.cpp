@@ -74,6 +74,8 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) {
   this->items.push_back(icon);
 
   this->open = false;
+  this->iconWidth = this->items.back()->texture.getWidth();
+  this->iconHeight = this->items.back()->texture.getHeight();
 }
 
 View::WeaponsInventory::~WeaponsInventory() {
@@ -82,11 +84,9 @@ View::WeaponsInventory::~WeaponsInventory() {
   }
 }
 
-void View::WeaponsInventory::render(SDL_Renderer * renderer, int x, int y) {
+void View::WeaponsInventory::render(SDL_Renderer * renderer) {
   if (this->open) {
     int row = 0;
-    int iconWidth = this->items.back()->texture.getWidth();
-    int iconHeight = this->items.back()->texture.getHeight();
 
     std::vector<ItemIcon *>::iterator it = this->items.begin();
     while (it != this->items.end()) {
@@ -96,14 +96,14 @@ void View::WeaponsInventory::render(SDL_Renderer * renderer, int x, int y) {
         }
         // MAGIA OSCURA:
         // X e Y seran respecto de la camara
-        (*it)->texture.render(renderer, x + i * iconWidth, y + row * iconHeight);
+        (*it)->texture.render(renderer, this->xOffset + i * this->iconWidth, this->yOffset + row * this->iconHeight);
 
         if ((*it)->selected) {
           SDL_Rect outlineRect = { 
-            x + (int)i * iconWidth,
-            y + row * iconHeight,
-            iconWidth, 
-            iconHeight
+            this->xOffset + (int)i * this->iconWidth,
+            this->yOffset + row * this->iconHeight,
+            this->iconWidth, 
+            this->iconHeight
           };
           // Color verde
           SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF); 

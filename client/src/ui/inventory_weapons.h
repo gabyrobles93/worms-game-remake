@@ -27,7 +27,7 @@ namespace View {
       // Destructor
       ~WeaponsInventory();
 
-      virtual void render(SDL_Renderer *, int, int);
+      virtual void render(SDL_Renderer *);
 
   };
 }

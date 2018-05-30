@@ -124,7 +124,7 @@ int main(int argc, char * argv[]) {
 
 		editorWindow.renderWater(camera);
 
-		editorInventory.render(renderer, 10, 10);
+		editorInventory.render(renderer);
 		
 		SDL_RenderPresent(renderer);
 		SDL_Delay(10); // Para no usar al mango el CPU
