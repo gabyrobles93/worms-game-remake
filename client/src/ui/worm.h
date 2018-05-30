@@ -22,6 +22,8 @@ typedef enum {
   WALK_UP,
   WALK_DOWN,
 
+  ROLL,
+
   FALLDN
 } worm_animation_t;
 
