@@ -4,6 +4,7 @@
 #include <vector>
 #include "window_game.h"
 #include "girder_long.h"
+#include "paths.h"
 #include "girder_short.h"
 #include "inventory_editor.h"
 #include "map_game.h"
@@ -15,6 +16,8 @@
 #define POS_BG_DISP 2
 #define POS_WATER_LEVEL 3
 
+// Variable global
+Paths gPath;
 
 int validateArgs(int, char*[]);
 
