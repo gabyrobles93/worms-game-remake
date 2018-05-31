@@ -30,6 +30,7 @@ add_executable(	editor
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/map_game.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
+		${COMMON_SOURCE_DIR}/src/paths.cpp
 		${CLIENT_RESOURCES}/camera.cpp
 		${CLIENT_RESOURCES}/girder.cpp
 		${CLIENT_RESOURCES}/girder_long.cpp
@@ -45,6 +46,7 @@ add_executable(	editor
 		${CLIENT_RESOURCES}/window_game.cpp
 		${CLIENT_RESOURCES}/worm.cpp
 		${PROJECT_SOURCE_DIR}/src/map_game.h
+		${COMMON_SOURCE_DIR}/src/paths.h
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/types.h
 		${CLIENT_RESOURCES}/camera.h
