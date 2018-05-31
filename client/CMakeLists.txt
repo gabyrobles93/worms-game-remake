@@ -32,6 +32,7 @@ add_executable(	client
 		${PROJECT_SOURCE_DIR}/src/event_sender.cpp
 		${PROJECT_SOURCE_DIR}/src/model_receiver.cpp
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.cpp
+		${COMMON_SOURCE_DIR}/src/paths.cpp
 		${COMMON_SOURCE_DIR}/src/event.cpp
 		${COMMON_SOURCE_DIR}/src/socket.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
@@ -53,9 +54,11 @@ add_executable(	client
 		${UI_SOURCE_DIR}/water.cpp
 		${UI_SOURCE_DIR}/window_game.cpp
 		${UI_SOURCE_DIR}/worm.cpp
+		${UI_SOURCE_DIR}/dynamite.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
+		${COMMON_SOURCE_DIR}/src/paths.h
 		${COMMON_SOURCE_DIR}/src/event.h
 		${COMMON_SOURCE_DIR}/src/socket.h
 		${COMMON_SOURCE_DIR}/src/thread.h
@@ -81,6 +84,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/water.h
 		${UI_SOURCE_DIR}/window_game.h
 		${UI_SOURCE_DIR}/worm.h
+		${UI_SOURCE_DIR}/dynamite.h
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)

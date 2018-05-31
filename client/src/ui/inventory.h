@@ -6,7 +6,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "texture.h"
-#include "resources_paths.h"
+#include "paths.h"
 #include "worm.h"
 #include "girder_short.h"
 #include "girder_long.h"

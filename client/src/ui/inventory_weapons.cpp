@@ -2,73 +2,73 @@
 #include "inventory_weapons.h"
 
 View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
-  font(PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
+  font(gPath.PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
   ItemIcon * icon = new ItemIcon;
 
-  icon->texture.loadFromFile(PATH_ICON_BAZOOKA, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_BAZOOKA, r);
   icon->selected = true;
   icon->supplies = 10; // Supplies se recibira por archivo de cfg
   icon->itemName = WEAPON_NAME_BAZOOKA;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_MORTAR, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_MORTAR, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_MORTAR;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_GREEN_GRENADE, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_GREEN_GRENADE, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_GREEN_GRENADE;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_RED_GRENADE, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_RED_GRENADE, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_RED_GRENADE;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_BANANA, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_BANANA, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_BANANA;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_HOLY_GRENADE, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_HOLY_GRENADE, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_HOLY_GRENADE;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_DYNAMITE, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_DYNAMITE, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_DYNAMITE;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_BASEBALL, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_BASEBALL, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_BASEBALL;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_AIR_STRIKE, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_AIR_STRIKE, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_AIR_STRIKE;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_TELEPORT, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_TELEPORT, r);
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_TELEPORT;

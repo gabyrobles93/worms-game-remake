@@ -6,7 +6,7 @@
 #include <string>
 #include "texture.h"
 #include "drawable.h"
-#include "resources_paths.h"
+#include "paths.h"
 #include "sprite_animation.h"
 
 #include "font.h"

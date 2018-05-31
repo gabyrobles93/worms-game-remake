@@ -1,18 +1,18 @@
 #include "inventory_editor.h"
 
 View::EditorInventory::EditorInventory(SDL_Renderer * r, size_t amountTeams, int healthConfig) :
-  amountTeams(amountTeams), font(PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
+  amountTeams(amountTeams), font(gPath.PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
   
   // Short girder
   ItemIcon * icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_SHORT_GIRDER, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_SHORT_GIRDER, r);
   icon->selected = true;
   icon->supplies = INFINITY_SUPPLIES;
   icon->itemName = WEAPON_NAME_SHORT_GIRDER;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
-  icon->texture.loadFromFile(PATH_ICON_LONG_GIRDER, r);
+  icon->texture.loadFromFile(gPath.PATH_ICON_LONG_GIRDER, r);
   icon->selected = false;
   icon->supplies = INFINITY_SUPPLIES;
   icon->itemName = WEAPON_NAME_LONG_GIRDER;
@@ -21,7 +21,7 @@ View::EditorInventory::EditorInventory(SDL_Renderer * r, size_t amountTeams, int
   // Worms teams
   for (size_t i = 1 ; i <= amountTeams ; i++) {
     icon = new ItemIcon;
-    icon->texture.loadFromFile(PATH_PLAIN_WORM, r);
+    icon->texture.loadFromFile(gPath.PATH_PLAIN_WORM, r);
     icon->selected = false;
     icon->supplies = AMOUNT_WORMS_PER_TEAM;
     icon->itemName = std::to_string(i); // Team ID

@@ -1,8 +1,11 @@
 #include "sprite_animation.h"
 
-View::SpriteAnimation::SpriteAnimation(size_t fpc) : fpc(fpc) {
+View::SpriteAnimation::SpriteAnimation(size_t fpc, sprite_type_t type) : 
+  fpc(fpc) {
+  this->type = type;
   this->reverse = false;
   this->counter = 0;
+  this->finish = false;
 }
 
 View::SpriteAnimation::~SpriteAnimation() {}
@@ -11,6 +14,28 @@ View::SpriteAnimation::~SpriteAnimation() {}
 // que intentar de entender como es que funciona
 // y mucho menos tener que debuggear este metodo.
 SDL_Rect View::SpriteAnimation::getNextClip(void) {
+  switch (this->type) {
+    case INFINITE_GOING_AND_BACK:
+      return this->getNextClipInfiniteRoundTrip();
+      break;
+    case ONLY_GOING:
+      return this->getNextClipOnlyGoing();
+      break;
+    default:
+      return {0, 0, 0, 0};
+  }
+}
+
+void View::SpriteAnimation::setSpriteSheet(Texture * newTexture) {
+  this->currentSpriteSheet = newTexture;
+  this->clipWidth = this->currentSpriteSheet->getWidth();
+  this->clipHeight = clipWidth;
+  this->numClips = this->currentSpriteSheet->getHeight() / clipWidth;
+  this->reverse = false;
+  this->counter = 0;
+}
+
+SDL_Rect View::SpriteAnimation::getNextClipInfiniteRoundTrip(void) {
   if (this->reverse == false) {
     if (this->counter < this->numClips * this->fpc) {
       SDL_Rect currentClip = {
@@ -54,11 +79,23 @@ SDL_Rect View::SpriteAnimation::getNextClip(void) {
   return secondClip;
 }
 
-void View::SpriteAnimation::setSpriteSheet(Texture * newTexture) {
-  this->currentSpriteSheet = newTexture;
-  this->clipWidth = this->currentSpriteSheet->getWidth();
-  this->clipHeight = clipWidth;
-  this->numClips = this->currentSpriteSheet->getHeight() / clipWidth;
-  this->reverse = false;
-  this->counter = 0;
+SDL_Rect View::SpriteAnimation::getNextClipOnlyGoing(void) {
+  SDL_Rect currentClip = {
+    0,
+    0 + (this->counter / this->fpc ) * this->clipHeight,
+    this->clipWidth,
+    this->clipHeight
+  };
+
+  if (this->counter < this->numClips * this->fpc) {
+    this->counter++;
+  } else {
+    this->finish = true;
+  }
+
+  return currentClip;
+}
+
+bool View::SpriteAnimation::finished(void) {
+  return this->finish;
 }

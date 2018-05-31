@@ -10,7 +10,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   name(name),
   team(team),
   health(health),
-  font(PATH_FONT_ARIAL_BOLD, 20) {
+  font(gPath.PATH_FONT_ARIAL_BOLD, 20) {
 
   const SDL_Color colors[] = {
     {0, 0, 0, 0},
@@ -19,19 +19,19 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
     {0, 0, 255, 0}
   };
 
-  this->textures[PLAIN_WORM].loadFromFile(PATH_PLAIN_WORM, r);
+  this->textures[PLAIN_WORM].loadFromFile(gPath.PATH_PLAIN_WORM, r);
 
-  this->textures[BREATH_1].loadFromFile(PATH_WORM_BREATH_1, r);
-  this->textures[BREATH_1_UP].loadFromFile(PATH_WORM_BREATH_1_UP, r);
-  this->textures[BREATH_1_DOWN].loadFromFile(PATH_WORM_BREATH_1_DOWN, r);
+  this->textures[BREATH_1].loadFromFile(gPath.PATH_WORM_BREATH_1, r);
+  this->textures[BREATH_1_UP].loadFromFile(gPath.PATH_WORM_BREATH_1_UP, r);
+  this->textures[BREATH_1_DOWN].loadFromFile(gPath.PATH_WORM_BREATH_1_DOWN, r);
 
-  this->textures[WALK].loadFromFile(PATH_WORM_WALK, r);
-  this->textures[WALK_UP].loadFromFile(PATH_WORM_WALK_UP, r);
-  this->textures[WALK_DOWN].loadFromFile(PATH_WORM_WALK_DOWN, r);
+  this->textures[WALK].loadFromFile(gPath.PATH_WORM_WALK, r);
+  this->textures[WALK_UP].loadFromFile(gPath.PATH_WORM_WALK_UP, r);
+  this->textures[WALK_DOWN].loadFromFile(gPath.PATH_WORM_WALK_DOWN, r);
 
-  this->textures[ROLL].loadFromFile(PATH_WORM_ROLL, r);
+  this->textures[ROLL].loadFromFile(gPath.PATH_WORM_ROLL, r);
 
-  this->textures[FALLDN].loadFromFile(PATH_WORM_FALL_DN, r);
+  this->textures[FALLDN].loadFromFile(gPath.PATH_WORM_FALL_DN, r);
 
   this->currentAnimation = BREATH_1;
   this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);

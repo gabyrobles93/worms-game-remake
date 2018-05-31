@@ -8,7 +8,7 @@
 #include "font.h"
 #include "inventory.h"
 #include "map_game.h"
-#include "resources_paths.h"
+#include "paths.h"
 #include "texture.h"
 #include "yaml.h"
 

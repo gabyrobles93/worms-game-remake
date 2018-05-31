@@ -13,7 +13,7 @@ void View::Water::init(SDL_Renderer * r, int x, int y, int levelWidth, int level
   if (patterPath) {
     this->texture.loadFromFile(patterPath, r);
   } else {
-    this->texture.loadFromFile(PATH_WATER_DEFAULT, r);
+    this->texture.loadFromFile(gPath.PATH_WATER_DEFAULT, r);
   } 
 }
 

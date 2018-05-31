@@ -1,30 +1,25 @@
-#ifndef __CLOCK_H__
-#define __CLOCK_H__
+#ifndef __DYNAMITE_H__
+#define __DYNAMITE_H__
 
-#include <SDL2/SDL.h>
 #include "drawable.h"
-#include "font.h"
 #include "paths.h"
+#include "sprite_animation.h"
 #include "texture.h"
 
-#define TEXT_SIZE 40
-#define PADDING 5
 
 namespace View {
-  class Clock: public Drawable {
+  class Dynamite: public Drawable {
     private:
-      Font font;
-      int time;
-      Texture timeTexture;
-      bool hide;
+      Texture texture;
+      SpriteAnimation sprite;
 
-
-
+      bool hasExploded;
+      
     public:
-      Clock(int x, int y, int width, int height);
-      ~Clock();
-      void setTime(int);
-      void toggleHide(bool);
+      Dynamite(SDL_Renderer *);
+      ~Dynamite();
+
+      bool exploded(void);
 
       virtual void render(SDL_Renderer *, int, int);
       virtual int getWidth(void) const;

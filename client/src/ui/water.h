@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "drawable.h"
-#include "resources_paths.h"
+#include "paths.h"
 #include "texture.h"
 
 #define MAX_FRAME 10

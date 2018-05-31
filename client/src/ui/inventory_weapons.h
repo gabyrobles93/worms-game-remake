@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include "font.h"
 #include "inventory.h"
-#include "resources_paths.h"
+#include "paths.h"
 #include "texture.h"
 
 #define WEAPON_NAME_BAZOOKA "Bazooka"

@@ -19,6 +19,9 @@
 #define ERR_MSG_SDL_IMAGE_INIT \
 "No se pudo inicializar la imagen de SDL"
 
+#define ERR_MSG_SDL_MIXER_INIT \
+"No se pudo inicializar el sonido de SDL"
+
 #define ERR_MSG_SDL_TTF_INIT \
 "No se pudo inicializar TTF de SDL"
 

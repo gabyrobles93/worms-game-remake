@@ -21,7 +21,7 @@ View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h) : staticMap(
 		MAP_HEIGHT - this->staticMap["water_level"].as<int>(),
 		MAP_WIDTH,
 		MAP_HEIGHT,
-		PATH_WATER_2
+		gPath.PATH_WATER_2.c_str()
 	);
 }
 
@@ -73,7 +73,7 @@ int View::WindowGame::getHeightResolution(void) {
 
 void View::WindowGame::init(void) {
 	// Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_INIT_VIDEO, SDL_GetError());
 	} else {
 		// Set texture filtering to linear
@@ -114,6 +114,10 @@ void View::WindowGame::init(void) {
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags)) {
 					throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_IMAGE_INIT, IMG_GetError());
+				}
+
+				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+					throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_MIXER_INIT, Mix_GetError());
 				}
 
 				// Inicializamos TTF

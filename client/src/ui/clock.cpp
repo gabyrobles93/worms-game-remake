@@ -3,7 +3,7 @@
 #define HURRY_TIME 10
 
 View::Clock::Clock(int x, int y, int width, int height) : 
-  font(PATH_FONT_ARIAL_BOLD, height - PADDING * 2) {
+  font(gPath.PATH_FONT_ARIAL_BOLD, height - PADDING * 2) {
 
   this->x = x;
   this->y = y;

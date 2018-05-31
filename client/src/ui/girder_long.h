@@ -1,8 +1,10 @@
 #ifndef __GIRDER_LONG_H__
 #define __GIRDER_LONG_H__
 
+#include <SDL2/SDL.h>
 #include "girder.h"
-#include "resources_paths.h"
+#include "paths.h"
+#include "paths.h"
 
 namespace View {
   class GirderLong: public Girder {

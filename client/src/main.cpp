@@ -27,6 +27,8 @@
 #include "inventory_weapons.h"
 #include "protected_dynamics.h"
 #include "event.h"
+#include "paths.h"
+#include "dynamite.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
@@ -37,6 +39,9 @@
 #define CLOCK_Y_OFFSET 10
 #define CLOCK_WIDTH 120
 #define CLOCK_HEIGHT 120
+
+// Variable global
+Paths gPath;
 
 int main(/* int argc, char *argv[] */)
 try {
@@ -72,6 +77,9 @@ try {
 	// Comienza el ciclo del juego para el cliente
 	bool quit = false;	
 	SDL_Event e;
+
+	View::Dynamite dynamite(renderer);
+	bool isDynamite = false;
 	while (!quit) {
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
@@ -80,6 +88,12 @@ try {
             // Chequeo eventos de teclado (ver si se puede hacer mas prolijo)
             // FALTA CHEQUEAR EVENTOS DE MOUSE (CLICKS, MOVIMIENTOS DE CAMARA, ETC)
 			if (e.type == SDL_KEYDOWN) {
+
+				if (e.key.keysym.sym == SDLK_SPACE) {
+					isDynamite = true;
+					dynamite.setX(680);
+					dynamite.setY(575);
+				}
 				
 				if (e.key.keysym.sym == SDLK_UP) {
 					Event event(a_pointUp, TEAM_ID);
@@ -145,6 +159,14 @@ try {
 		
     // Dibujamos cosas estáticas
 		mainWindow.render(camera);
+
+		if (isDynamite) { 
+			dynamite.render(renderer, camera.getX(), camera.getY());
+		}
+
+		if (dynamite.exploded()) {
+			isDynamite = false;
+		}
 
 		// Dibujamos cosas dinámicas
 		worms.update(pdynamics.getWorms());
