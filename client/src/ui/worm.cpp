@@ -3,7 +3,7 @@
 #include "worm.h"
 
 #define PADDING 1
-#define FPC 3
+#define FPC 2
 
 View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   sprite(FPC),
@@ -28,6 +28,8 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->textures[WALK].loadFromFile(PATH_WORM_WALK, r);
   this->textures[WALK_UP].loadFromFile(PATH_WORM_WALK_UP, r);
   this->textures[WALK_DOWN].loadFromFile(PATH_WORM_WALK_DOWN, r);
+
+  this->textures[ROLL].loadFromFile(PATH_WORM_ROLL, r);
 
   this->textures[FALLDN].loadFromFile(PATH_WORM_FALL_DN, r);
 
@@ -82,9 +84,20 @@ void View::Worm::setY(int y) {
 
 void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
   if (this->walking) {
-    this->currentAnimation = WALK;
+    if (this->currentAnimation != WALK) {
+      this->currentAnimation = WALK;
+      this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
+    }
+  } else if (this->falling) {
+    if (this->currentAnimation != ROLL) {
+      this->currentAnimation = ROLL;
+      this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
+    }
   } else {
-    this->currentAnimation = BREATH_1;
+    if (this->currentAnimation != BREATH_1) {
+      this->currentAnimation = BREATH_1;
+      this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
+    }    
   }
 
   Texture & current = this->textures[this->currentAnimation];

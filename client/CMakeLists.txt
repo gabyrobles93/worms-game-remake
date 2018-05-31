@@ -40,6 +40,7 @@ add_executable(	client
 		${COMMON_SOURCE_DIR}/src/protocol_error.cpp
 		${UI_SOURCE_DIR}/worms_status.cpp
 		${UI_SOURCE_DIR}/camera.cpp
+		${UI_SOURCE_DIR}/clock.cpp
 		${UI_SOURCE_DIR}/girder.cpp
 		${UI_SOURCE_DIR}/girder_long.cpp
 		${UI_SOURCE_DIR}/girder_short.cpp
@@ -65,6 +66,7 @@ add_executable(	client
 		${COMMON_SOURCE_DIR}/src/blocking_queue.h
 		${UI_SOURCE_DIR}/worms_status.h
 		${UI_SOURCE_DIR}/camera.h
+		${UI_SOURCE_DIR}/clock.h
 		${UI_SOURCE_DIR}/drawable.h
 		${UI_SOURCE_DIR}/girder.h
 		${UI_SOURCE_DIR}/girder_long.h

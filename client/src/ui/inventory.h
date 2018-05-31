@@ -11,10 +11,12 @@
 #include "girder_short.h"
 #include "girder_long.h"
 
+#define INFINITY_SUPPLIES -1
+
 struct ItemIcon {
   View::Texture texture;
   std::string itemName;
-  size_t supplies;
+  int supplies;
   bool selected;
 };
 
@@ -23,6 +25,13 @@ namespace View {
     protected:
       std::vector<ItemIcon *> items;
       bool open;
+      const int xOffset = 10;
+      const int yOffset = 10;
+      int iconWidth;
+      int iconHeight;
+
+      virtual void handleClick(void) = 0;
+      virtual bool isMouseOnInventoryRanges(int, int) = 0;
       
     public:
       virtual ~Inventory();
@@ -36,11 +45,7 @@ namespace View {
       // Marca como seleccionada el item siguiente
       void pickNextItem(void);
 
-      // Click derecho abre/cierra el inventario
-      // letra Q cambia el item al siguiente si esta abierto
-      void handleEvent(SDL_Event &);
-
-      virtual void render(SDL_Renderer *, int, int) = 0;
+      virtual void render(SDL_Renderer *) = 0;
   };
 }
 
