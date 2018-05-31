@@ -14,7 +14,7 @@
    <string>EditorLauncher</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="group_weapons_config">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -35,16 +35,30 @@
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="weapon_mortar">
       <item>
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Mortero</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_mortar">
+          <property name="text">
+           <string>Mortar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_mortar_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/mortar.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_2"/>
+       <widget class="QSpinBox" name="mortar_ammo"/>
       </item>
      </layout>
     </widget>
@@ -53,42 +67,70 @@
       <rect>
        <x>10</x>
        <y>120</y>
-       <width>160</width>
+       <width>161</width>
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="weapon_green_bomb">
       <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Granada Verde</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_green_bomb">
+          <property name="text">
+           <string>Green Bomb</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_green_bomb_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/grenade.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_3"/>
+       <widget class="QSpinBox" name="green_bomb_ammo"/>
       </item>
      </layout>
     </widget>
     <widget class="QWidget" name="verticalLayoutWidget_4">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>187</x>
        <y>30</y>
-       <width>160</width>
+       <width>171</width>
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
+     <layout class="QVBoxLayout" name="weapon_red_bomb">
       <item>
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Granada Roja</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_red_bomb">
+          <property name="text">
+           <string>Red Bomb</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_red_bomb_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/cluster.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_4"/>
+       <widget class="QSpinBox" name="red_bomb_ammo"/>
       </item>
      </layout>
     </widget>
@@ -97,20 +139,34 @@
       <rect>
        <x>190</x>
        <y>120</y>
-       <width>160</width>
-       <height>81</height>
+       <width>171</width>
+       <height>82</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="weapon_holy_bomb">
       <item>
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Granada Santa</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_holy_bomb">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Holy bomb&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_holy_bomb_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/hgrenade.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_5"/>
+       <widget class="QSpinBox" name="holy_bomb_ammo"/>
       </item>
      </layout>
     </widget>
@@ -123,16 +179,30 @@
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_6">
+     <layout class="QVBoxLayout" name="weapon_banana">
       <item>
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Banana</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_banana">
+          <property name="text">
+           <string>Banana</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_banana_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/banana.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_6"/>
+       <widget class="QSpinBox" name="banana_ammo"/>
       </item>
      </layout>
     </widget>
@@ -145,16 +215,30 @@
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_7">
+     <layout class="QVBoxLayout" name="weapon_dynamite">
       <item>
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>Dinamita</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_dynamite">
+          <property name="text">
+           <string>Dynamite</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_dynamite_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/dynamite.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_7"/>
+       <widget class="QSpinBox" name="dynamite_ammo"/>
       </item>
      </layout>
     </widget>
@@ -163,20 +247,34 @@
       <rect>
        <x>10</x>
        <y>220</y>
-       <width>160</width>
+       <width>161</width>
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_8">
+     <layout class="QVBoxLayout" name="weapon_fly_bombs">
       <item>
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>Ataque Aéreo</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QLabel" name="label_fly_bombs">
+          <property name="text">
+           <string>Fly Bombs</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_fly_bombs_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/airstrke.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_8"/>
+       <widget class="QSpinBox" name="fly_bombs_ammo"/>
       </item>
      </layout>
     </widget>
@@ -185,20 +283,38 @@
       <rect>
        <x>190</x>
        <y>220</y>
-       <width>160</width>
+       <width>171</width>
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_9">
+     <layout class="QVBoxLayout" name="weapon_teleport">
       <item>
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>Teletransportación</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_teleport">
+            <property name="text">
+             <string>Teleport</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_teleport_picture">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/teleport.1.png</pixmap>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_9"/>
+       <widget class="QSpinBox" name="teleport_ammo"/>
       </item>
      </layout>
     </widget>
@@ -211,21 +327,35 @@
        <height>81</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_10">
+     <layout class="QVBoxLayout" name="weapon_bat">
       <item>
-       <widget class="QLabel" name="label_14">
-        <property name="text">
-         <string>Bate de Beisbol</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <widget class="QLabel" name="label_bat">
+          <property name="text">
+           <string>Bat</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_bat_picture">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/baseball.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_10"/>
+       <widget class="QSpinBox" name="bat_ammo"/>
       </item>
      </layout>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="group_map_config">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -243,58 +373,77 @@
        <x>10</x>
        <y>30</y>
        <width>311</width>
-       <height>151</height>
+       <height>174</height>
       </rect>
      </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_2"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
+     <layout class="QFormLayout" name="layout_map_config">
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_background">
         <property name="text">
          <string>Background</string>
         </property>
        </widget>
       </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="background_options">
+        <item>
+         <property name="text">
+          <string>Background Options</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mosaic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Expanded</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Centered</string>
+         </property>
+        </item>
+       </widget>
+      </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_water_level">
         <property name="text">
          <string>Water level</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="label_Teams_amount">
         <property name="text">
          <string>Teams amout</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="comboBox">
-        <item>
-         <property name="text">
-          <string>Background Options</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_4"/>
-      </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="labels_worms_health">
         <property name="text">
          <string>Worms Health</string>
         </property>
        </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="background_path">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="water_levle"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="teams_amount"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="worms_health"/>
       </item>
      </layout>
     </widget>
@@ -321,6 +470,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

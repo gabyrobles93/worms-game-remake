@@ -1,0 +1,31 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../../resources/graphics/Weapon Icons/teleport.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/teleport.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/surender.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/surender.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/mortar.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/mortar.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/hgrenade.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/hgrenade.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/grenade.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/grenade.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/girders.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/girders.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/girder.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/dynamite.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/dynamite.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/cluster.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/cluster.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/bazooka.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/bazooka.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/baseball.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/baseball.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/banana.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/banana.1.png</file>
+        <file>../../resources/graphics/Weapon Icons/airstrke.2.png</file>
+        <file>../../resources/graphics/Weapon Icons/airstrke.1.png</file>
+        <file>../../resources/graphics/lava_pattern.jpg</file>
+        <file>../../resources/graphics/editor_launcher_background.jpg</file>
+    </qresource>
+</RCC>

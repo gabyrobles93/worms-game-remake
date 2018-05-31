@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::EditorLauncher *ui;
+    void connectEvents(void);
 };
 
 #endif // EDITOR_LAUNCHER_H
