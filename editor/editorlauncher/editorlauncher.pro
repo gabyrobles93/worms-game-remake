@@ -32,3 +32,8 @@ HEADERS += \
 
 FORMS += \
         editor_launcher.ui
+
+RESOURCES += \
+    resources.qrc
+
+DISTFILES +=
