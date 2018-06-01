@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>573</width>
-    <height>595</height>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>220</y>
+      <y>250</y>
       <width>541</width>
       <height>321</height>
      </rect>
@@ -58,7 +58,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="mortar_ammo"/>
+       <widget class="QSpinBox" name="mortar_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -94,7 +101,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="green_bomb_ammo"/>
+       <widget class="QSpinBox" name="green_bomb_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -130,7 +144,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="red_bomb_ammo"/>
+       <widget class="QSpinBox" name="red_bomb_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -166,7 +187,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="holy_bomb_ammo"/>
+       <widget class="QSpinBox" name="holy_bomb_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -202,7 +230,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="banana_ammo"/>
+       <widget class="QSpinBox" name="banana_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -238,7 +273,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="dynamite_ammo"/>
+       <widget class="QSpinBox" name="dynamite_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -274,7 +316,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="fly_bombs_ammo"/>
+       <widget class="QSpinBox" name="fly_bombs_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -314,7 +363,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="teleport_ammo"/>
+       <widget class="QSpinBox" name="teleport_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -350,7 +406,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="bat_ammo"/>
+       <widget class="QSpinBox" name="bat_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -361,7 +424,7 @@
       <x>20</x>
       <y>10</y>
       <width>541</width>
-      <height>191</height>
+      <height>231</height>
      </rect>
     </property>
     <property name="title">
@@ -372,8 +435,8 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>311</width>
-       <height>174</height>
+       <width>277</width>
+       <height>177</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="layout_map_config">
@@ -384,7 +447,14 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="background_path">
+        <property name="text">
+         <string>Choose Background</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
        <widget class="QComboBox" name="background_options">
         <item>
          <property name="text">
@@ -408,45 +478,114 @@
         </item>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_water_level">
         <property name="text">
          <string>Water level</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="water_level">
+        <property name="minimum">
+         <number>100</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>300</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
        <widget class="QLabel" name="label_Teams_amount">
         <property name="text">
          <string>Teams amout</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="teams_amount">
+        <property name="minimum">
+         <number>2</number>
+        </property>
+        <property name="maximum">
+         <number>3</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
        <widget class="QLabel" name="labels_worms_health">
         <property name="text">
          <string>Worms Health</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="background_path">
-        <property name="text">
-         <string>PushButton</string>
+      <item row="5" column="1">
+       <widget class="QSpinBox" name="worms_health">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>400</number>
+        </property>
+        <property name="value">
+         <number>200</number>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="water_levle"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QSpinBox" name="teams_amount"/>
-      </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="worms_health"/>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
+    <widget class="QLabel" name="label_background_path">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>531</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="go_create">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>580</y>
+      <width>111</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Go Create!</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_errors">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>580</y>
+      <width>411</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ef2929;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::RichText</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
