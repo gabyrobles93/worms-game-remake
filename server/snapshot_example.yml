@@ -59,6 +59,18 @@ dynamic:
       y: 1783
       deton_time: 5
       current_time: 2
+      
+  explosions:
+    - id: 1
+      x: 100
+      y: 200
+      ratio: 30 # En pixels
+      caused_by: Banana # Dependiendo el arma se reproduce un sonido distinto
+    - id: 2
+      x: 1100
+      y: 2020
+      ratio: 10 # En pixels
+      caused_by: Bazooka # Dependiendo el arma se reproduce un sonido distinto
 
   game_status:
     alive_teams:
