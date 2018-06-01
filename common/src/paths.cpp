@@ -80,7 +80,8 @@ Paths::Paths(const char * r) {
 
   /* SOUND_EFFECTS */
   this->PATH_SOUND_DYNAMITE = root + "resources/sounds/Effects/SkunkGasLoop.wav";
-  
+  this->PATH_SOUND_GIRDER = root + "resources/sounds/Effects/GIRDERIMPACT.WAV";
+  this->PATH_SOUND_TELEPORT = root + "resources/sounds/Effects/TELEPORT.WAV";
   // Explosions
   this->PATH_SOUND_EXPLOSION_1 = root + "resources/sounds/Effects/Explosion1.wav";
   this->PATH_SOUND_EXPLOSION_2 = root + "resources/sounds/Effects/Explosion2.wav";

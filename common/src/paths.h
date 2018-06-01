@@ -77,6 +77,8 @@ class Paths {
 
     /* SOUND EFFECTS */
     std::string PATH_SOUND_DYNAMITE;
+    std::string PATH_SOUND_GIRDER;
+    std::string PATH_SOUND_TELEPORT;
 
     // Explosions
     std::string PATH_SOUND_EXPLOSION_1;

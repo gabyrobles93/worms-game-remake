@@ -34,6 +34,9 @@ View::EditorInventory::EditorInventory(SDL_Renderer * r, size_t amountTeams, int
 
   this->iconWidth = this->items.back()->texture.getWidth();
   this->iconHeight = this->items.back()->texture.getHeight();
+
+  this->girderClick.setSound(gPath.PATH_SOUND_GIRDER);
+  this->wormClick.setSound(gPath.PATH_SOUND_TELEPORT);
 }
 
 View::EditorInventory::~EditorInventory() {
@@ -240,11 +243,14 @@ void View::EditorInventory::handleEvent(
       size_t index = this->getIndexSelected();
       
       if (index == POS_GIRDER_SHORT) {
-        map.addShortGirder(this->girdersDegrees, camX + mouseX, camY + mouseY);		
+        map.addShortGirder(this->girdersDegrees, camX + mouseX, camY + mouseY);
+        this->girderClick.playSound(0);
       } else if (index == POS_GIRDER_LONG) {
         map.addLongGirder(this->girdersDegrees, camX + mouseX, camY + mouseY);
+        this->girderClick.playSound(0);
       } else {
         if (this->items.at(index)->supplies) {
+          this->wormClick.playSound(0);
           int teamId = std::stoi(this->items.at(index)->itemName);
           std::string name("Worm " + std::to_string(AMOUNT_WORMS_PER_TEAM - this->items.at(index)->supplies + 1));
           map.addWormInTeam(teamId, name, this->wormsHealth, camX + mouseX, camY + mouseY);

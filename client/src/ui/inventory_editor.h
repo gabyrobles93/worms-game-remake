@@ -9,6 +9,7 @@
 #include "inventory.h"
 #include "map_game.h"
 #include "paths.h"
+#include "sound_effect.h"
 #include "texture.h"
 #include "yaml.h"
 
@@ -35,6 +36,9 @@ namespace View {
 
       Font font;
       Texture suppliesTexture;
+
+      SoundEffect girderClick;
+      SoundEffect wormClick;
 
       // Devuelve el indice del item seleccionado
       int getIndexSelected(void);

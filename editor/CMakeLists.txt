@@ -31,6 +31,7 @@ add_executable(	editor
 		${PROJECT_SOURCE_DIR}/src/map_game.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
 		${COMMON_SOURCE_DIR}/src/paths.cpp
+		${COMMON_SOURCE_DIR}/src/sound_effect.cpp
 		${CLIENT_RESOURCES}/camera.cpp
 		${CLIENT_RESOURCES}/girder.cpp
 		${CLIENT_RESOURCES}/girder_long.cpp
@@ -49,6 +50,7 @@ add_executable(	editor
 		${COMMON_SOURCE_DIR}/src/paths.h
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/types.h
+		${COMMON_SOURCE_DIR}/src/sound_effect.h
 		${CLIENT_RESOURCES}/camera.h
 		${CLIENT_RESOURCES}/drawable.h
 		${CLIENT_RESOURCES}/girder.h
