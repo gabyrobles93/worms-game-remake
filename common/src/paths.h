@@ -75,6 +75,15 @@ class Paths {
     std::string PATH_FONT_VERDANA_BOLD;
     std::string PATH_FONT_ARIAL_BOLD;
 
+    /* SOUND EFFECTS */
+    std::string PATH_SOUND_DYNAMITE;
+
+    // Explosions
+    std::string PATH_SOUND_EXPLOSION_1;
+    std::string PATH_SOUND_EXPLOSION_2;
+    std::string PATH_SOUND_EXPLOSION_3;
+    /* ----------------------------- */
+
     Paths(const char * r = NULL);
 
 

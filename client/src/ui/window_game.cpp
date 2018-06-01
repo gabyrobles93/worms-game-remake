@@ -32,10 +32,6 @@ void View::WindowGame::loadStaticObjects(void) {
 
 	for (it = nodeShortGirders.begin() ; it != nodeShortGirders.end() ; it++) {
 		const YAML::Node & eachGirder = *it;
-/* 		std::cout << "Nueva viga corta: " << std:: endl;
-		std::cout << "Angulo: " << eachGirder["angle"].as<int>() << std::endl;
-		std::cout << "Pos X: " << eachGirder["x"].as<int>() << std::endl;
-		std::cout << "Pos Y: " << eachGirder["y"].as<int>() << std::endl; */
 		View::GirderShort * newShortGirder = new View::GirderShort(this->renderer, eachGirder["angle"].as<int>());
 		newShortGirder->setX(eachGirder["x"].as<int>());
 		newShortGirder->setY(eachGirder["y"].as<int>());
@@ -44,10 +40,6 @@ void View::WindowGame::loadStaticObjects(void) {
 
 	for (it = nodeLongGirders.begin() ; it != nodeLongGirders.end() ; it++) {
 		const YAML::Node & eachGirder = *it;
-/* 		std::cout << "Nueva viga larga: " << std:: endl;
-		std::cout << "Angulo: " << eachGirder["angle"].as<int>() << std::endl;
-		std::cout << "Pos X: " << eachGirder["x"].as<int>() << std::endl;
-		std::cout << "Pos Y: " << eachGirder["y"].as<int>() << std::endl; */
 		View::GirderLong * newLongGirder = new View::GirderLong(this->renderer, eachGirder["angle"].as<int>());
 		newLongGirder->setX(eachGirder["x"].as<int>());
 		newLongGirder->setY(eachGirder["y"].as<int>());
@@ -148,6 +140,8 @@ void View::WindowGame::close(void) {
 	//Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
+	Mix_Quit();
+	TTF_Quit();
 }
 
 SDL_Renderer * View::WindowGame::getRenderer(void) const {

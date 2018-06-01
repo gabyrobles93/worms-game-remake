@@ -22,6 +22,9 @@
 #define ERR_MSG_SDL_MIXER_INIT \
 "No se pudo inicializar el sonido de SDL"
 
+#define ERR_MSG_LOADING_SOUND \
+"No se pudo cargar el sonido"
+
 #define ERR_MSG_SDL_TTF_INIT \
 "No se pudo inicializar TTF de SDL"
 

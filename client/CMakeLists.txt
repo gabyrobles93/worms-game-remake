@@ -39,6 +39,7 @@ add_executable(	client
 		${COMMON_SOURCE_DIR}/src/protocol.cpp
 		${COMMON_SOURCE_DIR}/src/socket_error.cpp
 		${COMMON_SOURCE_DIR}/src/protocol_error.cpp
+		${COMMON_SOURCE_DIR}/src/sound_effect.cpp
 		${UI_SOURCE_DIR}/worms_status.cpp
 		${UI_SOURCE_DIR}/camera.cpp
 		${UI_SOURCE_DIR}/clock.cpp
@@ -67,6 +68,7 @@ add_executable(	client
 		${COMMON_SOURCE_DIR}/src/protocol_error.h
 		${COMMON_SOURCE_DIR}/src/types.h
 		${COMMON_SOURCE_DIR}/src/blocking_queue.h
+		${COMMON_SOURCE_DIR}/src/sound_effect.h
 		${UI_SOURCE_DIR}/worms_status.h
 		${UI_SOURCE_DIR}/camera.h
 		${UI_SOURCE_DIR}/clock.h

@@ -6,6 +6,8 @@ View::Dynamite::Dynamite(SDL_Renderer * r) : sprite(DYNAMITE_FPC, ONLY_GOING) {
   this->sprite.setSpriteSheet(&this->texture);
 
 	this->hasExploded = false;
+
+	this->sound.setSound(gPath.PATH_SOUND_DYNAMITE);
 }
 
 View::Dynamite::~Dynamite() {
@@ -38,10 +40,14 @@ void View::Dynamite::setY(int y) {
 
 void View::Dynamite::render(SDL_Renderer * r, int camX, int camY) {
 	if (!this->sprite.finished()) {
+		this->sound.playSound();
 		SDL_Rect clip = this->sprite.getNextClip();
 		this->texture.render(r, this->x - camX, this->y - camY, &clip);
 	} else {
 		this->hasExploded = true;
+		this->sound.stopSound();
+		this->sound.setSound(gPath.PATH_SOUND_EXPLOSION_2);
+		this->sound.playSound(0);
 	}
 }
 

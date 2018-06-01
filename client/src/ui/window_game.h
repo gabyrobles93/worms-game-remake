@@ -2,6 +2,7 @@
 #define __WINDOW_GAME_H__
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include <vector>
 #include <string>
 #include "girder_short.h"

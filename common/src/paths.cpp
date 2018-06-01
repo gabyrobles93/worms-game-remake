@@ -77,4 +77,13 @@ Paths::Paths(const char * r) {
   this->PATH_FONT_GROBOLD = root + "resources/fonts/GROBOLD.ttf";
   this->PATH_FONT_VERDANA_BOLD = root + "resources/fonts/verdanab.ttf";
   this->PATH_FONT_ARIAL_BOLD = root + "resources/fonts/arialb.ttf";
+
+  /* SOUND_EFFECTS */
+  this->PATH_SOUND_DYNAMITE = root + "resources/sounds/Effects/SkunkGasLoop.wav";
+  
+  // Explosions
+  this->PATH_SOUND_EXPLOSION_1 = root + "resources/sounds/Effects/Explosion1.wav";
+  this->PATH_SOUND_EXPLOSION_2 = root + "resources/sounds/Effects/Explosion2.wav";
+  this->PATH_SOUND_EXPLOSION_3 = root + "resources/sounds/Effects/Explosion3.wav";
+  /* -------------- */
 }
