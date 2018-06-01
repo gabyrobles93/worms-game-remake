@@ -60,11 +60,7 @@ dynamic:
               falling: 1
               mirrored: 0
               walking: 0
-        inventory:
-          - item_name: Bazooka
-            supplies: 99
-          - itea_name: Grenade
-            supplies: 99
+
     - 2:
         worms:
           - id: 2
@@ -77,11 +73,6 @@ dynamic:
               falling: 1
               mirrored: 0
               walking: 0
-        inventory:
-          - item_name: Bazooka
-            supplies: 99
-          - itea_name: Grenade
-            supplies: 99
     - 3:
         worms:
           - id: 3
@@ -94,8 +85,3 @@ dynamic:
               falling: 1
               mirrored: 0
               walking: 0
-        inventory:
-          - item_name: Dynamite
-            supplies: 99
-          - itea_name: Teleport
-            supplies: 99
