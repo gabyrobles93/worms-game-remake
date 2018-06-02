@@ -463,17 +463,17 @@
         </item>
         <item>
          <property name="text">
-          <string>Mosaic</string>
+          <string>mosaic</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Expanded</string>
+          <string>expanded</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Centered</string>
+          <string>centered</string>
          </property>
         </item>
        </widget>
@@ -556,6 +556,28 @@
      <property name="text">
       <string/>
      </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>80</y>
+       <width>231</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Map Name</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="map_name"/>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QPushButton" name="go_create">

@@ -24,11 +24,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        editor_launcher.cpp
+        ..\src\main.cpp \
+        ..\src\editor_launcher.cpp
 
 HEADERS += \
-        editor_launcher.h
+        ..\src\editor_launcher.h
 
 FORMS += \
         editor_launcher.ui
