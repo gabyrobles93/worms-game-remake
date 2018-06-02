@@ -72,7 +72,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/Water.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Water.h
 		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.h
-		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/ContactListener.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/ContactListener.h
 		${PROJECT_SOURCE_DIR}/src/physics/RayCastClosestCallBack.h
@@ -88,6 +87,11 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/QueryCallback.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Weapon.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Weapon.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bat.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bat.h
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.h
+
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
