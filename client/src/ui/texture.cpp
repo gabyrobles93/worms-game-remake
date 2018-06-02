@@ -87,9 +87,9 @@ void View::Texture::render(SDL_Renderer * renderer, int x, int y) {
 	SDL_RenderCopy(renderer, this->texture, NULL, &renderQuad);
 }
 
-void View::Texture::render(SDL_Renderer * renderer, int x, int y, int width, int height) {
+void View::Texture::render(SDL_Renderer * renderer, int x, int y, int width, int height, SDL_Rect * clip) {
 	SDL_Rect renderQuad = { x, y, width, height };
-	SDL_RenderCopy(renderer, this->texture, NULL, &renderQuad);
+	SDL_RenderCopy(renderer, this->texture, clip, &renderQuad);
 }
 
 void View::Texture::render(SDL_Renderer * renderer) {
@@ -109,14 +109,13 @@ void View::Texture::render(
 	SDL_Rect renderQuad = { x, y, this->width, this->height };
 
 	// Seteamos las dimensiones del clip
-	if (clip)
-	{
+	if (clip) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
 	}
 
 	//Renderizamos al screen
-	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip );
+	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip);
 }
 
 int View::Texture::getWidth(void) const {

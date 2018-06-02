@@ -35,7 +35,7 @@ namespace View {
       // Para poder renderizar texturas espejadas o rotadas
 		  void render(SDL_Renderer *, int x, int y, SDL_Rect* clip, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
       // Para forzar un ancho y un alto de la imagen a renderizar
-      void render(SDL_Renderer * renderer, int x, int y, int width, int height);
+      void render(SDL_Renderer * renderer, int x, int y, int width, int height, SDL_Rect * rct = NULL);
 
       // Dimensiones de la imagen
       virtual int getWidth(void) const;

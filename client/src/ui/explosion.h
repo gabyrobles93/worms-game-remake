@@ -15,9 +15,12 @@ namespace View {
     private:
       Texture texture;
       SpriteAnimation sprite;
+      SoundEffect sound;
     public:
-      Explosion(SDL_Renderer * r, int ratio, std::string weapon);
+      Explosion(SDL_Renderer * r, int ratio, std::string weapon = "Bazooka");
       ~Explosion();
+
+      bool finishedExplosion(void);
 
       virtual void render(SDL_Renderer *, int, int);
       virtual int getWidth(void) const;

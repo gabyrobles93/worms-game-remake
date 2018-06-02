@@ -30,6 +30,7 @@
 #include "event.h"
 #include "paths.h"
 #include "dynamite.h"
+#include "explosion.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
@@ -80,7 +81,9 @@ try {
 	SDL_Event e;
 
 	View::Dynamite dynamite(renderer);
+	View::Explosion explosion(renderer, 300);
 	bool isDynamite = false;
+	bool isExplosion = false;
 	while (!quit) {
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
@@ -94,6 +97,8 @@ try {
 					isDynamite = true;
 					dynamite.setX(680);
 					dynamite.setY(575);
+					explosion.setX(680);
+					explosion.setY(575);
 				}
 				
 				if (e.key.keysym.sym == SDLK_UP) {
@@ -167,6 +172,11 @@ try {
 
 		if (dynamite.exploded()) {
 			isDynamite = false;
+			isExplosion = true;
+		}
+
+		if (isExplosion) {
+			explosion.render(renderer, camera.getX(), camera.getY());
 		}
 
 		// Dibujamos cosas dinámicas
