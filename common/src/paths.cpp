@@ -72,6 +72,10 @@ Paths::Paths(const char * r) {
   this->PATH_DYNAMITE = root + "resources/graphics/Weapons/dynamite.png";
   /* ------------- */
 
+  /* EFFECTS */
+  this->PATH_EXPLOSION_EFFECT = root + "resources/graphics/Effects/firehit.png";
+  /* ---------------------------- */
+
   /* FONTS */
   this->PATH_FONT_WORM_DATA = root + "resources/fonts/arial.ttf";
   this->PATH_FONT_GROBOLD = root + "resources/fonts/GROBOLD.ttf";

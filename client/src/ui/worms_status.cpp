@@ -6,10 +6,10 @@
 View::WormsStatus::WormsStatus(YAML::Node & nodeWorms, SDL_Renderer * rend) {
 	YAML::const_iterator itTeam;
 	for (itTeam = nodeWorms.begin() ; itTeam != nodeWorms.end() ; itTeam++) {
-		int teamId = itTeam->first;
+		int teamId = itTeam->first.as<int>();
 		const YAML::Node & eachTeam = itTeam->second["worms"];
-		YAML::const_terator itWorms;
-		for (itWorms = eachTeam.begin() ; itWorms != eachTeam.end() ; itWorm++) {
+		YAML::const_iterator itWorms;
+		for (itWorms = eachTeam.begin() ; itWorms != eachTeam.end() ; itWorms++) {
 			const YAML::Node & eachWorm = *itWorms;
 			View::Worm * newWorm = new View::Worm(rend, eachWorm["name"].as<std::string>(), teamId, eachWorm["health"].as<int>());
 			newWorm->setX(eachWorm["x"].as<int>());
@@ -33,10 +33,9 @@ void View::WormsStatus::update(YAML::Node wormsNode) {
 	View::Worm * worm;
 	YAML::const_iterator itTeam;
 	for (itTeam = wormsNode.begin() ; itTeam != wormsNode.end() ; itTeam++) {
-		int teamId = itTeam->first;
 		const YAML::Node & eachTeam = itTeam->second["worms"];
-		YAML::const_terator itWorms;
-		for (itWorms = eachTeam.begin() ; itWorms != eachTeam.end() ; itWorm++) {
+		YAML::const_iterator itWorms;
+		for (itWorms = eachTeam.begin() ; itWorms != eachTeam.end() ; itWorms++) {
 			const YAML::Node & eachWorm = *itWorms;
 			worm = this->worms[eachWorm["id"].as<size_t>()];
 			worm->setX(eachWorm["x"].as<int>());

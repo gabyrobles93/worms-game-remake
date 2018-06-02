@@ -69,6 +69,10 @@ class Paths {
     std::string PATH_DYNAMITE;
     /* ---------------------------- */
 
+    /* EFFECTS */
+    std::string PATH_EXPLOSION_EFFECT;
+    /* ---------------------------- */
+
     /* FONTS */
     std::string PATH_FONT_WORM_DATA;
     std::string PATH_FONT_GROBOLD;
