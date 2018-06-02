@@ -55,19 +55,24 @@ void View::MapGame::render(SDL_Renderer * renderer, int camX, int camY) {
   }
 
   // Render worms
-  const YAML::Node & worms = (*state)["dynamic"]["worms"];
-  it = worms.begin();
-  for (; it != worms.end() ; it++) {
-    const YAML::Node & eachWorm = *it;
-    View::Worm worm(
-      renderer,
-      eachWorm["name"].as<std::string>(),
-      eachWorm["team"].as<int>(),
-      eachWorm["health"].as<int>()
-    );
-    worm.setX(eachWorm["x"].as<int>());
-    worm.setY(eachWorm["y"].as<int>());
-    worm.render(renderer, camX, camY);
+  const YAML::Node & teams = (*state)["dynamic"]["worms_teams"];
+  it = teams.begin();
+  for (; it != teams.end() ; it++) {
+    int teamId = it->first.as<int>();
+
+    YAML::const_iterator itTeam = (it->second)["worms"].begin();
+    for (; itTeam != (it->second)["worms"].end() ; itTeam++) {
+      const YAML::Node & eachWorm = *itTeam;
+      View::Worm worm(
+        renderer,
+        eachWorm["name"].as<std::string>(),
+        teamId,
+        eachWorm["health"].as<int>()
+      );
+      worm.setX(eachWorm["x"].as<int>());
+      worm.setY(eachWorm["y"].as<int>());
+      worm.render(renderer, camX, camY);
+    }
   }
 }
 
@@ -143,7 +148,6 @@ void View::MapGame::addWormInTeam(int teamId, std::string & name, int health, in
   // al nuevo gusano
   YAML::Node newNode;
   newNode["id"] = this->getNextWormId();
-  newNode["team"] = teamId;
   newNode["name"] = name;
   newNode["health"] = health;
   newNode["x"] = x;
@@ -157,15 +161,15 @@ void View::MapGame::addWormInTeam(int teamId, std::string & name, int health, in
 
 
   // Agregamos el nuevo nodo
-  (*newState)["dynamic"]["worms"].push_back(newNode);
+  (*newState)["dynamic"]["worms_teams"][teamId]["worms"].push_back(newNode);
 }
 
 void View::MapGame::setPreviousState(View::EditorInventory & inv) {
   if (this->stateIndex) {
     this->stateIndex--;
     YAML::Node * currentState = this->mapStates[this->stateIndex];
-    const YAML::Node & wormsNode = (*currentState)["dynamic"]["worms"];
-    inv.updateWormsTeamSupplies(wormsNode);
+    const YAML::Node & wormsTeams = (*currentState)["dynamic"]["worms_teams"];
+    inv.updateWormsTeamSupplies(wormsTeams);
   }
 }
 
@@ -173,8 +177,8 @@ void View::MapGame::setNextState(View::EditorInventory & inv) {
   if (this->stateIndex != this->mapStates.size() - 1) {
     this->stateIndex++;
     YAML::Node * currentState = this->mapStates[this->stateIndex];
-    const YAML::Node & wormsNode = (*currentState)["dynamic"]["worms"];
-    inv.updateWormsTeamSupplies(wormsNode);
+    const YAML::Node & wormsTeams = (*currentState)["dynamic"]["worms_teams"];
+    inv.updateWormsTeamSupplies(wormsTeams);
   }
 }
 
@@ -196,10 +200,16 @@ void View::MapGame::updateIndex(void) {
 }
 
 int View::MapGame::getNextWormId(void) {
+  int newId = 1;
   YAML::Node * state = this->mapStates[this->stateIndex];
+  const YAML::Node & teams = (*state)["dynamic"]["worms_teams"];
+  YAML::const_iterator it = teams.begin();
 
-  const YAML::Node & worms = (*state)["dynamic"]["worms"];
-  return worms.size() + 1;
+  for (; it != teams.end() ; it++) {
+    newId += (it->second)["worms"].size();
+  }
+  
+  return newId;
 }
 
 void View::MapGame::saveAs(std::string mapName) {
@@ -212,20 +222,12 @@ void View::MapGame::saveAs(std::string mapName) {
 
 bool View::MapGame::hasAllTheWorms(int teamsAmount, int amountWormsPerTeam) {
   YAML::Node * state = this->mapStates[this->stateIndex];
-  const YAML::Node & worms = (*state)["dynamic"]["worms"];
-  YAML::const_iterator it;
 
-  for (int id = 1 ; id <= teamsAmount ; id++) {
-    int occurrences = 0;
-    it = worms.begin();
-    for (; it != worms.end() ; it++) {
-      const YAML::Node & eachWorm = *it;
-      if (id == eachWorm["team"].as<int>()) {
-        occurrences++;
-      }
-    }
-
-    if (occurrences != amountWormsPerTeam) {
+  const YAML::Node & teams = (*state)["dynamic"]["worms_teams"];
+  YAML::const_iterator it = teams.begin();
+  
+  for (; it != teams.end() ; it++) {
+    if ((it->second)["worms"].size() != (size_t)amountWormsPerTeam) {
       return false;
     }
   }
