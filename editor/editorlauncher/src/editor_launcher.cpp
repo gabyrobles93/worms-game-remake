@@ -79,6 +79,8 @@ void EditorLauncher::goCreate(void) {
     mapNode["static"]["background"]["file"] = this->background_path;
     mapNode["static"]["background"]["display"] = findChild<QComboBox*>("background_options")->currentText().toUtf8().constData();
     mapNode["static"]["water_level"] = findChild<QSpinBox*>("water_level")->value();
+    mapNode["static"]["teams_amount"] = findChild<QSpinBox*>("teams_amount")->value();
+    mapNode["static"]["worms_health"] = findChild<QSpinBox*>("worms_health")->value();
 
     YAML::Node mortar;
     mortar["item_name"] = "Mortar";

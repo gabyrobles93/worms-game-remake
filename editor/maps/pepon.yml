@@ -1,8 +1,10 @@
 static:
   background:
-    file: /home/grobles/Desktop/Esquema_WC2010.png
+    file: /home/grobles/Downloads/20180501_125307.jpg
     display: expanded
   water_level: 300
+  teams_amount: 2
+  worms_health: 200
   init_inventory:
     - item_name: Mortar
       supplies: 10
