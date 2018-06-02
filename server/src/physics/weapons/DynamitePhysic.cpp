@@ -1,8 +1,7 @@
 #include "DynamitePhysic.h"
 #include <iostream>
 DynamitePhysic::DynamitePhysic(b2World& world, float posX, float posY, int delay) : 
-world(world),
-delay(delay * TIME_FACTOR){
+world(world) {
     b2BodyDef dynamiteDef;
     dynamiteDef.type = b2_dynamicBody;
     dynamiteDef.fixedRotation = true;
@@ -18,27 +17,15 @@ delay(delay * TIME_FACTOR){
     dynamiteFixture.friction = 1;
     body->CreateFixture(&dynamiteFixture);
     this->body = body;
-    this->exploded = false;
 }
 
 DynamitePhysic::~DynamitePhysic() {
     this->world.DestroyBody(this->body);
 }
 
-void DynamitePhysic::update() {
-    if (this->delay == 0 && !exploded) {
-        explode();
-    } else this->delay--;
-}
-
-void DynamitePhysic::explode() {
+void DynamitePhysic::explode(float radius, float power) {
     ExplosionManager explosionManager(this->world);
     b2Vec2 center = this->body->GetPosition();
-    explosionManager.manageExplosion(center, BLAST_RADIUS, BLAST_POWER);  
-    this->exploded = true;  
-}
-
-bool DynamitePhysic::hasExploded() {
-    return this->exploded;
+    explosionManager.manageExplosion(center, radius, power);  
 }
 

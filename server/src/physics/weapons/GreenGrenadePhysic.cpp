@@ -21,3 +21,9 @@ world(world) {
 GreenGrenadePhysic::~GreenGrenadePhysic() {
     this->world.DestroyBody(this->body);
 }
+
+void GreenGrenadePhysic::explode(float radius, float power) {
+    ExplosionManager explosioManager(this->world);
+    b2Vec2 center = this->body->GetPosition();
+    explosioManager.manageExplosion(center, radius, power);
+}

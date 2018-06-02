@@ -2,6 +2,7 @@
 #define GREEN_GRENADE_PHYSIC_H
 
 #include "Box2D.h"
+#include "ExplosionManager.h"
 
 #define GRENADE_RADIUS 0.25f
 #define GREEN_GRENADE_DENSITY 1
@@ -13,6 +14,7 @@ private:
 public:
     GreenGrenadePhysic(b2World& world, float posX, float posY);
     ~GreenGrenadePhysic();
+    void explode(float radius, float power);
 };
 
 #endif
