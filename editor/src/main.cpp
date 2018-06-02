@@ -25,9 +25,8 @@ int main(int argc, char * argv[]) {
 	YAML::Node map;
 	validateArgs(argc, argv, map);
 
-	// Parametros por default
-	int teamsAmount = 3;
-	int wormsHealth = 100;
+	int teamsAmount = map["static"]["teams_amount"].as<int>();
+	int wormsHealth = map["static"]["worms_health"].as<int>();
 
 	// Creamos el objeto map game con el nodo ya inicializado
 	View::MapGame mapGame(map);
@@ -145,6 +144,8 @@ void validateArgs(int argc, char * argv[], YAML::Node & map) {
 		std::string path = "../../resources/graphics/lava_pattern.jpg";
 		std::string display = "expanded";
 		int waterLevel = 300;
+		int teamsAmount = 3;
+		int wormsHealth = 100;
 		bazooka["item_name"] = WEAPON_NAME_BAZOOKA;
 		bazooka["supplies"] = INFINITY_SUPPLIES;
 		grenade["item_name"] = WEAPON_NAME_GREEN_GRENADE;
@@ -158,9 +159,17 @@ void validateArgs(int argc, char * argv[], YAML::Node & map) {
 		map["static"]["background"]["display"] = display;
 		map["static"]["water_level"] = waterLevel;
 		map["static"]["init_inventory"] = initInventory["init_inventory"];
+		map["static"]["teams_amount"] = teamsAmount;
+		map["static"]["worms_health"] = wormsHealth;
 	}
 
 	if (argc == ARGC_FILE_CONFIG) {
-		map = YAML::LoadFile(argv[ARGC_FILE_CONFIG - 1]);
+		try {
+			map = YAML::LoadFile(argv[ARGC_FILE_CONFIG - 1]);
+		} catch (std::exception e) {
+			std::cerr << "La primer ruta no funciono" << std::endl;
+			std::cerr << "El path era " << argv[ARGC_FILE_CONFIG - 1] << std::endl;
+			map = YAML::LoadFile(argv[ARGC_FILE_CONFIG - 1]);
+		}		
 	}
 }
