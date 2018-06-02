@@ -4,13 +4,18 @@
 #include "worm.h"
 
 View::WormsStatus::WormsStatus(YAML::Node & nodeWorms, SDL_Renderer * rend) {
-	YAML::const_iterator it;
-	for (it = nodeWorms.begin() ; it != nodeWorms.end() ; it++) {
-		const YAML::Node & eachWorm = *it;
-		View::Worm * newWorm = new View::Worm(rend, eachWorm["name"].as<std::string>(), eachWorm["team"].as<size_t>(), eachWorm["health"].as<int>());
-		newWorm->setX(eachWorm["x"].as<int>());
-		newWorm->setY(eachWorm["y"].as<int>());
-		this->worms[eachWorm["id"].as<size_t>()] = newWorm;
+	YAML::const_iterator itTeam;
+	for (itTeam = nodeWorms.begin() ; itTeam != nodeWorms.end() ; itTeam++) {
+		int teamId = itTeam->first;
+		const YAML::Node & eachTeam = itTeam->second["worms"];
+		YAML::const_terator itWorms;
+		for (itWorms = eachTeam.begin() ; itWorms != eachTeam.end() ; itWorm++) {
+			const YAML::Node & eachWorm = *itWorms;
+			View::Worm * newWorm = new View::Worm(rend, eachWorm["name"].as<std::string>(), teamId, eachWorm["health"].as<int>());
+			newWorm->setX(eachWorm["x"].as<int>());
+			newWorm->setY(eachWorm["y"].as<int>());
+			this->worms[eachWorm["id"].as<size_t>()] = newWorm;
+		}
 	}
 }
 
@@ -26,17 +31,22 @@ void View::WormsStatus::render(SDL_Renderer * renderer, View::Camera & camera) {
 
 void View::WormsStatus::update(YAML::Node wormsNode) {
 	View::Worm * worm;
-	YAML::const_iterator it;
-	for (it = wormsNode.begin() ; it != wormsNode.end() ; it++) {
-		const YAML::Node & eachWorm = *it;
-		worm = this->worms[eachWorm["id"].as<size_t>()];
-		worm->setX(eachWorm["x"].as<int>());
-		worm->setY(eachWorm["y"].as<int>());
-		worm->setHealth(eachWorm["health"].as<int>());
-		worm->setMirrored(eachWorm["status"]["mirrored"].as<int>());
-		worm->setWalking(eachWorm["status"]["walking"].as<int>());
-		worm->setFalling(eachWorm["status"]["falling"].as<int>());
-		worm->setGrounded(eachWorm["status"]["grounded"].as<int>());
+	YAML::const_iterator itTeam;
+	for (itTeam = wormsNode.begin() ; itTeam != wormsNode.end() ; itTeam++) {
+		int teamId = itTeam->first;
+		const YAML::Node & eachTeam = itTeam->second["worms"];
+		YAML::const_terator itWorms;
+		for (itWorms = eachTeam.begin() ; itWorms != eachTeam.end() ; itWorm++) {
+			const YAML::Node & eachWorm = *itWorms;
+			worm = this->worms[eachWorm["id"].as<size_t>()];
+			worm->setX(eachWorm["x"].as<int>());
+			worm->setY(eachWorm["y"].as<int>());
+			worm->setHealth(eachWorm["health"].as<int>());
+			worm->setMirrored(eachWorm["status"]["mirrored"].as<int>());
+			worm->setWalking(eachWorm["status"]["walking"].as<int>());
+			worm->setFalling(eachWorm["status"]["falling"].as<int>());
+			worm->setGrounded(eachWorm["status"]["grounded"].as<int>());
+		}
 	}
 }
 

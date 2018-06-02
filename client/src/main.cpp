@@ -54,7 +54,7 @@ try {
 
 	YAML::Node staticMap = mapNode["static"];
 	YAML::Node dynamicMap = mapNode["dynamic"];
-	YAML::Node wormsNode = dynamicMap["worms"];
+	YAML::Node wormsNode = dynamicMap["worms_teams"];
 
 	ProtectedDynamics pdynamics(dynamicMap);
 	ModelReceiver model_receiver(protocol, pdynamics);

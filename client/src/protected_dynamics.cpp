@@ -15,5 +15,5 @@ void ProtectedDynamics::update(YAML::Node & new_dyn) {
 
 YAML::Node ProtectedDynamics::getWorms(void) {
     std::lock_guard<std::mutex> lck(this->mutex);
-    return this->dynamics["worms"];
+    return this->dynamics["worms_teams"];
 }
