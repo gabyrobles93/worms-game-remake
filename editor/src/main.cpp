@@ -6,15 +6,12 @@
 #include "girder_long.h"
 #include "paths.h"
 #include "girder_short.h"
+#include "inventory.h"
 #include "inventory_editor.h"
+#include "inventory_weapons.h"
 #include "map_game.h"
 #include "worm.h"
 #include "yaml.h"
-
-#define MAX_ARG 4
-#define POS_BG_PATH 1
-#define POS_BG_DISP 2
-#define POS_WATER_LEVEL 3
 
 // Variable global
 Paths gPath;
@@ -32,6 +29,9 @@ int main(int argc, char * argv[]) {
 	int waterLevel; // Todavia no defini un maximo de nivel del agua pero sera 0 < waterlevel < MAX_WATER_LEVEL
 	int teamsAmount; // 2 o mas team
 	int wormsHealth; // 1 < wormsHealth < 100
+	YAML::Node initInventory; // Lo pasara como nodo yaml el editor launcher.
+	YAML::Node bazooka;
+	YAML::Node grenade;
 
 	if (argc == 1) {
 		// Parametros por default
@@ -41,6 +41,12 @@ int main(int argc, char * argv[]) {
 		waterLevel = 300;
 		teamsAmount = 3;
 		wormsHealth = 100;
+		bazooka["item_name"] = WEAPON_NAME_BAZOOKA;
+		bazooka["supplies"] = INFINITY_SUPPLIES;
+		grenade["item_name"] = WEAPON_NAME_GREEN_GRENADE;
+		grenade["supplies"] = 5;
+		initInventory["init_inventory"].push_back(bazooka);
+		initInventory["init_inventory"].push_back(grenade);
 	}
 	
 	// Creamos el nodo principal del mapa
@@ -49,6 +55,8 @@ int main(int argc, char * argv[]) {
 	map["static"]["background"]["file"] = path;
 	map["static"]["background"]["display"] = display;
 	map["static"]["water_level"] = waterLevel;
+	map["static"]["init_inventory"] = initInventory["init_inventory"];
+
 	View::MapGame mapGame(map);
 
 	// Creamos la ventana con la parte estatica (vacia)

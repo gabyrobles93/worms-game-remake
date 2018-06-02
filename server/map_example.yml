@@ -48,40 +48,40 @@ static:
 
 dynamic:
   worms_teams:
-    - 1:
-        worms:
-          - id: 1
-            name: Worm Test
-            health: 100
-            x: 700
-            y: 0
-            status:
-              grounded: 0
-              falling: 1
-              mirrored: 0
-              walking: 0
+    1:
+      worms:
+        - id: 1
+          name: Worm Test
+          health: 100
+          x: 700
+          y: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
 
-    - 2:
-        worms:
-          - id: 2
-            name: gaby
-            health: 100
-            x: 1300
-            y: 550
-            status:
-              grounded: 0
-              falling: 1
-              mirrored: 0
-              walking: 0
-    - 3:
-        worms:
-          - id: 3
-            name: bianca
-            health: 100
-            x: 1700
-            y: 550
-            status:
-              grounded: 0
-              falling: 1
-              mirrored: 0
-              walking: 0
+    2:
+      worms:
+        - id: 2
+          name: gaby
+          health: 100
+          x: 1300
+          y: 550
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+    3:
+      worms:
+        - id: 3
+          name: bianca
+          health: 100
+          x: 1700
+          y: 550
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
