@@ -1,14 +1,13 @@
 #include "Worm.h"
 #include <iostream>
 
-Worm::Worm(std::string n, bool mirrored, int id, int tid, int h, b2World& world, float posX, float posY) : 
+Worm::Worm(std::string n, int id, int team_id, int h, b2World& world, float posX, float posY) : 
 wormPhysic(world, posX, posY, this),
 world(world) {
     this->id = id;
-    this->team_id = tid;
     this->health = h;
+    this->team_id = team_id;
     this->name = n;
-    this->mirrored = mirrored;
     this->angle = 0;
     this->falling = false;
 }

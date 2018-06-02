@@ -32,6 +32,10 @@ bool World::isRunning(void) const {
     return true;
 }
 
+std::map<int, Worm *> & World::getWorms() {
+    return this->worms;
+}
+
 void World::initializeWorld() {
     float water_posX = (MAP_WIDTH / 2) * SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * SCALING_FACTOR ;
@@ -45,7 +49,7 @@ void World::initializeWorld() {
     const YAML::Node & short_girders_node = static_node["short_girders"];
     const YAML::Node & long_girders_node = static_node["long_girders"];
 
-    const YAML::Node& worms_node = dynamic_node["worms"];
+    const YAML::Node& worms_teams_node = dynamic_node["worms_teams"];
 
     for (YAML::const_iterator it = short_girders_node.begin(); it != short_girders_node.end(); ++it) {
         const YAML::Node &  short_girder = *it;
@@ -53,9 +57,6 @@ void World::initializeWorld() {
         float posX = (float) short_girder["x"].as<int>() * SCALING_FACTOR;
         float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
-
-        /* std::cout<< "SHORT GIRDER SETEADA EN POX: " << posX << " POSY: " << posY << "ANGULO" << angle << std::endl; */ 
-
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
@@ -66,9 +67,6 @@ void World::initializeWorld() {
         float posX = (float) long_girder["x"].as<int>() * SCALING_FACTOR;
         float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
         float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
-        
-        /* std::cout<< "LONG GIRDER SETEADA EN POX: " << posX / SCALING_FACTOR << " POSY: " << posY / SCALING_FACTOR << "ANGULO" << angle << std::endl; */
-
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
@@ -76,29 +74,23 @@ void World::initializeWorld() {
     int id, tid, health;
     float x;
     float y;
-    int mirrored;
     std::string name;
-    for (YAML::const_iterator it = worms_node.begin(); it != worms_node.end(); it++) {
-        const YAML::Node& worm = *it;
-        name = worm["name"].as<std::string>();
-        id = worm["id"].as<int>();
-        tid = worm["team"].as<int>();
-        health = worm["health"].as<int>();
-        x = (float) worm["x"].as<int>() * SCALING_FACTOR;
-        y = (float) worm["y"].as<int>() * SCALING_FACTOR;
-        mirrored = worm["status"]["mirrored"].as<int>();
-        Worm * new_worm = new Worm(name, mirrored, id, tid, health, this->worldPhysic.getWorld(), x, y);
-        this->worms.insert(std::pair<int, Worm*>(id, new_worm));
+    for (YAML::const_iterator it = worms_teams_node.begin(); it != worms_teams_node.end(); it++) {
+        const YAML::Node& worms_node = it->second["worms"];
+        tid = it->first.as<int>();
+        for (YAML::const_iterator worms_it = worms_node.begin(); worms_it != worms_node.end(); worms_it++) {
+            const YAML::Node& worm = *worms_it;
+            name = worm["name"].as<std::string>();
+            id = worm["id"].as<int>();
+            health = worm["health"].as<int>();
+            x = (float) worm["x"].as<int>() * SCALING_FACTOR;
+            y = (float) worm["y"].as<int>() * SCALING_FACTOR;
+            Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
+            this->worms.insert(std::pair<int, Worm*>(id, new_worm));
+        }
     }
-}
 
-
-std::map<int, Worm*> & World::getWorms() {
-    return this->worms;
-}
-
-std::map<int, Girder*> World::getGirders() {
-    return this->girders;
+    std::cout << "WORLD INITIALIZED" << std::endl;
 }
 
 void World::updateYAML() {
@@ -111,23 +103,26 @@ void World::updateYAML() {
     std::string falling;
     std::string grounded;
 
-    for (it = this->node_map["dynamic"]["worms"].begin(); it !=this->node_map["dynamic"]["worms"].end(); it++) {
-        x = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosX() / SCALING_FACTOR));
-        y = std::to_string((int) (this->worms[(*it)["id"].as<int>()]->getPosY() / SCALING_FACTOR));
-        health = std::to_string(this->worms[(*it)["id"].as<int>()]->getHealth());
-        mirrored = std::to_string(this->worms[(*it)["id"].as<int>()]->isMirrored());
-        walking = std::to_string(this->worms[(*it)["id"].as<int>()]->isWalking());
-        falling = std::to_string(this->worms[(*it)["id"].as<int>()]->isFalling());
-        grounded = std::to_string(this->worms[(*it)["id"].as<int>()]->isGrounded());
-        (*it)["x"] = x;
-        (*it)["y"] = y;
-        (*it)["health"] = health;
-        (*it)["status"]["mirrored"] = mirrored;
-        (*it)["status"]["walking"] = walking;
-        (*it)["status"]["falling"] = falling;
-        (*it)["status"]["grounded"] = grounded;
-/*      std::cout << "x: " << x << std::endl;
-        std::cout << "y: " << y << std::endl; */
+    for (it = this->node_map["dynamic"]["worms_teams"].begin(); it !=this->node_map["dynamic"]["worms_teams"].end(); it++) {
+        YAML::Node worms_node = it->second["worms"];
+        for (YAML::iterator worms_it = worms_node.begin(); worms_it != worms_node.end(); worms_it++) {
+            YAML::Node worm = *worms_it;
+            int id = worm["id"].as<int>();
+            x = std::to_string((int) (this->worms[id]->getPosX() / SCALING_FACTOR));
+            y = std::to_string((int) (this->worms[id]->getPosY() / SCALING_FACTOR));
+            health = std::to_string(this->worms[id]->getHealth());
+            mirrored = std::to_string(this->worms[id]->isMirrored());
+            walking = std::to_string(this->worms[id]->isWalking());
+            falling = std::to_string(this->worms[id]->isFalling());
+            grounded = std::to_string(this->worms[id]->isGrounded());
+            worm["x"] = x;
+            worm["y"] = y;
+            worm["health"] = health;
+            worm["status"]["mirrored"] = mirrored;
+            worm["status"]["walking"] = walking;
+            worm["status"]["falling"] = falling;
+            worm["status"]["grounded"] = grounded;
+            }
     }
 }
 
@@ -170,14 +165,6 @@ void World::run() {
 YAML::Node World::getSnapshot() {
     updateYAML();
     return this->node_map["dynamic"];
-}
-
-void World::moveLeft(size_t worm_id) {
-    worms[worm_id]->moveLeft();
-}
-
-void World::moveRight(size_t worm_id) {
-    worms[worm_id]->moveRight();
 }
 
 void World::stop() {

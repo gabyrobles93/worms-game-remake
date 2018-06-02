@@ -11,6 +11,7 @@ class Worm : public Entity {
         int health;
         int id;
         int team_id;
+
         float posX;
         float posY;
         float angle;
@@ -25,7 +26,7 @@ class Worm : public Entity {
 
     public:
         // mirrored = true significa mirando a derecha
-        Worm(std::string, bool mirrored, int id, int team_id, int h, b2World& World, float posX, float posY);
+        Worm(std::string, int id, int team_id, int h, b2World& World, float posX, float posY);
         virtual ~Worm(void);
         void hurt(int);
         void jump(void);

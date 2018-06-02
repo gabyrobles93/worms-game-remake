@@ -44,8 +44,6 @@ public:
     std::map<int, Girder *> getGirders();
     virtual void run(void);
     YAML::Node getSnapshot();
-    void moveLeft(size_t worm_id);
-    void moveRight(size_t worm_id);
     void stop();
     void executeAction(action_t, size_t);
     unsigned int getTimeSeconds(void);
