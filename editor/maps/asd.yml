@@ -1,0 +1,24 @@
+static:
+  background:
+    file: /home/grobles/Desktop/Esquema_WC2010.png
+    display: expanded
+  water_level: 300
+  init_inventory:
+    - item_name: Mortar
+      supplies: 10
+    - item_name: Cluster
+      supplies: 10
+    - item_name: Banana
+      supplies: 10
+    - item_name: Grenade
+      supplies: 10
+    - item_name: Holy bomb
+      supplies: 10
+    - item_name: Dynamite
+      supplies: 10
+    - item_name: Fly bombs
+      supplies: 10
+    - item_name: Teleport
+      supplies: 10
+    - item_name: Bat
+      supplies: 10

@@ -38,6 +38,7 @@ private:
     void connectEvents(void);
     void chooseBackground(void);
     void goCreate(void);
+    void launchEditor(std::string &);
 };
 
 #endif // EDITOR_LAUNCHER_H

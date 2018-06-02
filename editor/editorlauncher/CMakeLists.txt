@@ -1,0 +1,49 @@
+cmake_minimum_required(VERSION 2.8)
+project(editor_launcher)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -Wextra -pedantic -pthread -I.")
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../common)
+
+find_package(SDL2 REQUIRED)
+find_package(Qt5 COMPONENTS Widgets DBus REQUIRED)
+find_package(Threads)
+
+INCLUDE(FindPkgConfig) 
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
+PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
+
+
+include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${COMMON_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${COMMON_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${COMMON_SOURCE_DIR}/include)
+include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
+
+qt5_wrap_ui(UIS_HEADERS
+        ${PROJECT_SOURCE_DIR}/qtdesigner/editor_launcher.ui
+)
+
+SET(UI_RESOURCES
+	${PROJECT_SOURCE_DIR}/qtdesigner/resources.qrc
+)
+
+QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
+
+add_executable(	editor_launcher
+		${PROJECT_SOURCE_DIR}/src/main.cpp 
+		${PROJECT_SOURCE_DIR}/src/editor_launcher.cpp
+		${PROJECT_SOURCE_DIR}/src/editor_launcher.h
+		${COMMON_SOURCE_DIR}/src/types.h
+		${UIS_HEADERS}
+		${UI_RESOURCES_RCC}
+		)
+
+target_link_libraries(editor_launcher Qt5::Widgets Qt5::DBus)
+target_link_libraries(editor_launcher ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
+target_link_libraries(editor_launcher ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
