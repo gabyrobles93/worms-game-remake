@@ -146,3 +146,11 @@ void Worm::update() {
         this->fallenDistance = 0;
     }
 }
+
+void Worm::setPosX(float posX) {
+    this->wormPhysic.setPosX(posX);
+}
+
+void Worm::setPosY(float posY) {
+    this->wormPhysic.setPosX(posY);
+}

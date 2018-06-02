@@ -29,6 +29,8 @@ public:
     void moveLeft(float angle);
     float getPosX();
     float getPosY();
+    void setPosX(float posX);
+    void setPosY(float posY);
     void addFootContact();
     void deleteFootContact();
     bool haveHorizontalSpeed(void);

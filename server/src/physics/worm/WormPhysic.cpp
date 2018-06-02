@@ -106,3 +106,11 @@ bool WormPhysic::isGrounded(void) {
 float WormPhysic::getVerticalSpeed() {
     return this->body->GetLinearVelocity().y;
 }
+
+void WormPhysic::setPosX(float posX) {
+    this->body->SetTransform(b2Vec2(posX, getPosY()), this->body->GetAngle());
+}
+
+void WormPhysic::setPosY(float posY) {
+    this->body->SetTransform(b2Vec2(getPosX(), posY), this->body->GetAngle());  
+}

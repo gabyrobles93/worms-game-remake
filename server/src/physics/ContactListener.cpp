@@ -6,8 +6,6 @@ ContactListener::~ContactListener() {}
 
 
 void ContactListener::BeginContact(b2Contact* contact) {
-/*     void* fixtureAUserData = contact->GetFixtureA()->GetUserData();
-    void* fixtureBUserData = contact->GetFixtureB()->GetUserData(); */
 
     void* bodyAUserData = contact->GetFixtureA()->GetBody()->GetUserData();
     void* bodyBUserData = contact->GetFixtureB()->GetBody()->GetUserData();
@@ -36,12 +34,10 @@ void ContactListener::BeginContact(b2Contact* contact) {
         //WORM WATER CONTACT
         if (entityA_type == WORM && entityB_type == WATER) {
            static_cast<Worm*>(bodyAUserData)->hurt(100);
-           std::cout << static_cast<Worm*>(bodyAUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyAUserData)->isDead() << std::endl;
         }
 
         if (entityB_type == WORM && entityA_type == WATER) {
            static_cast<Worm*>(bodyBUserData)->hurt(100);
-           std::cout << static_cast<Worm*>(bodyBUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyBUserData)->isDead() << std::endl;
         }
 
         //WORM BAT CONTACT

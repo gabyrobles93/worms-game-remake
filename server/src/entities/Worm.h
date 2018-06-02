@@ -35,6 +35,8 @@ class Worm : public Entity {
         void moveRight(void);
         float getPosY(void);
         float getPosX(void);
+        void setPosY(float posY);
+        void setPosX(float posX);
         void setAngle(float angle);
         int getId(void);
         int getTeam(void);
