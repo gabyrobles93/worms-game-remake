@@ -13,50 +13,23 @@
 #include "worm.h"
 #include "yaml.h"
 
+#define ARGC_DEFAULT 1
+#define ARGC_FILE_CONFIG 2
+
 // Variable global
 Paths gPath;
 
-int validateArgs(int, char*[]);
+void validateArgs(int, char*[], YAML::Node & map);
 
 int main(int argc, char * argv[]) {
-
-	//validateArgs(argc, argv);
-
-	// Parametros configurables por el usuario
-	// a la derecha las configuraciones
-	std::string path; // Archivo valido
-	std::string display; // centered | expanded | mosaic
-	int waterLevel; // Todavia no defini un maximo de nivel del agua pero sera 0 < waterlevel < MAX_WATER_LEVEL
-	int teamsAmount; // 2 o mas team
-	int wormsHealth; // 1 < wormsHealth < 100
-	YAML::Node initInventory; // Lo pasara como nodo yaml el editor launcher.
-	YAML::Node bazooka;
-	YAML::Node grenade;
-
-	if (argc == 1) {
-		// Parametros por default
-		std::cout << "Default configuration" << std::endl;
-		path = "../../resources/graphics/lava_pattern.jpg";
-		display = "expanded";
-		waterLevel = 300;
-		teamsAmount = 3;
-		wormsHealth = 100;
-		bazooka["item_name"] = WEAPON_NAME_BAZOOKA;
-		bazooka["supplies"] = INFINITY_SUPPLIES;
-		grenade["item_name"] = WEAPON_NAME_GREEN_GRENADE;
-		grenade["supplies"] = 5;
-		initInventory["init_inventory"].push_back(bazooka);
-		initInventory["init_inventory"].push_back(grenade);
-	}
-	
-	// Creamos el nodo principal del mapa
-	// y el objeto MapGame
 	YAML::Node map;
-	map["static"]["background"]["file"] = path;
-	map["static"]["background"]["display"] = display;
-	map["static"]["water_level"] = waterLevel;
-	map["static"]["init_inventory"] = initInventory["init_inventory"];
+	validateArgs(argc, argv, map);
 
+	// Parametros por default
+	int teamsAmount = 3;
+	int wormsHealth = 100;
+
+	// Creamos el objeto map game con el nodo ya inicializado
 	View::MapGame mapGame(map);
 
 	// Creamos la ventana con la parte estatica (vacia)
@@ -162,16 +135,32 @@ int main(int argc, char * argv[]) {
 	return 0;
 }
 
-int validateArgs(int argc, char * argv[]) {
-	int error = 0;
-	if (argc != MAX_ARG) {
-		error = 1;
+void validateArgs(int argc, char * argv[], YAML::Node & map) {
+	// Parametros por default
+	if (argc == ARGC_DEFAULT) {
+		std::cout << "Default configuration" << std::endl;
+		YAML::Node initInventory;
+		YAML::Node bazooka;
+		YAML::Node grenade;
+		std::string path = "../../resources/graphics/lava_pattern.jpg";
+		std::string display = "expanded";
+		int waterLevel = 300;
+		bazooka["item_name"] = WEAPON_NAME_BAZOOKA;
+		bazooka["supplies"] = INFINITY_SUPPLIES;
+		grenade["item_name"] = WEAPON_NAME_GREEN_GRENADE;
+		grenade["supplies"] = 5;
+		initInventory["init_inventory"].push_back(bazooka);
+		initInventory["init_inventory"].push_back(grenade);
+
+		// Creamos el nodo principal del mapa
+		// y el objeto MapGame
+		map["static"]["background"]["file"] = path;
+		map["static"]["background"]["display"] = display;
+		map["static"]["water_level"] = waterLevel;
+		map["static"]["init_inventory"] = initInventory["init_inventory"];
 	}
 
-	if (error) {
-		std::cerr << "La invocacion del programa es: " << std::endl;
-		std::cerr << "./editor <path to background file> <background display mode> <water level>\n";
-		std::cerr << "display mode disponibles: mosaic | centered | expanded \n";
+	if (argc == ARGC_FILE_CONFIG) {
+		map = YAML::LoadFile(argv[ARGC_FILE_CONFIG - 1]);
 	}
-	return 0;
 }

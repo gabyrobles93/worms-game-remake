@@ -226,6 +226,10 @@ bool View::MapGame::hasAllTheWorms(int teamsAmount, int amountWormsPerTeam) {
   const YAML::Node & teams = (*state)["dynamic"]["worms_teams"];
   YAML::const_iterator it = teams.begin();
   
+  if (teams.size() != (size_t)teamsAmount) {
+    return false;
+  }
+
   for (; it != teams.end() ; it++) {
     if ((it->second)["worms"].size() != (size_t)amountWormsPerTeam) {
       return false;

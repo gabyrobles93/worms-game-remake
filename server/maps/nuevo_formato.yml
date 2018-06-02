@@ -8,112 +8,64 @@ static:
       supplies: -1
     - item_name: Grenade
       supplies: 5
-  long_girders:
-    - id: 1
-      x: 384
-      y: 370
-      angle: 0
   short_girders:
     - id: 1
-      x: 501
-      y: 861
+      x: 794
+      y: 521
       angle: 0
     - id: 2
-      x: 818
-      y: 897
+      x: 1084
+      y: 440
       angle: 0
     - id: 3
-      x: 1050
-      y: 987
-      angle: 0
+      x: 999
+      y: 761
+      angle: 45
     - id: 4
-      x: 1263
-      y: 1015
-      angle: 0
+      x: 1133
+      y: 686
+      angle: 45
     - id: 5
-      x: 1535
-      y: 904
-      angle: 0
+      x: 1233
+      y: 819
+      angle: 45
     - id: 6
-      x: 1715
-      y: 773
-      angle: 0
+      x: 1494
+      y: 729
+      angle: 45
     - id: 7
-      x: 1486
-      y: 976
-      angle: 0
-    - id: 8
-      x: 1213
-      y: 1064
-      angle: 0
-    - id: 9
-      x: 1060
-      y: 1100
-      angle: 0
-    - id: 10
-      x: 807
-      y: 1077
-      angle: 0
-    - id: 11
-      x: 523
-      y: 1060
-      angle: 0
-    - id: 12
-      x: 392
-      y: 963
-      angle: -30
-    - id: 13
-      x: 142
-      y: 834
-      angle: -30
-    - id: 14
-      x: 315
-      y: 623
-      angle: -30
-    - id: 15
-      x: 294
-      y: 958
-      angle: -30
-    - id: 16
-      x: 241
-      y: 1229
-      angle: -30
-    - id: 17
-      x: 597
-      y: 1118
-      angle: -30
-    - id: 18
-      x: 268
-      y: 1100
-      angle: -30
-    - id: 19
-      x: 302
-      y: 1230
-      angle: -30
-    - id: 20
-      x: 428
-      y: 1114
-      angle: -30
-    - id: 21
-      x: 900
-      y: 782
-      angle: -30
-    - id: 22
-      x: 1050
-      y: 780
-      angle: -30
-    - id: 23
-      x: 1344
-      y: 583
-      angle: 0
-    - id: 24
-      x: 1416
-      y: 1018
-      angle: 0
-    - id: 25
-      x: 1603
-      y: 873
-      angle: 0
+      x: 1143
+      y: 883
+      angle: -45
+  long_girders:
+    - id: 1
+      x: 1605
+      y: 530
+      angle: -45
+    - id: 2
+      x: 1617
+      y: 722
+      angle: -45
+    - id: 3
+      x: 1617
+      y: 881
+      angle: -45
+    - id: 4
+      x: 1606
+      y: 1036
+      angle: -45
+    - id: 5
+      x: 1735
+      y: 610
+      angle: 45
+    - id: 6
+      x: 1747
+      y: 784
+      angle: 45
+    - id: 7
+      x: 1744
+      y: 951
+      angle: 45
 dynamic:
   worms_teams:
     1:
@@ -121,8 +73,8 @@ dynamic:
         - id: 1
           name: Worm 1
           health: 100
-          x: 872
-          y: 733
+          x: 1082
+          y: 415
           status:
             grounded: 0
             falling: 1
@@ -131,50 +83,18 @@ dynamic:
         - id: 2
           name: Worm 2
           health: 100
-          x: 1081
-          y: 695
+          x: 790
+          y: 496
           status:
             grounded: 0
             falling: 1
             mirrored: 0
             walking: 0
-        - id: 7
-          name: Worm 3
-          health: 100
-          x: 198
-          y: 564
-          status:
-            grounded: 0
-            falling: 1
-            mirrored: 0
-            walking: 0
-    2:
-      worms:
         - id: 3
-          name: Worm 1
-          health: 100
-          x: 1348
-          y: 530
-          status:
-            grounded: 0
-            falling: 1
-            mirrored: 0
-            walking: 0
-        - id: 4
-          name: Worm 2
-          health: 100
-          x: 1576
-          y: 401
-          status:
-            grounded: 0
-            falling: 1
-            mirrored: 0
-            walking: 0
-        - id: 8
           name: Worm 3
           health: 100
-          x: 376
-          y: 342
+          x: 1331
+          y: 431
           status:
             grounded: 0
             falling: 1
@@ -182,21 +102,53 @@ dynamic:
             walking: 0
     3:
       worms:
-        - id: 5
+        - id: 4
           name: Worm 1
           health: 100
-          x: 1405
-          y: 674
+          x: 1345
+          y: 571
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 5
+          name: Worm 2
+          health: 100
+          x: 1603
+          y: 450
           status:
             grounded: 0
             falling: 1
             mirrored: 0
             walking: 0
         - id: 6
+          name: Worm 3
+          health: 100
+          x: 1186
+          y: 789
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+    2:
+      worms:
+        - id: 7
+          name: Worm 1
+          health: 100
+          x: 987
+          y: 732
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 8
           name: Worm 2
           health: 100
-          x: 1204
-          y: 919
+          x: 1113
+          y: 644
           status:
             grounded: 0
             falling: 1
@@ -205,8 +157,8 @@ dynamic:
         - id: 9
           name: Worm 3
           health: 100
-          x: 488
-          y: 771
+          x: 1446
+          y: 690
           status:
             grounded: 0
             falling: 1
