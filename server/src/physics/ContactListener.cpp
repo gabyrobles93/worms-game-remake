@@ -34,15 +34,24 @@ void ContactListener::BeginContact(b2Contact* contact) {
         }
 
         //WORM WATER CONTACT
-         if (entityA_type == WORM && entityB_type == WATER) {
-            static_cast<Worm*>(bodyAUserData)->hurt(100);
-            std::cout << static_cast<Worm*>(bodyAUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyAUserData)->isDead() << std::endl;
-         }
+        if (entityA_type == WORM && entityB_type == WATER) {
+           static_cast<Worm*>(bodyAUserData)->hurt(100);
+           std::cout << static_cast<Worm*>(bodyAUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyAUserData)->isDead() << std::endl;
+        }
 
-         if (entityB_type == WORM && entityA_type == WATER) {
-            static_cast<Worm*>(bodyBUserData)->hurt(100);
-            std::cout << static_cast<Worm*>(bodyBUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyBUserData)->isDead() << std::endl;
-         }
+        if (entityB_type == WORM && entityA_type == WATER) {
+           static_cast<Worm*>(bodyBUserData)->hurt(100);
+           std::cout << static_cast<Worm*>(bodyBUserData)->getName() << "¿ESta Muerto?" << static_cast<Worm*>(bodyBUserData)->isDead() << std::endl;
+        }
+
+        //WORM BAT CONTACT
+        if (entityA_type == BAT && entityB_type == WORM) {
+            static_cast<Bat*>(bodyAUserData)->atack(static_cast<Worm*>(bodyBUserData));
+        }
+
+        if (entityB_type == BAT && entityA_type == WORM) {
+            static_cast<Bat*>(bodyBUserData)->atack(static_cast<Worm*>(bodyAUserData));
+        }
     }
 }
 

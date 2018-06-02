@@ -13,6 +13,7 @@ public:
     Dynamite(b2World& world, float posX, float posY, int delay);
     void explode(void);
     void update(void);
+    entity_t getEntityType() {return DYNAMITE;}
 };
 
 #endif

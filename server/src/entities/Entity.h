@@ -5,6 +5,7 @@ typedef enum {
     WORM,
     STRUCTURE,
     DYNAMITE,
+    BAT,
     WATER,
 } entity_t;
 

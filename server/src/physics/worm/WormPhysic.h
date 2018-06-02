@@ -5,7 +5,7 @@
 #include "PhysicEntity.h"
 #include "Entity.h"
 
-#define MOVE_VELOCITY 2.0f
+#define MOVE_VELOCITY 1.0f
 #define WORM_HEIGHT 0.8f
 #define WORM_RADIUS 0.54f
 #define WORM_WIDTH 0.8f

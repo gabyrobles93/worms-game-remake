@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Girder.h"
 #include "Worm.h"
+#include "Bat.h"
 
 class ContactListener : public b2ContactListener {
 public: 

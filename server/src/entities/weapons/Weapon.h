@@ -1,7 +1,9 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-class Weapon {
+#include "Entity.h"
+
+class Weapon : public Entity {
 public:
     virtual ~Weapon();
     virtual void update(void) = 0;
