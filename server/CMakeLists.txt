@@ -93,6 +93,10 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.h
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/GreenGrenadePhysic.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/GreenGrenadePhysic.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.h
 
 		)
 
