@@ -8,6 +8,7 @@ set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../common)
 set(CLIENT_RESOURCES ${PROJECT_SOURCE_DIR}/../client/src/ui)
 
 find_package(SDL2 REQUIRED)
+find_package(Qt5 COMPONENTS Widgets DBus REQUIRED)
 find_package(Threads)
 
 INCLUDE(FindPkgConfig) 
@@ -26,8 +27,20 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
 
+qt5_wrap_ui(UIS_HEADERS
+        ${PROJECT_SOURCE_DIR}/qtdesigner/editor_launcher.ui
+)
+
+SET(UI_RESOURCES
+	${PROJECT_SOURCE_DIR}/qtdesigner/resources.qrc
+)
+
+QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
+
 add_executable(	editor
 		${PROJECT_SOURCE_DIR}/src/main.cpp
+		${PROJECT_SOURCE_DIR}/src/editor_launcher.cpp
+		${PROJECT_SOURCE_DIR}/src/editor.cpp
 		${PROJECT_SOURCE_DIR}/src/map_game.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
 		${COMMON_SOURCE_DIR}/src/paths.cpp
@@ -51,6 +64,8 @@ add_executable(	editor
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/types.h
 		${COMMON_SOURCE_DIR}/src/sound_effect.h
+		${PROJECT_SOURCE_DIR}/src/editor_launcher.h
+		${PROJECT_SOURCE_DIR}/src/editor.h
 		${CLIENT_RESOURCES}/camera.h
 		${CLIENT_RESOURCES}/drawable.h
 		${CLIENT_RESOURCES}/girder.h
@@ -67,7 +82,10 @@ add_executable(	editor
 		${CLIENT_RESOURCES}/water.h
 		${CLIENT_RESOURCES}/window_game.h
 		${CLIENT_RESOURCES}/worm.h
+		${UIS_HEADERS}
+		${UI_RESOURCES_RCC}
 		)
 
+target_link_libraries(editor Qt5::Widgets Qt5::DBus)
 target_link_libraries(editor ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
 target_link_libraries(editor ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

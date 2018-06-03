@@ -7,10 +7,10 @@
 #include "types.h"
 #include "ui_editor_launcher.h"
 #include "yaml.h"
+#include "editor.h"
 
-#define SAVED_MAPS_PATH "../../maps/"
+#define SAVED_MAPS_PATH "../maps/"
 #define MAPS_EXT ".yml"
-#define EDITOR_BINARY_PATH "../../build/editor"
 
 EditorLauncher::EditorLauncher(QWidget *parent) :
     QMainWindow(parent),
@@ -127,20 +127,18 @@ void EditorLauncher::goCreate(void) {
     bat["supplies"] = findChild<QSpinBox*>("bat_ammo")->value();
     mapNode["static"]["init_inventory"].push_back(bat);
 
-    std::string map_path = SAVED_MAPS_PATH + map_name + MAPS_EXT;
+/*     std::string map_path = SAVED_MAPS_PATH + map_name + MAPS_EXT; */
 
-    std::ofstream map_file(map_path, std::ofstream::out | std::ofstream::trunc);
+/*     std::ofstream map_file(map_path, std::ofstream::out | std::ofstream::trunc);
     map_file << mapNode;
-    map_file.close();
+    map_file.close(); */
 
-    launchEditor(map_name);
+    launchEditor(mapNode, map_name);
 }
 
-void EditorLauncher::launchEditor(std::string & map_name) {
-    std::cout << "Aca se lanza el editor con el pre-mapa: " << map_name << std::endl;
-    std::string editor_binary_path(EDITOR_BINARY_PATH);
-    std::string map_path = "../maps/" + map_name + MAPS_EXT;
-    std::string editor_invocation = editor_binary_path + " " + map_path;
-    std::cout << "Se va a invocar: <" << editor_invocation << ">" << std::endl;
-    std::system(editor_invocation.c_str());
+void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
+    Editor the_editor(mapNode, map_name);
+    this->hide();
+    the_editor.start();
+    this->close();
 }
