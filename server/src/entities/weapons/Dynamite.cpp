@@ -11,6 +11,7 @@ void Dynamite::update(int currentTime) {
     if (currentTime >= detonationTime && !exploded) {
         explode();
     }
+    this->activeTime = detonationTime - currentTime;
 }
 
 void Dynamite::explode() {
@@ -28,4 +29,8 @@ float Dynamite::getPosX() {
 
 float Dynamite::getPosY() {
     return this->dynamitePhysic.getPosY();
+}
+
+int Dynamite::getActiveTime() {
+    return this->activeTime;
 }
