@@ -90,8 +90,6 @@ void World::initializeWorld() {
             this->worms.insert(std::pair<int, Worm*>(id, new_worm));
         }
     }
-
-    std::cout << "WORLD INITIALIZED" << std::endl;
 }
 
 void World::updateYAML() {
@@ -106,7 +104,6 @@ void World::updateProjectilesYAML(void) {
     std::string exploded;
     YAML::Node::iterator it;
     for (it = this->node_map["dynamic"]["projectiles"].begin(); it !=this->node_map["dynamic"]["projectiles"].end(); it++) {
-        std::cout << "ACTUALIZANDO UN PROJECTIL" << std::endl;
         YAML::Node projectile = *it;
         int weapon_id = projectile["id"].as<int>();
         x = std::to_string((int) this->weapons[weapon_id]->getPosX());
@@ -156,13 +153,10 @@ void World::updateWormsYAML(void) {
 void World::updateBodies() {
     std::map<int, Weapon*>::iterator it;
     for(it=this->weapons.begin();it != this->weapons.end();) {
-        std::cout << "Nueva iteracion en weapons" << std::endl;
         if ((it)->second->hasExploded()) {
-            std::cout << "Detecte explosion" << std::endl;
             removeProjectileFromYAML(it->second->getId());
             delete (it->second);
             it = this->weapons.erase(it);
-            std::cout << "UPDATING BODIES" << std::endl;
         } else {
             (it)->second->update(getTimeSeconds());
             it++;
@@ -179,13 +173,10 @@ void World::updateBodies() {
 void World::removeProjectileFromYAML(size_t id) {
     /* YAML::Node::iterator it; */
     //int index = 0;
-    std::cout << "VOY A BORRAR EL PROYECTIL " << id << " XD" << std::endl;
     std::vector<YAML::Node> vec_projectiles = this->node_map["dynamic"]["projectiles"].as<std::vector<YAML::Node>>();
-    std::cout << "el largo del vector es " << vec_projectiles.size() << std::endl;
     std::vector<YAML::Node>::iterator it;
     for (it = vec_projectiles.begin(); it != vec_projectiles.end(); it++) {
         if ((*it)["id"].as<size_t>() == id) {
-            std::cout << "Voy a borrar el projectil." << std::endl;
             it = vec_projectiles.erase(it);
             break;
         }
@@ -236,21 +227,18 @@ void World::executeAction(action_t action, size_t id) {
     switch(action) {
         case a_moveLeft:
             this->worms[id]->moveLeft();
-            std::cout << "MOVIENDO EL GUSANO A LA IZQUIERDA" << std::endl;
             break;
         case a_moveRight:
             this->worms[id]->moveRight();
             break;
         case a_frontJump:
             this->worms[id]->frontJump();
-            std::cout << "FRONT JUMP" << std::endl;
             break;
         case a_backJump:
             this->worms[id]->backJump();
             break;
         case a_shoot : {
             if (this->weapons.size() == 0) {
-                std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
                 Weapon* dynamite= new Dynamite(weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
                 this->weapons.insert(std::pair<int, Weapon*>(weapon_counter, dynamite));
                 YAML::Node new_projectile;
