@@ -12,6 +12,7 @@ public:
     virtual int getActiveTime();
 protected:
     bool exploded;
+    int activeTime;
 };
 
 #endif

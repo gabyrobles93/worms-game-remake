@@ -8,10 +8,11 @@ dynamitePhysic(world, posX, posY, delay) {
 }
 
 void Dynamite::update(int currentTime) {
-    if (currentTime >= detonationTime && !exploded) {
+    if (currentTime >= this->detonationTime && !exploded) {
         explode();
     }
-    this->activeTime = detonationTime - currentTime;
+    this->activeTime = this->detonationTime - currentTime;
+    std::cout << "EL ACTIVE TIME ES :" << this->activeTime << std::endl;
 }
 
 void Dynamite::explode() {
@@ -29,8 +30,4 @@ float Dynamite::getPosX() {
 
 float Dynamite::getPosY() {
     return this->dynamitePhysic.getPosY();
-}
-
-int Dynamite::getActiveTime() {
-    return this->activeTime;
 }

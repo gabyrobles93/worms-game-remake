@@ -8,5 +8,5 @@ bool Weapon::hasExploded() {
 }
 
 int Weapon::getActiveTime() {
-    return 0;
+    return this->activeTime;
 }
