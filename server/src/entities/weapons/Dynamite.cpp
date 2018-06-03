@@ -11,8 +11,7 @@ void Dynamite::update(int currentTime) {
     if (currentTime >= this->detonationTime && !exploded) {
         explode();
     }
-    this->activeTime = this->detonationTime - currentTime;
-    std::cout << "EL ACTIVE TIME ES :" << this->activeTime << std::endl;
+    this->count_down = this->detonationTime - currentTime;
 }
 
 void Dynamite::explode() {
