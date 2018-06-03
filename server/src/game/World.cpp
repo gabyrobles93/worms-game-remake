@@ -147,7 +147,7 @@ void World::updateWormsYAML(void) {
             worm["status"]["walking"] = walking;
             worm["status"]["falling"] = falling;
             worm["status"]["grounded"] = grounded;
-            }
+        }
     }
 }
 
