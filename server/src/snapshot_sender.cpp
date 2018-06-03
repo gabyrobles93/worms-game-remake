@@ -14,6 +14,9 @@ SnapshotSender::~SnapshotSender() {
 void SnapshotSender::run() {
     while (keep_running) {
         YAML::Node snapshot = this->snapshots.pop();
+        std::stringstream ss;
+        ss << snapshot;
+        std::cout << ss.str() << std::endl;
         this->protocol.sendModel(snapshot);
     }
 }

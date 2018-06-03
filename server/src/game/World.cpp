@@ -109,7 +109,7 @@ void World::updateProjectilesYAML(void) {
         int weapon_id = projectile["id"].as<int>();
         x = std::to_string(this->weapons[weapon_id]->getPosX());
         y = std::to_string(this->weapons[weapon_id]->getPosY());
-        current_time = std::to_string(this->weapons[weapon_id]->getCurrentTime());
+        current_time = std::to_string(this->weapons[weapon_id]->getActiveTime());
     }
 }
 
@@ -214,8 +214,16 @@ void World::executeAction(action_t action, size_t id) {
         case a_shoot : {
             std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
             Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
-            weapon_counter++;
             this->weapons.insert(std::pair<int, Weapon*>(weapon_counter, dynamite));
+            YAML::Node new_projectile;
+            new_projectile["id"] = std::to_string(weapon_counter);
+            new_projectile["type"] = "Dynamite";
+            new_projectile["x"] = std::to_string(dynamite->getPosX());
+            new_projectile["y"] = std::to_string(dynamite->getPosY());
+            new_projectile["deton_time"] = std::to_string(5);
+            new_projectile["current_time"] = std::to_string(0);
+            this->node_map["dynamic"]["projectile"].push_back(new_projectile);
+            weapon_counter++;
             break;
         }
         default: break;
