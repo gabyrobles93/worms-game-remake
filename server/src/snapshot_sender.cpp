@@ -17,6 +17,7 @@ void SnapshotSender::run() {
         std::stringstream ss;
         ss << snapshot;
         std::cout << ss.str() << std::endl;
+        std::cout << "Cantidad de projectiles: " << snapshot["projectiles"].size() << std::endl;
         this->protocol.sendModel(snapshot);
     }
 }

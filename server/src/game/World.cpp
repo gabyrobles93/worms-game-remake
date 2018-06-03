@@ -103,18 +103,20 @@ void World::updateProjectilesYAML(void) {
     std::string x;
     std::string y;
     std::string current_time;
+    std::string exploded;
     YAML::Node::iterator it;
-    for (it = this->node_map["dynamic"]["projectile"].begin(); it !=this->node_map["dynamic"]["projectile"].end(); it++) {
+    for (it = this->node_map["dynamic"]["projectiles"].begin(); it !=this->node_map["dynamic"]["projectiles"].end(); it++) {
         std::cout << "ACTUALIZANDO UN PROJECTIL" << std::endl;
         YAML::Node projectile = *it;
         int weapon_id = projectile["id"].as<int>();
         x = std::to_string((int) this->weapons[weapon_id]->getPosX());
         y = std::to_string((int) this->weapons[weapon_id]->getPosY());
         current_time = std::to_string(this->weapons[weapon_id]->getCountdown());
-        std::cout << current_time << std::endl;
+        exploded = std::to_string(this->weapons[weapon_id]->hasExploded());
         projectile["x"] = x;
         projectile["y"] = y;
         projectile["countdown"] = current_time;
+        projectile["exploded"] = exploded;
     }
 }
 
@@ -152,8 +154,11 @@ void World::updateWormsYAML(void) {
 }
 
 void World::updateBodies() {
-    for(std::map<int, Weapon*>::iterator it=this->weapons.begin();it != this->weapons.end();) {
+    std::map<int, Weapon*>::iterator it;
+    for(it=this->weapons.begin();it != this->weapons.end();) {
+        std::cout << "Nueva iteracion en weapons" << std::endl;
         if ((it)->second->hasExploded()) {
+            std::cout << "Detecte explosion" << std::endl;
             removeProjectileFromYAML(it->second->getId());
             delete (it->second);
             it = this->weapons.erase(it);
@@ -172,7 +177,29 @@ void World::updateBodies() {
 }
 
 void World::removeProjectileFromYAML(size_t id) {
+    /* YAML::Node::iterator it; */
+    //int index = 0;
+    std::cout << "VOY A BORRAR EL PROYECTIL " << id << " XD" << std::endl;
+    std::vector<YAML::Node> vec_projectiles = this->node_map["dynamic"]["projectiles"].as<std::vector<YAML::Node>>();
+    std::cout << "el largo del vector es " << vec_projectiles.size() << std::endl;
+    std::vector<YAML::Node>::iterator it;
+    for (it = vec_projectiles.begin(); it != vec_projectiles.end(); it++) {
+        if ((*it)["id"].as<size_t>() == id) {
+            std::cout << "Voy a borrar el projectil." << std::endl;
+            it = vec_projectiles.erase(it);
+            break;
+        }
+    }
+    
+    this->node_map["dynamic"]["projectiles"];
+    this->node_map["dynamic"]["projectiles"] = vec_projectiles;
 
+/*     for (unsigned int i = 0; i < this->node_map["dynamic"]["projectiles"].size(); i++) {
+        if (this->node_map["dynamic"]["projectiles"][i]["id"].as<size_t>() == id) {
+            this->node_map["dynamic"]["projectiles"].remove(i);
+            break;
+        }
+    } */
 }
 
 void World::run() {
@@ -182,6 +209,7 @@ void World::run() {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         updateBodies();
+        updateYAML();
         this->snapshots.push(getSnapshot());
         step_counter++;
 
@@ -193,7 +221,6 @@ void World::run() {
 }
 
 YAML::Node World::getSnapshot() {
-    updateYAML();
     return this->node_map["dynamic"];
 }
 
@@ -233,7 +260,7 @@ void World::executeAction(action_t action, size_t id) {
             new_projectile["deton_time"] = std::to_string(5);
             new_projectile["countdown"] = std::to_string(5);
             new_projectile["exploded"] = std::to_string(dynamite->hasExploded());
-            this->node_map["dynamic"]["projectile"].push_back(new_projectile);
+            this->node_map["dynamic"]["projectiles"].push_back(new_projectile);
             weapon_counter++;
             break;
         }

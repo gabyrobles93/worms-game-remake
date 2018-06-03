@@ -58,7 +58,8 @@ dynamic:
       x: 1560
       y: 1783
       deton_time: 5
-      current_time: 2
+      countdown: 3
+      exploded: 0
 
   game_status:
     alive_teams:
