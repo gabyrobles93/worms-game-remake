@@ -1,0 +1,161 @@
+static:
+  background:
+    file: /home/grobles/Downloads/WORMS_ALTO_FONDO.jpg
+    display: mosaic
+  water_level: 1000
+  teams_amount: 3
+  worms_health: 250
+  init_inventory:
+    - item_name: Mortar
+      supplies: 10
+    - item_name: Cluster
+      supplies: 10
+    - item_name: Banana
+      supplies: 10
+    - item_name: Grenade
+      supplies: 10
+    - item_name: Holy bomb
+      supplies: 10
+    - item_name: Dynamite
+      supplies: 10
+    - item_name: Fly bombs
+      supplies: 10
+    - item_name: Teleport
+      supplies: 10
+    - item_name: Bat
+      supplies: 10
+  long_girders:
+    - id: 1
+      x: 393
+      y: 201
+      angle: 0
+    - id: 2
+      x: 518
+      y: 234
+      angle: 0
+    - id: 3
+      x: 678
+      y: 253
+      angle: 0
+    - id: 4
+      x: 824
+      y: 286
+      angle: 0
+    - id: 5
+      x: 943
+      y: 244
+      angle: 0
+    - id: 6
+      x: 1056
+      y: 288
+      angle: 0
+    - id: 7
+      x: 1165
+      y: 199
+      angle: 0
+    - id: 8
+      x: 1274
+      y: 247
+      angle: 0
+    - id: 9
+      x: 1376
+      y: 282
+      angle: 0
+dynamic:
+  worms_teams:
+    3:
+      worms:
+        - id: 1
+          name: Worm 1
+          health: 250
+          x: 379
+          y: 155
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 2
+          name: Worm 2
+          health: 250
+          x: 515
+          y: 158
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 3
+          name: Worm 3
+          health: 250
+          x: 688
+          y: 219
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+    2:
+      worms:
+        - id: 4
+          name: Worm 1
+          health: 250
+          x: 824
+          y: 216
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 5
+          name: Worm 2
+          health: 250
+          x: 1059
+          y: 200
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 6
+          name: Worm 3
+          health: 250
+          x: 1166
+          y: 169
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+    1:
+      worms:
+        - id: 7
+          name: Worm 1
+          health: 250
+          x: 932
+          y: 204
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 8
+          name: Worm 2
+          health: 250
+          x: 1260
+          y: 200
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 9
+          name: Worm 3
+          health: 250
+          x: 1359
+          y: 198
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <string>
+#include "yaml.h"
 
 namespace Ui {
 class EditorLauncher;
@@ -38,7 +39,7 @@ private:
     void connectEvents(void);
     void chooseBackground(void);
     void goCreate(void);
-    void launchEditor(std::string &);
+    void launchEditor(YAML::Node, std::string &);
 };
 
 #endif // EDITOR_LAUNCHER_H
