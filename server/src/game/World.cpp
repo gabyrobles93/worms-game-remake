@@ -12,6 +12,7 @@ snapshots(snps) {
     initializeWorld();
     this->keep_running = true;
     this->time_sec = 0;
+    this->weapon_counter = 0;
 }
 
 World::~World() {
@@ -146,13 +147,13 @@ void World::updateWormsYAML(void) {
 }
 
 void World::updateBodies() {
-    for( std::list<Weapon*>::iterator it=this->weapons.begin();it != this->weapons.end();) {
-        if ((*it)->hasExploded()) {
-            delete (*it);
+    for( std::map<int, Weapon*>::iterator it=this->weapons.begin();it != this->weapons.end();) {
+        if ((it)->second->hasExploded()) {
+            delete (it->second);
             it = this->weapons.erase(it);
             std::cout << "UPDATING BODIES" << std::endl;
         } else {
-            (*it)->update(getTimeSeconds());
+            (it)->second->update(getTimeSeconds());
             it++;
         }
     }
@@ -213,7 +214,8 @@ void World::executeAction(action_t action, size_t id) {
         case a_shoot : {
             std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
             Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
-            this->weapons.push_front(dynamite);
+            weapon_counter++;
+            this->weapons.insert(std::pair<int, Weapon*>(weapon_counter, dynamite));
             break;
         }
         default: break;
