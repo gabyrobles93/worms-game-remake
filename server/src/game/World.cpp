@@ -105,9 +105,10 @@ void World::updateProjectilesYAML(void) {
     YAML::Node::iterator it2;
     for (it2 = this->node_map["dynamic"]["projectiles"].begin(); it2 !=this->node_map["dynamic"]["projectiles"].end(); it2++) {
         YAML::Node projectile = *it2;
-        x = std::to_string();
-        y = std::to_string();
-        current_time = std::to_string();
+        int weapon_id = projectile["id"].as<int>();
+        x = std::to_string(this->weapons[weapon_id]->getPosX());
+        y = std::to_string(this->weapons[weapon_id]->getPosY());
+        current_time = std::to_string(this->weapons[weapon_id]->getCurrentTime());
     }
 }
 
