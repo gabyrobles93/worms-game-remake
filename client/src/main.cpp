@@ -29,6 +29,7 @@
 #include "protected_dynamics.h"
 #include "event.h"
 #include "paths.h"
+#include "projectiles.h"
 #include "dynamite.h"
 #include "explosion.h"
 
@@ -87,8 +88,6 @@ int main(/* int argc, char *argv[] */) {
 	std::cout << "\n\n\nNodo despues de borrar\n";
 	std::cout << ejemplo << std::endl;*/
 
-	return 0;
-
 	try {
     YAML::Node mapNode;
     Queue<Event> events(MAX_QUEUE_MODELS);
@@ -111,6 +110,8 @@ int main(/* int argc, char *argv[] */) {
 
 		View::WormsStatus worms(wormsNode, renderer);
 		View::WeaponsInventory inventory(renderer);
+
+		View::Projectiles projectiles;
 			// Lanzo threads de enviar eventos y de recibir modelos
 			event_sender.start();
 			model_receiver.start();
@@ -123,10 +124,6 @@ int main(/* int argc, char *argv[] */) {
 		bool quit = false;	
 		SDL_Event e;
 
-		View::Dynamite dynamite(renderer, 5);
-		View::Explosion explosion(renderer, 300);
-		bool isDynamite = false;
-		bool isExplosion = false;
 		while (!quit) {
 			while (SDL_PollEvent(&e) != 0) {
 				if (e.type == SDL_QUIT)
@@ -135,14 +132,6 @@ int main(/* int argc, char *argv[] */) {
 							// Chequeo eventos de teclado (ver si se puede hacer mas prolijo)
 							// FALTA CHEQUEAR EVENTOS DE MOUSE (CLICKS, MOVIMIENTOS DE CAMARA, ETC)
 				if (e.type == SDL_KEYDOWN) {
-
-					if (e.key.keysym.sym == SDLK_SPACE) {
-						isDynamite = true;
-						dynamite.setX(680);
-						dynamite.setY(575);
-						explosion.setX(680);
-						explosion.setY(575);
-					}
 					
 					if (e.key.keysym.sym == SDLK_UP) {
 						Event event(a_pointUp, TEAM_ID);
@@ -209,22 +198,14 @@ int main(/* int argc, char *argv[] */) {
 			// Dibujamos cosas estáticas
 			mainWindow.render(camera);
 
-			if (isDynamite) { 
-				dynamite.render(renderer, camera.getX(), camera.getY());
-			}
-
-			if (dynamite.hasExploded()) {
-				isDynamite = false;
-				isExplosion = true;
-			}
-
-			if (isExplosion) {
-				explosion.render(renderer, camera.getX(), camera.getY());
-			}
-
 			// Dibujamos cosas dinámicas
+			// Gusanos
 			worms.update(pdynamics.getWorms());
 			worms.render(renderer, camera);
+
+			// Proyectiles
+			projectiles.update(renderer, pdynamics.getProjectiles());
+			projectiles.render(renderer, camera);
 
 			// El agua va sobre todo menos el inventario
 			mainWindow.renderWater(camera);

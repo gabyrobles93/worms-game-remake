@@ -12,6 +12,7 @@ class ProtectedDynamics {
         ProtectedDynamics(YAML::Node &);
         void update(YAML::Node &);
         YAML::Node getWorms(void);
+        YAML::Node getProjectiles(void);
 };
 
 #endif

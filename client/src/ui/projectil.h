@@ -16,7 +16,7 @@ namespace View {
       bool exploded;
       bool finished;
       int countdown;
-      int retioExplosion;
+      int ratioExplosion;
 
     public:
       virtual ~Projectil();

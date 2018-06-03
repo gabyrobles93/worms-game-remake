@@ -29,6 +29,9 @@ void View::Projectiles::render(SDL_Renderer * r, Camera & cam) {
 }
 
 void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
+  std::cout << "PROJECTILES A UPDATEAR: " << std::endl;
+  std::cout << projNode << std::endl;
+
   YAML::const_iterator it = projNode.begin();
   for (; it != projNode.end() ; it++) {
     const YAML::Node & proj = *it;
@@ -40,8 +43,9 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
       viewProjectile->setX(proj["x"].as<int>());
       viewProjectile->setY(proj["y"].as<int>());
       viewProjectile->setCountdown(proj["countdown"].as<int>());
-      viewProjectile->setExplode(proj["exploded"].as<int>());
+      viewProjectile->setExplode((bool)proj["exploded"].as<int>());
     } else {
+      std::cout << "No existe el proyectil, lo creare\n";
       this->createProjectil(
         r, 
         projId, 
