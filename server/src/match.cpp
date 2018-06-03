@@ -84,7 +84,7 @@ int Match::nextTurn(void) {
     return 0;
 }
 
-void cleanTeamStatusBeforeNewTurn(void) {
+void Match::cleanTeamStatusBeforeNewTurn(void) {
 
 }
 
