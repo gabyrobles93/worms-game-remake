@@ -42,14 +42,6 @@ void Editor::start(void) {
 				editorWindow.hide();
 				validMap = mapGame.hasAllTheWorms(teamsAmount, AMOUNT_WORMS_PER_TEAM);
 				if (!validMap) {
-/*                     QMessageBox msgBox;
-                    msgBox.setWindowTitle("Mapa inválido");
-                    msgBox.setText("Para poder guardar el mapa debe dibujar todos los gusanos disponibles\nDesea continuar editando el mapa?");
-                    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-                    msgBox.exec();
-                    editorWindow.show();
-                    quit = false; */
-
                     QMessageBox msgBox;
                     msgBox.setWindowTitle("Mapa inválido");
                     msgBox.setText("¿Desea continuar editando el mapa?");
@@ -60,20 +52,6 @@ void Editor::start(void) {
                         editorWindow.show();
 						quit = false;
                     }
-/* 					std::cout << "Para poder guardar el mapa debe dibujar todos los gusanos disponibles" << std::endl;
-					std::string ans;
-					std::cout << "Desea continuar editando el mapa? [y/n]" << std::endl;
-					while (std::cin >> ans) {
-						if (ans == "n" || ans == "y") {
-							break;
-						}
-						std::cout << "Desea continuar editando el mapa? [y/n]" << std::endl;
-					}
-
-					if (ans == "y") {
-						editorWindow.show();
-						quit = false;
-					} */
 				}
 			}
 
@@ -124,21 +102,4 @@ void Editor::validateMap(void) {
     if(msgBox.exec() == QMessageBox::Yes) {
         mapGame.saveAs(this->map_name);
     }
-/* 	if (this->validMap) {
-		std::string ans;
-		std::cout << "Desea guardar el mapa? [y/n]" << std::endl;
-		while (std::cin >> ans) {
-			if (ans == "n" || ans == "y") {
-				break;
-			}
-			std::cout << "Desea guardar el mapa? [y/n]" << std::endl;
-		}			
-		
-		if (ans == "y") {
-			std::cout << "Ingrese el nombre del mapa" << std::endl;
-			std::cin >> ans;
-
-			mapGame.saveAs(ans);
-		}
-	} */
 }
