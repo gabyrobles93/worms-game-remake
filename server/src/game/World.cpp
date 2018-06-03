@@ -223,7 +223,7 @@ void World::executeAction(action_t action, size_t id) {
             break;
         case a_shoot : {
             std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
-            Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
+            Weapon* dynamite= new Dynamite(weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
             this->weapons.insert(std::pair<int, Weapon*>(weapon_counter, dynamite));
             YAML::Node new_projectile;
             new_projectile["id"] = std::to_string(weapon_counter);

@@ -10,3 +10,7 @@ bool Weapon::hasExploded() {
 int Weapon::getCountdown() {
     return this->countdown;
 }
+
+int Weapon::getId() {
+    return this->id;
+}

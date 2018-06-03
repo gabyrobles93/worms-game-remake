@@ -14,7 +14,7 @@ private:
     int detonationTime;
     DynamitePhysic dynamitePhysic;
 public:
-    Dynamite(b2World& world, float posX, float posY, int delay, int currentTime);
+    Dynamite(int id, b2World& world, float posX, float posY, int delay, int currentTime);
     void explode(void);
     void update(int currentTime);
     bool hasExploded(void);
