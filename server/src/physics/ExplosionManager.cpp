@@ -25,14 +25,15 @@ void ExplosionManager::manageExplosion(b2Vec2 center, float radius, float power)
 void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower) {
 	b2Vec2 blastDir = applyPoint - blastCenter;
 	float distance = blastDir.Normalize();
-	if (distance == 0)
-		return;
+	// if (distance == 0)
+	// 	return;
 	float invDistance = 1/distance;
 	float impulseMag = blastPower * invDistance * invDistance / REDUCE_FACTOR;
     entity_t entity_type = static_cast<Entity*>(body->GetUserData())->getEntityType();
     if (entity_type == WORM) {
         body->ApplyLinearImpulse(impulseMag * blastDir, applyPoint, true);
         static_cast<Worm*>(body->GetUserData())->hurt((int) blastPower);
+        static_cast<Worm*>(body->GetUserData())->setAffectedByExplosion();
         std::cout << static_cast<Worm*>(body->GetUserData())->getName() << std::endl;
     }
 	

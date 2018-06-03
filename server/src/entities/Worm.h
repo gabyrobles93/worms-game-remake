@@ -17,6 +17,7 @@ class Worm : public Entity {
         float angle;
         float fallenDistance;
 
+        bool affectedByExplosion;
         bool falled;        
         bool mirrored;
         bool falling;
@@ -52,7 +53,7 @@ class Worm : public Entity {
         bool isFalling(void);
         bool isGrounded(void);
         bool isDead(void);
-
+        void setAffectedByExplosion();
         void setFalling(bool);
         void update(void);
 };

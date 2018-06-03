@@ -3,7 +3,7 @@
 
 #define NUM_RAYS 32
 #define GRADTORAD 0.0174533
-#define REDUCE_FACTOR 50
+#define REDUCE_FACTOR 10
 
 #include "Box2D.h"
 #include "Entity.h"
