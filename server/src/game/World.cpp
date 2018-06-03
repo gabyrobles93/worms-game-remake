@@ -103,13 +103,18 @@ void World::updateProjectilesYAML(void) {
     std::string x;
     std::string y;
     std::string current_time;
-    YAML::Node::iterator it2;
-    for (it2 = this->node_map["dynamic"]["projectiles"].begin(); it2 !=this->node_map["dynamic"]["projectiles"].end(); it2++) {
-        YAML::Node projectile = *it2;
+    YAML::Node::iterator it;
+    for (it = this->node_map["dynamic"]["projectile"].begin(); it !=this->node_map["dynamic"]["projectile"].end(); it++) {
+        std::cout << "ACTUALIZANDO UN PROJECTIL" << std::endl;
+        YAML::Node projectile = *it;
         int weapon_id = projectile["id"].as<int>();
-        x = std::to_string(this->weapons[weapon_id]->getPosX());
-        y = std::to_string(this->weapons[weapon_id]->getPosY());
-        current_time = std::to_string(this->weapons[weapon_id]->getActiveTime());
+        x = std::to_string((int) this->weapons[weapon_id]->getPosX());
+        y = std::to_string((int) this->weapons[weapon_id]->getPosY());
+        current_time = std::to_string(this->weapons[weapon_id]->getCountdown());
+        std::cout << current_time << std::endl;
+        projectile["x"] = x;
+        projectile["y"] = y;
+        projectile["countdown"] = current_time;
     }
 }
 
@@ -221,7 +226,8 @@ void World::executeAction(action_t action, size_t id) {
             new_projectile["x"] = std::to_string(dynamite->getPosX());
             new_projectile["y"] = std::to_string(dynamite->getPosY());
             new_projectile["deton_time"] = std::to_string(5);
-            new_projectile["current_time"] = std::to_string(0);
+            new_projectile["countdown"] = std::to_string(5);
+            new_projectile["exploded"] = std::to_string(dynamite->hasExploded());
             this->node_map["dynamic"]["projectile"].push_back(new_projectile);
             weapon_counter++;
             break;
