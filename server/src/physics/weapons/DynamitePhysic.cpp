@@ -29,3 +29,11 @@ void DynamitePhysic::explode(float radius, float power) {
     explosionManager.manageExplosion(center, radius, power);  
 }
 
+float DynamitePhysic::getPosX() {
+    return this->body->GetPosition().x;
+}
+
+float DynamitePhysic::getPosY() {
+    return this->body->GetPosition().y;
+}
+

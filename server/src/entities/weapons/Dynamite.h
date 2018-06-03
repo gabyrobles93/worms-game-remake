@@ -11,13 +11,15 @@
 
 class Dynamite : public Weapon{
 private: 
-    int delay;
+    int detonationTime;
     DynamitePhysic dynamitePhysic;
 public:
-    Dynamite(b2World& world, float posX, float posY, int delay);
+    Dynamite(b2World& world, float posX, float posY, int delay, int currentTime);
     void explode(void);
-    void update(void);
+    void update(int currentTime);
     bool hasExploded(void);
+    float getPosX(void);
+    float getPosY(void);
     entity_t getEntityType() {return DYNAMITE;}
 };
 

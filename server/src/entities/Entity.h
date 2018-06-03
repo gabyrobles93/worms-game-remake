@@ -12,7 +12,9 @@ typedef enum {
 class Entity {
 public:
     virtual entity_t getEntityType() = 0;
-    virtual void update(void) = 0;
+    virtual float getPosX() = 0;
+    virtual float getPosY() = 0;
+    //virtual void update(int currentTime) = 0;
 };
 
 #endif

@@ -1,16 +1,16 @@
 #include "Dynamite.h"
 #include <iostream>
 
-Dynamite::Dynamite(b2World& world, float posX, float posY,int delay) :
-delay(delay * TIME_FACTOR), 
+Dynamite::Dynamite(b2World& world, float posX, float posY, int delay, int currentTime) :
+detonationTime(currentTime + delay),
 dynamitePhysic(world, posX, posY, delay) {
     this->exploded = false;
 }
 
-void Dynamite::update() {
-    if (this->delay == 0 && !exploded) {
+void Dynamite::update(int currentTime) {
+    if (currentTime >= detonationTime && !exploded) {
         explode();
-    } else this->delay--;
+    }
 }
 
 void Dynamite::explode() {
@@ -19,5 +19,13 @@ void Dynamite::explode() {
 }
 
 bool Dynamite::hasExploded() {
-    this->exploded;
+    return this->exploded;
+}
+
+float Dynamite::getPosX() {
+    return this->dynamitePhysic.getPosX();
+}
+
+float Dynamite::getPosY() {
+    return this->dynamitePhysic.getPosY();
 }

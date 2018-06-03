@@ -133,7 +133,7 @@ void World::updateBodies() {
             it = this->weapons.erase(it);
             std::cout << "UPDATING BODIES" << std::endl;
         } else {
-            (*it)->update();
+            (*it)->update(getTimeSeconds());
             it++;
         }
     }
@@ -193,7 +193,7 @@ void World::executeAction(action_t action, size_t id) {
             break;
         case a_shoot : {
             std::cout << "SE RECIBE LA ACCION DE TIRAR UNA DINAMITA" << std::endl;
-            Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5);
+            Weapon* dynamite= new Dynamite(this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
             this->weapons.push_front(dynamite);
             break;
         }
