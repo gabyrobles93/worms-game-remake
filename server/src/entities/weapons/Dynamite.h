@@ -5,7 +5,7 @@
 #include "Weapon.h"
 #include "Box2D/Box2D.h"
 
-#define BLAST_RADIUS 4.0
+#define BLAST_RADIUS 10.0
 #define BLAST_POWER 50
 #define TIME_FACTOR 60
 

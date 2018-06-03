@@ -33,6 +33,7 @@ void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec
     if (entity_type == WORM) {
         body->ApplyLinearImpulse(impulseMag * blastDir, applyPoint, true);
         static_cast<Worm*>(body->GetUserData())->hurt((int) blastPower);
+        static_cast<Worm*>(body->GetUserData())->setAffectedByExplosion();
         std::cout << static_cast<Worm*>(body->GetUserData())->getName() << std::endl;
     }
 	

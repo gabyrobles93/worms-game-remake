@@ -57,6 +57,8 @@ add_executable(	client
 		${UI_SOURCE_DIR}/worm.cpp
 		${UI_SOURCE_DIR}/dynamite.cpp
 		${UI_SOURCE_DIR}/explosion.cpp
+		${UI_SOURCE_DIR}/projectil.cpp
+		${UI_SOURCE_DIR}/projectiles.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
@@ -89,6 +91,8 @@ add_executable(	client
 		${UI_SOURCE_DIR}/worm.h
 		${UI_SOURCE_DIR}/dynamite.h
 		${UI_SOURCE_DIR}/explosion.h
+		${UI_SOURCE_DIR}/projectil.h
+		${UI_SOURCE_DIR}/projectiles.h
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)

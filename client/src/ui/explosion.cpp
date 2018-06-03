@@ -49,7 +49,7 @@ void View::Explosion::render(SDL_Renderer * r, int camX, int camY) {
 		this->sound.playSound(0);
 		SDL_Rect clip = this->sprite.getNextClip();
 		this->texture.render(r, this->x - camX, this->y - camY, this->width, this->height, &clip);
-	}
+	} 
 }
 
 bool View::Explosion::finishedExplosion(void) {

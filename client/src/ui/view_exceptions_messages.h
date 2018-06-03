@@ -40,4 +40,7 @@
 #define ERR_MSG_CREATE_TEXTURE_TEXT \
 "No se pudo crear la textura con el texto"
 
+#define ERR_MSG_UNKNOWN_PROJECTIL_TYPE \
+"Tipo de proyectil desconocido"
+
 #endif

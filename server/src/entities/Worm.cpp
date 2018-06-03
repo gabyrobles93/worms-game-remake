@@ -10,6 +10,7 @@ world(world) {
     this->name = n;
     this->angle = 0;
     this->falling = false;
+    this->affectedByExplosion = false;
 }
 
 Worm::~Worm(void) {
@@ -29,14 +30,14 @@ void Worm::backJump(void) {
 }
 
 void Worm::moveRight(void) {
-    if (isGrounded()) {
+    if (isGrounded() && !affectedByExplosion) {
         this->wormPhysic.moveRight(this->angle);
         this->mirrored = true;
     }
 }
 
 void Worm::moveLeft(void) {
-    if (isGrounded()) {
+    if (isGrounded() && !affectedByExplosion) {
         this->wormPhysic.moveLeft(this->angle);
         this->mirrored = false;
     }
@@ -144,6 +145,10 @@ void Worm::update() {
         this->falled = false;
         this->fallenDistance = 0;
     }
+
+    if (!this->wormPhysic.haveVerticalSpeed() && !this->wormPhysic.haveHorizontalSpeed()) {
+        this->affectedByExplosion = false;
+    }
 }
 
 void Worm::setPosX(float posX) {
@@ -152,4 +157,8 @@ void Worm::setPosX(float posX) {
 
 void Worm::setPosY(float posY) {
     this->wormPhysic.setPosX(posY);
+}
+
+void Worm::setAffectedByExplosion(){
+    this->affectedByExplosion = true;
 }
