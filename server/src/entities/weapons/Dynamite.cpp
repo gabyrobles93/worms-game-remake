@@ -20,10 +20,6 @@ void Dynamite::explode() {
     this->exploded = true;
 }
 
-bool Dynamite::hasExploded() {
-    return this->exploded;
-}
-
 float Dynamite::getPosX() {
     return this->dynamitePhysic.getPosX();
 }
