@@ -244,8 +244,8 @@ void World::executeAction(action_t action, size_t id) {
                 YAML::Node new_projectile;
                 new_projectile["id"] = std::to_string(weapon_counter);
                 new_projectile["type"] = "Dynamite";
-                new_projectile["x"] = std::to_string(dynamite->getPosX() / SCALING_FACTOR);
-                new_projectile["y"] = std::to_string(dynamite->getPosY() / SCALING_FACTOR);
+                new_projectile["x"] = std::to_string((int) dynamite->getPosX() / SCALING_FACTOR);
+                new_projectile["y"] = std::to_string((int) dynamite->getPosY() / SCALING_FACTOR);
                 new_projectile["deton_time"] = std::to_string(5);
                 new_projectile["countdown"] = std::to_string(5);
                 new_projectile["exploded"] = std::to_string(dynamite->hasExploded());
