@@ -14,10 +14,10 @@ SnapshotSender::~SnapshotSender() {
 void SnapshotSender::run() {
     while (keep_running) {
         YAML::Node snapshot = this->snapshots.pop();
-        std::stringstream ss;
+/*         std::stringstream ss;
         ss << snapshot;
         std::cout << ss.str() << std::endl;
-        std::cout << "Cantidad de projectiles: " << snapshot["projectiles"].size() << std::endl;
+        std::cout << "Cantidad de projectiles: " << snapshot["projectiles"].size() << std::endl; */
         this->protocol.sendModel(snapshot);
     }
 }

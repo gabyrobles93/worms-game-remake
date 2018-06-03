@@ -118,7 +118,7 @@ try {
 					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_SPACE) {
-					Event event(a_shoot, TEAM_ID);
+					Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID);
 					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_RETURN) {

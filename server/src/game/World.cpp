@@ -223,7 +223,9 @@ unsigned int World::getTimeSeconds(void) {
     return this->time_sec;
 }
 
-void World::executeAction(action_t action, size_t id) {
+void World::executeAction(Event & event, size_t id) {
+    YAML::Node eventNode = event.getNode();
+    action_t action = (action_t) eventNode["event"]["action"].as<int>();
     switch(action) {
         case a_moveLeft:
             this->worms[id]->moveLeft();
@@ -239,6 +241,7 @@ void World::executeAction(action_t action, size_t id) {
             break;
         case a_shoot : {
             if (this->weapons.size() == 0) {
+                std::cout << "Se ejecuto disparo" << std::endl;
                 Weapon* dynamite= new Dynamite(weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
                 this->weapons.insert(std::pair<int, Weapon*>(weapon_counter, dynamite));
                 YAML::Node new_projectile;

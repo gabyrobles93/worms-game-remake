@@ -6,6 +6,7 @@
 #include "inventory.h"
 #include "paths.h"
 #include "texture.h"
+#include "types.h"
 
 #define WEAPON_NAME_BAZOOKA "Bazooka"
 #define WEAPON_NAME_MORTAR "Mortar"
@@ -30,6 +31,7 @@ namespace View {
     private:
       Font font;
       Texture suppliesTexture;
+      std::map<std::string, weapon_t> weapons;
 
       // Handlea el click izquierdo del mouse
       virtual void handleClick(void);
@@ -52,6 +54,9 @@ namespace View {
 
       // Handlea un evento
       void handleEvent(SDL_Event &);
+
+      // Retorna el weapon_t seleccionado
+      weapon_t getSelectedWeapon(void);
   };
 }
 
