@@ -30,10 +30,8 @@ void EventSender::run(void) {
     while (keep_runing) {
         Event event = this->events.pop();
         if (!event.quit()) {
-            std::cout << "Se va a mandar evento que no es quit" << std::endl;
             this->protocol.sendEvent(event);
         } else {
-            std::cout << "Se va a mandar evento que es quit" << std::endl;
             this->protocol.sendEvent(event);
             return;
         }
