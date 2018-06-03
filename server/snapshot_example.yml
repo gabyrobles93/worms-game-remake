@@ -1,56 +1,56 @@
 dynamic:
   worms_teams:
-    - 1:
-        worms:
-          - id: 1
-            name: Worm Test
-            health: 100
-            x: 700
-            y: 0
-            status:
-              grounded: 0
-              falling: 1
-              mirrored: 0
-              walking: 0
-        inventory:
-          - item_name: Bazooka
-            supplies: 99
-          - itea_name: Grenade
-            supplies: 99
-    - 2:
-        worms:
-          - id: 2
-            name: gaby
-            health: 100
-            x: 1300
-            y: 550
-            status:
-              grounded: 0
-              falling: 1
-              mirrored: 0
-              walking: 0
-        inventory:
-          - item_name: Bazooka
-            supplies: 99
-          - itea_name: Grenade
-            supplies: 99
-    - 3:
-        worms:
-          - id: 3
-            name: bianca
-            health: 100
-            x: 1700
-            y: 550
-            status:
-              grounded: 0
-              falling: 1
-              mirrored: 0
-              walking: 0
-        inventory:
-          - item_name: Dynamite
-            supplies: 99
-          - itea_name: Teleport
-            supplies: 99
+    1:
+      worms:
+        - id: 1
+          name: Worm Test
+          health: 100
+          x: 700
+          y: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+      inventory:
+        - item_name: Bazooka
+          supplies: 99
+        - itea_name: Grenade
+          supplies: 99
+    2:
+      worms:
+        - id: 2
+          name: gaby
+          health: 100
+          x: 1300
+          y: 550
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+      inventory:
+        - item_name: Bazooka
+          supplies: 99
+        - itea_name: Grenade
+          supplies: 99
+    3:
+      worms:
+        - id: 3
+          name: bianca
+          health: 100
+          x: 1700
+          y: 550
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+      inventory:
+        - item_name: Dynamite
+          supplies: 99
+        - itea_name: Teleport
+          supplies: 99
 
   projectiles:
     - id: 1
@@ -59,18 +59,6 @@ dynamic:
       y: 1783
       deton_time: 5
       current_time: 2
-      
-  explosions:
-    - id: 1
-      x: 100
-      y: 200
-      ratio: 30 # En pixels
-      caused_by: Banana # Dependiendo el arma se reproduce un sonido distinto
-    - id: 2
-      x: 1100
-      y: 2020
-      ratio: 10 # En pixels
-      caused_by: Bazooka # Dependiendo el arma se reproduce un sonido distinto
 
   game_status:
     alive_teams:

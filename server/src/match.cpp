@@ -79,7 +79,13 @@ int Match::nextTurn(void) {
         this->worm_turn_order[actual_worm_turn].push(actual_team_turn);
     }
 
+    cleanTeamStatusBeforeNewTurn();
+
     return 0;
+}
+
+void cleanTeamStatusBeforeNewTurn(void) {
+
 }
 
 int Match::removeDeadTeamsTurns(void) {

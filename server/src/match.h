@@ -22,6 +22,7 @@ class Match {
         void createTeams(std::map<int, Worm*> &);
         int removeDeadTeamsTurns(void);
         void removeDeadWormsTurns(void);
+        void cleanTeamStatusBeforeNewTurn(void);
 
     public:
         Match(std::map<int, Worm*> &, size_t);

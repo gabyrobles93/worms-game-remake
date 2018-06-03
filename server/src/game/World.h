@@ -34,6 +34,8 @@ private:
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;
     void updateYAML();
+    void updateWormsYAML(void);
+    void updateProjectilesYAML(void);
     void updateBodies();
     
 public:

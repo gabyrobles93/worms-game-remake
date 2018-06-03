@@ -94,6 +94,24 @@ void World::initializeWorld() {
 }
 
 void World::updateYAML() {
+    updateWormsYAML();
+    updateProjectilesYAML();
+}
+
+void World::updateProjectilesYAML(void) {
+    std::string x;
+    std::string y;
+    std::string current_time;
+    YAML::Node::iterator it2;
+    for (it2 = this->node_map["dynamic"]["projectiles"].begin(); it2 !=this->node_map["dynamic"]["projectiles"].end(); it2++) {
+        YAML::Node projectile = *it2;
+        x = std::to_string();
+        y = std::to_string();
+        current_time = std::to_string();
+    }
+}
+
+void World::updateWormsYAML(void) {
     YAML::Node::iterator it;
     std::string x;
     std::string y;
@@ -133,7 +151,7 @@ void World::updateBodies() {
             it = this->weapons.erase(it);
             std::cout << "UPDATING BODIES" << std::endl;
         } else {
-            (*it)->update();
+            (*it)->update(this->getTimeSeconds());
             it++;
         }
     }
