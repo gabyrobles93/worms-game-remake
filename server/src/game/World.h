@@ -25,7 +25,8 @@ private:
     WorldPhysic worldPhysic;
     std::map<int, Girder *> girders;
     std::map<int, Worm *> worms;
-    std::list<Weapon *> weapons;
+    std::map<int, Weapon *> weapons;
+    int weapon_counter;
     Water * water;
     YAML::Node node_map;
     unsigned int time_sec;
