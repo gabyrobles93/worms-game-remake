@@ -152,8 +152,9 @@ void World::updateWormsYAML(void) {
 }
 
 void World::updateBodies() {
-    for( std::map<int, Weapon*>::iterator it=this->weapons.begin();it != this->weapons.end();) {
+    for(std::map<int, Weapon*>::iterator it=this->weapons.begin();it != this->weapons.end();) {
         if ((it)->second->hasExploded()) {
+            removeProjectileFromYAML(it->second->getId());
             delete (it->second);
             it = this->weapons.erase(it);
             std::cout << "UPDATING BODIES" << std::endl;
@@ -168,6 +169,10 @@ void World::updateBodies() {
         if (!worm->isDead())
             worm->update();
     }
+}
+
+void World::removeProjectileFromYAML(size_t id) {
+
 }
 
 void World::run() {

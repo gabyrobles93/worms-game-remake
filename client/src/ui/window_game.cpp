@@ -87,8 +87,8 @@ void View::WindowGame::init(void) {
             SDL_WINDOWPOS_UNDEFINED, 
             this->screen_width, 
             this->screen_height, 
-      //      SDL_WINDOW_SHOWN
-			SDL_WINDOW_FULLSCREEN
+            SDL_WINDOW_SHOWN
+	//		SDL_WINDOW_FULLSCREEN
         );
 
 		if (this->window == NULL) {

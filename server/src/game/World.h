@@ -38,6 +38,7 @@ private:
     void updateWormsYAML(void);
     void updateProjectilesYAML(void);
     void updateBodies();
+    void removeProjectileFromYAML(size_t);
     
 public:
     World(std::string &, Queue<YAML::Node> &);
