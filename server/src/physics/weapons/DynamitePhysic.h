@@ -15,6 +15,8 @@ private:
 public:
     DynamitePhysic(b2World& World, float posX, float posY,int delay);
     ~DynamitePhysic();
+    float getPosX();
+    float getPosY();
     void explode(float radius, float power);
 };
 

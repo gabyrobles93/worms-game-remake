@@ -6,7 +6,7 @@
 class Weapon : public Entity {
 public:
     virtual ~Weapon();
-    virtual void update(void) = 0;
+    virtual void update(int currentTime) = 0;
     virtual void explode(void) = 0;
     bool hasExploded(void);
 protected:
