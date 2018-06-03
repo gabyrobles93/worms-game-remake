@@ -25,8 +25,7 @@ class Editor {
 
     public:
         Editor(YAML::Node, std::string);
-        void start(void);
-        void validateMap(void);
+        int start(void);
 };
 
 #endif

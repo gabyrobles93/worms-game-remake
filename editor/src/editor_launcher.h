@@ -20,6 +20,7 @@ public:
 private:
     Ui::EditorLauncher *ui;
     std::string background_path;
+    std::string background_name;
     bool background_choosed;
     std::string background_mode;
     int water_level;

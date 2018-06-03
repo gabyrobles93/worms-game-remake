@@ -213,7 +213,7 @@ int View::MapGame::getNextWormId(void) {
 }
 
 void View::MapGame::saveAs(std::string mapName) {
-  std::ofstream fout(MAPS_SERVER_DIR + mapName + ".yml");
+  std::ofstream fout("../maps/" + mapName + ".yml");
   YAML::Node * state = this->mapStates[this->stateIndex];
 
   fout << *state;

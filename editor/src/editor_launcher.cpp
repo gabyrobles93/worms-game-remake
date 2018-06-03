@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <sstream>
 #include <QLineEdit>
 #include "editor_launcher.h"
@@ -46,6 +47,8 @@ void EditorLauncher::chooseBackground(void) {
     label_background_path->setText(bg_path);
     if (bg_path.length() > 0) {
         this->background_choosed = true;
+        QFileInfo bg_info(bg_path);
+        this->background_name = bg_info.fileName().toUtf8().constData();
     }
 }
 
@@ -139,6 +142,15 @@ void EditorLauncher::goCreate(void) {
 void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
     Editor the_editor(mapNode, map_name);
     this->hide();
-    the_editor.start();
+    int err_code;
+    err_code = the_editor.start();
+    if (err_code == 0) {
+        std::string cmd_create_folder_map = "mkdir ../maps/" + map_name;
+        std::system(cmd_create_folder_map.c_str());
+        std::string cmd_cp_background = "cp " + this->background_path + " ../maps/" + map_name;
+        std::system(cmd_cp_background.c_str());
+        std::string cmd_mv_yaml = "mv ../maps/" + map_name + ".yml" + " ../maps/" + map_name + "/";
+        std::system(cmd_mv_yaml.c_str());
+    }
     this->close();
 }
