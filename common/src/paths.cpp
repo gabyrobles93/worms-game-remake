@@ -83,7 +83,7 @@ Paths::Paths(const char * r) {
   this->PATH_FONT_ARIAL_BOLD = root + "resources/fonts/arialb.ttf";
 
   /* SOUND_EFFECTS */
-  this->PATH_SOUND_DYNAMITE = root + "resources/sounds/Effects/SkunkGasLoop.wav";
+  this->PATH_SOUND_DYNAMITE = root + "resources/sounds/Effects/FUSE.WAV";
   this->PATH_SOUND_GIRDER = root + "resources/sounds/Effects/GIRDERIMPACT.WAV";
   this->PATH_SOUND_TELEPORT = root + "resources/sounds/Effects/TELEPORT.WAV";
   // Explosions
