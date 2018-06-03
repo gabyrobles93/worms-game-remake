@@ -89,11 +89,11 @@ int main(/* int argc, char *argv[] */) {
 	std::cout << ejemplo << std::endl;*/
 
 	try {
-    YAML::Node mapNode;
-    Queue<Event> events(MAX_QUEUE_MODELS);
-    Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
-    EventSender event_sender(protocol, events);
-    protocol.rcvGameMap(mapNode);
+		YAML::Node mapNode;
+		Queue<Event> events(MAX_QUEUE_MODELS);
+		Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
+		EventSender event_sender(protocol, events);
+		protocol.rcvGameMap(mapNode);
 
 		YAML::Node staticMap = mapNode["static"];
 		YAML::Node dynamicMap = mapNode["dynamic"];
@@ -112,9 +112,9 @@ int main(/* int argc, char *argv[] */) {
 		View::WeaponsInventory inventory(renderer);
 
 		View::Projectiles projectiles;
-			// Lanzo threads de enviar eventos y de recibir modelos
-			event_sender.start();
-			model_receiver.start();
+		// Lanzo threads de enviar eventos y de recibir modelos
+		event_sender.start();
+		model_receiver.start();
 
 		View::Clock clock(CLOCK_X_OFFSET, mainWindow.getScreenHeight() - CLOCK_Y_OFFSET - CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_HEIGHT);
 		int currentTime = 20;
@@ -175,8 +175,8 @@ int main(/* int argc, char *argv[] */) {
 			worms.render(renderer, camera);
 
 			// Proyectiles
-			projectiles.update(renderer, pdynamics.getProjectiles());
-			projectiles.render(renderer, camera);
+/* 			projectiles.update(renderer, pdynamics.getProjectiles());
+			projectiles.render(renderer, camera); */
 
 			// El agua va sobre todo menos el inventario
 			mainWindow.renderWater(camera);

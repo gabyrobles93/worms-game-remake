@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "socket.h"
 #include "event_sender.h"
 #include "blocking_queue.h"
@@ -29,6 +30,10 @@ size_t EventSender::getId(void) const {
 void EventSender::run(void) {
     while (keep_runing) {
         Event event = this->events.pop();
+        YAML::Node evento = event.getNode();
+        std::stringstream ss;
+        ss << evento;
+        std::cout << ss.str() << std::endl;
         if (!event.quit()) {
             this->protocol.sendEvent(event);
         } else {

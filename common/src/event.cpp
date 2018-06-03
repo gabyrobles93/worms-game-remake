@@ -12,7 +12,9 @@ Event::Event(action_t a, size_t tid) {
 }
 
 Event::Event(action_t a, weapon_t w, size_t tid) {
-    Event(a, tid);
+    this->action = a;
+    this->eventNode["event"]["team_id"] = std::to_string(tid);
+    this->eventNode["event"]["action"] = std::to_string(a);
     this->eventNode["event"]["weapon"] = std::to_string(w);
 }
 

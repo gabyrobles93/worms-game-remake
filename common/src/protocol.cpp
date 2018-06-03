@@ -117,6 +117,7 @@ void Protocol::sendEvent(Event event) {
 Event Protocol::rcvEvent(void) {
     YAML::Node eventNode;
     this->rcvGameMap(eventNode);
+    std::cout << "Se recibio un evento." << std::endl;
     Event event(eventNode);
     return event;
 }
