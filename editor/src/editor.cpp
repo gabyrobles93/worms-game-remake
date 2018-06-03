@@ -30,7 +30,7 @@ editorInventory(renderer,
     this->editorInventory.toggleOpen();
 }
 
-void Editor::start(void) {
+int Editor::start(void) {
     bool quit = false;
 	SDL_Event e;
 	while (!quit) {
@@ -89,17 +89,18 @@ void Editor::start(void) {
 		SDL_Delay(10); // Para no usar al mango el CPU
 	}
 
-    validateMap();
-}
+	if (validMap) {
+		QMessageBox msgBox;
+		msgBox.setWindowTitle("Fin de edición");
+		msgBox.setText("¿Desea guardar el mapa?");
+		msgBox.setStandardButtons(QMessageBox::Yes);
+		msgBox.addButton(QMessageBox::No);
+		msgBox.setDefaultButton(QMessageBox::Yes);
+		if(msgBox.exec() == QMessageBox::Yes) {
+			mapGame.saveAs(this->map_name);
+			return 0;
+		}
+	}
 
-void Editor::validateMap(void) {
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("Fin de edición");
-    msgBox.setText("¿Desea guardar el mapa?");
-    msgBox.setStandardButtons(QMessageBox::Yes);
-    msgBox.addButton(QMessageBox::No);
-    msgBox.setDefaultButton(QMessageBox::Yes);
-    if(msgBox.exec() == QMessageBox::Yes) {
-        mapGame.saveAs(this->map_name);
-    }
+	return -1;
 }
