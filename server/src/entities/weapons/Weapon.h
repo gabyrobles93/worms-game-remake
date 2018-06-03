@@ -9,10 +9,10 @@ public:
     virtual void update(int currentTime) = 0;
     virtual void explode(void) = 0;
     bool hasExploded(void);
-    virtual int getCountDown();
+    virtual int getCountdown();
 protected:
     bool exploded;
-    int count_down;
+    int countdown;
 };
 
 #endif

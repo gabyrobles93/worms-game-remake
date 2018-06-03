@@ -7,6 +7,6 @@ bool Weapon::hasExploded() {
     return this->exploded;
 }
 
-int Weapon::getCountDown() {
-    return this->count_down;
+int Weapon::getCountdown() {
+    return this->countdown;
 }

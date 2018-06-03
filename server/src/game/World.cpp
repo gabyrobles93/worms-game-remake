@@ -109,7 +109,7 @@ void World::updateProjectilesYAML(void) {
         int weapon_id = projectile["id"].as<int>();
         x = std::to_string(this->weapons[weapon_id]->getPosX());
         y = std::to_string(this->weapons[weapon_id]->getPosY());
-        current_time = std::to_string(this->weapons[weapon_id]->getCountDown());
+        current_time = std::to_string(this->weapons[weapon_id]->getCountdown());
     }
 }
 

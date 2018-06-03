@@ -11,7 +11,7 @@ void Dynamite::update(int currentTime) {
     if (currentTime >= this->detonationTime && !exploded) {
         explode();
     }
-    this->count_down = this->detonationTime - currentTime;
+    this->countdown = this->detonationTime - currentTime;
 }
 
 void Dynamite::explode() {
