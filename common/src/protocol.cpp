@@ -110,27 +110,14 @@ void Protocol::sendGameMap(YAML::Node & mapNode) {
 }
 
 void Protocol::sendEvent(Event event) {
-    std::stringstream ss;
-    ss << event;
-    uint32_t event_size = ss.str().length();
-    uint32_t net_event_size = htonl(event_size);
-    this->skt.sendBuffer((const uchar *) &net_event_size, 4);
-    this->skt.sendBuffer((const uchar*)ss.str().c_str(), event_size);
+    YAML::Node nodeEvent = event.getNode();
+    this->sendGameMap(nodeEvent);
 }
 
 Event Protocol::rcvEvent(void) {
-    uint32_t event_size = 0;
-    skt.getBuffer((uchar *) &event_size, 4);
-    event_size = ntohl(event_size);
-    uchar * buffer = new uchar[event_size+1];
-    skt.getBuffer(buffer, event_size);
-    buffer[event_size] = '\0';
-    std::string serialized_event((char*) buffer);
-    delete buffer;
-
-    Event event;
-    event.load(serialized_event);
-
+    YAML::Node eventNode;
+    this->rcvGameMap(eventNode);
+    Event event(eventNode);
     return event;
 }
 

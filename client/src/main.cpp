@@ -89,11 +89,11 @@ int main(/* int argc, char *argv[] */) {
 	std::cout << ejemplo << std::endl;*/
 
 	try {
-    YAML::Node mapNode;
-    Queue<Event> events(MAX_QUEUE_MODELS);
-    Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
-    EventSender event_sender(protocol, events);
-    protocol.rcvGameMap(mapNode);
+		YAML::Node mapNode;
+		Queue<Event> events(MAX_QUEUE_MODELS);
+		Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
+		EventSender event_sender(protocol, events);
+		protocol.rcvGameMap(mapNode);
 
 		YAML::Node staticMap = mapNode["static"];
 		YAML::Node dynamicMap = mapNode["dynamic"];
@@ -112,9 +112,9 @@ int main(/* int argc, char *argv[] */) {
 		View::WeaponsInventory inventory(renderer);
 
 		View::Projectiles projectiles;
-			// Lanzo threads de enviar eventos y de recibir modelos
-			event_sender.start();
-			model_receiver.start();
+		// Lanzo threads de enviar eventos y de recibir modelos
+		event_sender.start();
+		model_receiver.start();
 
 		View::Clock clock(CLOCK_X_OFFSET, mainWindow.getScreenHeight() - CLOCK_Y_OFFSET - CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_HEIGHT);
 		int currentTime = 20;
@@ -129,62 +129,33 @@ int main(/* int argc, char *argv[] */) {
 				if (e.type == SDL_QUIT)
 					quit = true;
 				
-							// Chequeo eventos de teclado (ver si se puede hacer mas prolijo)
-							// FALTA CHEQUEAR EVENTOS DE MOUSE (CLICKS, MOVIMIENTOS DE CAMARA, ETC)
-				if (e.type == SDL_KEYDOWN) {
-					
-					if (e.key.keysym.sym == SDLK_UP) {
-						Event event(a_pointUp, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_DOWN) {
-						Event event(a_pointDown, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_LEFT) {
-						Event event(a_moveLeft, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_RIGHT) {
-						Event event(a_moveRight, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_SPACE) {
-						Event event(a_shoot, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_RETURN) {
-						Event event(a_frontJump, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_BACKSPACE) {
-						Event event(a_backJump, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_1) {
-						Event event(a_choose1SecDeton, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_2) {
-						Event event(a_choose2SecDeton, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_3) {
-						Event event(a_choose3SecDeton, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_4) {
-						Event event(a_choose4SecDeton, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_5) {
-						Event event(a_choose5SecDeton, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_TAB) {
-						Event event(a_changeWorm, TEAM_ID);
-						events.push(event);
-					}         
+				if (e.key.keysym.sym == SDLK_UP) {
+					Event event(a_pointUp, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_DOWN) {
+					Event event(a_pointDown, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_LEFT) {
+					Event event(a_moveLeft, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_RIGHT) {
+					Event event(a_moveRight, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_SPACE) {
+					Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_RETURN) {
+					Event event(a_frontJump, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_BACKSPACE) {
+					Event event(a_backJump, TEAM_ID);
+					events.push(event);
 				}
 
 				inventory.handleEvent(e); 

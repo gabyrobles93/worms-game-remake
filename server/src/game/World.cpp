@@ -171,8 +171,6 @@ void World::updateBodies() {
 }
 
 void World::removeProjectileFromYAML(size_t id) {
-    /* YAML::Node::iterator it; */
-    //int index = 0;
     std::vector<YAML::Node> vec_projectiles = this->node_map["dynamic"]["projectiles"].as<std::vector<YAML::Node>>();
     std::vector<YAML::Node>::iterator it;
     for (it = vec_projectiles.begin(); it != vec_projectiles.end(); it++) {
@@ -184,13 +182,6 @@ void World::removeProjectileFromYAML(size_t id) {
     
     this->node_map["dynamic"]["projectiles"];
     this->node_map["dynamic"]["projectiles"] = vec_projectiles;
-
-/*     for (unsigned int i = 0; i < this->node_map["dynamic"]["projectiles"].size(); i++) {
-        if (this->node_map["dynamic"]["projectiles"][i]["id"].as<size_t>() == id) {
-            this->node_map["dynamic"]["projectiles"].remove(i);
-            break;
-        }
-    } */
 }
 
 void World::run() {
@@ -223,7 +214,9 @@ unsigned int World::getTimeSeconds(void) {
     return this->time_sec;
 }
 
-void World::executeAction(action_t action, size_t id) {
+void World::executeAction(Event & event, size_t id) {
+    YAML::Node eventNode = event.getNode();
+    action_t action = (action_t) eventNode["event"]["action"].as<int>();
     switch(action) {
         case a_moveLeft:
             this->worms[id]->moveLeft();
@@ -239,6 +232,7 @@ void World::executeAction(action_t action, size_t id) {
             break;
         case a_shoot : {
             if (this->weapons.size() == 0) {
+                std::cout << "Se ejecuto disparo con el arma " << event.getNode()["event"]["weapon"].as<int>() << std::endl;
                 Weapon* dynamite= new Dynamite(weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
                 this->weapons.insert(std::pair<int, Weapon*>(weapon_counter, dynamite));
                 YAML::Node new_projectile;
@@ -251,10 +245,11 @@ void World::executeAction(action_t action, size_t id) {
                 new_projectile["exploded"] = std::to_string(dynamite->hasExploded());
                 this->node_map["dynamic"]["projectiles"].push_back(new_projectile);
                 weapon_counter++;
+            } else {
+                std::cout << "Se ignora disparo porque hay un projectil vivo." << std::endl;
             }
             break;
         }
         default: break;
     }
-
 }

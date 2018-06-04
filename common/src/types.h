@@ -26,6 +26,19 @@ typedef enum {
     a_quitGame
 } action_t;
 
+typedef enum {
+    w_bazooka,
+    w_mortar,
+    w_cluster,
+    w_green_grenade,
+    w_banana,
+    w_holy_grenade,
+    w_air_strike,
+    w_dynamite,
+    w_bat,
+    w_teleport
+} weapon_t;
+
 typedef unsigned char uchar;
 
 #endif

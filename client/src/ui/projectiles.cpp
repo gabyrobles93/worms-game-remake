@@ -29,8 +29,8 @@ void View::Projectiles::render(SDL_Renderer * r, Camera & cam) {
 }
 
 void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
-  std::cout << "PROJECTILES A UPDATEAR: " << std::endl;
-  std::cout << projNode << std::endl;
+/*   std::cout << "PROJECTILES A UPDATEAR: " << std::endl;
+  std::cout << projNode << std::endl; */
 
   YAML::const_iterator it = projNode.begin();
   for (; it != projNode.end() ; it++) {

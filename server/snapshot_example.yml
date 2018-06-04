@@ -7,6 +7,7 @@ dynamic:
           health: 100
           x: 700
           y: 0
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -24,6 +25,7 @@ dynamic:
           health: 100
           x: 1300
           y: 550
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -41,6 +43,7 @@ dynamic:
           health: 100
           x: 1700
           y: 550
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1

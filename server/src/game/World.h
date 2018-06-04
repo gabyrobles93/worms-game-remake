@@ -49,7 +49,7 @@ public:
     virtual void run(void);
     YAML::Node getSnapshot();
     void stop();
-    void executeAction(action_t, size_t);
+    void executeAction(Event &, size_t);
     unsigned int getTimeSeconds(void);
 };
 

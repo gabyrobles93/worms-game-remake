@@ -27,8 +27,12 @@ void ModelReceiver::run(void) {
         YAML::Node newDynamics;
         this->protocol.rcvModel(newDynamics);
         std::stringstream ss;
-        ss << newDynamics;
-        //std::cout << ss.str() << std::endl; 
+        if (newDynamics["projectiles"]) {
+            if (newDynamics["projectiles"].size() > 0) {
+                ss << newDynamics["projectiles"];
+                std::cout << ss.str() << std::endl;
+            }
+        }
         this->dynamics.update(newDynamics);
     }
 }

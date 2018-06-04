@@ -3,22 +3,20 @@
 
 #include <iostream>
 #include "types.h"
+#include "yaml.h"
 #include <string>
 
 class Event {
     private:
+        YAML::Node eventNode;
         action_t action;
-        size_t team_id;
+
     public:
         Event(action_t action = a_noEvent , size_t team_id = 0);
-        friend std::ostream& operator<<(std::ostream &, Event &);
+        Event(action_t action, weapon_t, size_t);
+        Event(YAML::Node &);
         bool quit(void);
-        void load(const std::string & input);
-        void print(void);
-        size_t getTeamId(void);
-        action_t getAction(void);
+        YAML::Node getNode(void);
 };
-
-std::ostream& operator<<(std::ostream &, Event &);
 
 #endif

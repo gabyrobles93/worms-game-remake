@@ -1,5 +1,6 @@
 #include "inventory.h"
 #include "inventory_weapons.h"
+#include "types.h"
 
 View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   font(gPath.PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
@@ -9,6 +10,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = true;
   icon->supplies = 10; // Supplies se recibira por archivo de cfg
   icon->itemName = WEAPON_NAME_BAZOOKA;
+  this->weapons[WEAPON_NAME_BAZOOKA] =  w_bazooka;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -16,6 +18,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_MORTAR;
+  this->weapons[WEAPON_NAME_MORTAR] =  w_mortar;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -23,6 +26,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_GREEN_GRENADE;
+  this->weapons[WEAPON_NAME_GREEN_GRENADE] = w_green_grenade;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -30,6 +34,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_RED_GRENADE;
+  this->weapons[WEAPON_NAME_RED_GRENADE] = w_cluster;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -37,6 +42,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_BANANA;
+  this->weapons[WEAPON_NAME_BANANA] = w_banana;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -44,6 +50,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_HOLY_GRENADE;
+  this->weapons[WEAPON_NAME_HOLY_GRENADE] = w_holy_grenade;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -51,6 +58,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_DYNAMITE;
+  this->weapons[WEAPON_NAME_DYNAMITE] = w_dynamite;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -58,6 +66,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_BASEBALL;
+  this->weapons[WEAPON_NAME_BASEBALL] = w_bat;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -65,6 +74,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_AIR_STRIKE;
+  this->weapons[WEAPON_NAME_AIR_STRIKE] = w_air_strike;
   this->items.push_back(icon);
 
   icon = new ItemIcon;
@@ -72,6 +82,7 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
   icon->selected = false;
   icon->supplies = 10;
   icon->itemName = WEAPON_NAME_TELEPORT;
+  this->weapons[WEAPON_NAME_TELEPORT] = w_teleport;
   this->items.push_back(icon);
 
   this->open = false;
@@ -223,3 +234,14 @@ bool View::WeaponsInventory::isMouseOnInventoryRanges(int x, int y) {
   );
 }
 
+weapon_t View::WeaponsInventory::getSelectedWeapon(void) {
+  std::vector<ItemIcon *>::const_iterator it;
+  weapon_t weapon;
+  for (it = this->items.begin(); it != this->items.end(); it++) {
+    if ((*it)->selected) {
+      weapon = this->weapons[(*it)->itemName];
+      break;
+    }
+  }
+  return weapon;
+}

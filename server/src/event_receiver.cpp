@@ -29,7 +29,7 @@ void EventReceiver::run(void) {
             return;
         }
         int team_turn = match.getTeamTurn();
-        this->world.executeAction(new_event.getAction(), match.getWormTurn(team_turn));
+        this->world.executeAction(new_event, match.getWormTurn(team_turn));
     }
 }
 
