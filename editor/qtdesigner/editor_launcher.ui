@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>573</width>
-    <height>660</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>20</x>
       <y>250</y>
       <width>541</width>
-      <height>321</height>
+      <height>411</height>
      </rect>
     </property>
     <property name="title">
@@ -417,6 +417,49 @@
       </item>
      </layout>
     </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_11">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>310</y>
+       <width>160</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="weapon_bazooka">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_bazooka">
+          <property name="text">
+           <string>Bazooka</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_bazooka_picture_">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="resources.qrc">:/resources/graphics/Weapon Icons/bazooka.1.png</pixmap>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="bazooka_ammo">
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="group_map_config">
     <property name="geometry">
@@ -583,8 +626,8 @@
    <widget class="QPushButton" name="go_create">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>580</y>
+      <x>10</x>
+      <y>680</y>
       <width>111</width>
       <height>25</height>
      </rect>
@@ -597,7 +640,7 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>580</y>
+      <y>680</y>
       <width>411</width>
       <height>20</height>
      </rect>

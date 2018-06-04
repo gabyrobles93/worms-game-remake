@@ -1,0 +1,197 @@
+static:
+  background:
+    file: WORMS_ALTO_FONDO.jpg
+    display: expanded
+  water_level: 300
+  teams_amount: 2
+  worms_health: 200
+  init_inventory:
+    0:
+      item_name: Bazooka
+      supplies: 10
+    1:
+      item_name: Mortar
+      supplies: 10
+    2:
+      item_name: Cluster
+      supplies: 10
+    4:
+      item_name: Banana
+      supplies: 10
+    3:
+      item_name: Grenade
+      supplies: 10
+    5:
+      item_name: Holy bomb
+      supplies: 10
+    7:
+      item_name: Dynamite
+      supplies: 10
+    6:
+      item_name: Air Strike
+      supplies: 10
+    9:
+      item_name: Teleport
+      supplies: 10
+    8:
+      item_name: Bat
+      supplies: 10
+  short_girders:
+    - id: 1
+      x: 477
+      y: 302
+      angle: 0
+    - id: 2
+      x: 715
+      y: 304
+      angle: 0
+    - id: 3
+      x: 925
+      y: 298
+      angle: 0
+    - id: 4
+      x: 1087
+      y: 298
+      angle: 0
+    - id: 5
+      x: 1255
+      y: 283
+      angle: 0
+    - id: 6
+      x: 1474
+      y: 293
+      angle: 0
+dynamic:
+  worms_teams:
+    1:
+      worms:
+        - id: 1
+          name: Worm 1
+          health: 200
+          x: 482
+          y: 267
+          sight_angle: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 2
+          name: Worm 2
+          health: 200
+          x: 720
+          y: 261
+          sight_angle: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 3
+          name: Worm 3
+          health: 200
+          x: 908
+          y: 261
+          sight_angle: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+      inventory:
+        0:
+          item_name: Bazooka
+          supplies: 10
+        1:
+          item_name: Mortar
+          supplies: 10
+        2:
+          item_name: Cluster
+          supplies: 10
+        4:
+          item_name: Banana
+          supplies: 10
+        3:
+          item_name: Grenade
+          supplies: 10
+        5:
+          item_name: Holy bomb
+          supplies: 10
+        7:
+          item_name: Dynamite
+          supplies: 10
+        6:
+          item_name: Air Strike
+          supplies: 10
+        9:
+          item_name: Teleport
+          supplies: 10
+        8:
+          item_name: Bat
+          supplies: 10
+    2:
+      worms:
+        - id: 4
+          name: Worm 1
+          health: 200
+          x: 1082
+          y: 265
+          sight_angle: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 5
+          name: Worm 2
+          health: 200
+          x: 1260
+          y: 244
+          sight_angle: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+        - id: 6
+          name: Worm 3
+          health: 200
+          x: 1489
+          y: 254
+          sight_angle: 0
+          status:
+            grounded: 0
+            falling: 1
+            mirrored: 0
+            walking: 0
+      inventory:
+        0:
+          item_name: Bazooka
+          supplies: 10
+        1:
+          item_name: Mortar
+          supplies: 10
+        2:
+          item_name: Cluster
+          supplies: 10
+        4:
+          item_name: Banana
+          supplies: 10
+        3:
+          item_name: Grenade
+          supplies: 10
+        5:
+          item_name: Holy bomb
+          supplies: 10
+        7:
+          item_name: Dynamite
+          supplies: 10
+        6:
+          item_name: Air Strike
+          supplies: 10
+        9:
+          item_name: Teleport
+          supplies: 10
+        8:
+          item_name: Bat
+          supplies: 10
