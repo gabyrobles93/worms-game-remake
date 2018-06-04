@@ -11,7 +11,8 @@
 #include "inventory.h"
 #include "inventory_editor.h"
 
-Editor::Editor(YAML::Node map, std::string mn) :
+Editor::Editor(YAML::Node map, std::string mn, std::string bgn) :
+bg_name(bgn),
 map_name(mn),
 mapNode(YAML::Clone(map)),
 staticNode(mapNode["static"]),
@@ -97,7 +98,7 @@ int Editor::start(void) {
 		msgBox.addButton(QMessageBox::No);
 		msgBox.setDefaultButton(QMessageBox::Yes);
 		if(msgBox.exec() == QMessageBox::Yes) {
-			mapGame.saveAs(this->map_name);
+			mapGame.saveAs(this->map_name, this->bg_name);
 			return 0;
 		}
 	}

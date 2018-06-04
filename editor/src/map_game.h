@@ -36,6 +36,7 @@ namespace View {
       // Obtiene el id del proximo
       // worm a agregar
       int getNextWormId(void);
+      void addInventoryToTeams(YAML::Node & map);
 
     public:
       // Constructor, recibe el nodo YAML
@@ -71,7 +72,7 @@ namespace View {
 
       // Guarda el mapa en la carpeta de mapas del servidor
       // bajo el nombre indicado
-      void saveAs(std::string);
+      void saveAs(std::string, std::string);
 
       // Verifica si el mapa
       // tiene todos los gusanos

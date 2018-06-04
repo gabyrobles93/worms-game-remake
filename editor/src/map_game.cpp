@@ -152,7 +152,7 @@ void View::MapGame::addWormInTeam(int teamId, std::string & name, int health, in
   newNode["health"] = health;
   newNode["x"] = x;
   newNode["y"] = y;
-  
+  newNode["sight_angle"] = 0;
   // Configuramos el status del gusano por default
   newNode["status"]["grounded"] = (int)false;
   newNode["status"]["falling"] = (int)true;
@@ -212,12 +212,21 @@ int View::MapGame::getNextWormId(void) {
   return newId;
 }
 
-void View::MapGame::saveAs(std::string mapName) {
+void View::MapGame::saveAs(std::string mapName, std::string bgName) {
   std::ofstream fout("../maps/" + mapName + ".yml");
   YAML::Node * state = this->mapStates[this->stateIndex];
-
+  (*state)["static"]["background"]["file"] = bgName;
+  addInventoryToTeams(*state);
   fout << *state;
   fout.close();
+}
+
+void View::MapGame::addInventoryToTeams(YAML::Node & map) {
+  YAML::iterator it = map["dynamic"]["worms_teams"].begin();
+  
+  for (; it != map["dynamic"]["worms_teams"].end() ; it++) {
+    it->second["inventory"] = YAML::Clone((*this->mapStates[this->stateIndex])["static"]["init_inventory"]);
+  }
 }
 
 bool View::MapGame::hasAllTheWorms(int teamsAmount, int amountWormsPerTeam) {

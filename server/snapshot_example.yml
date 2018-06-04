@@ -14,10 +14,36 @@ dynamic:
             mirrored: 0
             walking: 0
       inventory:
-        - item_name: Bazooka
-          supplies: 99
-        - itea_name: Grenade
-          supplies: 99
+        0:
+          item_name: Bazooka
+          supplies: 999
+        1:
+          item_name: Mortar
+          supplies: 10
+        2:
+          item_name: Cluster
+          supplies: 12
+        4:
+          item_name: Banana
+          supplies: 14
+        3:
+          item_name: Grenade
+          supplies: 13
+        5:
+          item_name: Holy bomb
+          supplies: 15
+        7:
+          item_name: Dynamite
+          supplies: 16
+        6:
+          item_name: Air Strike
+          supplies: 17
+        9:
+          item_name: Teleport
+          supplies: 18
+        8:
+          item_name: Bat
+          supplies: 19
     2:
       worms:
         - id: 2
@@ -32,10 +58,36 @@ dynamic:
             mirrored: 0
             walking: 0
       inventory:
-        - item_name: Bazooka
-          supplies: 99
-        - itea_name: Grenade
-          supplies: 99
+        0:
+          item_name: Bazooka
+          supplies: 999
+        1:
+          item_name: Mortar
+          supplies: 10
+        2:
+          item_name: Cluster
+          supplies: 12
+        4:
+          item_name: Banana
+          supplies: 14
+        3:
+          item_name: Grenade
+          supplies: 13
+        5:
+          item_name: Holy bomb
+          supplies: 15
+        7:
+          item_name: Dynamite
+          supplies: 16
+        6:
+          item_name: Air Strike
+          supplies: 17
+        9:
+          item_name: Teleport
+          supplies: 18
+        8:
+          item_name: Bat
+          supplies: 19
     3:
       worms:
         - id: 3
@@ -50,10 +102,36 @@ dynamic:
             mirrored: 0
             walking: 0
       inventory:
-        - item_name: Dynamite
-          supplies: 99
-        - itea_name: Teleport
-          supplies: 99
+        0:
+          item_name: Bazooka
+          supplies: 999
+        1:
+          item_name: Mortar
+          supplies: 10
+        2:
+          item_name: Cluster
+          supplies: 12
+        4:
+          item_name: Banana
+          supplies: 14
+        3:
+          item_name: Grenade
+          supplies: 13
+        5:
+          item_name: Holy bomb
+          supplies: 15
+        7:
+          item_name: Dynamite
+          supplies: 16
+        6:
+          item_name: Air Strike
+          supplies: 17
+        9:
+          item_name: Teleport
+          supplies: 18
+        8:
+          item_name: Bat
+          supplies: 19
 
   projectiles:
     - id: 1
