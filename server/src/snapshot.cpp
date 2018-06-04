@@ -32,8 +32,8 @@ void Snapshot::updateWorms(std::map<int, Worm *> worms) {
         for (YAML::iterator worms_it = worms_node.begin(); worms_it != worms_node.end(); worms_it++) {
             YAML::Node worm = *worms_it;
             int id = worm["id"].as<int>();
-            worm["x"] = std::to_string((int) (worms[id]->getPosX() / SCALING_FACTOR));
-            worm["y"] = std::to_string((int) (worms[id]->getPosY() / SCALING_FACTOR));
+            worm["x"] = std::to_string((int) (worms[id]->getPosX() / gConfiguration.SCALING_FACTOR));
+            worm["y"] = std::to_string((int) (worms[id]->getPosY() / gConfiguration.SCALING_FACTOR));
             worm["health"] = std::to_string(worms[id]->getHealth());
             worm["status"]["mirrored"] = std::to_string(worms[id]->isMirrored());
             worm["status"]["walking"] = std::to_string(worms[id]->isWalking());
@@ -48,8 +48,8 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> weapons) {
     for (it = this->dynamics["projectiles"].begin(); it != this->dynamics["projectiles"].end(); it++) {
         YAML::Node projectile = *it;
         int weapon_id = projectile["id"].as<int>();
-        projectile["x"] = std::to_string((int) (weapons[weapon_id]->getPosX() / SCALING_FACTOR));
-        projectile["y"] = std::to_string((int) (weapons[weapon_id]->getPosY() / SCALING_FACTOR));
+        projectile["x"] = std::to_string((int) (weapons[weapon_id]->getPosX() / gConfiguration.SCALING_FACTOR));
+        projectile["y"] = std::to_string((int) (weapons[weapon_id]->getPosY() / gConfiguration.SCALING_FACTOR));
         projectile["countdown"] = std::to_string(weapons[weapon_id]->getCountdown());
         projectile["exploded"] = std::to_string(weapons[weapon_id]->hasExploded());
     }
@@ -78,8 +78,8 @@ void Snapshot::addProjectile(Weapon * projectile) {
     new_projectile["id"] = std::to_string(projectile->getId());
     // EL CLIENTE ESPERA UN STRING EJ "DYNAMITE". DESDE SERVER SOLO PODEMOS MANDAR EL WEAPON ID, ARI ARREGLATE XD
     new_projectile["type"] = std::to_string(projectile->getType());
-    new_projectile["x"] = std::to_string((int) (projectile->getPosX() / SCALING_FACTOR));
-    new_projectile["y"] = std::to_string((int) (projectile->getPosY() / SCALING_FACTOR));
+    new_projectile["x"] = std::to_string((int) (projectile->getPosX() / gConfiguration.SCALING_FACTOR));
+    new_projectile["y"] = std::to_string((int) (projectile->getPosY() / gConfiguration.SCALING_FACTOR));
     new_projectile["countdown"] = std::to_string(projectile->getCountdown());
     new_projectile["exploded"] = std::to_string(projectile->hasExploded());
     this->dynamics["projectiles"].push_back(new_projectile);

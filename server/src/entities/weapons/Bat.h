@@ -8,8 +8,6 @@
 #include "types.h"
 #include "Configuration.h"
 
-#define BAT_DAMAGE 10
-
 class Bat : public Weapon {
 private:
     BatPhysic batPhysic;

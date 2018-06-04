@@ -5,6 +5,7 @@
 #include "Worm.h"
 #include "yaml.h"
 #include "Weapon.h"
+#include "Configuration.h"
 
 class Snapshot {
     private:

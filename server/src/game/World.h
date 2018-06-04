@@ -17,7 +17,6 @@
 #include "snapshot.h"
 #include "Configuration.h"
 
-#define SCALING_FACTOR 0.0416
 #define GRADTORAD 0.0174533
 
 class World : public Thread {
