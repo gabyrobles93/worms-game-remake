@@ -152,7 +152,7 @@ void View::MapGame::addWormInTeam(int teamId, std::string & name, int health, in
   newNode["health"] = health;
   newNode["x"] = x;
   newNode["y"] = y;
-  
+  newNode["sight_angle"] = 0;
   // Configuramos el status del gusano por default
   newNode["status"]["grounded"] = (int)false;
   newNode["status"]["falling"] = (int)true;

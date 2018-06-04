@@ -7,47 +7,47 @@ static:
   worms_health: 200
   init_inventory:
     - item_name: Mortar
-      supplies: 10
+      supplies: 11
     - item_name: Cluster
-      supplies: 10
+      supplies: 12
     - item_name: Banana
-      supplies: 10
+      supplies: 13
     - item_name: Grenade
-      supplies: 10
+      supplies: 14
     - item_name: Holy bomb
-      supplies: 10
+      supplies: 15
     - item_name: Dynamite
-      supplies: 10
+      supplies: 16
     - item_name: Fly bombs
-      supplies: 10
+      supplies: 17
     - item_name: Teleport
-      supplies: 10
+      supplies: 18
     - item_name: Bat
-      supplies: 10
+      supplies: 19
   short_girders:
     - id: 1
-      x: 578
-      y: 353
+      x: 577
+      y: 520
       angle: 0
     - id: 2
-      x: 802
-      y: 367
+      x: 731
+      y: 546
       angle: 0
     - id: 3
-      x: 900
-      y: 360
+      x: 808
+      y: 589
       angle: 0
     - id: 4
-      x: 1073
-      y: 368
+      x: 1437
+      y: 506
       angle: 0
     - id: 5
-      x: 1296
-      y: 375
+      x: 1551
+      y: 469
       angle: 0
     - id: 6
-      x: 1432
-      y: 350
+      x: 1699
+      y: 419
       angle: 0
 dynamic:
   worms_teams:
@@ -56,8 +56,9 @@ dynamic:
         - id: 1
           name: Worm 1
           health: 200
-          x: 594
-          y: 320
+          x: 577
+          y: 480
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -66,8 +67,9 @@ dynamic:
         - id: 2
           name: Worm 2
           health: 200
-          x: 842
-          y: 324
+          x: 727
+          y: 507
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -76,8 +78,9 @@ dynamic:
         - id: 3
           name: Worm 3
           health: 200
-          x: 911
-          y: 320
+          x: 810
+          y: 562
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -85,30 +88,31 @@ dynamic:
             walking: 0
       inventory:
         - item_name: Mortar
-          supplies: 10
+          supplies: 11
         - item_name: Cluster
-          supplies: 10
+          supplies: 12
         - item_name: Banana
-          supplies: 10
+          supplies: 13
         - item_name: Grenade
-          supplies: 10
+          supplies: 14
         - item_name: Holy bomb
-          supplies: 10
+          supplies: 15
         - item_name: Dynamite
-          supplies: 10
+          supplies: 16
         - item_name: Fly bombs
-          supplies: 10
+          supplies: 17
         - item_name: Teleport
-          supplies: 10
+          supplies: 18
         - item_name: Bat
-          supplies: 10
+          supplies: 19
     2:
       worms:
         - id: 4
           name: Worm 1
           health: 200
-          x: 1072
-          y: 333
+          x: 1429
+          y: 471
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -117,8 +121,9 @@ dynamic:
         - id: 5
           name: Worm 2
           health: 200
-          x: 1307
-          y: 346
+          x: 1542
+          y: 436
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -127,8 +132,9 @@ dynamic:
         - id: 6
           name: Worm 3
           health: 200
-          x: 1415
-          y: 315
+          x: 1697
+          y: 388
+          sight_angle: 0
           status:
             grounded: 0
             falling: 1
@@ -136,20 +142,20 @@ dynamic:
             walking: 0
       inventory:
         - item_name: Mortar
-          supplies: 10
+          supplies: 11
         - item_name: Cluster
-          supplies: 10
+          supplies: 12
         - item_name: Banana
-          supplies: 10
+          supplies: 13
         - item_name: Grenade
-          supplies: 10
+          supplies: 14
         - item_name: Holy bomb
-          supplies: 10
+          supplies: 15
         - item_name: Dynamite
-          supplies: 10
+          supplies: 16
         - item_name: Fly bombs
-          supplies: 10
+          supplies: 17
         - item_name: Teleport
-          supplies: 10
+          supplies: 18
         - item_name: Bat
-          supplies: 10
+          supplies: 19
