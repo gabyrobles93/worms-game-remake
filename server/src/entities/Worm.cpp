@@ -180,3 +180,7 @@ void Worm::setPosY(float posY) {
 void Worm::setAffectedByExplosion(){
     this->affectedByExplosion = true;
 }
+
+void Worm::kill() {
+    this->health = 0;
+}

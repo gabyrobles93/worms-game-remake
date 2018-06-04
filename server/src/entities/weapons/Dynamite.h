@@ -7,10 +7,6 @@
 #include "types.h"
 #include "Configuration.h"
 
-#define BLAST_RADIUS 10.0
-#define BLAST_POWER 50
-#define TIME_FACTOR 60
-
 class Dynamite : public Weapon{
 private: 
     int detonationTime;
