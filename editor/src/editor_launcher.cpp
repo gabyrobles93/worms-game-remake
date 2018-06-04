@@ -85,56 +85,46 @@ void EditorLauncher::goCreate(void) {
     mapNode["static"]["teams_amount"] = findChild<QSpinBox*>("teams_amount")->value();
     mapNode["static"]["worms_health"] = findChild<QSpinBox*>("worms_health")->value();
 
-    YAML::Node mortar;
-    mortar["item_name"] = "Mortar";
-    mortar["supplies"] = findChild<QSpinBox*>("mortar_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(mortar);
 
-    YAML::Node cluster;
-    cluster["item_name"] = "Cluster";
-    cluster["supplies"] = findChild<QSpinBox*>("red_bomb_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(cluster);
+    mapNode["static"]["init_inventory"][std::to_string(w_bazooka)]["item_name"] = "Bazooka";
+    mapNode["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"] = findChild<QSpinBox*>("bazooka_ammo")->value();
 
-    YAML::Node banana;
-    banana["item_name"] = "Banana";
-    banana["supplies"] = findChild<QSpinBox*>("banana_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(banana);
+    mapNode["static"]["init_inventory"][std::to_string(w_mortar)]["item_name"] = "Mortar";
+    mapNode["static"]["init_inventory"][std::to_string(w_mortar)]["supplies"] = findChild<QSpinBox*>("mortar_ammo")->value();
 
-    YAML::Node grenade;
-    grenade["item_name"] = "Grenade";
-    grenade["supplies"] = findChild<QSpinBox*>("green_bomb_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(grenade);
+    mapNode["static"]["init_inventory"][std::to_string(w_cluster)]["item_name"] = "Cluster";
+    mapNode["static"]["init_inventory"][std::to_string(w_cluster)]["supplies"] = findChild<QSpinBox*>("red_bomb_ammo")->value();
 
-    YAML::Node holy_bomb;
-    holy_bomb["item_name"] = "Holy bomb";
-    holy_bomb["supplies"] = findChild<QSpinBox*>("holy_bomb_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(holy_bomb);
+    mapNode["static"]["init_inventory"][std::to_string(w_banana)]["item_name"] = "Banana";
+    mapNode["static"]["init_inventory"][std::to_string(w_banana)]["supplies"] = findChild<QSpinBox*>("banana_ammo")->value();
 
-    YAML::Node dynamite;
-    dynamite["item_name"] = "Dynamite";
-    dynamite["supplies"] = findChild<QSpinBox*>("dynamite_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(dynamite);
+    mapNode["static"]["init_inventory"][std::to_string(w_green_grenade)]["item_name"] = "Grenade";
+    mapNode["static"]["init_inventory"][std::to_string(w_green_grenade)]["supplies"] = findChild<QSpinBox*>("green_bomb_ammo")->value();
 
-    YAML::Node fly_bombs;
-    fly_bombs["item_name"] = "Fly bombs";
-    fly_bombs["supplies"] = findChild<QSpinBox*>("fly_bombs_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(fly_bombs);
+    mapNode["static"]["init_inventory"][std::to_string(w_holy_grenade)]["item_name"] = "Holy bomb";
+    mapNode["static"]["init_inventory"][std::to_string(w_holy_grenade)]["supplies"] = findChild<QSpinBox*>("holy_bomb_ammo")->value();
 
-    YAML::Node teleport;
-    teleport["item_name"] = "Teleport";
-    teleport["supplies"] = findChild<QSpinBox*>("teleport_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(teleport);
+    mapNode["static"]["init_inventory"][std::to_string(w_dynamite)]["item_name"] = "Dynamite";
+    mapNode["static"]["init_inventory"][std::to_string(w_dynamite)]["supplies"] = findChild<QSpinBox*>("dynamite_ammo")->value();
 
-    YAML::Node bat;
-    bat["item_name"] = "Bat";
-    bat["supplies"] = findChild<QSpinBox*>("bat_ammo")->value();
-    mapNode["static"]["init_inventory"].push_back(bat);
+    mapNode["static"]["init_inventory"][std::to_string(w_air_strike)]["item_name"] = "Air Strike";
+    mapNode["static"]["init_inventory"][std::to_string(w_air_strike)]["supplies"] = findChild<QSpinBox*>("fly_bombs_ammo")->value();
 
-/*     std::string map_path = SAVED_MAPS_PATH + map_name + MAPS_EXT; */
+    mapNode["static"]["init_inventory"][std::to_string(w_teleport)]["item_name"] = "Teleport";
+    mapNode["static"]["init_inventory"][std::to_string(w_teleport)]["supplies"] = findChild<QSpinBox*>("teleport_ammo")->value();
 
-/*     std::ofstream map_file(map_path, std::ofstream::out | std::ofstream::trunc);
+    mapNode["static"]["init_inventory"][std::to_string(w_bat)]["item_name"] = "Bat";
+    mapNode["static"]["init_inventory"][std::to_string(w_bat)]["supplies"] = findChild<QSpinBox*>("bat_ammo")->value();
+
+    std::string map_path = SAVED_MAPS_PATH + map_name + MAPS_EXT;
+
+    std::ofstream map_file(map_path, std::ofstream::out | std::ofstream::trunc);
     map_file << mapNode;
-    map_file.close(); */
+    map_file.close();
+
+    std::stringstream ss;
+    ss << mapNode;
+    std::cout << ss.str() << std::endl;
 
     launchEditor(mapNode, map_name);
 }

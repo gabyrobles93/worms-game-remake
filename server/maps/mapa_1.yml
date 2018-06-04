@@ -1,65 +1,62 @@
 static:
   background:
-    file: WORMS_ALTO_FONDO.jpg
-    display: mosaic
+    file: ../WORMS_ALTO_FONDO.jpg
+    display: expanded
   water_level: 300
   teams_amount: 2
   worms_health: 200
   init_inventory:
-    0:
-      item_name: Bazooka
-      supplies: 999
     1:
       item_name: Mortar
       supplies: 10
     2:
       item_name: Cluster
-      supplies: 12
+      supplies: 11
     4:
       item_name: Banana
-      supplies: 14
+      supplies: 12
     3:
       item_name: Grenade
       supplies: 13
     5:
       item_name: Holy bomb
-      supplies: 15
+      supplies: 14
     7:
       item_name: Dynamite
-      supplies: 16
+      supplies: 15
     6:
       item_name: Air Strike
-      supplies: 17
+      supplies: 16
     9:
       item_name: Teleport
-      supplies: 18
+      supplies: 17
     8:
       item_name: Bat
-      supplies: 19
+      supplies: 18
   short_girders:
     - id: 1
-      x: 458
-      y: 427
+      x: 406
+      y: 305
       angle: 0
     - id: 2
-      x: 611
-      y: 383
+      x: 654
+      y: 275
       angle: 0
     - id: 3
-      x: 715
-      y: 432
+      x: 850
+      y: 254
       angle: 0
     - id: 4
-      x: 922
-      y: 378
+      x: 1020
+      y: 359
       angle: 0
     - id: 5
-      x: 1132
-      y: 424
+      x: 1139
+      y: 370
       angle: 0
     - id: 6
-      x: 1254
-      y: 366
+      x: 1273
+      y: 381
       angle: 0
 dynamic:
   worms_teams:
@@ -68,8 +65,8 @@ dynamic:
         - id: 1
           name: Worm 1
           health: 200
-          x: 469
-          y: 388
+          x: 429
+          y: 273
           sight_angle: 0
           status:
             grounded: 0
@@ -79,8 +76,8 @@ dynamic:
         - id: 2
           name: Worm 2
           health: 200
-          x: 646
-          y: 323
+          x: 672
+          y: 236
           sight_angle: 0
           status:
             grounded: 0
@@ -90,8 +87,8 @@ dynamic:
         - id: 3
           name: Worm 3
           health: 200
-          x: 708
-          y: 383
+          x: 829
+          y: 208
           sight_angle: 0
           status:
             grounded: 0
@@ -99,43 +96,40 @@ dynamic:
             mirrored: 0
             walking: 0
       inventory:
-        0:
-          item_name: Bazooka
-          supplies: 999
         1:
           item_name: Mortar
           supplies: 10
         2:
           item_name: Cluster
-          supplies: 12
+          supplies: 11
         4:
           item_name: Banana
-          supplies: 14
+          supplies: 12
         3:
           item_name: Grenade
           supplies: 13
         5:
           item_name: Holy bomb
-          supplies: 15
+          supplies: 14
         7:
           item_name: Dynamite
-          supplies: 16
+          supplies: 15
         6:
           item_name: Air Strike
-          supplies: 17
+          supplies: 16
         9:
           item_name: Teleport
-          supplies: 18
+          supplies: 17
         8:
           item_name: Bat
-          supplies: 19
+          supplies: 18
     2:
       worms:
         - id: 4
           name: Worm 1
           health: 200
-          x: 911
-          y: 339
+          x: 1008
+          y: 311
           sight_angle: 0
           status:
             grounded: 0
@@ -145,8 +139,8 @@ dynamic:
         - id: 5
           name: Worm 2
           health: 200
-          x: 1134
-          y: 382
+          x: 1119
+          y: 329
           sight_angle: 0
           status:
             grounded: 0
@@ -156,8 +150,8 @@ dynamic:
         - id: 6
           name: Worm 3
           health: 200
-          x: 1255
-          y: 328
+          x: 1271
+          y: 343
           sight_angle: 0
           status:
             grounded: 0
@@ -165,33 +159,30 @@ dynamic:
             mirrored: 0
             walking: 0
       inventory:
-        0:
-          item_name: Bazooka
-          supplies: 999
         1:
           item_name: Mortar
           supplies: 10
         2:
           item_name: Cluster
-          supplies: 12
+          supplies: 11
         4:
           item_name: Banana
-          supplies: 14
+          supplies: 12
         3:
           item_name: Grenade
           supplies: 13
         5:
           item_name: Holy bomb
-          supplies: 15
+          supplies: 14
         7:
           item_name: Dynamite
-          supplies: 16
+          supplies: 15
         6:
           item_name: Air Strike
-          supplies: 17
+          supplies: 16
         9:
           item_name: Teleport
-          supplies: 18
+          supplies: 17
         8:
           item_name: Bat
-          supplies: 19
+          supplies: 18

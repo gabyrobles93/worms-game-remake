@@ -232,7 +232,8 @@ void World::executeAction(Event & event, size_t id) {
             break;
         case a_shoot : {
             if (this->weapons.size() == 0) {
-                std::cout << "Se ejecuto disparo con el arma " << event.getNode()["event"]["weapon"].as<int>() << std::endl;
+                int weapon_shooted = event.getNode()["event"]["weapon"].as<int>();
+                std::cout << "Se ejecuto disparo con el arma " << weapon_shooted << std::endl;
                 Weapon* dynamite= new Dynamite(weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
                 this->weapons.insert(std::pair<int, Weapon*>(weapon_counter, dynamite));
                 YAML::Node new_projectile;
@@ -244,6 +245,11 @@ void World::executeAction(Event & event, size_t id) {
                 new_projectile["countdown"] = std::to_string(5);
                 new_projectile["exploded"] = std::to_string(dynamite->hasExploded());
                 this->node_map["dynamic"]["projectiles"].push_back(new_projectile);
+                int supplies = this->node_map["dynamic"]["worms_teams"][this->worms[id]->getTeam()]["inventory"][weapon_shooted]["supplies"].as<int>();
+                std::cout << "Tenia " << supplies << " municiones." << std::endl;
+                supplies--;
+                std::cout << "Ahora tiene " << supplies << std::endl;
+                this->node_map["dynamic"]["worms_teams"][std::to_string(this->worms[id]->getTeam())]["inventory"][std::to_string(weapon_shooted)]["supplies"] = std::to_string(supplies);
                 weapon_counter++;
             } else {
                 std::cout << "Se ignora disparo porque hay un projectil vivo." << std::endl;

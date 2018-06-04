@@ -1,6 +1,6 @@
 static:
   background:
-    file: WORMS_ALTO_FONDO.jpg
+    file: ../WORMS_ALTO_FONDO.jpg
     display: mosaic
   water_level: 300
   teams_amount: 2

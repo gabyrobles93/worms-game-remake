@@ -17,7 +17,7 @@
 #include "event_receiver.h"
 
 #define PORT "8080"
-#define MAP_PATH "../map_example.yml"
+#define MAP_PATH "../maps/el_mapa_1.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
 #define TURN_DURATION_SEC 15
 
