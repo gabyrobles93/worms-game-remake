@@ -69,6 +69,10 @@ int Worm::getHealth(void) {
     return this->health;
 }
 
+float Worm::getSightAngle(void) {
+    return this->sight_angle;
+}
+
 std::string Worm::getName(void) {
     return this->name;
 }

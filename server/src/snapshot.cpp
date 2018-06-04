@@ -34,6 +34,7 @@ void Snapshot::updateWorms(std::map<int, Worm *> worms) {
             int id = worm["id"].as<int>();
             worm["x"] = std::to_string((int) (worms[id]->getPosX() / gConfiguration.SCALING_FACTOR));
             worm["y"] = std::to_string((int) (worms[id]->getPosY() / gConfiguration.SCALING_FACTOR));
+            worm["sight_angle"] = std::to_string((int) worms[id]->getSightAngle());
             worm["health"] = std::to_string(worms[id]->getHealth());
             worm["status"]["mirrored"] = std::to_string(worms[id]->isMirrored());
             worm["status"]["walking"] = std::to_string(worms[id]->isWalking());

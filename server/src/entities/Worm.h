@@ -44,6 +44,7 @@ class Worm : public Entity {
         int getId(void);
         int getTeam(void);
         int getHealth(void);
+        float getSightAngle(void);
         std::string getName(void);
         entity_t getEntityType() {return WORM;}
         void addFootContact(void);
