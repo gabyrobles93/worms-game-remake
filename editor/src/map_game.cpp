@@ -212,10 +212,10 @@ int View::MapGame::getNextWormId(void) {
   return newId;
 }
 
-void View::MapGame::saveAs(std::string mapName) {
+void View::MapGame::saveAs(std::string mapName, std::string bgName) {
   std::ofstream fout("../maps/" + mapName + ".yml");
   YAML::Node * state = this->mapStates[this->stateIndex];
-
+  (*state)["static"]["background"]["file"] = bgName;
   fout << *state;
   fout.close();
 }

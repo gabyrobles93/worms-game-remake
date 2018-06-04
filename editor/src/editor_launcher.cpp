@@ -140,7 +140,7 @@ void EditorLauncher::goCreate(void) {
 }
 
 void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
-    Editor the_editor(mapNode, map_name);
+    Editor the_editor(mapNode, map_name, this->background_name);
     this->hide();
     int err_code;
     err_code = the_editor.start();
