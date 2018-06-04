@@ -38,11 +38,10 @@ std::map<int, Worm *> & World::getWorms() {
 }
 
 void World::initializeWorld() {
-    float water_posX = (MAP_WIDTH / 2) * SCALING_FACTOR;
-    float water_posY = (MAP_HEIGTH - 100) * SCALING_FACTOR ;
-    int water_level = this->game_snapshot.getWaterLevel();
-    float water_height = water_level * SCALING_FACTOR;
-    float water_width =   MAP_WIDTH * SCALING_FACTOR;
+    float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
+    float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
+    float water_height = WATER_LEVEL * gConfiguration.SCALING_FACTOR;
+    float water_width =   MAP_WIDTH * gConfiguration.SCALING_FACTOR;
 
     this->water = new Water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
 
@@ -54,8 +53,8 @@ void World::initializeWorld() {
     for (YAML::const_iterator it = short_girders_node.begin(); it != short_girders_node.end(); ++it) {
         const YAML::Node &  short_girder = *it;
         int id = short_girder["id"].as<int>();
-        float posX = (float) short_girder["x"].as<int>() * SCALING_FACTOR;
-        float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
+        float posX = (float) short_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
+        float posY = (float) short_girder["y"].as<int>() * gConfiguration.SCALING_FACTOR;
         float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -65,8 +64,8 @@ void World::initializeWorld() {
     for (YAML::const_iterator it = long_girders_node.begin(); it != long_girders_node.end(); ++it) {
         const YAML::Node&  long_girder = *it;
         int id = long_girder["id"].as<int>();
-        float posX = (float) long_girder["x"].as<int>() * SCALING_FACTOR;
-        float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
+        float posX = (float) long_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
+        float posY = (float) long_girder["y"].as<int>() * gConfiguration.SCALING_FACTOR;
         float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -85,8 +84,8 @@ void World::initializeWorld() {
             name = worm["name"].as<std::string>();
             id = worm["id"].as<int>();
             health = worm["health"].as<int>();
-            x = (float) worm["x"].as<int>() * SCALING_FACTOR;
-            y = (float) worm["y"].as<int>() * SCALING_FACTOR;
+            x = (float) worm["x"].as<int>() * gConfiguration.SCALING_FACTOR;
+            y = (float) worm["y"].as<int>() * gConfiguration.SCALING_FACTOR;
             Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
             this->worms.insert(std::pair<int, Worm*>(id, new_worm));
         }

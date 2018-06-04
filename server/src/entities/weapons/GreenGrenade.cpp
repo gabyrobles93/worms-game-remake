@@ -14,7 +14,7 @@ void GreenGrenade::update() {
 }
 
 void GreenGrenade::explode() {
-    this->greenGrenadePhysic.explode(BLAST_RADIUS, BLAST_POWER);
+    this->greenGrenadePhysic.explode(gConfiguration.GREEN_GRENADE_BLAST_RADIUS, gConfiguration.GREEN_GRENADE_BLAST_POWER);
     this->exploded = true;
 }
 

@@ -3,10 +3,7 @@
 
 #include "Box2D.h"
 #include "ContactListener.h"
-
-#define VELOCITY_ITERATIONS 6
-#define POSITION_ITERATIONS 2
-#define TIME_STEP 1.0f/60.0f
+#include "Configuration.h"
 
 class WorldPhysic {
 public:

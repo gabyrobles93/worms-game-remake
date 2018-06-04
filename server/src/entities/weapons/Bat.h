@@ -6,6 +6,7 @@
 #include "BatPhysic.h"
 #include "Worm.h"
 #include "types.h"
+#include "Configuration.h"
 
 #define BAT_DAMAGE 10
 

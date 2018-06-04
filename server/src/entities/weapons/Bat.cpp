@@ -8,5 +8,5 @@ batPhysic(world, posX, posY, angle, this) {
 }
 
 void Bat::atack(Worm* worm) {
-    worm->hurt(BAT_DAMAGE);
+    worm->hurt(gConfiguration.BAT_DAMAGE);
 }

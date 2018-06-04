@@ -5,7 +5,7 @@
 Dynamite::Dynamite(int id, b2World& world, float posX, float posY, int delay, int currentTime) :
 Weapon(w_dynamite),
 detonationTime(currentTime + delay),
-dynamitePhysic(world, posX, posY, delay) {
+dynamitePhysic(world, posX, posY) {
     this->exploded = false;
     this->id = id;
 }
@@ -18,7 +18,7 @@ void Dynamite::update(int currentTime) {
 }
 
 void Dynamite::explode() {
-    this->dynamitePhysic.explode(BLAST_RADIUS,BLAST_POWER);
+    this->dynamitePhysic.explode(gConfiguration.DYNAMITE_BLAST_RADIUS, gConfiguration.DYNAMITE_BLAST_POWER);
     this->exploded = true;
 }
 

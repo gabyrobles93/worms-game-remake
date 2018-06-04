@@ -33,15 +33,15 @@ WormPhysic::~WormPhysic() {
 
 void WormPhysic::moveRight(float angle) {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    velocity.x = cosf(angle) * MOVE_VELOCITY;
-    velocity.y = sinf(angle) * MOVE_VELOCITY;
+    velocity.x = cosf(angle) * gConfiguration.WORM_SPEED;
+    velocity.y = sinf(angle) * gConfiguration.WORM_SPEED;
     this->body->SetLinearVelocity(velocity);
 }
 
 void WormPhysic::moveLeft(float angle) {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    velocity.x = cosf(angle) * -MOVE_VELOCITY;
-    velocity.y = sinf(angle) * -MOVE_VELOCITY;
+    velocity.x = cosf(angle) * -gConfiguration.WORM_SPEED;
+    velocity.y = sinf(angle) * -gConfiguration.WORM_SPEED;
     this->body->SetLinearVelocity(velocity);
 }
 

@@ -5,7 +5,7 @@
 #include "Weapon.h"
 #include "GreenGrenadePhysic.h"
 #include "types.h"
-
+#include "Configuration.h"
 #define BLAST_RADIUS 2.0
 #define BLAST_POWER 30
 #define TIME_FACTOR 60

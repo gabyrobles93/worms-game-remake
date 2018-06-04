@@ -14,11 +14,14 @@
 #include "event.h"
 #include "match.h"
 #include "event_receiver.h"
+#include "Configuration.h"
 
 #define PORT "8080"
 #define MAP_PATH "../maps/el_mapa_1.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
 #define TURN_DURATION_SEC 15
+
+Configuration gConfiguration;
 
 int main(/* int argc, char *argv[] */) try {
     SocketListener listener(PORT);

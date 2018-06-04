@@ -5,6 +5,7 @@
 #include "Weapon.h"
 #include "Box2D/Box2D.h"
 #include "types.h"
+#include "Configuration.h"
 
 #define BLAST_RADIUS 10.0
 #define BLAST_POWER 50

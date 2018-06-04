@@ -15,6 +15,7 @@
 #include "blocking_queue.h"
 #include "event.h"
 #include "snapshot.h"
+#include "Configuration.h"
 
 #define SCALING_FACTOR 0.0416
 #define GRADTORAD 0.0174533

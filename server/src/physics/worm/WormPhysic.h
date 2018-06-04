@@ -4,8 +4,8 @@
 #include "Box2D/Box2D.h"
 #include "PhysicEntity.h"
 #include "Entity.h"
+#include "Configuration.h"
 
-#define MOVE_VELOCITY 1.0f
 #define WORM_HEIGHT 0.8f
 #define WORM_RADIUS 0.54f
 #define WORM_WIDTH 0.8f
