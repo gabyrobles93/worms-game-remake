@@ -27,3 +27,17 @@ void GreenGrenadePhysic::explode(float radius, float power) {
     b2Vec2 center = this->body->GetPosition();
     explosioManager.manageExplosion(center, radius, power);
 }
+
+float GreenGrenadePhysic::getPosX() {
+    return this->body->GetPosition().x;
+}
+
+float GreenGrenadePhysic::getPosY() {
+    return this->body->GetPosition().y;
+}
+
+void GreenGrenadePhysic::shoot() {
+    float x_impulse = this->body->GetMass() * 4;
+    float y_impulse = this->body->GetMass() * 2;
+    this->body->ApplyLinearImpulse(b2Vec2(x_impulse, y_impulse), this->body->GetWorldCenter(), true);
+}

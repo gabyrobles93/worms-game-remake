@@ -15,6 +15,9 @@ public:
     GreenGrenadePhysic(b2World& world, float posX, float posY);
     ~GreenGrenadePhysic();
     void explode(float radius, float power);
+    void shoot();
+    float getPosX();
+    float getPosY();
 };
 
 #endif

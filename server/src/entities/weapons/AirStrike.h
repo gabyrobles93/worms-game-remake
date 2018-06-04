@@ -4,6 +4,7 @@
 #include "Weapon.h"
 #include "Box2D.h"
 #include "Configuration.h"
+#include "types.h"
 
 class AirStrike : public Weapon {
 private:

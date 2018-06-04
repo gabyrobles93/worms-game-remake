@@ -6,20 +6,19 @@
 #include "GreenGrenadePhysic.h"
 #include "types.h"
 #include "Configuration.h"
-#define BLAST_RADIUS 2.0
-#define BLAST_POWER 30
-#define TIME_FACTOR 60
 
 class GreenGrenade : public Weapon {
-private:
-    int delay;
+private:    
+    int detonationTime;
     GreenGrenadePhysic greenGrenadePhysic;
-public:
-    GreenGrenade(b2World& world, float posX, float posY/*, float shooting_angle*/);
-    void shoot(void);
     void explode(void);
-    void update(void);
+public:
+    GreenGrenade(int id, b2World& world, float posX, float posY, float shooting_angle, int power_factor, int delay, int currentTime);
+    void shoot(void);
+    void update(int currentTime);
     bool hasExploded(void);
+    float getPosX();
+    float getPosY();
 };
 
 #endif

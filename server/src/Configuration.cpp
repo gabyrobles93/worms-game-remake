@@ -13,6 +13,37 @@ Configuration::Configuration() {
     //WORM
     this->WORM_SPEED = 1;
 
+    //BAZOOKA
+    this->BAZOOKA_BLAST_RADIUS = 2;
+    this->BAZOOKA_BLAST_POWER = 50;
+
+    //MORTAR
+    this->MORTAR_BLAST_RADIUS = 2;
+    this->MORTAR_BLAST_POWER = 50;
+    this->MORTAR_FRAGMENT_QUANTITY = 6;
+    this->MORTAR_FRAGMENT_BLAST_RADIUS = 2;
+    this->MORTAR_FRAGMENT_BLAST_POWER = 10;
+
+    //RED GRENADE
+    this->RED_GRENADE_BLAST_RADIUS = 2;
+    this->RED_GRENADE_BLAST_POWER = 30;
+    this->RED_GRENADE_FRAGMENT_QUANTITY = 6;
+    this->RED_GRENADE_FRAGMENT_BLAST_RADIUS = 2;
+    this->RED_GRENADE_FRAGMENT_BLAST_POWER = 10;
+
+    //BANANA
+    this->BANANA_BLAST_RADIUS = 4;
+    this->BANANA_BLAST_POWER = 70;
+
+    //HOLY GRENADE
+    this->HOLY_GRENADE_BLAST_RADIUS = 8;
+    this->HOLY_GRENADE_BLAST_POWER = 110;
+
+    //AIRSTRIKE
+    this->AIR_STRIKE_BLAST_RADIUS = 2;
+    this->AIR_STRIKE_BLAST_POWER = 40;
+    this->AIR_STRIKE_MISSIL_QUANTITY = 6;
+
     //BAT
     this->BAT_DAMAGE = 10;
 
