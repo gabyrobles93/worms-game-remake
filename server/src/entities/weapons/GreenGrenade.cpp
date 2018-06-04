@@ -1,7 +1,9 @@
 #include "GreenGrenade.h"
+#include "types.h"
 
 GreenGrenade::GreenGrenade(b2World& world, float posX, float posY/*, float shooting_angle*/) :
-greenGrenadePhysic(world, posX, posY){
+Weapon(w_green_grenade),
+greenGrenadePhysic(world, posX, posY) {
     this->exploded = false;
 }
 

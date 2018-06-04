@@ -3,6 +3,7 @@
 
 #include "Weapon.h"
 #include "Worm.h"
+#include "types.h"
 
 class Teleportation : public Weapon {
 private:

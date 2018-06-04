@@ -1,6 +1,8 @@
 #include "Teleportation.h"
+#include "types.h"
 
 Teleportation::Teleportation(Worm& worm, float posX, float posY) :
+Weapon(w_teleport),
 worm(worm),
 posX(posX),
 posY(posY) {

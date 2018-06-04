@@ -1,5 +1,9 @@
 #include "Weapon.h"
 
+Weapon::Weapon(weapon_t t) {
+    this->type = t;
+}
+
 Weapon::~Weapon() {
 }
 
@@ -13,4 +17,8 @@ int Weapon::getCountdown() {
 
 int Weapon::getId() {
     return this->id;
+}
+
+weapon_t Weapon::getType(void) {
+    return this->type;
 }

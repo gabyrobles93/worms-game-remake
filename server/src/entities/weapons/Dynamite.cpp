@@ -1,7 +1,9 @@
 #include "Dynamite.h"
 #include <iostream>
+#include "types.h"
 
 Dynamite::Dynamite(int id, b2World& world, float posX, float posY, int delay, int currentTime) :
+Weapon(w_dynamite),
 detonationTime(currentTime + delay),
 dynamitePhysic(world, posX, posY, delay) {
     this->exploded = false;

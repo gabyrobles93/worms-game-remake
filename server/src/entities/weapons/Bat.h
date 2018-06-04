@@ -5,6 +5,7 @@
 #include "Box2D.h"
 #include "BatPhysic.h"
 #include "Worm.h"
+#include "types.h"
 
 #define BAT_DAMAGE 10
 
