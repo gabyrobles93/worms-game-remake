@@ -1,6 +1,6 @@
 #include "DynamitePhysic.h"
 #include <iostream>
-DynamitePhysic::DynamitePhysic(b2World& world, float posX, float posY, int delay) : 
+DynamitePhysic::DynamitePhysic(b2World& world, float posX, float posY) : 
 world(world) {
     b2BodyDef dynamiteDef;
     dynamiteDef.type = b2_dynamicBody;

@@ -4,10 +4,7 @@
 #include "Box2D.h"
 #include "Weapon.h"
 #include "GreenGrenadePhysic.h"
-
-#define BLAST_RADIUS 2.0
-#define BLAST_POWER 30
-#define TIME_FACTOR 60
+#include "Configuration.h"
 
 class GreenGrenade : public Weapon {
 private:

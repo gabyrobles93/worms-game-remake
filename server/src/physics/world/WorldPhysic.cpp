@@ -14,7 +14,7 @@ b2World& WorldPhysic::getWorld() {
 }
 
 void WorldPhysic::step() {
-    this->world.Step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+    this->world.Step(gConfiguration.WORLD_TIME_STEP, gConfiguration.WORLD_VELOCITY_ITERATIONS, gConfiguration.WORLD_POSITION_ITERATIONS);
 }
 
 void WorldPhysic::clearForces() {

@@ -38,10 +38,10 @@ std::map<int, Worm *> & World::getWorms() {
 }
 
 void World::initializeWorld() {
-    float water_posX = (MAP_WIDTH / 2) * SCALING_FACTOR;
-    float water_posY = (MAP_HEIGTH - 100) * SCALING_FACTOR ;
-    float water_height = WATER_LEVEL * SCALING_FACTOR;
-    float water_width =   MAP_WIDTH * SCALING_FACTOR;
+    float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
+    float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
+    float water_height = WATER_LEVEL * gConfiguration.SCALING_FACTOR;
+    float water_width =   MAP_WIDTH * gConfiguration.SCALING_FACTOR;
 
     this->water = new Water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
     const YAML::Node& static_node = this->node_map["static"];
@@ -55,8 +55,8 @@ void World::initializeWorld() {
     for (YAML::const_iterator it = short_girders_node.begin(); it != short_girders_node.end(); ++it) {
         const YAML::Node &  short_girder = *it;
         int id = short_girder["id"].as<int>();
-        float posX = (float) short_girder["x"].as<int>() * SCALING_FACTOR;
-        float posY = (float) short_girder["y"].as<int>() * SCALING_FACTOR;
+        float posX = (float) short_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
+        float posY = (float) short_girder["y"].as<int>() * gConfiguration.SCALING_FACTOR;
         float angle = (float) short_girder["angle"].as<int>() * GRADTORAD;
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 3);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -65,8 +65,8 @@ void World::initializeWorld() {
     for (YAML::const_iterator it = long_girders_node.begin(); it != long_girders_node.end(); ++it) {
         const YAML::Node&  long_girder = *it;
         int id = long_girder["id"].as<int>();
-        float posX = (float) long_girder["x"].as<int>() * SCALING_FACTOR;
-        float posY = (float) long_girder["y"].as<int>() * SCALING_FACTOR;
+        float posX = (float) long_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
+        float posY = (float) long_girder["y"].as<int>() * gConfiguration.SCALING_FACTOR;
         float angle = (float) long_girder["angle"].as<int>() * GRADTORAD;
         Girder* girder_ptr = new Girder(this->worldPhysic.getWorld(), posX, posY, -angle, 0.8, 6);
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
@@ -84,8 +84,8 @@ void World::initializeWorld() {
             name = worm["name"].as<std::string>();
             id = worm["id"].as<int>();
             health = worm["health"].as<int>();
-            x = (float) worm["x"].as<int>() * SCALING_FACTOR;
-            y = (float) worm["y"].as<int>() * SCALING_FACTOR;
+            x = (float) worm["x"].as<int>() * gConfiguration.SCALING_FACTOR;
+            y = (float) worm["y"].as<int>() * gConfiguration.SCALING_FACTOR;
             Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
             this->worms.insert(std::pair<int, Worm*>(id, new_worm));
         }
@@ -106,8 +106,8 @@ void World::updateProjectilesYAML(void) {
     for (it = this->node_map["dynamic"]["projectiles"].begin(); it !=this->node_map["dynamic"]["projectiles"].end(); it++) {
         YAML::Node projectile = *it;
         int weapon_id = projectile["id"].as<int>();
-        x = std::to_string((int) (this->weapons[weapon_id]->getPosX() / SCALING_FACTOR));
-        y = std::to_string((int) (this->weapons[weapon_id]->getPosY() / SCALING_FACTOR));
+        x = std::to_string((int) (this->weapons[weapon_id]->getPosX() / gConfiguration.SCALING_FACTOR));
+        y = std::to_string((int) (this->weapons[weapon_id]->getPosY() / gConfiguration.SCALING_FACTOR));
         current_time = std::to_string(this->weapons[weapon_id]->getCountdown());
         exploded = std::to_string(this->weapons[weapon_id]->hasExploded());
         projectile["x"] = x;
@@ -132,8 +132,8 @@ void World::updateWormsYAML(void) {
         for (YAML::iterator worms_it = worms_node.begin(); worms_it != worms_node.end(); worms_it++) {
             YAML::Node worm = *worms_it;
             int id = worm["id"].as<int>();
-            x = std::to_string((int) (this->worms[id]->getPosX() / SCALING_FACTOR));
-            y = std::to_string((int) (this->worms[id]->getPosY() / SCALING_FACTOR));
+            x = std::to_string((int) (this->worms[id]->getPosX() / gConfiguration.SCALING_FACTOR));
+            y = std::to_string((int) (this->worms[id]->getPosY() / gConfiguration.SCALING_FACTOR));
             health = std::to_string(this->worms[id]->getHealth());
             mirrored = std::to_string(this->worms[id]->isMirrored());
             walking = std::to_string(this->worms[id]->isWalking());
@@ -239,8 +239,8 @@ void World::executeAction(Event & event, size_t id) {
                 YAML::Node new_projectile;
                 new_projectile["id"] = std::to_string(weapon_counter);
                 new_projectile["type"] = "Dynamite";
-                new_projectile["x"] = std::to_string((int) (dynamite->getPosX() / SCALING_FACTOR));
-                new_projectile["y"] = std::to_string((int) (dynamite->getPosY() / SCALING_FACTOR));
+                new_projectile["x"] = std::to_string((int) (dynamite->getPosX() / gConfiguration.SCALING_FACTOR));
+                new_projectile["y"] = std::to_string((int) (dynamite->getPosY() / gConfiguration.SCALING_FACTOR));
                 new_projectile["deton_time"] = std::to_string(5);
                 new_projectile["countdown"] = std::to_string(5);
                 new_projectile["exploded"] = std::to_string(dynamite->hasExploded());

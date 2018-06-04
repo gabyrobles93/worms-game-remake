@@ -5,8 +5,7 @@
 #include "Box2D.h"
 #include "BatPhysic.h"
 #include "Worm.h"
-
-#define BAT_DAMAGE 10
+#include "Configuration.h"
 
 class Bat : public Weapon {
 private:
