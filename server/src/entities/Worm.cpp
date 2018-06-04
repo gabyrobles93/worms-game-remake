@@ -9,7 +9,9 @@ world(world) {
     this->team_id = team_id;
     this->name = n;
     this->angle = 0;
+    this->sight_angle = 0;
     this->falling = false;
+    this->mirrored = false;
     this->affectedByExplosion = false;
 }
 

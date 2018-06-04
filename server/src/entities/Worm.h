@@ -15,6 +15,7 @@ class Worm : public Entity {
         float posX;
         float posY;
         float angle;
+        float sight_angle;
         float fallenDistance;
 
         bool affectedByExplosion;
