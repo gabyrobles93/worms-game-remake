@@ -178,6 +178,14 @@ void World::executeAction(Event & event, size_t id) {
             }
             break;
         }
+        
+        case a_pointUp:
+            this->worms[id]->pointHigher();
+            break;
+
+        case a_pointDown:
+            this->worms[id]->pointMoreDown();
+            break;
         default: break;
     }
 }
