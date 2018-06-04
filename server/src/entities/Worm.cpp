@@ -45,6 +45,18 @@ void Worm::moveLeft(void) {
     }
 }
 
+void Worm::pointHigher(void) {
+    if (this->sight_angle < 90) {
+        this->sight_angle++;
+    }
+}
+
+void Worm::pointMoreDown(void) {
+    if (this->sight_angle > -90) {
+        this->sight_angle--;
+    }
+}
+
 bool Worm::isMirrored(void) {
     return this->mirrored;
 }
