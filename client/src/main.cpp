@@ -175,8 +175,8 @@ int main(/* int argc, char *argv[] */) {
 			worms.render(renderer, camera);
 
 			// Proyectiles
-/* 			projectiles.update(renderer, pdynamics.getProjectiles());
-			projectiles.render(renderer, camera); */
+			projectiles.update(renderer, pdynamics.getProjectiles());
+			projectiles.render(renderer, camera);
 
 			// El agua va sobre todo menos el inventario
 			mainWindow.renderWater(camera);
