@@ -20,7 +20,10 @@ YAML::Node ProtectedDynamics::getWorms(void) {
 
 YAML::Node ProtectedDynamics::getProjectiles(void) {
     std::lock_guard<std::mutex> lck(this->mutex);
-    //std::cout << "PROJECTILES RECEIVED: " << std::endl;
-    //std::cout << this->dynamics["projectiles"] << std::endl;
     return this->dynamics["projectiles"];
+}
+
+int ProtectedDynamics::getTurnTimeLeft(void) {
+    std::lock_guard<std::mutex> lck(this->mutex);
+    return this->dynamics["game_status"]["turn_timeleft"].as<int>();
 }

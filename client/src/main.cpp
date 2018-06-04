@@ -117,9 +117,6 @@ int main(/* int argc, char *argv[] */) {
 		model_receiver.start();
 
 		View::Clock clock(CLOCK_X_OFFSET, mainWindow.getScreenHeight() - CLOCK_Y_OFFSET - CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_HEIGHT);
-		int currentTime = 20;
-		clock.setTime(currentTime);
-		size_t counter = 1;
 		// Comienza el ciclo del juego para el cliente
 		bool quit = false;	
 		SDL_Event e;
@@ -175,25 +172,19 @@ int main(/* int argc, char *argv[] */) {
 			worms.render(renderer, camera);
 
 			// Proyectiles
-/* 			projectiles.update(renderer, pdynamics.getProjectiles());
-			projectiles.render(renderer, camera); */
+ 			projectiles.update(renderer, pdynamics.getProjectiles());
+			projectiles.render(renderer, camera);
 
 			// El agua va sobre todo menos el inventario
 			mainWindow.renderWater(camera);
 
 			// El inventario y el timer va adelante de todo
 			inventory.render(renderer);
+			clock.setTime(pdynamics.getTurnTimeLeft());
 			clock.render(renderer, 0, 0);
 
 			SDL_RenderPresent(renderer);
 			SDL_Delay(10);
-
-			if (counter == 100) {
-				counter = 0;
-				currentTime--;
-				clock.setTime(currentTime);
-			}
-			counter++;
 		}
 
 		// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
@@ -201,10 +192,10 @@ int main(/* int argc, char *argv[] */) {
 		events.push(event);
 
 		// Stop y Join de threads
-			event_sender.stop();
-			event_sender.join();
-			model_receiver.stop();
-			model_receiver.join();
+		event_sender.stop();
+		event_sender.join();
+		model_receiver.stop();
+		model_receiver.join();
 
 		return 0;
 

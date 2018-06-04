@@ -7,30 +7,18 @@
 #include "camera.h"
 #include "dynamite.h"
 #include "projectil.h"
+#include "types.h"
 #include "yaml.h"
 #include "view_exceptions.h"
 #include "inventory_weapons.h"
-
-typedef enum {
-  BAZOOKA,
-  MORTAR,
-  GREEN_GRENADE,
-  RED_GRENADE,
-  BANANA,
-  HOLY_GRENADE,
-  DYNAMITE,
-  AIR_STRIKE
-} projectil_t;
 
 namespace View {
   class Projectiles {
     private:
       std::map<size_t, Projectil *> projectiles;
 
-      std::map<std::string, projectil_t> projectilesTypes;
-
       // Crea un proyectil nuevo dependiendo el tipo
-      void createProjectil(SDL_Renderer *, int, std::string, int);
+      void createProjectil(SDL_Renderer *, int, weapon_t, int);
 
       // Libera la memoria de los proyectiles que ya terminaron de usarse
       void cleanProjectilesFinished(void);

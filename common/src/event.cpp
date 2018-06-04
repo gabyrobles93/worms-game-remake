@@ -23,6 +23,7 @@ Event::Event(action_t a, weapon_t w, size_t tid) {
 Event::Event(YAML::Node & event) {
     this->eventNode = YAML::Clone(event);
     this->action = (action_t) event["event"]["action"].as<int>();
+    this->team_id = event["event"]["team_id"].as<size_t>();
 }
 
 YAML::Node Event::getNode(void) {
