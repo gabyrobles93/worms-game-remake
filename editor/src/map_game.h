@@ -36,6 +36,7 @@ namespace View {
       // Obtiene el id del proximo
       // worm a agregar
       int getNextWormId(void);
+      void addInventoryToTeams(YAML::Node & map);
 
     public:
       // Constructor, recibe el nodo YAML
