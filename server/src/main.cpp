@@ -32,7 +32,6 @@ int main(/* int argc, char *argv[] */) try {
     Queue<YAML::Node> snapshots(MAX_QUEUE_SNAPSHOTS);
     World world(world_path, snapshots);    
     Match match(world.getWorms(), TURN_DURATION_SEC);
-    match.printTeams();
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
