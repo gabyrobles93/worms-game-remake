@@ -40,7 +40,7 @@ std::map<int, Worm *> & World::getWorms() {
 void World::initializeWorld() {
     float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
-    float water_height = WATER_LEVEL * gConfiguration.SCALING_FACTOR;
+    float water_height = this->game_snapshot.getWaterLevel() * gConfiguration.SCALING_FACTOR;
     float water_width =   MAP_WIDTH * gConfiguration.SCALING_FACTOR;
 
     this->water = new Water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
