@@ -6,7 +6,7 @@
 #define MAP_HEIGTH 1500
 // #define WATER_LEVEL 300
 
-World::World(std::string & map_path, Queue<YAML::Node> & snps) :
+World::World(std::string & map_path, Queue<Snapshot> & snps) :
 snapshots(snps),
 game_snapshot(YAML::LoadFile(map_path)) {
     initializeWorld();
@@ -125,7 +125,7 @@ void World::run() {
         this->worldPhysic.clearForces();
         updateBodies();
         updateSnapshot();
-        this->snapshots.push(this->game_snapshot.getSnapshot());
+        this->snapshots.push(this->game_snapshot);
         step_counter++;
 
         if (step_counter == 60) {

@@ -12,6 +12,7 @@ Match::Match(std::map<int, Worm*> & worms, size_t td) :
 worms(worms) {
     this->turn_duration_sec = td;
     this->actual_turn_start_time = 0;
+    this->turn_timeleft_sec = td;
     this->match_finished = false;
     this->winner_team = -1;
     createTeams(worms);
@@ -114,11 +115,23 @@ void Match::removeDeadWormsTurns(void) {
     }
 }
 
+std::vector<size_t> Match::getAliveTeams(void) {
+    std::vector<size_t> alive_teams;
+    std::map<int, Team *>::const_iterator it;
+    for (it = this->teams.begin(); it != this->teams.end(); it++) {
+        if (it->second->haveAliveMember()) {
+            alive_teams.push_back(it->second->getTeamId());
+        }
+    }
+    return alive_teams;
+}
+
 void Match::start(unsigned int actual_time_sec) {
     this->actual_turn_start_time = actual_time_sec;
 }
 
 void Match::update(unsigned int actual_time_sec) {
+    this->turn_timeleft_sec = this->turn_duration_sec - (actual_time_sec - this->actual_turn_start_time);
     if (actual_time_sec - this->actual_turn_start_time >= this->turn_duration_sec) {
         std::cout << "Se intentara cambiar de turno." << std::endl;
         if (nextTurn() < 0) {
@@ -127,8 +140,13 @@ void Match::update(unsigned int actual_time_sec) {
         } else {
             std::cout << "Cambio de turno." << std::endl;
             this->actual_turn_start_time = actual_time_sec;
+            this->turn_timeleft_sec = this->turn_duration_sec;
         }
     }
+}
+
+int Match::getTurnTimeleft(void) {
+    return this->turn_timeleft_sec;
 }
 
 bool Match::finished(void) {

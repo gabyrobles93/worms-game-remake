@@ -56,6 +56,13 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> weapons) {
     }
 }
 
+void Snapshot::updateGameStatus(Match & match) {
+    this->dynamics["game_status"]["alive_teams"] = match.getAliveTeams();
+    this->dynamics["game_status"]["protagonic_worm"] = match.getWormTurn(match.getTeamTurn());
+    this->dynamics["game_status"]["turn_timeleft"] = std::to_string(match.getTurnTimeleft());
+    this->dynamics["game_status"]["finished"] = std::to_string(match.finished());
+}
+
 void Snapshot::removeProjectile(size_t projectile_id) {
     std::vector<YAML::Node> vec_projectiles = this->dynamics["projectiles"].as<std::vector<YAML::Node>>();
     std::vector<YAML::Node>::iterator it;

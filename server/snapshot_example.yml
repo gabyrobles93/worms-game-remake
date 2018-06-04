@@ -146,6 +146,7 @@ dynamic:
       -1
       -2
       -3
+    protagonic_worm: 3
     turn_timeleft: 23
     wind:
       intensity: 35

@@ -18,6 +18,7 @@ class Match {
         unsigned int actual_turn_start_time;
         bool match_finished;
         int winner_team;
+        int turn_timeleft_sec;
 
         void createTeams(std::map<int, Worm*> &);
         int removeDeadTeamsTurns(void);
@@ -34,6 +35,8 @@ class Match {
         void update(unsigned int);
         bool finished(void);
         int getWinner(void);
+        int getTurnTimeleft(void);
+        std::vector<size_t> getAliveTeams(void);
 };
 
 #endif

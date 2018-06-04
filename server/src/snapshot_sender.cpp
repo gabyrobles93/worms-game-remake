@@ -1,9 +1,11 @@
+#include "snapshot.h"
 #include "snapshot_sender.h"
 #include "socket_error.h"
 #include <iostream>
 
-SnapshotSender::SnapshotSender(Queue<YAML::Node> & snapshots, Protocol& protocol) : 
+SnapshotSender::SnapshotSender(Queue<Snapshot> & snapshots, Match & m, Protocol& protocol) : 
 snapshots(snapshots) ,
+match(m),
 protocol(protocol) {
     this->keep_running = true;
 }
@@ -13,11 +15,14 @@ SnapshotSender::~SnapshotSender() {
 
 void SnapshotSender::run() {
     while (keep_running) {
-        YAML::Node snapshot = this->snapshots.pop();
+        Snapshot snapshot(this->snapshots.pop());
+        // agregar nodo de game status.
+        snapshot.updateGameStatus(this->match);
+        YAML::Node nodeSnapshot = snapshot.getSnapshot();
         std::stringstream ss;
-        ss << snapshot["worms_teams"][1]["worms"];
+        ss << nodeSnapshot << std::endl;
         std::cout << ss.str() << std::endl;
-        this->protocol.sendModel(snapshot);
+        this->protocol.sendModel(nodeSnapshot);
     }
 }
 

@@ -21,7 +21,7 @@
 
 class World : public Thread {
 private:
-    Queue<YAML::Node> & snapshots;
+    Queue<Snapshot> & snapshots;
 //    YAML::Node node_map;
     Snapshot game_snapshot;
     bool keep_running;
@@ -43,7 +43,7 @@ private:
     /* void removeProjectileFromYAML(size_t); */
     
 public:
-    World(std::string &, Queue<YAML::Node> &);
+    World(std::string &, Queue<Snapshot> &);
     ~World(void);
     void initializeWorld();
     std::map<int, Worm *> & getWorms();

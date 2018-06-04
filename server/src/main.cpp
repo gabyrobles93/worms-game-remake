@@ -15,6 +15,7 @@
 #include "match.h"
 #include "event_receiver.h"
 #include "Configuration.h"
+#include "snapshot.h"
 
 #define PORT "8080"
 #define MAP_PATH "../maps/el_mapa_1.yml"
@@ -31,13 +32,13 @@ int main(/* int argc, char *argv[] */) try {
     YAML::Node mapNode = YAML::LoadFile(world_path);
     protocol.sendGameMap(mapNode);
 
-    Queue<YAML::Node> snapshots(MAX_QUEUE_SNAPSHOTS);
+    Queue<Snapshot> snapshots(MAX_QUEUE_SNAPSHOTS);
     World world(world_path, snapshots);    
     Match match(world.getWorms(), TURN_DURATION_SEC);
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
-    SnapshotSender snapshot_sender(snapshots, protocol);
+    SnapshotSender snapshot_sender(snapshots, match, protocol);
     EventReceiver event_receiver(protocol, world, match, 1);
 
     // Lanzo hilos
