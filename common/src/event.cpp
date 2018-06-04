@@ -7,12 +7,14 @@
 
 Event::Event(action_t a, size_t tid) {
     this->action = a;
+    this->team_id = tid;
     this->eventNode["event"]["team_id"] = std::to_string(tid);
     this->eventNode["event"]["action"] = std::to_string(a);
 }
 
 Event::Event(action_t a, weapon_t w, size_t tid) {
     this->action = a;
+    this->team_id = tid;
     this->eventNode["event"]["team_id"] = std::to_string(tid);
     this->eventNode["event"]["action"] = std::to_string(a);
     this->eventNode["event"]["weapon"] = std::to_string(w);
@@ -29,4 +31,8 @@ YAML::Node Event::getNode(void) {
 
 bool Event::quit(void) {
     return this->action == a_quitGame ? true : false;
+}
+
+size_t Event::getTeamId(void) {
+    return this->team_id;
 }
