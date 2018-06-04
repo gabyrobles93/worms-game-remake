@@ -171,8 +171,6 @@ void World::updateBodies() {
 }
 
 void World::removeProjectileFromYAML(size_t id) {
-    /* YAML::Node::iterator it; */
-    //int index = 0;
     std::vector<YAML::Node> vec_projectiles = this->node_map["dynamic"]["projectiles"].as<std::vector<YAML::Node>>();
     std::vector<YAML::Node>::iterator it;
     for (it = vec_projectiles.begin(); it != vec_projectiles.end(); it++) {
@@ -184,13 +182,6 @@ void World::removeProjectileFromYAML(size_t id) {
     
     this->node_map["dynamic"]["projectiles"];
     this->node_map["dynamic"]["projectiles"] = vec_projectiles;
-
-/*     for (unsigned int i = 0; i < this->node_map["dynamic"]["projectiles"].size(); i++) {
-        if (this->node_map["dynamic"]["projectiles"][i]["id"].as<size_t>() == id) {
-            this->node_map["dynamic"]["projectiles"].remove(i);
-            break;
-        }
-    } */
 }
 
 void World::run() {
@@ -254,10 +245,11 @@ void World::executeAction(Event & event, size_t id) {
                 new_projectile["exploded"] = std::to_string(dynamite->hasExploded());
                 this->node_map["dynamic"]["projectiles"].push_back(new_projectile);
                 weapon_counter++;
+            } else {
+                std::cout << "Se ignora disparo porque hay un projectil vivo." << std::endl;
             }
             break;
         }
         default: break;
     }
-
 }
