@@ -85,7 +85,6 @@ void EditorLauncher::goCreate(void) {
     mapNode["static"]["teams_amount"] = findChild<QSpinBox*>("teams_amount")->value();
     mapNode["static"]["worms_health"] = findChild<QSpinBox*>("worms_health")->value();
 
-
     mapNode["static"]["init_inventory"][std::to_string(w_bazooka)]["item_name"] = "Bazooka";
     mapNode["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"] = findChild<QSpinBox*>("bazooka_ammo")->value();
 
@@ -117,10 +116,6 @@ void EditorLauncher::goCreate(void) {
     mapNode["static"]["init_inventory"][std::to_string(w_bat)]["supplies"] = findChild<QSpinBox*>("bat_ammo")->value();
 
     std::string map_path = SAVED_MAPS_PATH + map_name + MAPS_EXT;
-
-    std::ofstream map_file(map_path, std::ofstream::out | std::ofstream::trunc);
-    map_file << mapNode;
-    map_file.close();
 
     std::stringstream ss;
     ss << mapNode;
