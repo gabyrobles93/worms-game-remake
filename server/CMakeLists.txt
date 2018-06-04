@@ -97,7 +97,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/weapons/GreenGrenadePhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.h
-
+		${PROJECT_SOURCE_DIR}/src/Configuration.h
+		${PROJECT_SOURCE_DIR}/src/Configuration.cpp
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
