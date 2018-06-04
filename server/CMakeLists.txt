@@ -99,6 +99,18 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/weapons/GreenGrenadePhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/AirStrike.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/AirStrike.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Banana.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Banana.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bazooka.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bazooka.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/HolyGrenade.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/HolyGrenade.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Mortar.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Mortar.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/RedGrenade.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/RedGrenade.h
 		${PROJECT_SOURCE_DIR}/src/Configuration.h
 		${PROJECT_SOURCE_DIR}/src/Configuration.cpp
 		)
