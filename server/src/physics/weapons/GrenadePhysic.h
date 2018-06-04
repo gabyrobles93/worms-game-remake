@@ -1,19 +1,19 @@
-#ifndef GREEN_GRENADE_PHYSIC_H
-#define GREEN_GRENADE_PHYSIC_H
+#ifndef GRENADE_PHYSIC_H
+#define GRENADE_PHYSIC_H
 
 #include "Box2D.h"
 #include "ExplosionManager.h"
 
 #define GRENADE_RADIUS 0.25f
-#define GREEN_GRENADE_DENSITY 1
+#define GRENADE_DENSITY 1
 
-class GreenGrenadePhysic {
+class GrenadePhysic {
 private:
     b2Body* body;
     b2World& world;
 public:
-    GreenGrenadePhysic(b2World& world, float posX, float posY);
-    ~GreenGrenadePhysic();
+    GrenadePhysic(b2World& world, float posX, float posY);
+    ~GrenadePhysic();
     void explode(float radius, float power);
     void shoot();
     float getPosX();
