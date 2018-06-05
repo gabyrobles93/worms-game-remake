@@ -21,7 +21,7 @@ void SnapshotSender::run() {
         YAML::Node nodeSnapshot = snapshot.getSnapshot();
         std::stringstream ss;
         ss << nodeSnapshot << std::endl;
-        std::cout << ss.str() << std::endl;
+        //std::cout << ss.str() << std::endl;
         this->protocol.sendModel(nodeSnapshot);
     }
 }

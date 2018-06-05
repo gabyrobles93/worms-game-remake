@@ -1,0 +1,3 @@
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/server/build/CMakeFiles/rebuild_cache.dir
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/server/build/CMakeFiles/server.dir
+/home/ariel/FIUBA/TallerDeProgramacion/tps/tpfinal/tp-final-taller/server/build/CMakeFiles/edit_cache.dir

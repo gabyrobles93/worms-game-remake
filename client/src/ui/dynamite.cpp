@@ -30,6 +30,8 @@ void View::Dynamite::render(SDL_Renderer * r, int camX, int camY) {
 			this->explosion.setX(this->x + this->getWidth() / 2);
 			this->explosion.setY(this->y + this->getHeight() / 2);
 			this->explosion.render(r, camX, camY);
+		} else {
+			this->finished = true;
 		}
 	}
 }

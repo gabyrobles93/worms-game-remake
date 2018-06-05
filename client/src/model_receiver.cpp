@@ -32,6 +32,8 @@ void ModelReceiver::run(void) {
         if (newDynamics["projectiles"]) {
             if (newDynamics["projectiles"].size() > 0) {
                 ss << newDynamics["projectiles"];
+
+                std::cout << "Proyectiles recibidos por MODEL RECEIVER" << std::endl;
                 std::cout << ss.str() << std::endl;
             }
         }

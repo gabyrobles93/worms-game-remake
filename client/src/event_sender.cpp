@@ -31,6 +31,7 @@ void EventSender::run(void) {
     while (keep_runing) {
         Event event = this->events.pop();
         YAML::Node evento = event.getNode();
+        //std::cout << "Cliente envia evento " << evento << std::endl;
         if (!event.quit()) {
             this->protocol.sendEvent(event);
         } else {

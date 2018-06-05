@@ -35,8 +35,8 @@ bool View::Projectil::hasFinished(void) const {
   return this->finished;
 }
 
-void View::Projectil::setExplode(bool exp) {
-  this->exploded = exp;
+void View::Projectil::setExplode(bool exploded) {
+  this->exploded = exploded;
 }
 
 void View::Projectil::setCountdown(int newCount) {

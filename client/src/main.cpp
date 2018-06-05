@@ -103,7 +103,7 @@ int main(/* int argc, char *argv[] */) {
 		ModelReceiver model_receiver(protocol, pdynamics);
 
 			// Creo la pantalla con dichas cosas estáticas.
-		View::WindowGame mainWindow(staticMap);
+		View::WindowGame mainWindow(staticMap, 1280, 900);
 		SDL_Renderer * renderer = mainWindow.getRenderer();
 		View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 							mainWindow.getBgWidth(), mainWindow.getBgHeight());
@@ -126,33 +126,35 @@ int main(/* int argc, char *argv[] */) {
 				if (e.type == SDL_QUIT)
 					quit = true;
 				
-				if (e.key.keysym.sym == SDLK_UP) {
-					Event event(a_pointUp, TEAM_ID);
-					events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_DOWN) {
-					Event event(a_pointDown, TEAM_ID);
-					events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_LEFT) {
-					Event event(a_moveLeft, TEAM_ID);
-					events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_RIGHT) {
-					Event event(a_moveRight, TEAM_ID);
-					events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_SPACE) {
-					Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID);
-					events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_RETURN) {
-					Event event(a_frontJump, TEAM_ID);
-					events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_BACKSPACE) {
-					Event event(a_backJump, TEAM_ID);
-					events.push(event);
+				if (e.type == SDL_KEYDOWN) {
+					if (e.key.keysym.sym == SDLK_UP) {
+						Event event(a_pointUp, TEAM_ID);
+						events.push(event);
+					}
+					if (e.key.keysym.sym == SDLK_DOWN) {
+						Event event(a_pointDown, TEAM_ID);
+						events.push(event);
+					}
+					if (e.key.keysym.sym == SDLK_LEFT) {
+						Event event(a_moveLeft, TEAM_ID);
+						events.push(event);
+					}
+					if (e.key.keysym.sym == SDLK_RIGHT) {
+						Event event(a_moveRight, TEAM_ID);
+						events.push(event);
+					}
+					if (e.key.keysym.sym == SDLK_SPACE) {
+						Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID);
+						events.push(event);
+					}
+					if (e.key.keysym.sym == SDLK_RETURN) {
+						Event event(a_frontJump, TEAM_ID);
+						events.push(event);
+					}
+					if (e.key.keysym.sym == SDLK_BACKSPACE) {
+						Event event(a_backJump, TEAM_ID);
+						events.push(event);
+					}
 				}
 
 				inventory.handleEvent(e); 

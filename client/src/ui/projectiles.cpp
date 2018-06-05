@@ -27,6 +27,11 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
     const YAML::Node & proj = *it;
     int projId = proj["id"].as<int>();
 
+    if (projNode) {
+      std::cout << "Nodo que voy a usar para updatear" << std::endl;
+      std::cout << projNode << std::endl;
+    }
+
     // Vemos si ya existe el proyectil
     if (this->projectiles.find(projId) != this->projectiles.end()) {
       Projectil * viewProjectile = this->projectiles[projId];
@@ -35,7 +40,7 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
       viewProjectile->setCountdown(proj["countdown"].as<int>());
       viewProjectile->setExplode((bool)proj["exploded"].as<int>());
     } else {
-      std::cout << "No existe el proyectil, lo creare\n";
+      //std::cout << "No existe el proyectil, lo creare\n";
       this->createProjectil(
         r, 
         projId, 
@@ -60,11 +65,14 @@ void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, weapon_t t
 
 void View::Projectiles::cleanProjectilesFinished(void) {
   std::map<size_t, Projectil *>::iterator it = this->projectiles.begin();
-  for (; it != this->projectiles.end() ; it++) {
+  for (; it != this->projectiles.end() ;) {
     Projectil * current = it->second;
     if (current->hasFinished()) {
+      std::cout << "Borro proyectil finalizado" << std::endl;
       delete it->second;
       it = this->projectiles.erase(it);
+    } else {
+      it++;
     }
   }
 }
