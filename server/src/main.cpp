@@ -20,7 +20,7 @@
 #define PORT "8080"
 #define MAP_PATH "../maps/el_mapa_1.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define TURN_DURATION_SEC 15
+#define TURN_DURATION_SEC 5
 
 Configuration gConfiguration;
 
@@ -49,9 +49,11 @@ int main(/* int argc, char *argv[] */) try {
     unsigned int timer = 0;
     match.start(world.getTimeSeconds()); //NO LANZA UN HILO, EMPIEZA LA PARTIDA.
     while(!event_receiver.quitEvent() && !match.finished()) {
-        usleep(16666);
         timer = world.getTimeSeconds();
         /* std::cout << timer << " Segundos." << std::endl; */
+        match.setAliveProjectilesFlag(world.hasAliveProjectiles());
+        match.setMovingWormsFlag(world.hasWormsMoving());
+        usleep(16666);
         match.update(timer);
     }
 

@@ -19,6 +19,9 @@ class Match {
         bool match_finished;
         int winner_team;
         int turn_timeleft_sec;
+        bool turn_finished;
+        bool worms_moving;
+        bool alive_projectiles;
 
         void createTeams(std::map<int, Worm*> &);
         int removeDeadTeamsTurns(void);
@@ -37,6 +40,8 @@ class Match {
         int getWinner(void);
         int getTurnTimeleft(void);
         std::vector<size_t> getAliveTeams(void);
+        void setAliveProjectilesFlag(bool);
+        void setMovingWormsFlag(bool);
 };
 
 #endif

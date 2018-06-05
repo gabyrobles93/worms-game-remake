@@ -15,6 +15,9 @@ worms(worms) {
     this->turn_timeleft_sec = td;
     this->match_finished = false;
     this->winner_team = -1;
+    this->turn_finished = false;
+    this->worms_moving = false;
+    this->alive_projectiles = false;
     createTeams(worms);
 }
 
@@ -128,19 +131,37 @@ std::vector<size_t> Match::getAliveTeams(void) {
 
 void Match::start(unsigned int actual_time_sec) {
     this->actual_turn_start_time = actual_time_sec;
+    std::cout << "Es el turno del equipo " << getTeamTurn() << " con su Worm " << getWormTurn(getTeamTurn()) << std::endl;
+}
+
+void Match::setMovingWormsFlag(bool flag) {
+    this->worms_moving = flag;
+}
+
+void Match::setAliveProjectilesFlag(bool flag) {
+    this->alive_projectiles = flag;
 }
 
 void Match::update(unsigned int actual_time_sec) {
     this->turn_timeleft_sec = this->turn_duration_sec - (actual_time_sec - this->actual_turn_start_time);
     if (actual_time_sec - this->actual_turn_start_time >= this->turn_duration_sec) {
-        std::cout << "Se intentara cambiar de turno." << std::endl;
+        this->turn_finished = true;
+    }
+/*     if (this->worms_moving == true) {
+        std::cout << "hay gusanos moviendose " << actual_time_sec << std::endl;
+    } else {
+        std::cout << "No hay gusanos moviendose " << actual_time_sec << std::endl;
+    } */
+    if (this->turn_finished && !this->worms_moving && !this->alive_projectiles) {
         if (nextTurn() < 0) {
             std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
             this->match_finished = true;
         } else {
             std::cout << "Cambio de turno." << std::endl;
+            std::cout << "Es el turno del equipo " << getTeamTurn() << " con su Worm " << getWormTurn(getTeamTurn()) << std::endl;
             this->actual_turn_start_time = actual_time_sec;
             this->turn_timeleft_sec = this->turn_duration_sec;
+            this->turn_finished = false;
         }
     }
 }
