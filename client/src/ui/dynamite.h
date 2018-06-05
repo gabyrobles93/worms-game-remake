@@ -19,7 +19,7 @@ namespace View {
       Explosion explosion;
 
     public:
-      Dynamite(SDL_Renderer *, int c, int ratio = 50);
+      Dynamite(SDL_Renderer *, int c, int ratio = 100);
       ~Dynamite();
 
       virtual void render(SDL_Renderer * r, int, int);
