@@ -58,6 +58,7 @@ int Match::getWormTurn(int team_id) {
 
 int Match::nextTurn(void) {
     int alive_teams;
+    
     int actual_team_turn = getTeamTurn();
 
     alive_teams = removeDeadTeamsTurns();
@@ -70,21 +71,20 @@ int Match::nextTurn(void) {
         // Partida sin ganadores
         return -2;
     }
-
-    if (this->team_turn_order.front() == actual_team_turn) {
+  
+    int actual_worm_turn;
+    if (getTeamTurn() == actual_team_turn) {
+        actual_worm_turn = getWormTurn(actual_team_turn);
+        removeDeadWormsTurns();
+        if (getWormTurn(actual_team_turn) == actual_worm_turn) {
+            this->worm_turn_order[actual_team_turn].pop();
+            this->worm_turn_order[actual_team_turn].push(actual_worm_turn);
+        }
         this->team_turn_order.pop();
         this->team_turn_order.push(actual_team_turn);
     }
-
-    int actual_worm_turn = getWormTurn(actual_team_turn);
-    removeDeadWormsTurns();
-
-    if (this->worm_turn_order[actual_team_turn].front() == actual_worm_turn) {
-        this->worm_turn_order[actual_team_turn].pop();
-        this->worm_turn_order[actual_worm_turn].push(actual_team_turn);
-    }
-
-    cleanTeamStatusBeforeNewTurn();
+    
+    //cleanTeamStatusBeforeNewTurn();
 
     return 0;
 }
@@ -97,9 +97,8 @@ int Match::removeDeadTeamsTurns(void) {
     int teams_qty = this->team_turn_order.size();
     for (int i = 0; i < teams_qty; i++) {
         int team_id = this->team_turn_order.front();
-        this->team_turn_order.pop();
-        if (this->teams[team_id]->haveAliveMember()) {
-            this->team_turn_order.push(team_id);
+        if (!this->teams[team_id]->haveAliveMember()) {
+            this->team_turn_order.pop();
         }
     }
     return this->team_turn_order.size();
@@ -111,9 +110,8 @@ void Match::removeDeadWormsTurns(void) {
         int queue_size = it->second.size();
         for (int i = 0; i < queue_size; i++) {
             int worm_id = it->second.front();
-            it->second.pop();
-            if (!this->worms[worm_id]->isDead()) {
-                it->second.push(worm_id);
+            if (this->worms[worm_id]->isDead()) {
+                it->second.pop();
             }
         }
     }

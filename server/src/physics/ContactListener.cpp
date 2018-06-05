@@ -33,10 +33,12 @@ void ContactListener::BeginContact(b2Contact* contact) {
 
         //WORM WATER CONTACT
         if (entityA_type == WORM && entityB_type == WATER) {
+           std::cout << "EL GUSANO " << static_cast<Worm*>(bodyAUserData)->getName() << " HA TOCADO EL AGUA" << std::endl;
            static_cast<Worm*>(bodyAUserData)->kill();
         }
 
         if (entityB_type == WORM && entityA_type == WATER) {
+           std::cout << "EL GUSANO " << static_cast<Worm*>(bodyBUserData)->getName() << " HA TOCADO EL AGUA" << std::endl;
            static_cast<Worm*>(bodyBUserData)->kill();
         }
 
