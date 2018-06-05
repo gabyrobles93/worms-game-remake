@@ -29,7 +29,9 @@ void EventReceiver::run(void) {
             return;
         }
         int team_turn = match.getTeamTurn();
-        this->world.executeAction(new_event, match.getWormTurn(team_turn));
+        if (match.getTurnTimeleft() > 0) {
+            this->world.executeAction(new_event, match.getWormTurn(team_turn));
+        }
     }
 }
 
