@@ -13,6 +13,7 @@ world(world) {
     b2FixtureDef grenadeFixture;
     grenadeFixture.shape = &grenadeShape;
     grenadeFixture.density = GRENADE_DENSITY;
+    grenadeFixture.friction = 50000000;
     body->CreateFixture(&grenadeFixture);
 
     this->body = body;
@@ -37,7 +38,7 @@ float GrenadePhysic::getPosY() {
 }
 
 void GrenadePhysic::shoot() {
-    float x_impulse = this->body->GetMass() * 4;
-    float y_impulse = this->body->GetMass() * 2;
-    this->body->ApplyLinearImpulse(b2Vec2(x_impulse, y_impulse), this->body->GetWorldCenter(), true);
+    float x_impulse = this->body->GetMass() * 5;
+    float y_impulse = this->body->GetMass() * 10;
+    this->body->ApplyLinearImpulse(b2Vec2(x_impulse, -y_impulse), this->body->GetWorldCenter(), true);
 }

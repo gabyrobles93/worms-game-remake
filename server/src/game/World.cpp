@@ -47,6 +47,13 @@ bool World::hasAliveProjectiles() {
     return this->weapons.size();
 }
 
+bool World::hasWormsAffectedByExplosion() {
+    for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
+        if (it->second->isAffectedByExplosion()) return true;
+    }
+    return false;
+}
+
 void World::initializeWorld() {
     float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
@@ -142,6 +149,9 @@ void World::run() {
             this->time_sec++;
             step_counter = 0;
         }
+
+        std::cout << "TIENE WORMS VIVOS " << hasWormsMoving() << std::endl;
+        std::cout << "TIENE PROEJCTILES VIVOS " << hasAliveProjectiles() << std::endl; 
     }
 }
 

@@ -62,6 +62,7 @@ class Worm : public Entity {
         void update(void);
         void kill(void);
         bool isMoving(void);
+        bool isAffectedByExplosion(void);
 };
 
 #endif

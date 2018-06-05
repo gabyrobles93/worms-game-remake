@@ -24,6 +24,7 @@ public:
     bool hasExploded(void);
     float getPosX();
     float getPosY();
+    entity_t getEntityType() {return DYNAMITE;}
 };
 
 #endif

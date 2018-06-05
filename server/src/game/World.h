@@ -56,6 +56,7 @@ public:
     unsigned int getTimeSeconds(void);
     bool hasWormsMoving();
     bool hasAliveProjectiles();
+    bool hasWormsAffectedByExplosion();
 };
 
 #endif

@@ -173,6 +173,10 @@ void Worm::update() {
     }
 }
 
+bool Worm::isAffectedByExplosion() {
+    return this->affectedByExplosion;
+}
+
 void Worm::setPosX(float posX) {
     this->wormPhysic.setPosX(posX);
 }
