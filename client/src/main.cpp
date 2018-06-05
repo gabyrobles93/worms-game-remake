@@ -132,6 +132,7 @@ int main(/* int argc, char *argv[] */) try {
 		// Dibujamos cosas dinámicas
 		// Gusanos
 		worms.update(pdynamics.getWorms());
+		worms.updateWormProtagonic(pdynamics.getWormProtagonicId());
 		worms.render(renderer, camera);
 
 		// Proyectiles

@@ -59,6 +59,8 @@ add_executable(	client
 		${UI_SOURCE_DIR}/explosion.cpp
 		${UI_SOURCE_DIR}/projectil.cpp
 		${UI_SOURCE_DIR}/projectiles.cpp
+		${UI_SOURCE_DIR}/rectangle_text.cpp
+		${UI_SOURCE_DIR}/sight.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
@@ -93,6 +95,8 @@ add_executable(	client
 		${UI_SOURCE_DIR}/explosion.h
 		${UI_SOURCE_DIR}/projectil.h
 		${UI_SOURCE_DIR}/projectiles.h
+		${UI_SOURCE_DIR}/rectangle_text.h
+		${UI_SOURCE_DIR}/sight.h
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)

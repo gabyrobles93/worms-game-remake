@@ -15,6 +15,7 @@ class ProtectedDynamics {
         YAML::Node getWorms(void);
         YAML::Node getProjectiles(void);
         int getTurnTimeLeft(void);
+        size_t getWormProtagonicId(void);
         void popModel(void);
 };
 

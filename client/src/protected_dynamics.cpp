@@ -44,3 +44,7 @@ int ProtectedDynamics::getTurnTimeLeft(void) {
     }
     return -1;
 }
+
+size_t ProtectedDynamics::getWormProtagonicId(void) {
+    return this->dynamics["game_status"]["protagonic_worm"].as<size_t>();
+}

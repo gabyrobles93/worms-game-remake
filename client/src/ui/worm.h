@@ -10,6 +10,7 @@
 #include "sprite_animation.h"
 
 #include "font.h"
+#include "sight.h"
 
 typedef enum {
   PLAIN_WORM,
@@ -41,6 +42,9 @@ namespace View {
       bool walking;
       bool falling;
       bool alive;
+      bool protagonic;
+
+      Sight sight;
 
 
       // Worm data
@@ -56,22 +60,23 @@ namespace View {
     public:
       Worm(SDL_Renderer *, std::string, size_t, int);
       virtual ~Worm(void);
-      /* void handleEvent(SDL_Event &); */
       virtual int getWidth(void) const;
       virtual int getHeight(void) const;
       virtual int getX(void) const;
       virtual int getY(void) const;
       virtual void setX(int);
       virtual void setY(int);
+      virtual void render(SDL_Renderer *, int, int);
+      void setProtagonic(bool);
       void setMirrored(bool);
       void setWalking(bool);
-      virtual void render(SDL_Renderer *, int, int);
       void renderWormData(SDL_Renderer *, int, int);
       void setHealth(int);
       void setFalling(bool);
+      void setGrounded(bool);
+      void setSightAngle(int);
       int getHealth(void);
       bool isAlive(void);
-      void setGrounded(bool);
   };
 }
 
