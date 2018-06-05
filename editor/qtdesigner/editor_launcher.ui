@@ -460,6 +460,22 @@
       </item>
      </layout>
     </widget>
+    <widget class="QLabel" name="label_errors">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>0</y>
+       <width>411</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ef2929;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="group_map_config">
     <property name="geometry">
@@ -622,35 +638,19 @@
       </item>
      </layout>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="go_create">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>680</y>
-      <width>111</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Go Create!</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_errors">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>680</y>
-      <width>411</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ef2929;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="textFormat">
-     <enum>Qt::RichText</enum>
-    </property>
+    <widget class="QPushButton" name="go_create">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>190</y>
+       <width>111</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Go Create!</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

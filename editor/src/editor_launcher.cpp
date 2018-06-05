@@ -117,9 +117,9 @@ void EditorLauncher::goCreate(void) {
 
     std::string map_path = SAVED_MAPS_PATH + map_name + MAPS_EXT;
 
-    std::stringstream ss;
+/*     std::stringstream ss;
     ss << mapNode;
-    std::cout << ss.str() << std::endl;
+    std::cout << ss.str() << std::endl; */
 
     launchEditor(mapNode, map_name);
 }
@@ -130,11 +130,11 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
     int err_code;
     err_code = the_editor.start();
     if (err_code == 0) {
-        std::string cmd_create_folder_map = "mkdir ../maps/" + map_name;
+        std::string cmd_create_folder_map = "mkdir ../maps/" + map_name + " > /dev/null";
         std::system(cmd_create_folder_map.c_str());
-        std::string cmd_cp_background = "cp " + this->background_path + " ../maps/" + map_name;
+        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" ../maps/" + map_name + " > /dev/null";
         std::system(cmd_cp_background.c_str());
-        std::string cmd_mv_yaml = "mv ../maps/" + map_name + ".yml" + " ../maps/" + map_name + "/";
+        std::string cmd_mv_yaml = "mv ../maps/" + map_name + ".yml" + " ../maps/" + map_name + "/" + " > /dev/null";
         std::system(cmd_mv_yaml.c_str());
     }
     this->close();
