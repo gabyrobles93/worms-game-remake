@@ -162,7 +162,7 @@ void Match::update(unsigned int actual_time_sec) {
     } else {
         std::cout << "No hay gusanos afectados por explosión." << actual_time_sec << std::endl;
     } */
-
+    //std::cout << "TURN FINISHED: " << this->turn_finished << "IS WORM MOVING " << this->worms_moving << "HAS ALIVE PROEJCTILES " << this->alive_projectiles << "HAS WORMS AFFECTED BY EXPLOSION " << this->worms_affected_by_explosion << std::endl;
     if (this->turn_finished && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion) {
         if (nextTurn() < 0) {
             std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;

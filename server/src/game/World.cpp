@@ -39,7 +39,7 @@ std::map<int, Worm *> & World::getWorms() {
 
 bool World::hasWormsMoving() {
     for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
-        if (it->second->isMoving()) return true;
+        if (it->second->isMoving() && !it->second->isDead()) return true;
     }
     return false;
 }
@@ -49,7 +49,7 @@ bool World::hasAliveProjectiles() {
 
 bool World::hasWormsAffectedByExplosion() {
     for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
-        if (it->second->isAffectedByExplosion()) return true;
+        if (it->second->isAffectedByExplosion() && !it->second->isDead()) return true;
     }
     return false;
 }
