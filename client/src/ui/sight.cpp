@@ -45,7 +45,7 @@ void View::Sight::setXYcenter(int xc, int yc) {
 }
 
 void View::Sight::setAngle(int a) {
-  this->angle = a;
+  this->angle = a * DEGTORAD;
 }
 
 void View::Sight::setRatio(int r) {
@@ -58,7 +58,7 @@ void View::Sight::setMirrored(bool m) {
 
 void View::Sight::render(SDL_Renderer * r, int camX, int camY) {
   int fct;
-  this->mirrored ? fct = -1 : fct = 1;
+  this->mirrored ? fct = 1 : fct = -1;
 
   SDL_Rect clip = this->sprite.getNextClip();
   int x = xCenter + (int)(this->ratio * cos(this->angle) * fct);

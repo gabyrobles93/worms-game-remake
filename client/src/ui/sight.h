@@ -6,13 +6,15 @@
 #include "paths.h"
 #include "sprite_animation.h"
 
+#define DEGTORAD 0.0174533
+
 namespace View {
   class Sight: public Drawable {
     private:
       Texture texture;
       SpriteAnimation sprite;
       int ratio;
-      int angle;
+      float angle;
 
       int xCenter;
       int yCenter;
