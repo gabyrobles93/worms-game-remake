@@ -95,18 +95,14 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.h
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/GreenGrenadePhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/GreenGrenadePhysic.h
-		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.cpp
-		${PROJECT_SOURCE_DIR}/src/entities/weapons/GreenGrenade.h
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/GrenadePhysic.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/GrenadePhysic.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Grenade.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Grenade.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/AirStrike.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/AirStrike.h
-		${PROJECT_SOURCE_DIR}/src/entities/weapons/Banana.cpp
-		${PROJECT_SOURCE_DIR}/src/entities/weapons/Banana.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bazooka.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bazooka.h
-		${PROJECT_SOURCE_DIR}/src/entities/weapons/HolyGrenade.cpp
-		${PROJECT_SOURCE_DIR}/src/entities/weapons/HolyGrenade.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Mortar.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Mortar.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/RedGrenade.cpp
