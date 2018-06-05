@@ -7,7 +7,7 @@ ProtectedDynamics::ProtectedDynamics(YAML::Node & dyn) {
     this->dynamics = dyn;
 }
 
-void ProtectedDynamics::update(YAML::Node & new_dyn) {
+void ProtectedDynamics::addModel(YAML::Node & new_dyn) {
     // No deberia matar el nodo, este ProtectedDynamics
     // deberia tener una cola bloqueante de snapshoots
     // Quien pushea es el Model Receiver
@@ -18,22 +18,29 @@ void ProtectedDynamics::update(YAML::Node & new_dyn) {
     // en la clase Snapshoot y estos metodos te devolverian
     // los nodos YAML corrrespondiente como lo esta haciendo
     // ProtectedDynamics
-    std::lock_guard<std::mutex> lck(this->mutex);
-    this->dynamics.reset();
-    this->dynamics = new_dyn; 
+/*     this->dynamics.reset();
+    this->dynamics = new_dyn;  */
+    this->models.push(new_dyn);
+}
+
+void ProtectedDynamics::popModel(void) {
+    if (!this->models.empty()) {
+        this->dynamics = this->models.front();
+        this->models.pop();
+    }
 }
 
 YAML::Node ProtectedDynamics::getWorms(void) {
-    std::lock_guard<std::mutex> lck(this->mutex);
     return this->dynamics["worms_teams"];
 }
 
 YAML::Node ProtectedDynamics::getProjectiles(void) {
-    std::lock_guard<std::mutex> lck(this->mutex);
     return this->dynamics["projectiles"];
 }
 
 int ProtectedDynamics::getTurnTimeLeft(void) {
-    std::lock_guard<std::mutex> lck(this->mutex);
-    return this->dynamics["game_status"]["turn_timeleft"].as<int>();
+    if (this->dynamics["game_status"]) {
+        return this->dynamics["game_status"]["turn_timeleft"].as<int>();
+    }
+    return -1;
 }

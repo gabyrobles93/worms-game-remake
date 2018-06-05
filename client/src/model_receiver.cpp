@@ -37,7 +37,7 @@ void ModelReceiver::run(void) {
                 std::cout << ss.str() << std::endl;
             }
         }
-        this->dynamics.update(newDynamics);
+        this->dynamics.addModel(newDynamics);
     }
 }
 

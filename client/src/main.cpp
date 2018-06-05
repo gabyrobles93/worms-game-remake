@@ -46,166 +46,124 @@
 // Variable global
 Paths gPath;
 
-int main(/* int argc, char *argv[] */) {
+int main(/* int argc, char *argv[] */) try {
+	YAML::Node mapNode;
+	Queue<Event> events(MAX_QUEUE_MODELS);
+	Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
+	EventSender event_sender(protocol, events);
+	protocol.rcvGameMap(mapNode);
 
+	YAML::Node staticMap = mapNode["static"];
+	YAML::Node dynamicMap = mapNode["dynamic"];
+	YAML::Node wormsNode = dynamicMap["worms_teams"];
 
-	// No se puede borrar nodo de una sequence en yaml
-	// issue: https://github.com/jbeder/yaml-cpp/issues/190
-	/* 
-	YAML::Node ejemplo;
-	YAML::Node seq1;
-	seq1["id"] = 1;
-	seq1["type"] = "Dynamite";
+	ProtectedDynamics pdynamics(dynamicMap);
+	ModelReceiver model_receiver(protocol, pdynamics);
 
-	YAML::Node seq2;
-	seq2["id"] = 2;
-	seq2["type"] = "Bazooka";
+		// Creo la pantalla con dichas cosas estáticas.
+	View::WindowGame mainWindow(staticMap, 1280, 900);
+	SDL_Renderer * renderer = mainWindow.getRenderer();
+	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
+						mainWindow.getBgWidth(), mainWindow.getBgHeight());
 
-	YAML::Node seq3;
-	seq3["id"] = 3;
-	seq3["type"] = "Banana";
+	View::WormsStatus worms(wormsNode, renderer);
+	View::WeaponsInventory inventory(renderer);
 
-	ejemplo["projectiles"].push_back(seq1);
-	ejemplo["projectiles"].push_back(seq2);
-	ejemplo["projectiles"].push_back(seq3);
+	View::Projectiles projectiles;
+	// Lanzo threads de enviar eventos y de recibir modelos
+	event_sender.start();
+	model_receiver.start();
 
-	std::cout << "Nodo antes de borrar\n";
-	std::cout << ejemplo << std::endl;
+	View::Clock clock(CLOCK_X_OFFSET, mainWindow.getScreenHeight() - CLOCK_Y_OFFSET - CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_HEIGHT);
+	// Comienza el ciclo del juego para el cliente
+	bool quit = false;	
+	SDL_Event e;
 
-	YAML::iterator it = ejemplo["projectiles"].begin();
-
-	int index = 0;
-	for (; it != ejemplo["projectiles"].end() ; it++) {
-		YAML::Node current = *it;
-		if ((*it)["id"].as<int>() == 2) {
-			std::cout << "Removing\n";
-			ejemplo["projectiles"].remove_at(index);
-			break;
-		}
-		index++;
-	}
-
-	std::cout << "\n\n\nNodo despues de borrar\n";
-	std::cout << ejemplo << std::endl;*/
-
-	try {
-		YAML::Node mapNode;
-		Queue<Event> events(MAX_QUEUE_MODELS);
-		Protocol protocol(SocketConnection(CONNECTION_HOST, CONNECTION_PORT));
-		EventSender event_sender(protocol, events);
-		protocol.rcvGameMap(mapNode);
-
-		YAML::Node staticMap = mapNode["static"];
-		YAML::Node dynamicMap = mapNode["dynamic"];
-		YAML::Node wormsNode = dynamicMap["worms_teams"];
-
-		ProtectedDynamics pdynamics(dynamicMap);
-		ModelReceiver model_receiver(protocol, pdynamics);
-
-			// Creo la pantalla con dichas cosas estáticas.
-		View::WindowGame mainWindow(staticMap, 1280, 900);
-		SDL_Renderer * renderer = mainWindow.getRenderer();
-		View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
-							mainWindow.getBgWidth(), mainWindow.getBgHeight());
-
-		View::WormsStatus worms(wormsNode, renderer);
-		View::WeaponsInventory inventory(renderer);
-
-		View::Projectiles projectiles;
-		// Lanzo threads de enviar eventos y de recibir modelos
-		event_sender.start();
-		model_receiver.start();
-
-		View::Clock clock(CLOCK_X_OFFSET, mainWindow.getScreenHeight() - CLOCK_Y_OFFSET - CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_HEIGHT);
-		// Comienza el ciclo del juego para el cliente
-		bool quit = false;	
-		SDL_Event e;
-
-		while (!quit) {
-			while (SDL_PollEvent(&e) != 0) {
-				if (e.type == SDL_QUIT)
-					quit = true;
-				
-				if (e.type == SDL_KEYDOWN) {
-					if (e.key.keysym.sym == SDLK_UP) {
-						Event event(a_pointUp, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_DOWN) {
-						Event event(a_pointDown, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_LEFT) {
-						Event event(a_moveLeft, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_RIGHT) {
-						Event event(a_moveRight, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_SPACE) {
-						Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_RETURN) {
-						Event event(a_frontJump, TEAM_ID);
-						events.push(event);
-					}
-					if (e.key.keysym.sym == SDLK_BACKSPACE) {
-						Event event(a_backJump, TEAM_ID);
-						events.push(event);
-					}
+	while (!quit) {
+		while (SDL_PollEvent(&e) != 0) {
+			if (e.type == SDL_QUIT)
+				quit = true;
+			
+			if (e.type == SDL_KEYDOWN) {
+				if (e.key.keysym.sym == SDLK_UP) {
+					Event event(a_pointUp, TEAM_ID);
+					events.push(event);
 				}
-
-				inventory.handleEvent(e); 
+				if (e.key.keysym.sym == SDLK_DOWN) {
+					Event event(a_pointDown, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_LEFT) {
+					Event event(a_moveLeft, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_RIGHT) {
+					Event event(a_moveRight, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_SPACE) {
+					Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_RETURN) {
+					Event event(a_frontJump, TEAM_ID);
+					events.push(event);
+				}
+				if (e.key.keysym.sym == SDLK_BACKSPACE) {
+					Event event(a_backJump, TEAM_ID);
+					events.push(event);
+				}
 			}
 
-			camera.updateCameraPosition();
-
-			SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-			SDL_RenderClear(renderer);
-			
-			// Dibujamos cosas estáticas
-			mainWindow.render(camera);
-
-			// Dibujamos cosas dinámicas
-			// Gusanos
-			worms.update(pdynamics.getWorms());
-			worms.render(renderer, camera);
-
-			// Proyectiles
- 			projectiles.update(renderer, pdynamics.getProjectiles());
-			projectiles.render(renderer, camera);
-
-			// El agua va sobre todo menos el inventario
-			mainWindow.renderWater(camera);
-
-			// El inventario y el timer va adelante de todo
-			inventory.render(renderer);
-			clock.setTime(pdynamics.getTurnTimeLeft());
-			clock.render(renderer, 0, 0);
-
-			SDL_RenderPresent(renderer);
-			SDL_Delay(10);
+			inventory.handleEvent(e); 
 		}
 
-		// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
-		Event event(a_quitGame, TEAM_ID);
-		events.push(event);
+		camera.updateCameraPosition();
 
-		// Stop y Join de threads
-		event_sender.stop();
-		event_sender.join();
-		model_receiver.stop();
-		model_receiver.join();
+		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+		SDL_RenderClear(renderer);
+		
+		// Dibujamos cosas estáticas
+		mainWindow.render(camera);
 
-		return 0;
+		// Antes de llamar a los getters de dynamics, hacemos un pop de model
+		pdynamics.popModel();
 
-	} catch(const SocketError & e) {
-		std::cout << e.what() << std::endl;
-	} catch(const std::exception & e) {
-		std::cout << e.what() << std::endl;
+		// Dibujamos cosas dinámicas
+		// Gusanos
+		worms.update(pdynamics.getWorms());
+		worms.render(renderer, camera);
+
+		// Proyectiles
+		projectiles.update(renderer, pdynamics.getProjectiles());
+		projectiles.render(renderer, camera);
+
+		// El agua va sobre todo menos el inventario
+		mainWindow.renderWater(camera);
+
+		// El inventario y el timer va adelante de todo
+		inventory.render(renderer);
+		clock.setTime(pdynamics.getTurnTimeLeft());
+		clock.render(renderer, 0, 0);
+
+		SDL_RenderPresent(renderer);
+		SDL_Delay(10);
 	}
-	return 0;
-}
 
+	// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
+	Event event(a_quitGame, TEAM_ID);
+	events.push(event);
+
+	// Stop y Join de threads
+	event_sender.stop();
+	event_sender.join();
+	model_receiver.stop();
+	model_receiver.join();
+
+	return 0;
+	
+} catch(const SocketError & e) {
+	std::cout << e.what() << std::endl;
+} catch(const std::exception & e) {
+		std::cout << e.what() << std::endl;
+}
