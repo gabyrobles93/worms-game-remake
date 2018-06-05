@@ -33,11 +33,11 @@ void ContactListener::BeginContact(b2Contact* contact) {
 
         //WORM WATER CONTACT
         if (entityA_type == WORM && entityB_type == WATER) {
-           static_cast<Worm*>(bodyAUserData)->hurt(100);
+           static_cast<Worm*>(bodyAUserData)->kill();
         }
 
         if (entityB_type == WORM && entityA_type == WATER) {
-           static_cast<Worm*>(bodyBUserData)->hurt(100);
+           static_cast<Worm*>(bodyBUserData)->kill();
         }
 
         //WORM BAT CONTACT
