@@ -124,7 +124,7 @@ bool Worm::isWalking(void) {
 }
 
 bool Worm::isMoving(void) {
-    return this->wormPhysic.haveHorizontalSpeed() && this->wormPhysic.haveVerticalSpeed();
+    return this->wormPhysic.haveHorizontalSpeed() || this->wormPhysic.haveVerticalSpeed();
 }
 
 bool Worm::isFalling(void) {
