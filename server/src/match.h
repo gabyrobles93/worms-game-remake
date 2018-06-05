@@ -22,6 +22,7 @@ class Match {
         bool turn_finished;
         bool worms_moving;
         bool alive_projectiles;
+        bool worms_affected_by_explosion;
 
         void createTeams(std::map<int, Worm*> &);
         int removeDeadTeamsTurns(void);
@@ -42,6 +43,7 @@ class Match {
         std::vector<size_t> getAliveTeams(void);
         void setAliveProjectilesFlag(bool);
         void setMovingWormsFlag(bool);
+        void setWormsAffectedByExplosion(bool);
 };
 
 #endif

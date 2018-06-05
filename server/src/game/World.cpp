@@ -147,11 +147,9 @@ void World::run() {
 
         if (step_counter == 60) {
             this->time_sec++;
+            std::cout << "Timer: " << this->time_sec << std::endl;
             step_counter = 0;
         }
-
-        std::cout << "TIENE WORMS VIVOS " << hasWormsMoving() << std::endl;
-        std::cout << "TIENE PROEJCTILES VIVOS " << hasAliveProjectiles() << std::endl; 
     }
 }
 

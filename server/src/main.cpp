@@ -50,9 +50,9 @@ int main(/* int argc, char *argv[] */) try {
     match.start(world.getTimeSeconds()); //NO LANZA UN HILO, EMPIEZA LA PARTIDA.
     while(!event_receiver.quitEvent() && !match.finished()) {
         timer = world.getTimeSeconds();
-        /* std::cout << timer << " Segundos." << std::endl; */
         match.setAliveProjectilesFlag(world.hasAliveProjectiles());
         match.setMovingWormsFlag(world.hasWormsMoving());
+        match.setWormsAffectedByExplosion(world.hasWormsAffectedByExplosion());
         usleep(16666);
         match.update(timer);
     }

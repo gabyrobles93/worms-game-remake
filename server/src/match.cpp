@@ -18,6 +18,7 @@ worms(worms) {
     this->turn_finished = false;
     this->worms_moving = false;
     this->alive_projectiles = false;
+    this->worms_affected_by_explosion = false;
     createTeams(worms);
 }
 
@@ -142,17 +143,29 @@ void Match::setAliveProjectilesFlag(bool flag) {
     this->alive_projectiles = flag;
 }
 
+void Match::setWormsAffectedByExplosion(bool flag) {
+    this->worms_affected_by_explosion = flag;
+}
+
 void Match::update(unsigned int actual_time_sec) {
     this->turn_timeleft_sec = this->turn_duration_sec - (actual_time_sec - this->actual_turn_start_time);
     if (actual_time_sec - this->actual_turn_start_time >= this->turn_duration_sec) {
         this->turn_finished = true;
     }
+
 /*     if (this->worms_moving == true) {
-        std::cout << "hay gusanos moviendose " << actual_time_sec << std::endl;
+        std::cout << "Hay gusanos moviendose." << actual_time_sec << std::endl;
     } else {
-        std::cout << "No hay gusanos moviendose " << actual_time_sec << std::endl;
+        std::cout << "No hay gusanos moviendose." << actual_time_sec << std::endl;
+    }
+
+    if (this->worms_affected_by_explosion == true) {
+        std::cout << "Hay gusanos afectados por explosión." << actual_time_sec << std::endl;
+    } else {
+        std::cout << "No hay gusanos afectados por explosión." << actual_time_sec << std::endl;
     } */
-    if (this->turn_finished && !this->worms_moving && !this->alive_projectiles) {
+
+    if (this->turn_finished && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion) {
         if (nextTurn() < 0) {
             std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
             this->match_finished = true;
