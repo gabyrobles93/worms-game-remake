@@ -61,6 +61,7 @@ class Worm : public Entity {
         void setFalling(bool);
         void update(void);
         void kill(void);
+        bool isMoving(void);
 };
 
 #endif

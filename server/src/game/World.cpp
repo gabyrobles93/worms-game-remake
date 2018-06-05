@@ -37,6 +37,16 @@ std::map<int, Worm *> & World::getWorms() {
     return this->worms;
 }
 
+bool World::hasWormsMoving() {
+    for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
+        if (it->second->isMoving()) return true;
+    }
+    return false;
+}
+bool World::hasAliveProjectiles() {
+    return this->weapons.size();
+}
+
 void World::initializeWorld() {
     float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
@@ -165,6 +175,8 @@ void World::executeAction(Event & event, size_t id) {
                 if (this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) { 
                     std::cout << "Quedan municiones entonces dispara." << std::endl;
                     Weapon * dynamite = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
+                    //Weapon * dynamite = new Grenade(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(),30 , 1, 3, getTimeSeconds(), w_dynamite);
+                    //dynamite.shoot();
                     this->game_snapshot.addProjectile(dynamite);
                     this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, dynamite));
                     this->weapon_counter++;

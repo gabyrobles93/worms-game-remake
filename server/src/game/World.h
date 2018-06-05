@@ -16,6 +16,7 @@
 #include "event.h"
 #include "snapshot.h"
 #include "Configuration.h"
+#include "Grenade.h"
 
 #define GRADTORAD 0.0174533
 
@@ -53,6 +54,8 @@ public:
     void stop();
     void executeAction(Event &, size_t);
     unsigned int getTimeSeconds(void);
+    bool hasWormsMoving();
+    bool hasAliveProjectiles();
 };
 
 #endif
