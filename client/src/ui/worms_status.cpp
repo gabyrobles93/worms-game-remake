@@ -29,7 +29,7 @@ void View::WormsStatus::render(SDL_Renderer * renderer, View::Camera & camera) {
 	}
 }
 
-void View::WormsStatus::update(YAML::Node wormsNode) {
+void View::WormsStatus::update(const YAML::Node & wormsNode) {
 	View::Worm * worm;
 	YAML::const_iterator itTeam;
 	for (itTeam = wormsNode.begin() ; itTeam != wormsNode.end() ; itTeam++) {
@@ -41,11 +41,20 @@ void View::WormsStatus::update(YAML::Node wormsNode) {
 			worm->setX(eachWorm["x"].as<int>());
 			worm->setY(eachWorm["y"].as<int>());
 			worm->setHealth(eachWorm["health"].as<int>());
+			worm->setSightAngle(eachWorm["sight_angle"].as<int>());
 			worm->setMirrored(eachWorm["status"]["mirrored"].as<int>());
 			worm->setWalking(eachWorm["status"]["walking"].as<int>());
 			worm->setFalling(eachWorm["status"]["falling"].as<int>());
 			worm->setGrounded(eachWorm["status"]["grounded"].as<int>());
 		}
+	}
+}
+
+void View::WormsStatus::updateWormProtagonic(size_t wormId) {
+	std::map<size_t, View::Worm *>::const_iterator it = this->worms.begin();
+	for (; it != this->worms.end() ; it++) {
+		View::Worm * eachWorm = it->second;
+		eachWorm->setProtagonic(it->first == wormId);
 	}
 }
 

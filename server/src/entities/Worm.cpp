@@ -47,13 +47,13 @@ void Worm::moveLeft(void) {
 
 void Worm::pointHigher(void) {
     if (this->sight_angle < 90) {
-        this->sight_angle++;
+        this->sight_angle = this->sight_angle + 3;
     }
 }
 
 void Worm::pointMoreDown(void) {
     if (this->sight_angle > -90) {
-        this->sight_angle--;
+        this->sight_angle = this->sight_angle - 3;
     }
 }
 

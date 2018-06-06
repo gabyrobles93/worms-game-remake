@@ -43,6 +43,8 @@
 #define CLOCK_WIDTH 120
 #define CLOCK_HEIGHT 120
 
+#define CONSTANT_WAIT 100/6
+
 // Variable global
 Paths gPath;
 
@@ -61,7 +63,7 @@ int main(/* int argc, char *argv[] */) try {
 	ModelReceiver model_receiver(protocol, pdynamics);
 
 		// Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(staticMap, 1280, 900);
+	View::WindowGame mainWindow(staticMap, 800, 600);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
@@ -79,7 +81,13 @@ int main(/* int argc, char *argv[] */) try {
 	bool quit = false;	
 	SDL_Event e;
 
+	int pilin = 0;
+	int ti; 
+	int tf;
+	int updateCount = 0;
+	int renderCount = 0;
 	while (!quit) {
+		ti = SDL_GetTicks();
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
 				quit = true;
@@ -126,16 +134,24 @@ int main(/* int argc, char *argv[] */) try {
 		// Dibujamos cosas estáticas
 		mainWindow.render(camera);
 
-		// Antes de llamar a los getters de dynamics, hacemos un pop de model
-		pdynamics.popModel();
-
+		// Procesamiento de los snapshoots
+		bool thereIsModel = pdynamics.popModel();
+		while (thereIsModel) {
+			updateCount++;
+			std::cout << "Pop & Updating \n";
+			worms.update(pdynamics.getWorms());
+			worms.updateWormProtagonic(pdynamics.getWormProtagonicId());
+			projectiles.update(renderer, pdynamics.getProjectiles());
+			clock.setTime(pdynamics.getTurnTimeLeft());
+			thereIsModel = pdynamics.popModel();
+		}
+		renderCount++;
+		std::cout << "Rendering \n";
 		// Dibujamos cosas dinámicas
 		// Gusanos
-		worms.update(pdynamics.getWorms());
 		worms.render(renderer, camera);
 
 		// Proyectiles
-		projectiles.update(renderer, pdynamics.getProjectiles());
 		projectiles.render(renderer, camera);
 
 		// El agua va sobre todo menos el inventario
@@ -143,11 +159,21 @@ int main(/* int argc, char *argv[] */) try {
 
 		// El inventario y el timer va adelante de todo
 		inventory.render(renderer);
-		clock.setTime(pdynamics.getTurnTimeLeft());
+		
 		clock.render(renderer, 0, 0);
 
 		SDL_RenderPresent(renderer);
-		SDL_Delay(10);
+		tf = SDL_GetTicks();
+		//std::cout << "tf " << tf << " ti " << ti << " pilin " << pilin << std::endl;
+
+		int to_sleep = CONSTANT_WAIT - (tf-ti) - pilin;
+		if (to_sleep < 0) {
+			pilin = 0;
+		} else {
+			SDL_Delay(to_sleep);
+			pilin = SDL_GetTicks() - (tf - to_sleep);
+		}
+	
 	}
 
 	// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
@@ -160,6 +186,10 @@ int main(/* int argc, char *argv[] */) try {
 	model_receiver.stop();
 	model_receiver.join();
 
+	std::cout << "Se termino el programa con" << std::endl;
+	std::cout << "Renders count " << renderCount << std::endl;
+	std::cout << "Updates count " << updateCount << std::endl;
+	
 	return 0;
 	
 } catch(const SocketError & e) {

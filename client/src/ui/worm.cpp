@@ -7,6 +7,7 @@
 
 View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   sprite(FPC),
+  sight(r),
   name(name),
   team(team),
   health(health),
@@ -40,6 +41,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->walking = false;
   this->alive = true;
   this->falling = false;
+  this->protagonic = false;
 
   this->x = 0;
   this->y = 0;
@@ -123,6 +125,13 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
   
   // Display de la data
   this->renderWormData(r, camX, camY);
+
+  // Display sight if protagonic
+  if (this->protagonic) {
+    this->sight.setXYcenter(this->x + current.getWidth(), this->y + current.getWidth());
+    this->sight.setMirrored(this->mirrored);
+    this->sight.render(r, camX, camY);
+  }
 }
 
 void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
@@ -202,4 +211,12 @@ void View::Worm::setFalling(bool fall) {
 
 void View::Worm::setGrounded(bool grd) {
   this->grounded = grd;
+}
+
+void View::Worm::setProtagonic(bool p) {
+  this->protagonic = p;
+}
+
+void View::Worm::setSightAngle(int angle) {
+  this->sight.setAngle(angle);
 }
