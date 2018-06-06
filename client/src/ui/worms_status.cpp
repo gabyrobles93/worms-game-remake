@@ -29,7 +29,7 @@ void View::WormsStatus::render(SDL_Renderer * renderer, View::Camera & camera) {
 	}
 }
 
-void View::WormsStatus::update(YAML::Node wormsNode) {
+void View::WormsStatus::update(const YAML::Node & wormsNode) {
 	View::Worm * worm;
 	YAML::const_iterator itTeam;
 	for (itTeam = wormsNode.begin() ; itTeam != wormsNode.end() ; itTeam++) {

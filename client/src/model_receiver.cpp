@@ -31,10 +31,10 @@ void ModelReceiver::run(void) {
         std::cout << ss.str() << std::endl; */ 
         if (newDynamics["projectiles"]) {
             if (newDynamics["projectiles"].size() > 0) {
-                ss << newDynamics["projectiles"];
+                //ss << newDynamics["projectiles"];
 
-                std::cout << "Proyectiles recibidos por MODEL RECEIVER" << std::endl;
-                std::cout << ss.str() << std::endl;
+                //std::cout << "Proyectiles recibidos por MODEL RECEIVER" << std::endl;
+                //std::cout << ss.str() << std::endl;
             }
         }
         this->dynamics.addModel(newDynamics);

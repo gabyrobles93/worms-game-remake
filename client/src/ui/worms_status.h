@@ -18,7 +18,7 @@ class View::WormsStatus {
         ~WormsStatus(void);
         WormsStatus(YAML::Node &, SDL_Renderer * r);
         void render(SDL_Renderer *, View::Camera &);
-        void update(YAML::Node);
+        void update(const YAML::Node &);
         void updateWormProtagonic(size_t);
 };
 
