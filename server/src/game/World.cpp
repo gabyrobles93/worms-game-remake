@@ -43,6 +43,11 @@ bool World::hasWormsMoving() {
     }
     return false;
 }
+
+bool World::hasWormGotHurt(size_t worm_id) {
+    return this->worms[worm_id]->gotHurtInTurn();
+}
+
 bool World::hasAliveProjectiles() {
     return this->weapons.size();
 }

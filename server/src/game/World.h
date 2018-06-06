@@ -54,9 +54,10 @@ public:
     void stop();
     void executeAction(Event &, size_t);
     unsigned int getTimeSeconds(void);
-    bool hasWormsMoving();
-    bool hasAliveProjectiles();
-    bool hasWormsAffectedByExplosion();
+    bool hasWormsMoving(void);
+    bool hasAliveProjectiles(void);
+    bool hasWormsAffectedByExplosion(void);
+    bool hasWormGotHurt(size_t);
 };
 
 #endif

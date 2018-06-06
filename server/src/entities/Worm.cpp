@@ -12,7 +12,9 @@ world(world) {
     this->sight_angle = 0;
     this->falling = false;
     this->mirrored = false;
+    this->hurtInTurn = false;
     this->affectedByExplosion = false;
+    this->hurtInTurn = false;
 }
 
 Worm::~Worm(void) {
@@ -114,6 +116,7 @@ void Worm::hurt(int damage) {
     } else {
         this->health -= damage;
     }
+    this->hurtInTurn = true;
 }
 
 bool Worm::isWalking(void) {
@@ -191,4 +194,13 @@ void Worm::setAffectedByExplosion(){
 
 void Worm::kill() {
     this->health = 0;
+    this->hurtInTurn = true;
+}
+
+void Worm::refreshByNewTurn(void) {
+    this->hurtInTurn = false;
+}
+
+bool Worm::gotHurtInTurn(void) {
+    return this->hurtInTurn;
 }

@@ -23,11 +23,12 @@ class Match {
         bool worms_moving;
         bool alive_projectiles;
         bool worms_affected_by_explosion;
+        bool protagonic_worm_got_hurt;
 
         void createTeams(std::map<int, Worm*> &);
         int removeDeadTeamsTurns(void);
         void removeDeadWormsTurns(void);
-        void cleanTeamStatusBeforeNewTurn(void);
+        void refreshWormsFlagsByNewTurn(void);
 
     public:
         Match(std::map<int, Worm*> &, size_t);
@@ -44,6 +45,7 @@ class Match {
         void setAliveProjectilesFlag(bool);
         void setMovingWormsFlag(bool);
         void setWormsAffectedByExplosion(bool);
+        void setProtagonicWormGotHurt(bool);
 };
 
 #endif

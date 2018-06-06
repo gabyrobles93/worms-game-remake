@@ -53,6 +53,7 @@ int main(/* int argc, char *argv[] */) try {
         match.setAliveProjectilesFlag(world.hasAliveProjectiles());
         match.setMovingWormsFlag(world.hasWormsMoving());
         match.setWormsAffectedByExplosion(world.hasWormsAffectedByExplosion());
+        match.setProtagonicWormGotHurt(world.hasWormGotHurt(match.getWormTurn(match.getTeamTurn())));
         usleep(16666);
         match.update(timer);
     }

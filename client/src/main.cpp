@@ -138,7 +138,7 @@ int main(/* int argc, char *argv[] */) try {
 		bool thereIsModel = pdynamics.popModel();
 		while (thereIsModel) {
 			updateCount++;
-			std::cout << "Pop & Updating \n";
+			/* std::cout << "Pop & Updating \n"; */
 			worms.update(pdynamics.getWorms());
 			worms.updateWormProtagonic(pdynamics.getWormProtagonicId());
 			projectiles.update(renderer, pdynamics.getProjectiles());
@@ -146,7 +146,7 @@ int main(/* int argc, char *argv[] */) try {
 			thereIsModel = pdynamics.popModel();
 		}
 		renderCount++;
-		std::cout << "Rendering \n";
+		/* std::cout << "Rendering \n"; */
 		// Dibujamos cosas dinámicas
 		// Gusanos
 		worms.render(renderer, camera);

@@ -7,6 +7,7 @@
 
 class ProtectedDynamics {
     private:
+        std::mutex mutex;
         std::queue<YAML::Node> models;
         YAML::Node dynamics;
     public:
