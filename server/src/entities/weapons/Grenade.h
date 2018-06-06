@@ -13,12 +13,13 @@ private:
     weapon_t type;
     int blast_radius;
     int blast_power;
+    bool mirrored;
     int shooting_angle;
     int power_factor;
     GrenadePhysic grenadePhysic;
     void explode(void);
 public:
-    Grenade(int id, b2World& world, float posX, float posY, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type);
+    Grenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type);
     void shoot(void);
     void update(int currentTime);
     bool hasExploded(void);

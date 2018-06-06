@@ -1,12 +1,13 @@
 #include "Grenade.h"
 #include "types.h"
 
-Grenade::Grenade(int id, b2World& world, float posX, float posY, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type) :
+Grenade::Grenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type) :
 Weapon(type),
 detonationTime(currentTime + delay),
 grenadePhysic(world, posX, posY) {
     this->exploded = false;
     this->power_factor = power_factor;
+    this->mirrored = mirrored;
     this->shooting_angle = shooting_angle;
     this->id = id;
 
@@ -48,5 +49,5 @@ float Grenade::getPosY() {
 }
 
 void Grenade::shoot() {
-    this->grenadePhysic.shoot();
+    this->grenadePhysic.shoot(mirrored, shooting_angle);
 }
