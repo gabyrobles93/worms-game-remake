@@ -12,6 +12,7 @@ public:
     float WORLD_TIME_STEP;
     float WORLD_VELOCITY_ITERATIONS;
     float WORLD_POSITION_ITERATIONS;
+    float WORLD_Y_LIMIT;
     
     //WORM
     float WORM_SPEED;

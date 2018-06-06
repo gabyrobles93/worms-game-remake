@@ -195,8 +195,8 @@ void World::executeAction(Event & event, size_t id) {
                 weapon_t weapon_shooted = (weapon_t) event.getNode()["event"]["weapon"].as<int>();
                 if (this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) { 
                     std::cout << "Quedan municiones entonces dispara." << std::endl;
-                    Weapon * dynamite = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
-                    //Weapon * dynamite = new Grenade(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(),30 , 1, 3, getTimeSeconds(), w_dynamite);
+                    //Weapon * dynamite = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
+                    Weapon * dynamite = new Grenade(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), this->worms[id]->isMirrored() , this->worms[id]->getSightAngle() , 1, 3, getTimeSeconds(), w_dynamite);
                     //dynamite.shoot();
                     this->game_snapshot.addProjectile(dynamite);
                     this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, dynamite));

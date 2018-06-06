@@ -15,13 +15,14 @@
 class Server : public Thread {
     private:
         ServerAcceptor acceptor;
-        ServerLobbyFeeder feeder;
         ServerProtectedClients clients;
         bool keep_running;
 
         bool isRunning(void) const;
         size_t getId(void) const;
         void loadConfigFile(std::string &);
+        std::string findFreeName(std::string &) const;
+        
     public:
         void stop(void);
         Server(std::string & cfile, std::string & port);

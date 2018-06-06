@@ -31,6 +31,8 @@ class Protocol {
         void rcvModel(YAML::Node &);
         void sendSnapshot(std::string const &) const;
         void rcvSnapshot(std::string &);
+        void sendGameStatus(YAML::Node &);
+        void rcvGameStatus(YAML::Node &);
 };
 
 #endif

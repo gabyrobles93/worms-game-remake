@@ -6,7 +6,8 @@
 typedef enum {
     lobby,
     joined,
-    creator
+    creator,
+    on_match
 } client_status_t;
 
 class Client {

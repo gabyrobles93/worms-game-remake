@@ -3,6 +3,7 @@
 
 #include "Box2D.h"
 #include "ExplosionManager.h"
+#include "Configuration.h"
 
 #define GRENADE_RADIUS 0.25f
 #define GRENADE_DENSITY 1
@@ -15,7 +16,7 @@ public:
     GrenadePhysic(b2World& world, float posX, float posY);
     ~GrenadePhysic();
     void explode(float radius, float power);
-    void shoot();
+    void shoot(bool mirrored, float shooting_angle);
     float getPosX();
     float getPosY();
 };

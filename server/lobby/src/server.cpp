@@ -13,19 +13,32 @@ acceptor(port, clients),
 feeder(clients)
 {
     loadConfigFile(config_file_path);
-    this->acceptor.start();
-    this->feeder.start();
+    this->keep_running = true;
 }
 
 void Server::run(void) {
-    this->keep_running = true;
     while (1) {
         try {
-        
+            std::cout << "Esperando conexión de cliente" << std::endl;
+            Protocol newsktprotocol(std::move(this->skt.accept_connection()));
+            std::string player_name;
+            newsktprotocol.getPlayerName(player_name);
+             if (this->clients.exists(player_name) == true) {
+                player_name = findFreeName(player_name);
+            }
+            std::cout << "Bautizando al cliente como " << player_name << std::endl;
+            newsktprotocol.sendName(player_name);
+            this->clients.addClient(player_name, std::move(newsktprotocol));
+
+            std::cout << "Enviando games.yml al nuevo cliente." << std::endl;
+            this->clients.sendGamesStatus(player_name);
+
         } catch(const SocketError & e) {
+            std::cout << "Server acceptor se detiene por cierre del socket listener. " <<
+            e.what() << std::endl;
             break;
         }
-    }    
+    }
 }
 
 void Server::loadConfigFile(std::string & config_file_path) {
@@ -38,6 +51,7 @@ void Server::loadConfigFile(std::string & config_file_path) {
     std::string line;
     std::getline(cfg_file, line);
     std::cout << line << std::endl;
+    std::cout << cfg_file;
 }
 
  bool Server::isRunning(void) const {
@@ -55,9 +69,23 @@ size_t  Server::getId(void) const{
 void Server::stop(void) {
     // Stopear servidor.
     // Seguramente haya que cerrar los sockets ordenadamente. 
-    this->acceptor.stop();
-    this->feeder.stop();
-    this->acceptor.join();
-    this->feeder.join();
     this->keep_running = false;
+}
+
+std::string Server::findFreeName(std::string & old_name) const {
+    int counter = 1;
+    std::string number;
+    std::string new_name;
+    std::string tmp;
+    while(1) {
+        number.clear();
+        number.append("-" + std::to_string(counter));
+        tmp = old_name;
+        if (this->clients.exists(tmp.append(number)) == false) {
+            new_name = tmp;
+            break;
+        }
+        counter++;
+    }
+    return new_name;
 }

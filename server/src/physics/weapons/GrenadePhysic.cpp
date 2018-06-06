@@ -1,4 +1,5 @@
 #include "GrenadePhysic.h"
+#include <iostream>
 
 GrenadePhysic::GrenadePhysic(b2World& world, float posX, float posY) :
 world(world) {
@@ -37,8 +38,14 @@ float GrenadePhysic::getPosY() {
     return this->body->GetPosition().y;
 }
 
-void GrenadePhysic::shoot() {
-    float x_impulse = this->body->GetMass() * 5;
-    float y_impulse = this->body->GetMass() * 10;
+void GrenadePhysic::shoot(bool mirrored, float shooting_angle) {
+    std::cout << "SHOOTING ANGLE: " << shooting_angle << std::endl;
+    
+    float impulse = this->body->GetMass() * 100;
+    float x_impulse = cosf(shooting_angle * gConfiguration.DEGTORAD) * impulse;
+    float y_impulse = sinf(shooting_angle * gConfiguration.DEGTORAD) * impulse;
+    //float x_impulse = this->body->GetMass() * 5;
+    if (!mirrored) x_impulse = x_impulse * -1;
+    //float y_impulse = this->body->GetMass() * 10;
     this->body->ApplyLinearImpulse(b2Vec2(x_impulse, -y_impulse), this->body->GetWorldCenter(), true);
 }
