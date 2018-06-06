@@ -1,16 +1,25 @@
 #include "WorldPhysic.h"
-
+#include <iostream>
 b2Vec2 WorldPhysic::_generateGravity() {
     b2Vec2 gravity(0.0f, 9.8f);
     return gravity;
 }
 
 WorldPhysic::WorldPhysic() : world(_generateGravity()) {
+    this->world.SetAllowSleeping(true);
     this->world.SetContactListener(&contactListener);
 }
 
 b2World& WorldPhysic::getWorld() {
     return this->world;
+}
+
+bool WorldPhysic::aliveBodies() {
+    for (b2Body* b = this->world.GetBodyList(); b; b = b->GetNext()) {
+        if (b->IsAwake()) return true;
+    }
+    std::cout << "ESTAN TODOS MUERTOS " << std::endl;
+    return false;
 }
 
 void WorldPhysic::step() {

@@ -11,6 +11,7 @@ public:
     b2World& getWorld();
     void step();
     void clearForces();
+    bool aliveBodies();
 private:
     ContactListener contactListener;
     b2Vec2 _generateGravity();
