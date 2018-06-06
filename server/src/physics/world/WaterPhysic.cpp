@@ -4,6 +4,7 @@ WaterPhysic::WaterPhysic(b2World& world, float posX, float posY, float width, fl
     b2BodyDef waterDef;
     waterDef.type = b2_staticBody;
     waterDef.position.Set(posX, posY);
+    waterDef.allowSleep = true;
     b2Body* body = world.CreateBody(&waterDef);
     body->SetUserData(entity);
 

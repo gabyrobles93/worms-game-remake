@@ -5,6 +5,7 @@ WormPhysic::WormPhysic(b2World& world, float posX, float posY, Entity* entity) :
     b2BodyDef wormDef;
     wormDef.type = b2_dynamicBody;
     wormDef.fixedRotation = true;
+    wormDef.allowSleep = true;
     wormDef.position.Set(posX, posY);
     b2Body* body = world.CreateBody(&wormDef);
     body->SetUserData(entity);

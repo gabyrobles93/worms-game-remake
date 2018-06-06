@@ -110,8 +110,12 @@ void World::initializeWorld() {
 }
 
 void World::updateSnapshot() {
-    this->game_snapshot.updateWorms(this->worms);
-    this->game_snapshot.updateProjectiles(this->weapons);
+    this->worldPhysic.aliveBodies();
+    //if (this->worldPhysic.hasAliveBodies()) {
+        this->game_snapshot.updateWorms(this->worms);
+        this->game_snapshot.updateProjectiles(this->weapons);
+    //}
+   
 }
 
 void World::updateBodies() {

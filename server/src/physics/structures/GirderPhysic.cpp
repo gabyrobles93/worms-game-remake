@@ -4,6 +4,7 @@ GirderPhysic::GirderPhysic(b2World& world, float posX, float posY, float height,
     b2BodyDef girderDef;
     girderDef.type = b2_staticBody;
     girderDef.position.Set(posX, posY);
+    girderDef.allowSleep = true;
     girderDef.angle = angle;
     b2Body* body = world.CreateBody(&girderDef);
     body->SetUserData(entity);
