@@ -26,6 +26,7 @@ void ProtectedDynamics::addModel(YAML::Node & new_dyn) {
 bool ProtectedDynamics::popModel(void) {
     bool thereIsModel = this->models.size() != 0;
     if (this->models.size()) {
+        this->dynamics.reset();
         this->dynamics = this->models.front();
         this->models.pop();
     }
