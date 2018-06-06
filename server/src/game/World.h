@@ -42,7 +42,11 @@ private:
     /* void updateProjectilesYAML(void); */
     void updateBodies();
     /* void removeProjectileFromYAML(size_t); */
-    
+
+    // Dispara el arma dependiendo del evento
+    // recibido del cliente
+    void shootWeapon(Event &, size_t);
+
 public:
     World(std::string &, Queue<Snapshot> &);
     ~World(void);

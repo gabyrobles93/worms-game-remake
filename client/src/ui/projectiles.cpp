@@ -56,7 +56,7 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
 void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, weapon_t type, int count) {
   switch (type) {
     case w_dynamite:
-      this->projectiles[projId] = new View::GreenGrenade(r, count);
+      this->projectiles[projId] = new View::Dynamite(r, count);
       break;
 
     case w_green_grenade:
