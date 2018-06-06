@@ -16,6 +16,7 @@ namespace View {
       Texture texture;
       SpriteAnimation sprite;
       SoundEffect sound;
+      bool soundPlayed;
     public:
       Explosion(SDL_Renderer * r, int ratio, std::string weapon = "Bazooka");
       ~Explosion();

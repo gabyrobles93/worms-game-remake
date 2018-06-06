@@ -1,6 +1,6 @@
 #include "clock.h"
 
-#define HURRY_TIME 10
+#define HURRY_TIME 11
 
 View::Clock::Clock(int x, int y, int width, int height) : 
   font(gPath.PATH_FONT_ARIAL_BOLD, height - PADDING * 2) {
@@ -11,6 +11,8 @@ View::Clock::Clock(int x, int y, int width, int height) :
   this->height = height;
 
   this->hide = false;
+  this->hurrySound.setSound(gPath.PATH_SOUND_HURRY);
+  this->timeTrickSound.setSound(gPath.PATH_SOUND_TIME_TRICK);
 }
 
 View::Clock::~Clock(void) {
@@ -42,6 +44,14 @@ void View::Clock::setY(int y) {
 }
 
 void View::Clock::setTime(int newTime) {
+  if (newTime == HURRY_TIME && this->time != newTime) {
+    this->hurrySound.playSound(0);
+  }
+
+  if (newTime < HURRY_TIME && this->time != newTime) {
+    this->timeTrickSound.playSound(0);
+  }
+
   this->time = newTime;
 }
 

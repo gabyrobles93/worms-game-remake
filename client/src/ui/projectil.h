@@ -3,20 +3,26 @@
 
 #include <SDL2/SDL.h>
 #include "drawable.h"
+#include "paths.h"
 #include "sound_effect.h"
 #include "sprite_animation.h"
 #include "texture.h"
+#include "types.h"
+
+#define COUNTDOWN_TEXT_SIZE 18
 
 namespace View {
   class Projectil: public Drawable {
     protected:
       Texture texture;
       SoundEffect sound;
+      SoundEffect aboutToExplode;
 
       bool exploded;
       bool finished;
       int countdown;
       int ratioExplosion;
+      weapon_t type;
 
     public:
       virtual ~Projectil();
@@ -32,6 +38,7 @@ namespace View {
       bool hasFinished(void) const;
       void setCountdown(int);
       void setExplode(bool);
+      void setWeaponType(weapon_t);
   };
 }
 

@@ -1,5 +1,7 @@
 #include "projectil.h"
 
+#define ABOUT_TO_EXPLODE 1
+
 View::Projectil::~Projectil(void) {
 }
 
@@ -40,5 +42,21 @@ void View::Projectil::setExplode(bool exploded) {
 }
 
 void View::Projectil::setCountdown(int newCount) {
+  if (newCount == ABOUT_TO_EXPLODE && this->countdown != newCount) {
+    std::cout << "Playing about2explode \n";
+    const char * ab2exp[] = {
+      gPath.PATH_SOUND_WHAT_THE.c_str(),
+      gPath.PATH_SOUND_UH_OH.c_str(),
+      gPath.PATH_SOUND_TAKE_COVER.c_str(),
+      gPath.PATH_SOUND_RUN_AWAY.c_str()
+    };
+    this->aboutToExplode.setSound(ab2exp[rand() % 4]);
+    this->aboutToExplode.playSound(0);
+  }
+
   this->countdown = newCount;
+}
+
+void View::Projectil::setWeaponType(weapon_t type) {
+  this->type = type;
 }

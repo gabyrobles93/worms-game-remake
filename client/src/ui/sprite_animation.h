@@ -3,6 +3,8 @@
 
 #include "texture.h"
 
+#define DEFAULT_FPC 3
+
 typedef enum {
   INFINITE_GOING_AND_BACK = 0,
   ONLY_GOING = 1
@@ -27,7 +29,7 @@ namespace View {
       SDL_Rect getNextClipOnlyGoing(void);
 
     public:
-      SpriteAnimation(size_t, sprite_type_t type = INFINITE_GOING_AND_BACK);
+      SpriteAnimation(size_t fpc = DEFAULT_FPC, sprite_type_t type = INFINITE_GOING_AND_BACK);
       ~SpriteAnimation();
       void setSpriteSheet(Texture *);
 

@@ -67,6 +67,7 @@ class Paths {
 
     /* WEAPONS */
     std::string PATH_DYNAMITE;
+    std::string PATH_GREEN_GRENADE;
     /* ---------------------------- */
 
     /* EFFECTS */
@@ -84,6 +85,19 @@ class Paths {
     std::string PATH_SOUND_DYNAMITE;
     std::string PATH_SOUND_GIRDER;
     std::string PATH_SOUND_TELEPORT;
+    std::string PATH_SOUND_THROW_PROJECTIL;
+
+    std::string PATH_SOUND_TIME_TRICK;
+
+      // Worms voices
+      std::string PATH_SOUND_LAUGH;
+      std::string PATH_SOUND_FATALITY;
+      std::string PATH_SOUND_HURRY;
+        // About to explosions
+        std::string PATH_SOUND_WHAT_THE;
+        std::string PATH_SOUND_UH_OH;
+        std::string PATH_SOUND_TAKE_COVER;
+        std::string PATH_SOUND_RUN_AWAY;
 
     // Explosions
     std::string PATH_SOUND_EXPLOSION_1;

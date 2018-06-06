@@ -21,6 +21,8 @@ namespace View {
       Explosion explosion;
       RectangleText countdownText;
 
+      SoundEffect laugh;
+
     public:
       Dynamite(SDL_Renderer *, int c, int ratio = 100);
       ~Dynamite();

@@ -1,11 +1,19 @@
 #include "sound_effect.h"
 
+int GLOBAL_CHANNEL_COUNTER = 0;
+
 SoundEffect::SoundEffect(void) {
   this->sound = NULL;
   this->music = NULL;
 
   this->playingMusic = false;
   this->playingSound = false;
+
+  if (GLOBAL_CHANNEL_COUNTER == SDL_MAX_SINT32) {
+    GLOBAL_CHANNEL_COUNTER = 0;
+  }
+
+  this->channel = GLOBAL_CHANNEL_COUNTER++;
 }
 
 SoundEffect::~SoundEffect() {
@@ -14,6 +22,7 @@ SoundEffect::~SoundEffect() {
 }
 
 void SoundEffect::freeSound(void) {
+  this->playingSound = false;
   if (this->sound) {
     Mix_FreeChunk(this->sound);
     this->sound = NULL;
@@ -44,11 +53,16 @@ void SoundEffect::setMusic(std::string path) {
 }
 
 void SoundEffect::playSound(int loops) {
+  if (Mix_Playing(this->channel) == 0) {
+    this->playingSound = false;
+  }
+
   if (!this->playingSound && this->sound) {
-    Mix_PlayChannel(-1, this->sound, loops);
+    Mix_PlayChannel(this->channel, this->sound, loops);
+    this->playingSound = true;
   }
 }
 
 void SoundEffect::stopSound(void) {
-  this->freeSound();
+  Mix_HaltChannel(this->channel);
 }

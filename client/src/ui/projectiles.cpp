@@ -28,8 +28,8 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
     int projId = proj["id"].as<int>();
 
     if (projNode) {
-      std::cout << "Nodo que voy a usar para updatear" << std::endl;
-      std::cout << projNode << std::endl;
+      //std::cout << "Nodo que voy a usar para updatear" << std::endl;
+      //std::cout << projNode << std::endl;
     }
 
     // Vemos si ya existe el proyectil
@@ -56,7 +56,11 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
 void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, weapon_t type, int count) {
   switch (type) {
     case w_dynamite:
-      this->projectiles[projId] = new View::Dynamite(r, count);
+      this->projectiles[projId] = new View::GreenGrenade(r, count);
+      break;
+
+    case w_green_grenade:
+      this->projectiles[projId] = new View::GreenGrenade(r, count);
       break;
     default:
       throw View::Exception("%s: %i", ERR_MSG_UNKNOWN_PROJECTIL_TYPE, w_dynamite);

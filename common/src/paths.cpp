@@ -70,6 +70,7 @@ Paths::Paths(const char * r) {
 
   /* WEAPONS */
   this->PATH_DYNAMITE = root + "resources/graphics/Weapons/dynamite.png";
+  this->PATH_GREEN_GRENADE = root + "resources/graphics/Weapons/grenade.png";
   /* ------------- */
 
   /* EFFECTS */
@@ -87,6 +88,19 @@ Paths::Paths(const char * r) {
   this->PATH_SOUND_DYNAMITE = root + "resources/sounds/Effects/FUSE.WAV";
   this->PATH_SOUND_GIRDER = root + "resources/sounds/Effects/GIRDERIMPACT.WAV";
   this->PATH_SOUND_TELEPORT = root + "resources/sounds/Effects/TELEPORT.WAV";
+  this->PATH_SOUND_THROW_PROJECTIL = root + "resources/sounds/Effects/THROWRELEASE.WAV";
+  this->PATH_SOUND_TIME_TRICK = root + "resources/sounds/Effects/TIMERTICK.WAV";
+
+    // Worms voices
+    this->PATH_SOUND_LAUGH = root + "resources/sounds/Voices/Spanish/LAUGH.WAV";
+    this->PATH_SOUND_FATALITY = root + "resources/sounds/Voices/Spanish/FATALITY.WAV";
+    this->PATH_SOUND_HURRY = root + "resources/sounds/Voices/Spanish/HURRY.WAV";
+    // About to explode
+    this->PATH_SOUND_WHAT_THE = root + "resources/sounds/Voices/Spanish/WHATTHE.WAV";
+    this->PATH_SOUND_UH_OH = root + "resources/sounds/Voices/Spanish/UH-OH.WAV";
+    this->PATH_SOUND_TAKE_COVER = root + "resources/sounds/Voices/Spanish/TAKECOVER.WAV";
+    this->PATH_SOUND_RUN_AWAY = root + "resources/sounds/Voices/Spanish/RUNAWAY.WAV";
+
   // Explosions
   this->PATH_SOUND_EXPLOSION_1 = root + "resources/sounds/Effects/Explosion1.wav";
   this->PATH_SOUND_EXPLOSION_2 = root + "resources/sounds/Effects/Explosion2.wav";

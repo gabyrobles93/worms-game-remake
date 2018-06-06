@@ -6,6 +6,8 @@
 #include <string>
 #include "view_exceptions.h"
 
+extern int GLOBAL_CHANNEL_COUNTER;
+
 class SoundEffect {
   private:
     Mix_Chunk * sound;
@@ -14,11 +16,15 @@ class SoundEffect {
     bool playingSound;
     bool playingMusic;
 
+    int channel;
+
     // Libera la memoria del sonido
     void freeSound(void);
 
     // Libera la memoria de la musica
     void freeMusic(void);
+
+    void channelFinished(int);
 
   public:
     // Constructor por defecto

@@ -5,6 +5,7 @@
 #include "drawable.h"
 #include "font.h"
 #include "paths.h"
+#include "sound_effect.h"
 #include "texture.h"
 
 #define TEXT_SIZE 40
@@ -16,6 +17,8 @@ namespace View {
       Font font;
       int time;
       Texture timeTexture;
+      SoundEffect hurrySound;
+      SoundEffect timeTrickSound;
       bool hide;
 
 

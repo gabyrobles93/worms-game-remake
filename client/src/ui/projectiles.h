@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include "camera.h"
+#include "green_grenade.h"
 #include "dynamite.h"
 #include "projectil.h"
 #include "types.h"
