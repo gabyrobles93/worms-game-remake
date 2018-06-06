@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #include "snapshot.h"
 #include "yaml.h"
 #include "World.h"
@@ -57,7 +58,12 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> weapons) {
 }
 
 void Snapshot::updateGameStatus(Match & match) {
-    this->dynamics["game_status"]["alive_teams"] = match.getAliveTeams();
+/*     std::vector<size_t> alive_teams = match.getAliveTeams();
+    std::vector<size_t>::const_iterator it;
+    for (it = alive_teams.begin(); it != alive_teams.end(); it++) {
+        this->dynamics["game_status"]["alive_teams"][*it]["total_life"] = match.getTeamTotalLife(*it);
+    } */
+    this->dynamics["game_status"]["teams_health"] = match.getTeamInfo();
     this->dynamics["game_status"]["protagonic_worm"] = match.getWormTurn(match.getTeamTurn());
     this->dynamics["game_status"]["turn_timeleft"] = std::to_string(match.getTurnTimeleft());
     this->dynamics["game_status"]["finished"] = std::to_string(match.finished());

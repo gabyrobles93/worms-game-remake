@@ -42,12 +42,13 @@ class Match {
         bool finished(void);
         int getWinner(void);
         int getTurnTimeleft(void);
-        std::vector<size_t> getAliveTeams(void);
+        std::map<size_t, int> getTeamInfo(void);
         void setAliveProjectilesFlag(bool);
         void setMovingWormsFlag(bool);
         void setWormsAffectedByExplosion(bool);
         void setProtagonicWormGotHurt(bool);
         void setProtagonicWormDidShoot(bool);
+        int getTeamTotalLife(size_t);
 };
 
 #endif

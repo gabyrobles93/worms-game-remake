@@ -122,13 +122,11 @@ void Match::removeDeadWormsTurns(void) {
     }
 }
 
-std::vector<size_t> Match::getAliveTeams(void) {
-    std::vector<size_t> alive_teams;
+std::map<size_t, int> Match::getTeamInfo(void) {
+    std::map<size_t, int> alive_teams;
     std::map<int, Team *>::const_iterator it;
     for (it = this->teams.begin(); it != this->teams.end(); it++) {
-        if (it->second->haveAliveMember()) {
-            alive_teams.push_back(it->second->getTeamId());
-        }
+            alive_teams[it->second->getTeamId()] = it->second->getTotalLife();
     }
     return alive_teams;
 }
@@ -222,3 +220,6 @@ int Match::getWinner(void) {
     return this->winner_team;
 }
 
+int Match::getTeamTotalLife(size_t team_id) {
+    return this->teams[team_id]->getTotalLife();
+}

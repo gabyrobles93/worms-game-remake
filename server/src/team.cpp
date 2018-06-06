@@ -52,3 +52,12 @@ bool Team::haveAliveMember(void) {
     }
     return false;
 }
+
+int Team::getTotalLife(void) {
+    int counter = 0;
+    std::map<int, Worm*>::const_iterator it;
+    for (it = this->worms.begin(); it != this->worms.end(); it++) {
+        counter += it->second->getHealth();
+    }
+    return counter;
+}

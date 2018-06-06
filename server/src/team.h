@@ -19,6 +19,7 @@ class Team {
         void print(void) const;
         int getTeamId(void);
         bool haveAliveMember(void);
+        int getTotalLife(void);
 };
 
 #endif
