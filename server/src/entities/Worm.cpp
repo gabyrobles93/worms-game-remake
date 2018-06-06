@@ -14,7 +14,7 @@ world(world) {
     this->mirrored = false;
     this->hurtInTurn = false;
     this->affectedByExplosion = false;
-    this->hurtInTurn = false;
+    this->shootedInTurn = false;
 }
 
 Worm::~Worm(void) {
@@ -100,6 +100,7 @@ void Worm::deleteFootContact(void) {
 }
 
 void Worm::shoot(/* entity_t weapon */) {
+    this->shootedInTurn = true;
     // switch(weapon) {
     //     case DYNAMITE : {
     //         Dynamite dynamite(this->world, posX, posY);
@@ -199,8 +200,13 @@ void Worm::kill() {
 
 void Worm::refreshByNewTurn(void) {
     this->hurtInTurn = false;
+    this->shootedInTurn = false;
 }
 
 bool Worm::gotHurtInTurn(void) {
     return this->hurtInTurn;
+}
+
+bool Worm::didShootInTurn(void) {
+    return this->shootedInTurn;
 }

@@ -59,6 +59,10 @@ bool World::hasWormsAffectedByExplosion() {
     return false;
 }
 
+bool World::hasWormShooted(size_t worm_id) {
+    return this->worms[worm_id]->didShootInTurn();
+}
+
 void World::initializeWorld() {
     float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
@@ -193,7 +197,9 @@ void World::executeAction(Event & event, size_t id) {
                     this->game_snapshot.addProjectile(dynamite);
                     this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, dynamite));
                     this->weapon_counter++;
-                    this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);                   
+                    this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
+                    // Seteo el flag en el worm que disparó:
+                    this->worms[id]->shoot();                   
                 } else {
                     std::cout << "Sin municiones, accion ignorada." << std::endl;
                     return;

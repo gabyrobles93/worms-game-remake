@@ -23,6 +23,8 @@ class Worm : public Entity {
         bool mirrored;
         bool falling;
         bool hurtInTurn;
+        bool shootedInTurn;
+
         WormPhysic wormPhysic;
         std::string name;
         b2World& world;
@@ -59,6 +61,7 @@ class Worm : public Entity {
         bool isGrounded(void);
         bool isDead(void);
         bool gotHurtInTurn(void);
+        bool didShootInTurn(void);
         void setAffectedByExplosion();
         void setFalling(bool);
         void update(void);

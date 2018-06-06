@@ -58,6 +58,7 @@ public:
     bool hasAliveProjectiles(void);
     bool hasWormsAffectedByExplosion(void);
     bool hasWormGotHurt(size_t);
+    bool hasWormShooted(size_t);
 };
 
 #endif
