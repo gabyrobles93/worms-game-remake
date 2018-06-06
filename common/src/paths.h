@@ -68,6 +68,8 @@ class Paths {
     /* WEAPONS */
     std::string PATH_DYNAMITE;
     std::string PATH_GREEN_GRENADE;
+    std::string PATH_HOLY_GRENADE;
+    std::string PATH_BANANA;
     /* ---------------------------- */
 
     /* EFFECTS */
@@ -86,6 +88,7 @@ class Paths {
     std::string PATH_SOUND_GIRDER;
     std::string PATH_SOUND_TELEPORT;
     std::string PATH_SOUND_THROW_PROJECTIL;
+    std::string PATH_SOUND_HOLY;
 
     std::string PATH_SOUND_TIME_TRICK;
 

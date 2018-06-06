@@ -241,6 +241,21 @@ void World::shootWeapon(Event & event, size_t id) {
                 weapon_shooted
             );
             break;
+
+        case w_holy_grenade:
+            newWeapon = new Grenade(
+                this->weapon_counter, 
+                this->worldPhysic.getWorld(), 
+                this->worms[id]->getPosX(), 
+                this->worms[id]->getPosY(), 
+                this->worms[id]->isMirrored() , 
+                this->worms[id]->getSightAngle() , 
+                nodeEvent["event"]["power"].as<int>(), 
+                nodeEvent["event"]["countdown"].as<int>(), 
+                getTimeSeconds(), 
+                weapon_shooted
+            );
+            break;
         
         default:
             std::cout << "La arma que tiene intento disparar todavia no esta implentada jaja xd" << std::endl;

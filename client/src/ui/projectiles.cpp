@@ -62,6 +62,11 @@ void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, weapon_t t
     case w_green_grenade:
       this->projectiles[projId] = new View::GreenGrenade(r, count);
       break;
+
+    case w_holy_grenade:
+      this->projectiles[projId] = new View::HolyGrenade(r, count);
+      break;
+
     default:
       throw View::Exception("%s: %i", ERR_MSG_UNKNOWN_PROJECTIL_TYPE, w_dynamite);
   }
