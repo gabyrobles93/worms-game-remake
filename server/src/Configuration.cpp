@@ -9,6 +9,7 @@ Configuration::Configuration() {
     this->WORLD_TIME_STEP = 1.0f/60.0f;
     this->WORLD_VELOCITY_ITERATIONS = 6;
     this->WORLD_POSITION_ITERATIONS = 2;
+    this->WORLD_Y_LIMIT = 58.24f;
 
     //WORM
     this->WORM_SPEED = 1;

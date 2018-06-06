@@ -155,7 +155,6 @@ void Worm::setFalling(bool falling) {
 }
 
 void Worm::update() {
-    /* float verticalSpeed = this->wormPhysic.getVerticalSpeed(); */
     if (!this->isGrounded()) {
         if (this->falled && (getPosY() < this->fallenDistance)) {
             this->fallenDistance = getPosY();
@@ -174,6 +173,10 @@ void Worm::update() {
 
     if (!this->wormPhysic.haveVerticalSpeed() && !this->wormPhysic.haveHorizontalSpeed()) {
         this->affectedByExplosion = false;
+    }
+
+    if (this->wormPhysic.getPosY() > gConfiguration.WORLD_Y_LIMIT) {
+        this->kill();
     }
 }
 
