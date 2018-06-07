@@ -1,4 +1,5 @@
 #include "sound_effect.h"
+#include <limits.h>
 
 int GLOBAL_CHANNEL_COUNTER = 0;
 
@@ -9,7 +10,7 @@ SoundEffect::SoundEffect(void) {
   this->playingMusic = false;
   this->playingSound = false;
 
-  if (GLOBAL_CHANNEL_COUNTER == SDL_MAX_SINT32) {
+  if (GLOBAL_CHANNEL_COUNTER == INT_MAX) {
     GLOBAL_CHANNEL_COUNTER = 0;
   }
 
