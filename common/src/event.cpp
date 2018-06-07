@@ -42,6 +42,10 @@ bool Event::quit(void) {
     return (this->action == a_quitGame || this->action == a_quitLobby) ? true : false;
 }
 
+bool Event::createMatch(void) {
+    return this->action == a_createMatch ? true : false;
+}
+
 size_t Event::getTeamId(void) {
     return this->team_id;
 }

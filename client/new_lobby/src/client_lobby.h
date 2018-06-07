@@ -25,6 +25,8 @@ private:
     QList<QListWidgetItem*> lobby_games;
     QStackedWidget * pages;
 
+    std::string map_game_path;
+
     void connectEvents(void);
     void cleanTextBoxes(void);
     void connectToServer(void);
@@ -39,6 +41,10 @@ private:
     void cleanLobby(void);
     void waitForPlayersOnCreatedMatch(void);
     void backLobby(void);
+    void chooseMap(void);
+    void feedWaitingPlayers(void);
+    void startWaitingMatch(void);
+    void cancelWaitingMatch(void);
 };
 
 #endif // CLIENT_LOBBY_H

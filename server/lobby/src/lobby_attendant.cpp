@@ -30,6 +30,7 @@ void LobbyAttendant::run(void) {
             this->keep_running = false;
             return;
         }
+
         std::cout << "Evento recibido del cliente " << this->client->getPlayerName() << std::endl;
         processEvent(new_event);
     }
@@ -43,6 +44,11 @@ void LobbyAttendant::processEvent(Event & event) {
         case a_refreshLobby: 
             this->client->sendGamesStatus(this->matchs_status.getMatchsStatus());
             break;
+        case a_createMatch:
+            std::cout << "El cliente " << this->client->getPlayerName() << " ha creado una partida." << std::endl;
+            this->client->setStatus(creator);
+            break;
+
         default:
             break;
     }
