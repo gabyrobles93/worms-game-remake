@@ -12,11 +12,13 @@ public:
     virtual weapon_t getType(void);
     bool hasExploded(void);
     virtual int getCountdown();
+    int getBlastRadius();
     virtual int getId();
 protected:
     explicit Weapon(weapon_t type);
     weapon_t type;
     bool exploded;
+    int blast_radius;
     int countdown;
     int id;
 };

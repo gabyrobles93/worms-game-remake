@@ -22,3 +22,7 @@ int Weapon::getId() {
 weapon_t Weapon::getType(void) {
     return this->type;
 }
+
+int Weapon::getBlastRadius() {
+    return this->blast_radius;
+}

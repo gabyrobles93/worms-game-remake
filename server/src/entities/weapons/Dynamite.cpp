@@ -8,6 +8,7 @@ detonationTime(currentTime + delay),
 dynamitePhysic(world, posX, posY) {
     this->exploded = false;
     this->id = id;
+    this->blast_radius = gConfiguration.DYNAMITE_BLAST_RADIUS;
 }
 
 void Dynamite::update(int currentTime) {
@@ -18,7 +19,7 @@ void Dynamite::update(int currentTime) {
 }
 
 void Dynamite::explode() {
-    this->dynamitePhysic.explode(gConfiguration.DYNAMITE_BLAST_RADIUS, gConfiguration.DYNAMITE_BLAST_POWER);
+    this->dynamitePhysic.explode(this->blast_radius, gConfiguration.DYNAMITE_BLAST_POWER);
     this->exploded = true;
 }
 

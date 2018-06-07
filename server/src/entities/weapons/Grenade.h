@@ -11,7 +11,6 @@ class Grenade : public Weapon {
 private:    
     int detonationTime;
     weapon_t type;
-    int blast_radius;
     int blast_power;
     bool mirrored;
     int shooting_angle;

@@ -54,6 +54,7 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> weapons) {
         projectile["y"] = std::to_string((int) (weapons[weapon_id]->getPosY() / gConfiguration.SCALING_FACTOR));
         projectile["countdown"] = std::to_string(weapons[weapon_id]->getCountdown());
         projectile["exploded"] = std::to_string(weapons[weapon_id]->hasExploded());
+        projectile["blast_radius"] = std::to_string((int) (weapons[weapon_id]->getBlastRadius() / gConfiguration.SCALING_FACTOR));
     }
 }
 
