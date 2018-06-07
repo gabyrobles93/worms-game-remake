@@ -109,6 +109,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/RedGrenade.h
 		${PROJECT_SOURCE_DIR}/src/Configuration.h
 		${PROJECT_SOURCE_DIR}/src/Configuration.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/BazookaPhysic.cpp
+		${PROJECT_SOURCE_DIR}/src/physics/weapons/BazookaPhysic.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
