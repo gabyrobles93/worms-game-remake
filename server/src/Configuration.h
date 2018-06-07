@@ -6,6 +6,7 @@ public:
     Configuration();
     //CONVERSIONS
     float DEGTORAD;
+    float RADTODEG;
     float SCALING_FACTOR;
 
     //WORLD
