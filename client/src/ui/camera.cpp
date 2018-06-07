@@ -74,17 +74,17 @@ void View::Camera::focus(Drawable & d) {
 }
 
 void View::Camera::handleEvent(SDL_Event & e) {
-  if (e.key.keysym.sym == SDLK_a) {
-    this->setX(this->camera.x - 100);
+  if (e.key.keysym.sym == SDLK_LEFT) {
+    this->setX(this->camera.x - 25);
   }
-  if (e.key.keysym.sym == SDLK_d) {
-    this->setX(this->camera.x + 100);
+  if (e.key.keysym.sym == SDLK_RIGHT) {
+    this->setX(this->camera.x + 25);
   }
-  if (e.key.keysym.sym == SDLK_w) {
-    this->setY(this->camera.y - 100);
+  if (e.key.keysym.sym == SDLK_UP) {
+    this->setY(this->camera.y - 25);
   }
-  if (e.key.keysym.sym == SDLK_s) {
-    this->setY(this->camera.y + 100);
+  if (e.key.keysym.sym == SDLK_DOWN) {
+    this->setY(this->camera.y + 25);
   }
 }
 

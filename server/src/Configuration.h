@@ -4,6 +4,9 @@
 class Configuration {
 public:
     Configuration();
+    //TURN
+    float TURN_DURATION;
+    
     //CONVERSIONS
     float DEGTORAD;
     float RADTODEG;
