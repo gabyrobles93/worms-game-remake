@@ -4,6 +4,7 @@ Configuration::Configuration() {
     //CONVERSION
     this->SCALING_FACTOR = 0.0416;
     this->DEGTORAD = 0.0174533;
+    this->RADTODEG = 57.2958;
 
     //WORLD
     this->WORLD_TIME_STEP = 1.0f/60.0f;
