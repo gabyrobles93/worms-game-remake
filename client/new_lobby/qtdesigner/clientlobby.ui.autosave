@@ -294,7 +294,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="button_start">
+     <widget class="QPushButton" name="button_create_game">
       <property name="geometry">
        <rect>
         <x>550</x>

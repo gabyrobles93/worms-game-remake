@@ -6,9 +6,12 @@
 #include "ui_clientlobby.h"
 #include "socket.h"
 #include "socket_error.h"
+#include "event.h"
+#include "types.h"
 
-#define CONNECTION_PAGE_INDEX 0
-#define LOBBY_PAGE_INDEX 1
+#define PAGE_CONNECTION_INDEX 0
+#define PAGE_LOBBY_INDEX 1
+#define PAGE_MATCH_CREATE 2
 
 ClientLobby::ClientLobby(QWidget *parent) :
     QMainWindow(parent),
@@ -16,14 +19,13 @@ ClientLobby::ClientLobby(QWidget *parent) :
 {
     ui->setupUi(this);
     connectEvents();
+    this->pages = findChild<QStackedWidget*>("pages_client");
+    this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
 }
 
 ClientLobby::~ClientLobby()
 {
-    QList<QListWidgetItem*>::iterator it;
-    for (it = this->lobby_games.begin(); it != this->lobby_games.end(); it++) {
-        delete (*it);
-    }
+    cleanLobby();
     delete ui;
 }
 
@@ -51,6 +53,14 @@ void ClientLobby::connectEvents(void) {
     QPushButton* refreshButton = findChild<QPushButton*>("button_refresh");
     QObject::connect(refreshButton, &QPushButton::clicked,
                      this, &ClientLobby::refreshLobby);
+
+    QPushButton* createGameButton = findChild<QPushButton*>("button_create_game");
+    QObject::connect(createGameButton, &QPushButton::clicked,
+                     this, &ClientLobby::waitForPlayersOnCreatedMatch);
+
+    QPushButton* backLobbyButton = findChild<QPushButton*>("button_back_lobby");
+    QObject::connect(backLobbyButton, &QPushButton::clicked,
+                     this, &ClientLobby::backLobby);
 }
 
 void ClientLobby::cleanTextBoxes(void) {
@@ -100,20 +110,20 @@ void ClientLobby::goLobby(void) {
     QLabel* playerName = findChild<QLabel*>("playerName");
     playerName->setText(this->player_name.c_str());
 
-    QStackedWidget * pages = findChild<QStackedWidget*>("pages_client");
-    pages->setCurrentIndex(LOBBY_PAGE_INDEX);
+    this->pages->setCurrentIndex(PAGE_LOBBY_INDEX);
 
     feedLobby();
 }
 
 void ClientLobby::createMatch(void) {
-    std::cout << "Creo una partida!" << std::endl;
+    this->pages->setCurrentIndex(PAGE_MATCH_CREATE);
 }
 
 void ClientLobby::exitLobby(void) {
     std::cout << "Me voy del lobby" << std::endl;
-    QStackedWidget * pages = findChild<QStackedWidget*>("pages_client");
-    pages->setCurrentIndex(CONNECTION_PAGE_INDEX);
+    this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
+    Event new_event(a_quitLobby, 1);
+    this->protocol->sendEvent(new_event);
     delete this->protocol;
 }
 
@@ -123,6 +133,27 @@ void ClientLobby::joinMatch(void) {
 
 void ClientLobby::refreshLobby(void) {
     std::cout << "Refresh del lobby" << std::endl;
+    cleanLobby();
+    Event new_event(a_refreshLobby, 1);
+    this->protocol->sendEvent(new_event);
+    feedLobby();
+}
+
+void ClientLobby::waitForPlayersOnCreatedMatch(void) {
+
+}
+
+void ClientLobby::backLobby(void) {
+    this->pages->setCurrentIndex(PAGE_LOBBY_INDEX);
+    refreshLobby();
+}
+
+void ClientLobby::cleanLobby(void) {
+    QList<QListWidgetItem*>::iterator it;
+    for (it = this->lobby_games.begin(); it != this->lobby_games.end();) {
+        delete (*it);
+        it = this->lobby_games.erase(it);
+    }
 }
 
 void ClientLobby::feedLobby(void) {
@@ -130,6 +161,11 @@ void ClientLobby::feedLobby(void) {
     QListWidget * matchsList = findChild<QListWidget*>("list_matchs");
     YAML::Node gameStatus;
     this->protocol->rcvGameStatus(gameStatus);
+
+    std::stringstream ss;
+    ss << gameStatus;
+    std::cout << ss.str() << std::endl;
+
     YAML::Node::const_iterator it;
     for (it = gameStatus["games"].begin(); it != gameStatus["games"].end(); it++) {
         std::string text_row;
