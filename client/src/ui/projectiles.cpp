@@ -44,8 +44,7 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
       this->createProjectil(
         r, 
         projId, 
-        (weapon_t)proj["type"].as<int>(),
-        proj["countdown"].as<int>()
+        proj
       );
     }
   }
@@ -53,18 +52,22 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
   this->cleanProjectilesFinished();
 }
 
-void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, weapon_t type, int count) {
+void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, const YAML::Node & proj) {
+  int count = proj["countdown"].as<int>();
+  weapon_t type = (weapon_t)proj["type"].as<int>();
+  int ratio = proj["blast_radius"].as<int>();
+  
   switch (type) {
     case w_dynamite:
-      this->projectiles[projId] = new View::Dynamite(r, count);
+      this->projectiles[projId] = new View::Dynamite(r, count, ratio);
       break;
 
     case w_green_grenade:
-      this->projectiles[projId] = new View::GreenGrenade(r, count);
+      this->projectiles[projId] = new View::GreenGrenade(r, count, ratio);
       break;
 
     case w_holy_grenade:
-      this->projectiles[projId] = new View::HolyGrenade(r, count);
+      this->projectiles[projId] = new View::HolyGrenade(r, count, ratio);
       break;
 
     default:

@@ -20,7 +20,7 @@ namespace View {
       std::map<size_t, Projectil *> projectiles;
 
       // Crea un proyectil nuevo dependiendo el tipo
-      void createProjectil(SDL_Renderer *, int, weapon_t, int);
+      void createProjectil(SDL_Renderer *, int, const YAML::Node &);
 
       // Libera la memoria de los proyectiles que ya terminaron de usarse
       void cleanProjectilesFinished(void);
