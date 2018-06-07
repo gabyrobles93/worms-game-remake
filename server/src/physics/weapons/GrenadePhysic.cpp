@@ -15,6 +15,7 @@ world(world) {
     grenadeFixture.shape = &grenadeShape;
     grenadeFixture.density = GRENADE_DENSITY;
     grenadeFixture.friction = 50000000;
+    grenadeFixture.restitution = gConfiguration.GRENADE_RESTITUTION;
     body->CreateFixture(&grenadeFixture);
 
     this->body = body;
