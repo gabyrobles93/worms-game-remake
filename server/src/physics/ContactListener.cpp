@@ -52,12 +52,12 @@ void ContactListener::BeginContact(b2Contact* contact) {
         }
 
         //BAZOOKA WORM/STRUCTURE CONTACT
-        if (entityA_type == BAZOOKA && (entityB_type == WORM || entityB_type == STRUCTURE)) {
+        if (entityA_type == BAZOOKA && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER)) {
             //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
             static_cast<Bazooka*>(bodyAUserData)->explode();
         }
 
-        if (entityB_type == BAZOOKA && (entityA_type == WORM || entityA_type == STRUCTURE)) {
+        if (entityB_type == BAZOOKA && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER)) {
             //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
             static_cast<Bazooka*>(bodyBUserData)->explode();
         }
