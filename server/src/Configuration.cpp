@@ -1,6 +1,8 @@
 #include "Configuration.h"
 
 Configuration::Configuration() {
+    //TURN
+    this->TURN_DURATION = 50;
     //CONVERSION
     this->SCALING_FACTOR = 0.0416;
     this->DEGTORAD = 0.0174533;
