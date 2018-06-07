@@ -1,5 +1,6 @@
 #include "Bazooka.h"
 #include "types.h"
+#include <iostream>
 
 Bazooka::Bazooka(int id, b2World& world, float posX, float posY, float mirrored, 
 float shooting_angle, int power_factor, weapon_t type) : 
@@ -10,6 +11,7 @@ bazookaPhysic(world, posX, posY, this) {
     this->mirrored = mirrored;
     this->shooting_angle = shooting_angle;
     this->id = id;
+    this->contact = false;
     this->blast_power = gConfiguration.BAZOOKA_BLAST_POWER;
     this->blast_radius = gConfiguration.BAZOOKA_BLAST_RADIUS;
     shoot();
@@ -33,9 +35,13 @@ void Bazooka::shoot() {
 }
 
 void Bazooka::update(int currenTime) {
-    if (this->bazookaPhysic.getPosY() > gConfiguration.WORLD_Y_LIMIT) {
+    if (this->bazookaPhysic.getPosY() > gConfiguration.WORLD_Y_LIMIT || contact) {
         this->explode();
+        std::cout << "BAZOOKA FUERA DE RANGO " << std::endl;
     }
 }
 
+void Bazooka::setContact(bool made_contact) {
+    this->contact = made_contact;
+}
 

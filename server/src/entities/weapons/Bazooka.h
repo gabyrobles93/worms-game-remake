@@ -12,6 +12,7 @@ private:
     int shooting_angle;
     int power_factor;
     bool mirrored;
+    bool contact;
     int blast_power;
     BazookaPhysic bazookaPhysic;
 public:
@@ -19,6 +20,7 @@ public:
     void explode(void);
     float getPosX();
     float getPosY();
+    void setContact(bool made_contact);
     void shoot(void);
     entity_t getEntityType() {return BAZOOKA;}
     void update(int currentTime);

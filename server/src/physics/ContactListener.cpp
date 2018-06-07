@@ -54,12 +54,12 @@ void ContactListener::BeginContact(b2Contact* contact) {
         //BAZOOKA WORM/STRUCTURE CONTACT
         if (entityA_type == BAZOOKA && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER)) {
             //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
-            static_cast<Bazooka*>(bodyAUserData)->explode();
+            static_cast<Bazooka*>(bodyAUserData)->setContact(true);
         }
 
         if (entityB_type == BAZOOKA && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER)) {
             //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
-            static_cast<Bazooka*>(bodyBUserData)->explode();
+            static_cast<Bazooka*>(bodyBUserData)->setContact(true);
         }
     }
 }
@@ -80,5 +80,17 @@ void ContactListener::EndContact(b2Contact* contact) {
         if (entityB_type == WORM && entityA_type == STRUCTURE) {
             static_cast<Worm*>(bodyBUserData)->deleteFootContact();
         }
+
+        //BAZOOKA WORM/STRUCTURE CONTACT
+        if (entityA_type == BAZOOKA && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER)) {
+            //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
+            static_cast<Bazooka*>(bodyAUserData)->setContact(false);
+        }
+
+        if (entityB_type == BAZOOKA && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER)) {
+            //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
+            static_cast<Bazooka*>(bodyBUserData)->setContact(false);
+        }
+
     }
 }
