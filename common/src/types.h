@@ -41,6 +41,14 @@ typedef enum {
     w_teleport
 } weapon_t;
 
+typedef enum {
+    quited,
+    lobby,
+    joined,
+    creator,
+    on_match
+} client_status_t;
+
 typedef unsigned char uchar;
 
 #endif

@@ -24,3 +24,11 @@ Event Client::rcvEvent(void) {
 std::string Client::getPlayerName(void) {
     return this->player_name;
 }
+
+void Client::setStatus(client_status_t new_status) {
+    this->status = new_status;
+}
+
+client_status_t Client::getStatus(void) {
+    return this->status;
+}

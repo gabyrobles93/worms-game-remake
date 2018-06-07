@@ -26,6 +26,7 @@ void LobbyAttendant::run(void) {
         Event new_event = this->client->rcvEvent();
         if (new_event.quit()) {
             std::cout << "El cliente " << this->client->getPlayerName() << " ha saldo del lobby." << std::endl;
+            this->client->setStatus(quited);
             this->keep_running = false;
             return;
         }

@@ -3,13 +3,7 @@
 
 #include "protocol.h"
 #include "yaml.h"
-
-typedef enum {
-    lobby,
-    joined,
-    creator,
-    on_match
-} client_status_t;
+#include "types.h"
 
 class Client {
     private:
@@ -21,7 +15,8 @@ class Client {
         void sendGamesStatus(YAML::Node);
         Event rcvEvent(void);
         std::string getPlayerName(void);
-
+        void setStatus(client_status_t);
+        client_status_t getStatus(void);
 };
 
 #endif
