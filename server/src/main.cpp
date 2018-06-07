@@ -18,7 +18,7 @@
 #include "snapshot.h"
 
 #define PORT "8080"
-#define MAP_PATH "mapa_clave/mapa_clave.yml"
+#define MAP_PATH "../maps/el_mapa_1.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
 
 Configuration gConfiguration;

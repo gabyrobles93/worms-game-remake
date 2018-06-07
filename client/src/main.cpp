@@ -32,6 +32,8 @@
 #include "projectiles.h"
 #include "dynamite.h"
 #include "explosion.h"
+#include "sdl_timer.h"
+#include "client_configuration.h"
 
 #define CONNECTION_HOST "localhost"
 #define CONNECTION_PORT "8080"
@@ -49,8 +51,6 @@
 
 // Variable global
 Paths gPath;
-
-void handleCountdownConfiguration(SDL_Event &, int &);
 
 int main(/* int argc, char *argv[] */) try {
 	YAML::Node mapNode;
@@ -91,16 +91,22 @@ int main(/* int argc, char *argv[] */) try {
 	int updateCount = 0;
 	int renderCount = 0;
 
-	int countDownConfiguration = 5;
+	ClientConfiguration cfg;
+
 	while (!quit) {
 		ti = SDL_GetTicks();
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
 				quit = true;
 			
-			if (e.type == SDL_KEYDOWN) {
-				handleCountdownConfiguration(e, countDownConfiguration);
+			cfg.handleEvent(e);
 
+			if (cfg.hasShooted()) {
+				Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID, cfg.getWeaponsCountdown(), cfg.getPowerShoot());
+				events.push(event);
+			}
+
+			if (e.type == SDL_KEYDOWN) {
 				if (e.key.keysym.sym == SDLK_w) {
 					Event event(a_pointUp, TEAM_ID);
 					events.push(event);
@@ -115,10 +121,6 @@ int main(/* int argc, char *argv[] */) try {
 				}
 				if (e.key.keysym.sym == SDLK_d) {
 					Event event(a_moveRight, TEAM_ID);
-					events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_SPACE) {
-					Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID, countDownConfiguration, HARCODED_POWER_SHOOT);
 					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_RETURN) {
@@ -217,24 +219,4 @@ int main(/* int argc, char *argv[] */) try {
 	std::cout << e.what() << std::endl;
 } catch(const std::exception & e) {
 		std::cout << e.what() << std::endl;
-}
-
-void handleCountdownConfiguration(SDL_Event & e, int & countdown) {
-	if (e.type == SDL_KEYDOWN) {
-		if (e.key.keysym.sym == SDLK_1) {
-			countdown = 1;
-		}
-		if (e.key.keysym.sym == SDLK_2) {
-			countdown = 2;
-		}
-		if (e.key.keysym.sym == SDLK_3) {
-			countdown = 3;
-		}
-		if (e.key.keysym.sym == SDLK_4) {
-			countdown = 4;
-		}
-		if (e.key.keysym.sym == SDLK_5) {
-			countdown = 5;
-		}		
-	}
 }

@@ -93,6 +93,7 @@ Paths::Paths(const char * r) {
   this->PATH_SOUND_THROW_PROJECTIL = root + "resources/sounds/Effects/THROWRELEASE.WAV";
   this->PATH_SOUND_HOLY = root + "resources/sounds/Effects/HOLYGRENADE.WAV";
   this->PATH_SOUND_TIME_TRICK = root + "resources/sounds/Effects/TIMERTICK.WAV";
+  this->PATH_SOUND_THROW_POWER_UP = root + "resources/sounds/Effects/THROWPOWERUP.WAV";
 
     // Worms voices
     this->PATH_SOUND_LAUGH = root + "resources/sounds/Voices/Spanish/LAUGH.WAV";

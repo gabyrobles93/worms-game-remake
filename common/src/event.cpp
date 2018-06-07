@@ -24,8 +24,11 @@ Event::Event(action_t a, weapon_t w, size_t tid, int countdown, int power) {
     }
 
     if (power != -1) {
-        this->eventNode["event"]["power"] = std::to_string(power);
+        int powerConverted = (power / 150) + 10; // Hardcodeado 
+        this->eventNode["event"]["power"] = std::to_string(powerConverted);
     }
+
+    
 }
 
 Event::Event(YAML::Node & event) {

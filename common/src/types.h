@@ -50,6 +50,12 @@ typedef enum {
     on_match
 } client_status_t;
 
+typedef enum {
+    ALL,
+    ONLY_HEALTH,
+    NONE
+} worm_data_cfg_t;
+
 typedef unsigned char uchar;
 
 #endif

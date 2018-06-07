@@ -32,6 +32,7 @@ add_executable(	client
 		${PROJECT_SOURCE_DIR}/src/event_sender.cpp
 		${PROJECT_SOURCE_DIR}/src/model_receiver.cpp
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.cpp
+		${PROJECT_SOURCE_DIR}/src/client_configuration.cpp
 		${COMMON_SOURCE_DIR}/src/paths.cpp
 		${COMMON_SOURCE_DIR}/src/event.cpp
 		${COMMON_SOURCE_DIR}/src/socket.cpp
@@ -40,6 +41,7 @@ add_executable(	client
 		${COMMON_SOURCE_DIR}/src/socket_error.cpp
 		${COMMON_SOURCE_DIR}/src/protocol_error.cpp
 		${COMMON_SOURCE_DIR}/src/sound_effect.cpp
+		${COMMON_SOURCE_DIR}/src/sdl_timer.cpp
 		${UI_SOURCE_DIR}/worms_status.cpp
 		${UI_SOURCE_DIR}/camera.cpp
 		${UI_SOURCE_DIR}/clock.cpp
@@ -66,6 +68,7 @@ add_executable(	client
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
+		${PROJECT_SOURCE_DIR}/src/client_configuration.h
 		${COMMON_SOURCE_DIR}/src/paths.h
 		${COMMON_SOURCE_DIR}/src/event.h
 		${COMMON_SOURCE_DIR}/src/socket.h
@@ -76,6 +79,7 @@ add_executable(	client
 		${COMMON_SOURCE_DIR}/src/types.h
 		${COMMON_SOURCE_DIR}/src/blocking_queue.h
 		${COMMON_SOURCE_DIR}/src/sound_effect.h
+		${COMMON_SOURCE_DIR}/src/sdl_timer.h
 		${UI_SOURCE_DIR}/worms_status.h
 		${UI_SOURCE_DIR}/camera.h
 		${UI_SOURCE_DIR}/clock.h
@@ -101,6 +105,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/sight.h
 		${UI_SOURCE_DIR}/green_grenade.h
 		${UI_SOURCE_DIR}/holy_grenade.h
+		
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)
