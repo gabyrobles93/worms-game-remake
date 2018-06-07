@@ -1,0 +1,4 @@
+/home/gonza/Desktop/tp-final-taller/client/build/CMakeFiles/rebuild_cache.dir
+/home/gonza/Desktop/tp-final-taller/client/build/CMakeFiles/edit_cache.dir
+/home/gonza/Desktop/tp-final-taller/client/build/CMakeFiles/client.dir
+/home/gonza/Desktop/tp-final-taller/client/build/CMakeFiles/client_automoc.dir

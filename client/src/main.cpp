@@ -101,19 +101,19 @@ int main(/* int argc, char *argv[] */) try {
 			if (e.type == SDL_KEYDOWN) {
 				handleCountdownConfiguration(e, countDownConfiguration);
 
-				if (e.key.keysym.sym == SDLK_UP) {
+				if (e.key.keysym.sym == SDLK_w) {
 					Event event(a_pointUp, TEAM_ID);
 					events.push(event);
 				}
-				if (e.key.keysym.sym == SDLK_DOWN) {
+				if (e.key.keysym.sym == SDLK_s) {
 					Event event(a_pointDown, TEAM_ID);
 					events.push(event);
 				}
-				if (e.key.keysym.sym == SDLK_LEFT) {
+				if (e.key.keysym.sym == SDLK_a) {
 					Event event(a_moveLeft, TEAM_ID);
 					events.push(event);
 				}
-				if (e.key.keysym.sym == SDLK_RIGHT) {
+				if (e.key.keysym.sym == SDLK_d) {
 					Event event(a_moveRight, TEAM_ID);
 					events.push(event);
 				}
@@ -128,6 +128,19 @@ int main(/* int argc, char *argv[] */) try {
 				if (e.key.keysym.sym == SDLK_BACKSPACE) {
 					Event event(a_backJump, TEAM_ID);
 					events.push(event);
+				}
+
+				if (e.key.keysym.sym == SDLK_LEFT) {
+					camera.handleEvent(e);
+				}
+				if (e.key.keysym.sym == SDLK_RIGHT) {
+					camera.handleEvent(e);
+				}
+				if (e.key.keysym.sym == SDLK_UP) {
+					camera.handleEvent(e);
+				}
+				if (e.key.keysym.sym == SDLK_DOWN) {
+					camera.handleEvent(e);
 				}
 			}
 

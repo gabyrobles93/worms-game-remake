@@ -172,8 +172,16 @@ void View::WeaponsInventory::handleEvent(SDL_Event & e) {
     if (e.key.keysym.sym == SDLK_q) {
       if (this->isOpen()) {
         this->pickNextItem();
+      } else {
+        this->toggleOpen();
       }
     } 
+
+    if (e.key.keysym.sym == SDLK_e) {
+      if (this->isOpen()) {
+        this->toggleOpen();
+      }
+    }
   }
 
   // Click derecho abre o cierra el inventario
