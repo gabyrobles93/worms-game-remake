@@ -7,6 +7,7 @@ typedef enum {
     DYNAMITE,
     BAT,
     WATER,
+    BAZOOKA,
 } entity_t;
 
 class Entity {

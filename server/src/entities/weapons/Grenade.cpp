@@ -36,10 +36,6 @@ void Grenade::explode() {
     this->exploded = true;
 }
 
-bool Grenade::hasExploded() {
-    return this->exploded;
-}
-
 float Grenade::getPosX() {
     return this->grenadePhysic.getPosX();
 }

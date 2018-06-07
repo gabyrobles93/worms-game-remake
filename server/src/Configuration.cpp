@@ -55,7 +55,7 @@ Configuration::Configuration() {
     this->BAT_DAMAGE = 10;
 
     //DYNAMITE
-    this->DYNAMITE_BLAST_RADIUS = 10;
+    this->DYNAMITE_BLAST_RADIUS = 4;
     this->DYNAMITE_BLAST_POWER =50;
     
     //GREEN GRENADE

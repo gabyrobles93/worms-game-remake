@@ -53,8 +53,13 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> weapons) {
         projectile["x"] = std::to_string((int) (weapons[weapon_id]->getPosX() / gConfiguration.SCALING_FACTOR));
         projectile["y"] = std::to_string((int) (weapons[weapon_id]->getPosY() / gConfiguration.SCALING_FACTOR));
         projectile["countdown"] = std::to_string(weapons[weapon_id]->getCountdown());
+        if (weapons[weapon_id]->hasExploded()) std::cout << " LA BAZOOKA EXPLOTO" << std::endl;
         projectile["exploded"] = std::to_string(weapons[weapon_id]->hasExploded());
         projectile["blast_radius"] = std::to_string((int) (weapons[weapon_id]->getBlastRadius() / gConfiguration.SCALING_FACTOR));
+
+        // std::stringstream ss;
+        // ss << this->dynamics["projectiles"] << std::endl;
+        // std::cout << ss.str() << std::endl;
     }
 }
 

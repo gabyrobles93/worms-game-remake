@@ -21,7 +21,6 @@ public:
     Grenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type);
     void shoot(void);
     void update(int currentTime);
-    bool hasExploded(void);
     float getPosX();
     float getPosY();
     entity_t getEntityType() {return DYNAMITE;}

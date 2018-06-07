@@ -131,6 +131,8 @@ void World::updateBodies() {
     std::map<int, Weapon*>::iterator it;
     for(it=this->weapons.begin();it != this->weapons.end();) {
         if ((it)->second->hasExploded()) {
+            this->game_snapshot.updateProjectiles(this->weapons);
+            this->snapshots.push(this->game_snapshot);
             this->game_snapshot.removeProjectile(it->second->getId());
             delete (it->second);
             it = this->weapons.erase(it);
@@ -160,7 +162,7 @@ void World::run() {
 
         if (step_counter == 60) {
             this->time_sec++;
-            std::cout << "Timer: " << this->time_sec << std::endl;
+            //std::cout << "Timer: " << this->time_sec << std::endl;
             step_counter = 0;
         }
     }
@@ -236,6 +238,16 @@ void World::shootWeapon(Event & event, size_t id) {
         nodeEvent["event"]["countdown"].as<int>(), 
         getTimeSeconds(), 
         weapon_shooted
+        );
+    } else if (weapon_shooted == w_bazooka) {
+        newWeapon = new Bazooka(this->weapon_counter, 
+        this->worldPhysic.getWorld(), 
+        this->worms[id]->getPosX(), 
+        this->worms[id]->getPosY(),
+        this->worms[id]->isMirrored(),
+        this->worms[id]->getSightAngle(),
+        nodeEvent["event"]["power"].as<int>(),
+        w_green_grenade
         );
     }
 

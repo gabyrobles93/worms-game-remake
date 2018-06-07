@@ -50,6 +50,17 @@ void ContactListener::BeginContact(b2Contact* contact) {
         if (entityB_type == BAT && entityA_type == WORM) {
             static_cast<Bat*>(bodyBUserData)->atack(static_cast<Worm*>(bodyAUserData));
         }
+
+        //BAZOOKA WORM/STRUCTURE CONTACT
+        if (entityA_type == BAZOOKA && (entityB_type == WORM || entityB_type == STRUCTURE)) {
+            //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
+            static_cast<Bazooka*>(bodyAUserData)->explode();
+        }
+
+        if (entityB_type == BAZOOKA && (entityA_type == WORM || entityA_type == STRUCTURE)) {
+            //std::cout << "ASLDFKJASDLOFIJASDOFIJASOFIJASEOIFJAS" << std::endl;
+            static_cast<Bazooka*>(bodyBUserData)->explode();
+        }
     }
 }
 
