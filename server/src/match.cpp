@@ -157,9 +157,11 @@ void Match::setProtagonicWormDidShoot(bool flag) {
 }
 
 void Match::update(unsigned int time_passed) {
-    this->turn_timeleft_sec = this->turn_timeleft_sec - time_passed;
+    //this->turn_timeleft_sec = this->turn_timeleft_sec - time_passed;
     if (this->turn_timeleft_sec <= 0) {
         this->turn_finished = true;
+    } else {
+        this->turn_timeleft_sec = this->turn_timeleft_sec - time_passed;
     }
 
     if (this->protagonic_worm_did_shoot && this->turn_timeleft_sec > 3) {
