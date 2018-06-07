@@ -28,6 +28,9 @@ Configuration::Configuration() {
     this->MORTAR_FRAGMENT_BLAST_RADIUS = 2;
     this->MORTAR_FRAGMENT_BLAST_POWER = 10;
 
+    //GRENADE
+    this->GRENADE_RESTITUTION = 0.6;
+
     //RED GRENADE
     this->RED_GRENADE_BLAST_RADIUS = 2;
     this->RED_GRENADE_BLAST_POWER = 30;
