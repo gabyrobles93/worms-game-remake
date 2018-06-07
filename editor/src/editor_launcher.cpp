@@ -130,12 +130,14 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
     int err_code;
     err_code = the_editor.start();
     if (err_code == 0) {
-        std::string cmd_create_folder_map = "mkdir ../maps/" + map_name + " > /dev/null";
-        std::system(cmd_create_folder_map.c_str());
-        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" ../maps/" + map_name + " > /dev/null";
+        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" ../maps" + " > /dev/null";
         std::system(cmd_cp_background.c_str());
-        std::string cmd_mv_yaml = "mv ../maps/" + map_name + ".yml" + " ../maps/" + map_name + "/" + " > /dev/null";
-        std::system(cmd_mv_yaml.c_str());
+        std::string cmd_tar_gz = "tar -zcf \"../maps/" + map_name + "\" --directory=../maps \"" + map_name + ".yml\" "+ "\"" + this->background_name + "\"";
+        std::system(cmd_tar_gz.c_str());
+        std::string cmd_rmv_temp = "rm \"../maps/" + this->background_name + "\" \"../maps/" + map_name + ".yml\"";
+        std::system(cmd_rmv_temp.c_str());
     }
     this->close();
 }
+
+//tar -czvf el_mapa_1 el_mapa_1.yml Screenshot\ from\ 2018-05-29\ 15-01-49.png
