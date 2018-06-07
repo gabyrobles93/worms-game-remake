@@ -3,9 +3,10 @@
 #include "client.h"
 #include "yaml.h"
 
-LobbyAttendant::LobbyAttendant(Client * c, ProtectedMatchsStatus & pms) :
+LobbyAttendant::LobbyAttendant(Client * c, ProtectedMatchsStatus & pms, std::map<std::string, WaitingGame*> & wg) :
 client(c),
-matchs_status(pms) {
+matchs_status(pms),
+waiting_games (wg) {
     this->keep_running = true;
 }
 
@@ -41,15 +42,19 @@ void LobbyAttendant::processEvent(Event & event) {
     action_t action = (action_t) event_node["event"]["action"].as<int>();
 
     switch(action) {
-        case a_refreshLobby: 
+        case a_refreshLobby: {
             this->client->sendGamesStatus(this->matchs_status.getMatchsStatus());
             break;
-        case a_createMatch:
-            std::cout << "El cliente " << this->client->getPlayerName() << " ha creado una partida." << std::endl;
+        }
+        case a_createMatch: {
+            std::string player_name = this->client->getPlayerName();
+            std::cout << "El cliente " << player_name << " ha creado una partida." << std::endl;
             this->client->setStatus(creator);
+            WaitingGame * new_waiting_game = new WaitingGame(player_name);
+            this->waiting_games[player_name] = new_waiting_game;
+            this->matchs_status.addWaitingGame(new_waiting_game);
             break;
-
-        default:
-            break;
+        }
+        default: break;
     }
 }
