@@ -39,14 +39,12 @@ float GrenadePhysic::getPosY() {
     return this->body->GetPosition().y;
 }
 
-void GrenadePhysic::shoot(bool mirrored, float shooting_angle) {
+void GrenadePhysic::shoot(bool mirrored, float shooting_angle, int power_factor) {
     std::cout << "SHOOTING ANGLE: " << shooting_angle << std::endl;
     
-    float impulse = this->body->GetMass() * 10;
+    float impulse = this->body->GetMass() * power_factor;
     float x_impulse = cosf(shooting_angle * gConfiguration.DEGTORAD) * impulse;
     float y_impulse = sinf(shooting_angle * gConfiguration.DEGTORAD) * impulse;
-    //float x_impulse = this->body->GetMass() * 5;
     if (!mirrored) x_impulse = x_impulse * -1;
-    //float y_impulse = this->body->GetMass() * 10;
     this->body->ApplyLinearImpulse(b2Vec2(x_impulse, -y_impulse), this->body->GetWorldCenter(), true);
 }

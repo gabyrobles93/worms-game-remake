@@ -45,5 +45,5 @@ float Grenade::getPosY() {
 }
 
 void Grenade::shoot() {
-    this->grenadePhysic.shoot(mirrored, shooting_angle);
+    this->grenadePhysic.shoot(mirrored, shooting_angle, power_factor);
 }

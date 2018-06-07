@@ -40,8 +40,8 @@ float BazookaPhysic::getPosY() {
     return this->body->GetPosition().y;
 }
 
-void BazookaPhysic::shoot(bool mirrored, float shooting_angle) {
-    float impulse = this->body->GetMass() * 10;
+void BazookaPhysic::shoot(bool mirrored, float shooting_angle, int power_factor) {
+    float impulse = this->body->GetMass() * power_factor;
     float x_impulse = impulse * cosf(shooting_angle * gConfiguration.DEGTORAD);
     float y_impulse = impulse * sinf(shooting_angle * gConfiguration.DEGTORAD);
     if (!mirrored) x_impulse = x_impulse * -1;

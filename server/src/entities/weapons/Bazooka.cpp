@@ -29,7 +29,7 @@ float Bazooka::getPosY() {
 }
 
 void Bazooka::shoot() {
-    this->bazookaPhysic.shoot(mirrored, shooting_angle);
+    this->bazookaPhysic.shoot(mirrored, shooting_angle, power_factor);
 }
 
 void Bazooka::update(int currenTime) {

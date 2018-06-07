@@ -16,7 +16,7 @@ public:
     GrenadePhysic(b2World& world, float posX, float posY);
     ~GrenadePhysic();
     void explode(float radius, float power);
-    void shoot(bool mirrored, float shooting_angle);
+    void shoot(bool mirrored, float shooting_angle, int power_factor);
     float getPosX();
     float getPosY();
 };
