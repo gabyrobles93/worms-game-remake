@@ -2,6 +2,7 @@
 #define __PROTECTED_MATCHS_STATUS_H__
 
 #include "yaml.h"
+#include "waiting_game.h"
 #include <mutex>
 
 class ProtectedMatchsStatus {
@@ -11,6 +12,7 @@ class ProtectedMatchsStatus {
     public:
         ProtectedMatchsStatus(void);
         YAML::Node getMatchsStatus(void);
+        void addWaitingGame(WaitingGame *);
 };
 
 #endif

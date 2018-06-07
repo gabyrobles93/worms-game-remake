@@ -9,6 +9,7 @@
 #include "socket.h"
 #include "client.h"
 #include "lobby_attendant.h"
+#include "waiting_game.h"
 
 #define MSG_CANT_OPEN_CFG_FILE "No se pudo abrir el archivo de configuracion."
 
@@ -18,6 +19,7 @@ class Server : public Thread {
         ProtectedMatchsStatus game_status;
         std::map<std::string, Client*> clients;
         std::map<std::string, LobbyAttendant*> clients_in_lobby;
+        std::map<std::string, WaitingGame*> waiting_games;
         bool keep_running;
 
         bool isRunning(void) const;

@@ -39,7 +39,7 @@ void Server::run(void) {
 
             Client * client = new Client(std::move(newsktprotocol), player_name);
             this->clients.insert(std::pair<std::string, Client*>(player_name, client));
-            LobbyAttendant * new_lobby_attendant = new LobbyAttendant(client, this->game_status);
+            LobbyAttendant * new_lobby_attendant = new LobbyAttendant(client, this->game_status, this->waiting_games);
             new_lobby_attendant->start();
             this->clients_in_lobby.insert(std::pair<std::string, LobbyAttendant*>(player_name, new_lobby_attendant));
         } catch(const SocketError & e) {
