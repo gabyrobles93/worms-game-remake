@@ -31,7 +31,7 @@ YAML::Node Event::getNode(void) {
 }
 
 bool Event::quit(void) {
-    return this->action == a_quitGame ? true : false;
+    return (this->action == a_quitGame || this->action == a_quitLobby) ? true : false;
 }
 
 size_t Event::getTeamId(void) {

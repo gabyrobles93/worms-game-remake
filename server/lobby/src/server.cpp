@@ -1,17 +1,16 @@
 #include <fstream>
+#include <map>
 #include <sstream>
 #include "server.h"
 #include "socket.h"
 #include "socket_error.h"
-#include "server_acceptor.h"
 #include "protocol.h"
 #include "server_error.h"
+#include "client.h"
+#include "lobby_attendant.h"
 
-Server::Server(std::string & config_file_path,
- std::string & port) :
-acceptor(port, clients),
-feeder(clients)
-{
+Server::Server(std::string & config_file_path, std::string & port) :
+skt(port) {
     loadConfigFile(config_file_path);
     this->keep_running = true;
 }
@@ -23,22 +22,33 @@ void Server::run(void) {
             Protocol newsktprotocol(std::move(this->skt.accept_connection()));
             std::string player_name;
             newsktprotocol.getPlayerName(player_name);
-             if (this->clients.exists(player_name) == true) {
+/*             if (this->clients.exists(player_name) == true) {
                 player_name = findFreeName(player_name);
-            }
+            } */
             std::cout << "Bautizando al cliente como " << player_name << std::endl;
             newsktprotocol.sendName(player_name);
-            this->clients.addClient(player_name, std::move(newsktprotocol));
+/*             this->clients.addClient(player_name, std::move(newsktprotocol)); */
 
             std::cout << "Enviando games.yml al nuevo cliente." << std::endl;
-            this->clients.sendGamesStatus(player_name);
+            YAML::Node match_status = this->game_status.getMatchsStatus();
+            newsktprotocol.sendGameStatus(match_status);
 
+            Client * client = new Client(std::move(newsktprotocol), player_name);
+            this->clients.insert(std::pair<std::string, Client*>(player_name, client));
+            LobbyAttendant * new_lobby_attendant = new LobbyAttendant(client, this->game_status);
+            new_lobby_attendant->start();
+            this->clients_in_lobby.insert(std::pair<std::string, LobbyAttendant*>(player_name, new_lobby_attendant));
+            cleanFinishedClients();
         } catch(const SocketError & e) {
             std::cout << "Server acceptor se detiene por cierre del socket listener. " <<
             e.what() << std::endl;
             break;
         }
     }
+}
+
+void Server::cleanFinishedClients(void) {
+
 }
 
 void Server::loadConfigFile(std::string & config_file_path) {
@@ -51,7 +61,6 @@ void Server::loadConfigFile(std::string & config_file_path) {
     std::string line;
     std::getline(cfg_file, line);
     std::cout << line << std::endl;
-    std::cout << cfg_file;
 }
 
  bool Server::isRunning(void) const {
@@ -60,6 +69,10 @@ void Server::loadConfigFile(std::string & config_file_path) {
 
 Server::~Server(void) {
     // Cerrar server ordenadamente
+    std::map<std::string, Client*>::iterator it;
+    for (it = this->clients.begin(); it != this->clients.end(); it++) {
+        delete it->second;
+    }
 }
 
 size_t  Server::getId(void) const{
@@ -72,7 +85,7 @@ void Server::stop(void) {
     this->keep_running = false;
 }
 
-std::string Server::findFreeName(std::string & old_name) const {
+std::string Server::findFreeName(std::string & old_name) {
     int counter = 1;
     std::string number;
     std::string new_name;
@@ -81,10 +94,10 @@ std::string Server::findFreeName(std::string & old_name) const {
         number.clear();
         number.append("-" + std::to_string(counter));
         tmp = old_name;
-        if (this->clients.exists(tmp.append(number)) == false) {
+/*         if (this->clients.exists(tmp.append(number)) == false) {
             new_name = tmp;
             break;
-        }
+        } */
         counter++;
     }
     return new_name;

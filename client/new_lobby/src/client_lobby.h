@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include "QStackedWidget"
 #include "protocol.h"
 
 namespace Ui {
@@ -22,6 +23,7 @@ private:
     Protocol * protocol;
     std::string player_name;
     QList<QListWidgetItem*> lobby_games;
+    QStackedWidget * pages;
 
     void connectEvents(void);
     void cleanTextBoxes(void);
@@ -34,6 +36,9 @@ private:
     void joinMatch(void);
     void refreshLobby(void);
     void feedLobby(void);
+    void cleanLobby(void);
+    void waitForPlayersOnCreatedMatch(void);
+    void backLobby(void);
 };
 
 #endif // CLIENT_LOBBY_H
