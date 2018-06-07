@@ -46,6 +46,7 @@ add_executable(	editor
 		${COMMON_SOURCE_DIR}/src/paths.cpp
 		${COMMON_SOURCE_DIR}/src/sound_effect.cpp
 		${CLIENT_RESOURCES}/camera.cpp
+		${CLIENT_RESOURCES}/sight.cpp
 		${CLIENT_RESOURCES}/girder.cpp
 		${CLIENT_RESOURCES}/girder_long.cpp
 		${CLIENT_RESOURCES}/girder_short.cpp
@@ -67,6 +68,7 @@ add_executable(	editor
 		${PROJECT_SOURCE_DIR}/src/editor_launcher.h
 		${PROJECT_SOURCE_DIR}/src/editor.h
 		${CLIENT_RESOURCES}/camera.h
+		${CLIENT_RESOURCES}/sight.h
 		${CLIENT_RESOURCES}/drawable.h
 		${CLIENT_RESOURCES}/girder.h
 		${CLIENT_RESOURCES}/girder_long.h
