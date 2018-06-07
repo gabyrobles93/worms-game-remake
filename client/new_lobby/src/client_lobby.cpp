@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <qt5/QtWidgets/QMessageBox>
+#include <QFileDialog>
 #include "QStackedWidget"
 #include "client_lobby.h"
 #include "ui_clientlobby.h"
@@ -9,9 +10,12 @@
 #include "event.h"
 #include "types.h"
 
+#define DEFAULT_MAPS_FOLDER "../../../editor/maps"
+
 #define PAGE_CONNECTION_INDEX 0
 #define PAGE_LOBBY_INDEX 1
 #define PAGE_MATCH_CREATE 2
+#define PAGE_WAITING_MATCH_INDEX 3
 
 ClientLobby::ClientLobby(QWidget *parent) :
     QMainWindow(parent),
@@ -54,13 +58,29 @@ void ClientLobby::connectEvents(void) {
     QObject::connect(refreshButton, &QPushButton::clicked,
                      this, &ClientLobby::refreshLobby);
 
-    QPushButton* createGameButton = findChild<QPushButton*>("button_create_game");
+    QPushButton* createGameButton = findChild<QPushButton*>("button_start");
     QObject::connect(createGameButton, &QPushButton::clicked,
                      this, &ClientLobby::waitForPlayersOnCreatedMatch);
 
     QPushButton* backLobbyButton = findChild<QPushButton*>("button_back_lobby");
     QObject::connect(backLobbyButton, &QPushButton::clicked,
                      this, &ClientLobby::backLobby);
+
+    QPushButton* chooseMapsFolderButton = findChild<QPushButton*>("button_changue_maps_folder");
+    QObject::connect(chooseMapsFolderButton, &QPushButton::clicked,
+                     this, &ClientLobby::chooseMap);
+
+    QPushButton* refreshWaitingPlayersButton = findChild<QPushButton*>("button_refresh_waiting_players");
+    QObject::connect(refreshWaitingPlayersButton, &QPushButton::clicked,
+                     this, &ClientLobby::feedWaitingPlayers);;
+
+    QPushButton* startWaitingMatchButton = findChild<QPushButton*>("button_start_waiting_match");
+    QObject::connect(startWaitingMatchButton, &QPushButton::clicked,
+                     this, &ClientLobby::startWaitingMatch);
+
+    QPushButton* cancelWaitingMatchButton = findChild<QPushButton*>("button_cancel_waiting_match");
+    QObject::connect(cancelWaitingMatchButton, &QPushButton::clicked,
+                     this, &ClientLobby::cancelWaitingMatch);
 }
 
 void ClientLobby::cleanTextBoxes(void) {
@@ -140,7 +160,27 @@ void ClientLobby::refreshLobby(void) {
 }
 
 void ClientLobby::waitForPlayersOnCreatedMatch(void) {
+    QLineEdit * matchName = findChild<QLineEdit*>("text_game_name");
 
+    if (matchName->text().isEmpty()) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Partida inválida.");
+        msgBox.setText("Por favor, ingrese un nombre a la partida.");
+        msgBox.exec();
+        return;
+    }
+
+    if (this->map_game_path.size() <= 0) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Partida inválida.");
+        msgBox.setText("Por favor, seleccione un mapa de la lista.");
+        msgBox.exec();
+        return;  
+    }
+
+    std::cout << "Lanzo una partida en espera!" << std::endl;
+    this->pages->setCurrentIndex(PAGE_WAITING_MATCH_INDEX);
+    Event new_event(a_createMatch);
 }
 
 void ClientLobby::backLobby(void) {
@@ -179,4 +219,29 @@ void ClientLobby::feedLobby(void) {
         this->lobby_games.last()->setText(tr(text_row.c_str()));
         matchsList->insertItem(1, this->lobby_games.last());
     }
+}
+
+void ClientLobby::chooseMap(void) {
+    QString map_path;
+    map_path = QFileDialog::getOpenFileName(this, tr("Choose a map"), "/home", tr("Tar gzipped (*.tar.gz)"));
+    if (map_path.length() > 0) {
+        this->map_game_path = map_path.toUtf8().constData();
+        std::cout << "El mapa elegido es " << this->map_game_path << std::endl;
+        QLabel* currentMapPath = findChild<QLabel*>("text_current_map_path");
+        currentMapPath->setText(this->map_game_path.c_str());
+    } else {
+        std::cout << "No se eligio un mapa." << std::endl;
+    }
+}
+
+void ClientLobby::feedWaitingPlayers(void) {
+    std::cout << "Alimento la lista de jugadores en espera." << std::endl;
+}
+
+void ClientLobby::startWaitingMatch(void) {
+    std::cout << "Comienzo juego" << std::endl;
+}
+
+void ClientLobby::cancelWaitingMatch(void) {
+    std::cout << "Cancelo juego en espera." << std::endl;
 }
