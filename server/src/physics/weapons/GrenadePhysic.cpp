@@ -41,7 +41,7 @@ float GrenadePhysic::getPosY() {
 void GrenadePhysic::shoot(bool mirrored, float shooting_angle) {
     std::cout << "SHOOTING ANGLE: " << shooting_angle << std::endl;
     
-    float impulse = this->body->GetMass() * 100;
+    float impulse = this->body->GetMass() * 10;
     float x_impulse = cosf(shooting_angle * gConfiguration.DEGTORAD) * impulse;
     float y_impulse = sinf(shooting_angle * gConfiguration.DEGTORAD) * impulse;
     //float x_impulse = this->body->GetMass() * 5;

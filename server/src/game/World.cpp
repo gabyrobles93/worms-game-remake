@@ -222,44 +222,21 @@ void World::shootWeapon(Event & event, size_t id) {
 
     std::cout << "Quedan municiones entonces dispara." << std::endl;
 
-    switch (weapon_shooted) {
-        case w_dynamite:
-            newWeapon = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
-            break;
-
-        case w_green_grenade:
-            newWeapon = new Grenade(
-                this->weapon_counter, 
-                this->worldPhysic.getWorld(), 
-                this->worms[id]->getPosX(), 
-                this->worms[id]->getPosY(), 
-                this->worms[id]->isMirrored() , 
-                this->worms[id]->getSightAngle() , 
-                nodeEvent["event"]["power"].as<int>(), 
-                nodeEvent["event"]["countdown"].as<int>(), 
-                getTimeSeconds(), 
-                weapon_shooted
-            );
-            break;
-
-        case w_holy_grenade:
-            newWeapon = new Grenade(
-                this->weapon_counter, 
-                this->worldPhysic.getWorld(), 
-                this->worms[id]->getPosX(), 
-                this->worms[id]->getPosY(), 
-                this->worms[id]->isMirrored() , 
-                this->worms[id]->getSightAngle() , 
-                nodeEvent["event"]["power"].as<int>(), 
-                nodeEvent["event"]["countdown"].as<int>(), 
-                getTimeSeconds(), 
-                weapon_shooted
-            );
-            break;
-        
-        default:
-            std::cout << "La arma que tiene intento disparar todavia no esta implentada jaja xd" << std::endl;
-            break;
+    if (weapon_shooted == w_dynamite) {
+        newWeapon = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());            
+    } else if (weapon_shooted == w_green_grenade || weapon_shooted == w_holy_grenade || weapon_shooted == w_banana) {
+        newWeapon = new Grenade(
+        this->weapon_counter, 
+        this->worldPhysic.getWorld(), 
+        this->worms[id]->getPosX(), 
+        this->worms[id]->getPosY(), 
+        this->worms[id]->isMirrored() , 
+        this->worms[id]->getSightAngle() , 
+        nodeEvent["event"]["power"].as<int>(), 
+        nodeEvent["event"]["countdown"].as<int>(), 
+        getTimeSeconds(), 
+        weapon_shooted
+        );
     }
 
     if (newWeapon) {
