@@ -139,5 +139,3 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
     }
     this->close();
 }
-
-//tar -czvf el_mapa_1 el_mapa_1.yml Screenshot\ from\ 2018-05-29\ 15-01-49.png

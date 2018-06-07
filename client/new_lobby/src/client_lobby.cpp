@@ -181,6 +181,7 @@ void ClientLobby::waitForPlayersOnCreatedMatch(void) {
     std::cout << "Lanzo una partida en espera!" << std::endl;
     this->pages->setCurrentIndex(PAGE_WAITING_MATCH_INDEX);
     Event new_event(a_createMatch);
+    this->protocol->sendEvent(new_event);
 }
 
 void ClientLobby::backLobby(void) {
