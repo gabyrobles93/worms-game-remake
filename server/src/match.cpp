@@ -156,56 +156,29 @@ void Match::setProtagonicWormDidShoot(bool flag) {
     this->protagonic_worm_did_shoot = flag;
 }
 
-void Match::update(unsigned int actual_time_sec) {
-    this->turn_timeleft_sec = this->turn_duration_sec - (actual_time_sec - this->actual_turn_start_time);
-    if (actual_time_sec - this->actual_turn_start_time >= this->turn_duration_sec) {
+void Match::update(unsigned int time_passed) {
+    this->turn_timeleft_sec = this->turn_timeleft_sec - time_passed;
+    if (this->turn_timeleft_sec <= 0) {
         this->turn_finished = true;
     }
 
-    // CAMBIO DE TURNO PORQUE EL GUSANO PROTAGONISTA DISPARÓ
-    if (this->protagonic_worm_did_shoot && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion) {
+    if (this->protagonic_worm_did_shoot && this->turn_timeleft_sec > 3) {
+        this->turn_timeleft_sec = 3;
+        this->protagonic_worm_did_shoot = false;
+    }
+
+    if ((this->protagonic_worm_did_shoot || this->protagonic_worm_got_hurt || this->turn_finished) 
+    && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion) {
         if (nextTurn() < 0) {
             std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
             this->match_finished = true;
         } else {
-            std::cout << "Cambio de turno por que el protagonista disparó." << std::endl;
             std::cout << "Es el turno del equipo " << getTeamTurn() << " con su Worm " << getWormTurn(getTeamTurn()) << std::endl;
-            this->actual_turn_start_time = actual_time_sec;
             this->turn_timeleft_sec = this->turn_duration_sec;
             this->turn_finished = false;
             return;
         }        
     }    
-
-    // CAMBIO DE TURNO PORQUE SE HIRIÓ EL GUSANO PROTAGONISTA
-    if (this->protagonic_worm_got_hurt && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion) {
-        if (nextTurn() < 0) {
-            std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
-            this->match_finished = true;
-        } else {
-            std::cout << "Cambio de turno por protagonista herido." << std::endl;
-            std::cout << "Es el turno del equipo " << getTeamTurn() << " con su Worm " << getWormTurn(getTeamTurn()) << std::endl;
-            this->actual_turn_start_time = actual_time_sec;
-            this->turn_timeleft_sec = this->turn_duration_sec;
-            this->turn_finished = false;
-            return;
-        }        
-    }
-
-    // CAMBIO DE TURNO POR TIMEOUT
-    if (this->turn_finished && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion) {
-        if (nextTurn() < 0) {
-            std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
-            this->match_finished = true;
-        } else {
-            std::cout << "Cambio de turno por Timeout." << std::endl;
-            std::cout << "Es el turno del equipo " << getTeamTurn() << " con su Worm " << getWormTurn(getTeamTurn()) << std::endl;
-            this->actual_turn_start_time = actual_time_sec;
-            this->turn_timeleft_sec = this->turn_duration_sec;
-            this->turn_finished = false;
-            return;
-        }
-    }
 }
 
 int Match::getTurnTimeleft(void) {

@@ -20,7 +20,6 @@
 #define PORT "8080"
 #define MAP_PATH "../maps/el_mapa_1.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
-#define TURN_DURATION_SEC 15
 
 Configuration gConfiguration;
 
@@ -34,7 +33,7 @@ int main(/* int argc, char *argv[] */) try {
 
     Queue<Snapshot> snapshots(MAX_QUEUE_SNAPSHOTS);
     World world(world_path, snapshots);    
-    Match match(world.getWorms(), TURN_DURATION_SEC);
+    Match match(world.getWorms(), gConfiguration.TURN_DURATION);
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)
@@ -56,7 +55,7 @@ int main(/* int argc, char *argv[] */) try {
         match.setProtagonicWormGotHurt(world.hasWormGotHurt(match.getWormTurn(match.getTeamTurn())));
         match.setProtagonicWormDidShoot(world.hasWormShooted(match.getWormTurn(match.getTeamTurn())));
         usleep(16666);
-        match.update(timer);
+        match.update(world.getTimeSeconds() - timer);
     }
 
     if (event_receiver.quitEvent()) {
