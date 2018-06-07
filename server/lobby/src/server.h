@@ -24,7 +24,8 @@ class Server : public Thread {
         size_t getId(void) const;
         void loadConfigFile(std::string &);
         std::string findFreeName(std::string &);
-        void cleanFinishedClients(void);
+        void cleanLobby(void);
+        void cleanQuitedClients(void);
     public:
         void stop(void);
         Server(std::string & cfile, std::string & port);

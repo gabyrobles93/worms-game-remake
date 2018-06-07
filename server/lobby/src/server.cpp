@@ -18,18 +18,22 @@ skt(port) {
 void Server::run(void) {
     while (1) {
         try {
-            std::cout << "Esperando conexión de cliente" << std::endl;
+            /* std::cout << "Esperando conexión de cliente" << std::endl; */
             Protocol newsktprotocol(std::move(this->skt.accept_connection()));
             std::string player_name;
             newsktprotocol.getPlayerName(player_name);
-/*             if (this->clients.exists(player_name) == true) {
+
+            cleanLobby();
+            cleanQuitedClients();
+
+            if (this->clients.find(player_name) != this->clients.end()) {
                 player_name = findFreeName(player_name);
-            } */
+            }
+
             std::cout << "Bautizando al cliente como " << player_name << std::endl;
             newsktprotocol.sendName(player_name);
-/*             this->clients.addClient(player_name, std::move(newsktprotocol)); */
 
-            std::cout << "Enviando games.yml al nuevo cliente." << std::endl;
+            /* std::cout << "Enviando games.yml al nuevo cliente." << std::endl; */
             YAML::Node match_status = this->game_status.getMatchsStatus();
             newsktprotocol.sendGameStatus(match_status);
 
@@ -38,7 +42,6 @@ void Server::run(void) {
             LobbyAttendant * new_lobby_attendant = new LobbyAttendant(client, this->game_status);
             new_lobby_attendant->start();
             this->clients_in_lobby.insert(std::pair<std::string, LobbyAttendant*>(player_name, new_lobby_attendant));
-            cleanFinishedClients();
         } catch(const SocketError & e) {
             std::cout << "Server acceptor se detiene por cierre del socket listener. " <<
             e.what() << std::endl;
@@ -47,8 +50,31 @@ void Server::run(void) {
     }
 }
 
-void Server::cleanFinishedClients(void) {
+void Server::cleanLobby(void) {
+    std::map<std::string, LobbyAttendant*>::iterator it;
+    for (it = this->clients_in_lobby.begin(); it != this->clients_in_lobby.end();) {
+        if (!it->second->isRunning()) {
+            it->second->join();
+            std::cout << "Deleteando Lobby Attendant del cliente " << it->first << std::endl;
+            delete it->second;
+            this->clients_in_lobby.erase(it++);
+        } else {
+            ++it;
+        }
+    }
+}
 
+void Server::cleanQuitedClients(void) {
+    std::map<std::string, Client*>::iterator it;
+    for (it = this->clients.begin(); it != this->clients.end();) {
+        if (it->second->getStatus() == quited) {
+            std::cout << "Deleteando al cliente " << it->first << " que salio del Lobby." << std::endl;
+            delete it->second;
+            this->clients.erase(it++);
+        } else {
+            ++it;
+        }
+    }
 }
 
 void Server::loadConfigFile(std::string & config_file_path) {
@@ -94,10 +120,10 @@ std::string Server::findFreeName(std::string & old_name) {
         number.clear();
         number.append("-" + std::to_string(counter));
         tmp = old_name;
-/*         if (this->clients.exists(tmp.append(number)) == false) {
+        if (this->clients.find(tmp.append(number)) == this->clients.end()) {
             new_name = tmp;
             break;
-        } */
+        }
         counter++;
     }
     return new_name;

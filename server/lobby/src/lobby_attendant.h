@@ -12,12 +12,12 @@ class LobbyAttendant : public Thread {
         ProtectedMatchsStatus & matchs_status;
         bool keep_running;
 
-        bool isRunning(void) const;
         size_t getId(void) const;
         void processEvent(Event &);
 
     public:
         LobbyAttendant(Client *, ProtectedMatchsStatus &);
+        bool isRunning(void) const;
         virtual void run(void);
         void stop(void);
 };
