@@ -45,8 +45,12 @@
 
 #define CONSTANT_WAIT 100/6
 
+#define HARCODED_POWER_SHOOT 1
+
 // Variable global
 Paths gPath;
+
+void handleCountdownConfiguration(SDL_Event &, int &);
 
 int main(/* int argc, char *argv[] */) try {
 	YAML::Node mapNode;
@@ -81,11 +85,13 @@ int main(/* int argc, char *argv[] */) try {
 	bool quit = false;	
 	SDL_Event e;
 
-	int pilin = 0;
+	int timeLostSleeping = 0;
 	int ti; 
 	int tf;
 	int updateCount = 0;
 	int renderCount = 0;
+
+	int countDownConfiguration = 5;
 	while (!quit) {
 		ti = SDL_GetTicks();
 		while (SDL_PollEvent(&e) != 0) {
@@ -93,6 +99,8 @@ int main(/* int argc, char *argv[] */) try {
 				quit = true;
 			
 			if (e.type == SDL_KEYDOWN) {
+				handleCountdownConfiguration(e, countDownConfiguration);
+
 				if (e.key.keysym.sym == SDLK_UP) {
 					Event event(a_pointUp, TEAM_ID);
 					events.push(event);
@@ -110,7 +118,7 @@ int main(/* int argc, char *argv[] */) try {
 					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_SPACE) {
-					Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID);
+					Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID, countDownConfiguration, HARCODED_POWER_SHOOT);
 					events.push(event);
 				}
 				if (e.key.keysym.sym == SDLK_RETURN) {
@@ -166,12 +174,12 @@ int main(/* int argc, char *argv[] */) try {
 		tf = SDL_GetTicks();
 		//std::cout << "tf " << tf << " ti " << ti << " pilin " << pilin << std::endl;
 
-		int to_sleep = CONSTANT_WAIT - (tf-ti) - pilin;
+		int to_sleep = CONSTANT_WAIT - (tf-ti) - timeLostSleeping;
 		if (to_sleep < 0) {
-			pilin = 0;
+			timeLostSleeping = 0;
 		} else {
 			SDL_Delay(to_sleep);
-			pilin = SDL_GetTicks() - (tf - to_sleep);
+			timeLostSleeping = SDL_GetTicks() - (tf - to_sleep);
 		}
 	
 	}
@@ -196,4 +204,24 @@ int main(/* int argc, char *argv[] */) try {
 	std::cout << e.what() << std::endl;
 } catch(const std::exception & e) {
 		std::cout << e.what() << std::endl;
+}
+
+void handleCountdownConfiguration(SDL_Event & e, int & countdown) {
+	if (e.type == SDL_KEYDOWN) {
+		if (e.key.keysym.sym == SDLK_1) {
+			countdown = 1;
+		}
+		if (e.key.keysym.sym == SDLK_2) {
+			countdown = 2;
+		}
+		if (e.key.keysym.sym == SDLK_3) {
+			countdown = 3;
+		}
+		if (e.key.keysym.sym == SDLK_4) {
+			countdown = 4;
+		}
+		if (e.key.keysym.sym == SDLK_5) {
+			countdown = 5;
+		}		
+	}
 }

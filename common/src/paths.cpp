@@ -71,6 +71,8 @@ Paths::Paths(const char * r) {
   /* WEAPONS */
   this->PATH_DYNAMITE = root + "resources/graphics/Weapons/dynamite.png";
   this->PATH_GREEN_GRENADE = root + "resources/graphics/Weapons/grenade.png";
+  this->PATH_HOLY_GRENADE = root + "resources/graphics/Weapons/hgrenade.png";
+  this->PATH_BANANA = root + "resources/graphics/Weapons/sbanana.png";
   /* ------------- */
 
   /* EFFECTS */
@@ -89,6 +91,7 @@ Paths::Paths(const char * r) {
   this->PATH_SOUND_GIRDER = root + "resources/sounds/Effects/GIRDERIMPACT.WAV";
   this->PATH_SOUND_TELEPORT = root + "resources/sounds/Effects/TELEPORT.WAV";
   this->PATH_SOUND_THROW_PROJECTIL = root + "resources/sounds/Effects/THROWRELEASE.WAV";
+  this->PATH_SOUND_HOLY = root + "resources/sounds/Effects/HOLYGRENADE.WAV";
   this->PATH_SOUND_TIME_TRICK = root + "resources/sounds/Effects/TIMERTICK.WAV";
 
     // Worms voices

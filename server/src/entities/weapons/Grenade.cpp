@@ -17,7 +17,7 @@ grenadePhysic(world, posX, posY) {
     } else if (type == w_holy_grenade) {
         this->blast_power = gConfiguration.HOLY_GRENADE_BLAST_POWER;
         this->blast_radius = gConfiguration.HOLY_GRENADE_BLAST_RADIUS;
-    } else if (type == /*w_green_grenade*/ w_dynamite) {
+    } else if (type == w_green_grenade) {
         this->blast_power = gConfiguration.GREEN_GRENADE_BLAST_POWER;
         this->blast_radius = gConfiguration.GREEN_GRENADE_BLAST_RADIUS;
     }

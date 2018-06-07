@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "green_grenade.h"
 #include "dynamite.h"
+#include "holy_grenade.h"
 #include "projectil.h"
 #include "types.h"
 #include "yaml.h"

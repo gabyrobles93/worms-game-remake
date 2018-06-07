@@ -12,12 +12,20 @@ Event::Event(action_t a, size_t tid) {
     this->eventNode["event"]["action"] = std::to_string(a);
 }
 
-Event::Event(action_t a, weapon_t w, size_t tid) {
+Event::Event(action_t a, weapon_t w, size_t tid, int countdown, int power) {
     this->action = a;
     this->team_id = tid;
     this->eventNode["event"]["team_id"] = std::to_string(tid);
     this->eventNode["event"]["action"] = std::to_string(a);
     this->eventNode["event"]["weapon"] = std::to_string(w);
+    
+    if (countdown != -1) {
+        this->eventNode["event"]["countdown"] = std::to_string(countdown);
+    }
+
+    if (power != -1) {
+        this->eventNode["event"]["power"] = std::to_string(power);
+    }
 }
 
 Event::Event(YAML::Node & event) {

@@ -192,22 +192,7 @@ void World::executeAction(Event & event, size_t id) {
             break;
         case a_shoot : {
             if (this->weapons.size() == 0) {
-                weapon_t weapon_shooted = (weapon_t) event.getNode()["event"]["weapon"].as<int>();
-                if (this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) { 
-                    std::cout << "Quedan municiones entonces dispara." << std::endl;
-                    //Weapon * dynamite = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());
-                    Weapon * dynamite = new Grenade(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), this->worms[id]->isMirrored() , this->worms[id]->getSightAngle() , 1, 3, getTimeSeconds(), w_dynamite);
-                    //dynamite.shoot();
-                    this->game_snapshot.addProjectile(dynamite);
-                    this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, dynamite));
-                    this->weapon_counter++;
-                    this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
-                    // Seteo el flag en el worm que disparó:
-                    this->worms[id]->shoot();                   
-                } else {
-                    std::cout << "Sin municiones, accion ignorada." << std::endl;
-                    return;
-                }
+                this->shootWeapon(event, id);
             } else {
                 std::cout << "Se ignora disparo porque hay un projectil vivo." << std::endl;
             }
@@ -222,5 +207,45 @@ void World::executeAction(Event & event, size_t id) {
             this->worms[id]->pointMoreDown();
             break;
         default: break;
+    }
+}
+
+void World::shootWeapon(Event & event, size_t id) {
+    const YAML::Node & nodeEvent = event.getNode();
+    weapon_t weapon_shooted = (weapon_t) nodeEvent["event"]["weapon"].as<int>();
+    Weapon * newWeapon = NULL;
+
+    if (!this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) {
+        std::cout << "Sin municiones, accion ignorada." << std::endl;
+        return;
+    }
+
+    std::cout << "Quedan municiones entonces dispara." << std::endl;
+
+    if (weapon_shooted == w_dynamite) {
+        newWeapon = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());            
+    } else if (weapon_shooted == w_green_grenade || weapon_shooted == w_holy_grenade || weapon_shooted == w_banana) {
+        newWeapon = new Grenade(
+        this->weapon_counter, 
+        this->worldPhysic.getWorld(), 
+        this->worms[id]->getPosX(), 
+        this->worms[id]->getPosY(), 
+        this->worms[id]->isMirrored() , 
+        this->worms[id]->getSightAngle() , 
+        nodeEvent["event"]["power"].as<int>(), 
+        nodeEvent["event"]["countdown"].as<int>(), 
+        getTimeSeconds(), 
+        weapon_shooted
+        );
+    }
+
+    if (newWeapon) {
+        this->game_snapshot.addProjectile(newWeapon);
+        this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, newWeapon));
+        this->weapon_counter++;
+        this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
+
+        // Seteo el flag en el worm que disparó:
+        this->worms[id]->shoot(); 
     }
 }
