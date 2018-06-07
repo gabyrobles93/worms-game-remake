@@ -4,6 +4,7 @@
 #include "yaml.h"
 #include "worm.h"
 #include "camera.h"
+#include <limits.h>
 
 #define MAP_WIDTH 2500
 #define MAP_HEIGHT 1500

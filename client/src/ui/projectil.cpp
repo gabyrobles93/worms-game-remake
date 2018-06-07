@@ -42,8 +42,7 @@ void View::Projectil::setExplode(bool exploded) {
 }
 
 void View::Projectil::setCountdown(int newCount) {
-  if (newCount == ABOUT_TO_EXPLODE && this->countdown != newCount) {
-    std::cout << "Playing about2explode \n";
+  if (!this->playedAboutToExplode && this->countdown <= ABOUT_TO_EXPLODE) {
     const char * ab2exp[] = {
       gPath.PATH_SOUND_WHAT_THE.c_str(),
       gPath.PATH_SOUND_UH_OH.c_str(),
@@ -52,6 +51,7 @@ void View::Projectil::setCountdown(int newCount) {
     };
     this->aboutToExplode.setSound(ab2exp[rand() % 4]);
     this->aboutToExplode.playSound(0);
+    this->playedAboutToExplode = true;
   }
 
   this->countdown = newCount;

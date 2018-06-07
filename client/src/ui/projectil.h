@@ -17,6 +17,7 @@ namespace View {
       Texture texture;
       SoundEffect sound;
       SoundEffect aboutToExplode;
+      bool playedAboutToExplode;
 
       bool exploded;
       bool finished;

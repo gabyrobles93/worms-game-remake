@@ -20,6 +20,7 @@ View::HolyGrenade::HolyGrenade(SDL_Renderer * r, int countdown, int ratioExplosi
 
   this->holySound.setSound(gPath.PATH_SOUND_HOLY);
   this->holySoundPlayed = false;
+	this->playedAboutToExplode = false;
 }
 
 View::HolyGrenade::~HolyGrenade() {

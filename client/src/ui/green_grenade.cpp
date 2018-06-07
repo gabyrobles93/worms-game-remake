@@ -11,6 +11,7 @@ View::GreenGrenade::GreenGrenade(SDL_Renderer * r, int countdown, int ratioExplo
 
 	this->exploded = false;
 	this->finished = false;
+	this->playedAboutToExplode = false;
 
 	this->sound.setSound(gPath.PATH_SOUND_THROW_PROJECTIL);
   this->sound.playSound(0);
