@@ -1,7 +1,7 @@
 #include "sound_effect.h"
 #include <limits.h>
 
-int GLOBAL_CHANNEL_COUNTER = 0;
+int GLOBAL_CHANNEL_COUNTER = 1;
 
 SoundEffect::SoundEffect(void) {
   this->sound = NULL;
@@ -11,10 +11,12 @@ SoundEffect::SoundEffect(void) {
   this->playingSound = false;
 
   if (GLOBAL_CHANNEL_COUNTER == INT_MAX) {
-    GLOBAL_CHANNEL_COUNTER = 0;
+    GLOBAL_CHANNEL_COUNTER = 1;
   }
 
   this->channel = GLOBAL_CHANNEL_COUNTER++;
+
+  Mix_AllocateChannels(Mix_AllocateChannels(-1) + 1);
 }
 
 SoundEffect::~SoundEffect() {
@@ -24,6 +26,7 @@ SoundEffect::~SoundEffect() {
 
 void SoundEffect::freeSound(void) {
   this->playingSound = false;
+  Mix_HaltChannel(this->channel);
   if (this->sound) {
     Mix_FreeChunk(this->sound);
     this->sound = NULL;
@@ -32,6 +35,7 @@ void SoundEffect::freeSound(void) {
 
 void SoundEffect::freeMusic(void) {
   if (this->music) {
+    Mix_HaltChannel(this->channel);
     Mix_FreeMusic(this->music);
     this->music = NULL;
   }

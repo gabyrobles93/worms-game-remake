@@ -56,7 +56,7 @@ void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, const YAML
   int count = proj["countdown"].as<int>();
   weapon_t type = (weapon_t)proj["type"].as<int>();
   int ratio = proj["blast_radius"].as<int>();
-  
+
   switch (type) {
     case w_dynamite:
       this->projectiles[projId] = new View::Dynamite(r, count, ratio);
@@ -80,7 +80,6 @@ void View::Projectiles::cleanProjectilesFinished(void) {
   for (; it != this->projectiles.end() ;) {
     Projectil * current = it->second;
     if (current->hasFinished()) {
-      std::cout << "Borro proyectil finalizado" << std::endl;
       delete it->second;
       it = this->projectiles.erase(it);
     } else {
