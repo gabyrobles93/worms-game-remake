@@ -37,7 +37,6 @@ void Bazooka::shoot() {
 void Bazooka::update(int currenTime) {
     if (this->bazookaPhysic.getPosY() > gConfiguration.WORLD_Y_LIMIT || contact) {
         this->explode();
-        std::cout << "BAZOOKA FUERA DE RANGO " << std::endl;
     }
 }
 
