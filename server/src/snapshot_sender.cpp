@@ -19,9 +19,9 @@ void SnapshotSender::run() {
         // agregar nodo de game status.
         snapshot.updateGameStatus(this->match);
         YAML::Node nodeSnapshot = snapshot.getSnapshot();
-        std::stringstream ss;
-        ss << nodeSnapshot["projectiles"] << std::endl;
-        std::cout << ss.str() << std::endl;
+        // std::stringstream ss;
+        // ss << nodeSnapshot["projectiles"] << std::endl;
+        // std::cout << ss.str() << std::endl;
         this->protocol.sendModel(nodeSnapshot);
     }
 }

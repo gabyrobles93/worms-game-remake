@@ -26,6 +26,7 @@ private:
     QStackedWidget * pages;
 
     std::string map_game_path;
+    int map_players_qty;
 
     void connectEvents(void);
     void cleanTextBoxes(void);
@@ -45,6 +46,7 @@ private:
     void feedWaitingPlayers(void);
     void startWaitingMatch(void);
     void cancelWaitingMatch(void);
+    void exitWaitingMatch(void);
 };
 
 #endif // CLIENT_LOBBY_H

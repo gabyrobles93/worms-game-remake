@@ -137,3 +137,11 @@ void Protocol::sendGameStatus(YAML::Node & gameStatusNode) {
 void Protocol::rcvGameStatus(YAML::Node & gameStatusNode) {
     this->rcvGameMap(gameStatusNode);
 }
+
+void Protocol::rcvMsg(YAML::Node & msgNode) {
+    this->rcvGameMap(msgNode);
+}
+
+void Protocol::sendMsg(YAML::Node & msgNode) {
+    this->sendGameMap(msgNode);
+}

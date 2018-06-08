@@ -8,6 +8,7 @@ typedef enum {
     BAT,
     WATER,
     BAZOOKA,
+    MISSIL,
 } entity_t;
 
 class Entity {

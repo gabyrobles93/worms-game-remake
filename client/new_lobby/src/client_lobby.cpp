@@ -2,6 +2,7 @@
 #include <sstream>
 #include <qt5/QtWidgets/QMessageBox>
 #include <QFileDialog>
+#include <QTableWidget>
 #include "QStackedWidget"
 #include "client_lobby.h"
 #include "ui_clientlobby.h"
@@ -16,6 +17,7 @@
 #define PAGE_LOBBY_INDEX 1
 #define PAGE_MATCH_CREATE 2
 #define PAGE_WAITING_MATCH_INDEX 3
+#define PAGE_JOINED_WAITING_MATCH_INDEX 4
 
 ClientLobby::ClientLobby(QWidget *parent) :
     QMainWindow(parent),
@@ -81,6 +83,10 @@ void ClientLobby::connectEvents(void) {
     QPushButton* cancelWaitingMatchButton = findChild<QPushButton*>("button_cancel_waiting_match");
     QObject::connect(cancelWaitingMatchButton, &QPushButton::clicked,
                      this, &ClientLobby::cancelWaitingMatch);
+
+    QPushButton* exitWaitingMatchButton = findChild<QPushButton*>("button_exit_waiting_match");
+    QObject::connect(exitWaitingMatchButton, &QPushButton::clicked,
+                     this, &ClientLobby::exitWaitingMatch);
 }
 
 void ClientLobby::cleanTextBoxes(void) {
@@ -141,6 +147,7 @@ void ClientLobby::createMatch(void) {
 
 void ClientLobby::exitLobby(void) {
     std::cout << "Me voy del lobby" << std::endl;
+    cleanLobby();
     this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
     Event new_event(a_quitLobby, 1);
     this->protocol->sendEvent(new_event);
@@ -149,11 +156,47 @@ void ClientLobby::exitLobby(void) {
 
 void ClientLobby::joinMatch(void) {
     std::cout << "Me uno a una partida!" << std::endl;
+    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    int index_selected = matchsList->selectionModel()->currentIndex().row();
+
+    if (index_selected < 0) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Seleccione una partida.");
+        msgBox.setText("Por favor, seleccione una partida de la lista.");
+        msgBox.exec();
+        return;
+    }
+
+    std::string match_creator_name;
+    match_creator_name = matchsList->item(index_selected,1)->text().toUtf8().constData();
+    std::cout << "El creador de la partida a joinearse es: " << match_creator_name << std::endl;
+
+    Event new_event(a_joinWaitingMatch, match_creator_name);
+    this->protocol->sendEvent(new_event);
+    
+    YAML::Node join_match_response;
+    this->protocol->rcvMsg(join_match_response);
+    if (join_match_response["code"].as<int>() == 0) {
+        refreshLobby();
+        std::cout << "La partida esta llena, no se puede acceder." << std::endl;
+        std::string msg = join_match_response["msg"].as<std::string>();
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("No se puede unir a partida:");
+        msgBox.setText(msg.c_str());
+        msgBox.exec();
+        return;
+    } else if (join_match_response["code"].as<int>() == 1) {
+        std::cout << "Hay lugar en la partida, accediendo!." << std::endl;
+        this->pages->setCurrentIndex(PAGE_JOINED_WAITING_MATCH_INDEX);
+        QLabel* gameCreator = findChild<QLabel*>("text_game_creator");
+        gameCreator->setText(match_creator_name.c_str());
+    }
 }
 
 void ClientLobby::refreshLobby(void) {
     std::cout << "Refresh del lobby" << std::endl;
     cleanLobby();
+    std::cout << "Lobby limpiado" << std::endl;
     Event new_event(a_refreshLobby, 1);
     this->protocol->sendEvent(new_event);
     feedLobby();
@@ -161,6 +204,7 @@ void ClientLobby::refreshLobby(void) {
 
 void ClientLobby::waitForPlayersOnCreatedMatch(void) {
     QLineEdit * matchName = findChild<QLineEdit*>("text_game_name");
+    std::string matchNameStr = matchName->text().toUtf8().constData();
 
     if (matchName->text().isEmpty()) {
         QMessageBox msgBox;
@@ -180,26 +224,28 @@ void ClientLobby::waitForPlayersOnCreatedMatch(void) {
 
     std::cout << "Lanzo una partida en espera!" << std::endl;
     this->pages->setCurrentIndex(PAGE_WAITING_MATCH_INDEX);
-    Event new_event(a_createMatch);
+    Event new_event(a_createMatch, matchNameStr, this->map_players_qty);
     this->protocol->sendEvent(new_event);
 }
 
 void ClientLobby::backLobby(void) {
     this->pages->setCurrentIndex(PAGE_LOBBY_INDEX);
+    QLabel* currentMapPath = findChild<QLabel*>("text_current_map_path");
+    currentMapPath->setText("Not selected. Please, choose a map!");
+    this->map_game_path.clear();
     refreshLobby();
 }
 
 void ClientLobby::cleanLobby(void) {
-    QList<QListWidgetItem*>::iterator it;
-    for (it = this->lobby_games.begin(); it != this->lobby_games.end();) {
-        delete (*it);
-        it = this->lobby_games.erase(it);
+    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    while (matchsList->rowCount() > 0) {
+        matchsList->removeRow(0);
     }
 }
 
 void ClientLobby::feedLobby(void) {
     std::cout << "Alimentando lobby!" << std::endl;
-    QListWidget * matchsList = findChild<QListWidget*>("list_matchs");
+    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
     YAML::Node gameStatus;
     this->protocol->rcvGameStatus(gameStatus);
 
@@ -207,18 +253,28 @@ void ClientLobby::feedLobby(void) {
     ss << gameStatus;
     std::cout << ss.str() << std::endl;
 
+
+
     YAML::Node::const_iterator it;
-    for (it = gameStatus["games"].begin(); it != gameStatus["games"].end(); it++) {
-        std::string text_row;
-        text_row = (*it)["name"].as<std::string>();
-        text_row += " - Created By: ";
-        text_row += (*it)["creator"].as<std::string>();
-        text_row += " - With: ";
-        text_row += (*it)["players"].as<std::string>();
-        text_row += "/3 players.";
-        this->lobby_games.append(new QListWidgetItem());
-        this->lobby_games.last()->setText(tr(text_row.c_str()));
-        matchsList->insertItem(1, this->lobby_games.last());
+    for (it = gameStatus["waiting_games"].begin(); it != gameStatus["waiting_games"].end(); it++) {
+
+        matchsList->insertRow(matchsList->rowCount());
+
+        QTableWidgetItem * table_game_name = new QTableWidgetItem((*it)["match_name"].as<std::string>().c_str());
+        table_game_name->setFlags(table_game_name->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 0, table_game_name);
+
+        QTableWidgetItem * table_game_creator = new QTableWidgetItem((*it)["creator"].as<std::string>().c_str());
+        table_game_creator->setFlags(table_game_creator->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 1, table_game_creator);
+        
+        QTableWidgetItem * table_actual_players = new QTableWidgetItem((*it)["joined_players"].as<std::string>().c_str());
+        table_actual_players->setFlags(table_actual_players->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 2, table_actual_players);
+
+        QTableWidgetItem * table_max_players = new QTableWidgetItem((*it)["required_players"].as<std::string>().c_str());
+        table_max_players->setFlags(table_max_players->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 3, table_max_players);
     }
 }
 
@@ -230,6 +286,14 @@ void ClientLobby::chooseMap(void) {
         std::cout << "El mapa elegido es " << this->map_game_path << std::endl;
         QLabel* currentMapPath = findChild<QLabel*>("text_current_map_path");
         currentMapPath->setText(this->map_game_path.c_str());
+        std::string cmd_mkdir = "mkdir temp_map_folder";
+        std::string cmd_unzip = "tar -xvf \"" +  this->map_game_path + "\" -C ./temp_map_folder/";
+        std::system(cmd_mkdir.c_str());
+        std::system(cmd_unzip.c_str());
+        YAML::Node mapNode = YAML::LoadFile("temp_map_folder/map.yml");
+        this->map_players_qty = mapNode["dynamic"]["worms_teams"].size();
+        std::string cmd_rm_temp_dir = "rm -fr ./temp_map_folder";
+        std::system(cmd_rm_temp_dir.c_str());
     } else {
         std::cout << "No se eligio un mapa." << std::endl;
     }
@@ -243,6 +307,18 @@ void ClientLobby::startWaitingMatch(void) {
     std::cout << "Comienzo juego" << std::endl;
 }
 
+// Invocada cuando el CREADOR de una partida en espera cancela dicha partida...
 void ClientLobby::cancelWaitingMatch(void) {
     std::cout << "Cancelo juego en espera." << std::endl;
+    Event new_event(a_rmWaitingMatch);
+    this->protocol->sendEvent(new_event);
+    backLobby();
+}
+
+// Invocada cuando un participante no-creador de una partida en espera se va de dicha partida en espera
+void ClientLobby::exitWaitingMatch(void) {
+    std::cout << "Me voy de una waiting match siendo un invitado." << std::endl;
+    Event new_event(a_exitWaitingMatch);
+    this->protocol->sendEvent(new_event);
+    backLobby();
 }

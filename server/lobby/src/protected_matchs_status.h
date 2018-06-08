@@ -4,6 +4,7 @@
 #include "yaml.h"
 #include "waiting_game.h"
 #include <mutex>
+#include <string>
 
 class ProtectedMatchsStatus {
     private:
@@ -13,6 +14,7 @@ class ProtectedMatchsStatus {
         ProtectedMatchsStatus(void);
         YAML::Node getMatchsStatus(void);
         void addWaitingGame(WaitingGame *);
+        void rmWaitingGame(std::string &);
 };
 
 #endif

@@ -17,6 +17,7 @@
 #include "snapshot.h"
 #include "Configuration.h"
 #include "Grenade.h"
+#include "AirStrike.h"
 
 #define GRADTORAD 0.0174533
 
