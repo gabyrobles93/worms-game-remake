@@ -5,22 +5,21 @@
 #include <string>
 #include "thread.h"
 #include "client.h"
-#include "protected_matchs_status.h"
 #include "event.h"
 #include "waiting_game.h"
+#include "protected_waiting_games.h"
 
 class LobbyAttendant : public Thread {
     private:
         Client * client;
-        ProtectedMatchsStatus & matchs_status;
-        std::map<std::string, WaitingGame*> & waiting_games;
+        ProtectedWaitingGames & waiting_games;
         bool keep_running;
 
         size_t getId(void) const;
         void processEvent(Event &);
 
     public:
-        LobbyAttendant(Client *, ProtectedMatchsStatus &, std::map<std::string, WaitingGame*> &);
+        LobbyAttendant(Client *, ProtectedWaitingGames &);
         bool isRunning(void) const;
         virtual void run(void);
         void stop(void);

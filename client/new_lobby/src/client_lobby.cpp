@@ -161,6 +161,13 @@ void ClientLobby::joinMatch(void) {
         msgBox.exec();
         return;
     }
+
+    std::string match_creator_name;
+    match_creator_name = matchsList->item(index_selected,1)->text().toUtf8().constData();
+    std::cout << "El creador de la partida a joinearse es: " << match_creator_name << std::endl;
+
+    Event new_event(a_joinWaitingMatch, match_creator_name);
+    this->protocol->sendEvent(new_event);
 }
 
 void ClientLobby::refreshLobby(void) {

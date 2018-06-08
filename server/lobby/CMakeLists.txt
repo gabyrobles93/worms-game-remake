@@ -37,12 +37,12 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/client.h
 		${PROJECT_SOURCE_DIR}/src/server.h
 		${PROJECT_SOURCE_DIR}/src/server_error.h
-		${PROJECT_SOURCE_DIR}/src/protected_matchs_status.cpp
-		${PROJECT_SOURCE_DIR}/src/protected_matchs_status.h
 		${PROJECT_SOURCE_DIR}/src/lobby_attendant.cpp
 		${PROJECT_SOURCE_DIR}/src/lobby_attendant.h
 		${PROJECT_SOURCE_DIR}/src/waiting_game.cpp
 		${PROJECT_SOURCE_DIR}/src/waiting_game.h
+		${PROJECT_SOURCE_DIR}/src/protected_waiting_games.cpp
+		${PROJECT_SOURCE_DIR}/src/protected_waiting_games.h
 		${COMMON_SOURCE_DIR}/src/socket.cpp
 		${COMMON_SOURCE_DIR}/src/socket_error.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp

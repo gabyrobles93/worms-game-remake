@@ -34,12 +34,12 @@ void Server::run(void) {
             newsktprotocol.sendName(player_name);
 
             /* std::cout << "Enviando games.yml al nuevo cliente." << std::endl; */
-            YAML::Node match_status = this->game_status.getMatchsStatus();
+            YAML::Node match_status = this->protected_waiting_games.getGamesInfoNode();
             newsktprotocol.sendGameStatus(match_status);
 
             Client * client = new Client(std::move(newsktprotocol), player_name);
             this->clients.insert(std::pair<std::string, Client*>(player_name, client));
-            LobbyAttendant * new_lobby_attendant = new LobbyAttendant(client, this->game_status, this->waiting_games);
+            LobbyAttendant * new_lobby_attendant = new LobbyAttendant(client, this->protected_waiting_games);
             new_lobby_attendant->start();
             this->clients_in_lobby.insert(std::pair<std::string, LobbyAttendant*>(player_name, new_lobby_attendant));
         } catch(const SocketError & e) {
