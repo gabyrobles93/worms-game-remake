@@ -182,6 +182,9 @@ int main(/* int argc, char *argv[] */) try {
 
 		// El inventario y el timer va adelante de todo
 		inventory.render(renderer);
+
+		// Dibujamos los objetos configurables por el cliente
+		cfg.render(renderer);
 		
 		clock.render(renderer, 0, 0);
 

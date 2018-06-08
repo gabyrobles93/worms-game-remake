@@ -65,6 +65,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/sight.cpp
 		${UI_SOURCE_DIR}/green_grenade.cpp
 		${UI_SOURCE_DIR}/holy_grenade.cpp
+		${UI_SOURCE_DIR}/shoot_power.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
@@ -105,6 +106,7 @@ add_executable(	client
 		${UI_SOURCE_DIR}/sight.h
 		${UI_SOURCE_DIR}/green_grenade.h
 		${UI_SOURCE_DIR}/holy_grenade.h
+		${UI_SOURCE_DIR}/shoot_power.h
 		
 		)
 

@@ -5,7 +5,11 @@
 #define MIN_SIGHT_ANGLE -90
 #define MAX_TIME_SHOOTING 1500
 
-ClientConfiguration::ClientConfiguration() {
+#define VIEW_SHOOT_POWER_WIDTH 300
+#define VIEW_SHOOT_POWER_HEIGHT 50
+
+ClientConfiguration::ClientConfiguration() :
+  shootPower(VIEW_SHOOT_POWER_WIDTH, VIEW_SHOOT_POWER_HEIGHT, MAX_TIME_SHOOTING) {
   this->sightAngle = 0;
   this->weaponsCountdown = 5;
   this->wormDataConfig = ALL;
@@ -117,4 +121,10 @@ int ClientConfiguration::getPowerShoot(void) {
   this->shooted = false;
   this->powerShoot = -1;
   return pshoot;
+}
+
+void ClientConfiguration::render(SDL_Renderer * r) {
+  if (this->shooting) {
+    this->shootPower.render(r, this->shootingTimer.getTicks());
+  }
 }

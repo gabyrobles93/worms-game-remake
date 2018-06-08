@@ -6,6 +6,7 @@
 #include "types.h"
 #include "sdl_timer.h"
 #include "sound_effect.h"
+#include "shoot_power.h"
 #include "paths.h"
 
 class ClientConfiguration {
@@ -18,6 +19,7 @@ class ClientConfiguration {
     bool shooted;
     Timer shootingTimer;
     SoundEffect shootingSound;
+    View::ShootPower shootPower;
 
 
   public:
@@ -29,6 +31,7 @@ class ClientConfiguration {
     int getWeaponsCountdown(void) const;
     bool hasShooted(void) const;
     int getPowerShoot(void);
+    void render(SDL_Renderer *);
 };
 
 #endif
