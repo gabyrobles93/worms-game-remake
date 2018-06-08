@@ -46,6 +46,10 @@ void Snapshot::updateWorms(std::map<int, Worm *> worms) {
 }
 
 void Snapshot::updateProjectiles(std::map<int, Weapon*> weapons) {
+    // if (weapons.size() == 0) {
+    //     std::cout << "NO HAY ARMAS" << std::endl;
+    //     return;
+    // }
     YAML::Node::iterator it;
     for (it = this->dynamics["projectiles"].begin(); it != this->dynamics["projectiles"].end(); it++) {
         YAML::Node projectile = *it;
@@ -78,14 +82,24 @@ void Snapshot::updateGameStatus(Match & match) {
 void Snapshot::removeProjectile(size_t projectile_id) {
     std::vector<YAML::Node> vec_projectiles = this->dynamics["projectiles"].as<std::vector<YAML::Node>>();
     std::vector<YAML::Node>::iterator it;
-    for (it = vec_projectiles.begin(); it != vec_projectiles.end(); it++) {
+    
+
+    for (it = vec_projectiles.begin(); it != vec_projectiles.end();) {
+        std::cout << "REMUEVO EL PROEJCTIL CON ID: " << projectile_id << std::endl;
         if ((*it)["id"].as<size_t>() == projectile_id) {
+            std::cout << "REMUEVO PROJECTILE" << std::endl;
             it = vec_projectiles.erase(it);
-            break;
+        } else {
+            it++;
         }
     }
     
     this->dynamics["projectiles"].reset();
+
+    std::stringstream ss;
+    ss << this->dynamics["projectiles"] << std::endl;
+    std::cout << ss.str() << std::endl;
+    
     this->dynamics["projectiles"] = vec_projectiles;
 }
 

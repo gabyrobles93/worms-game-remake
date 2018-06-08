@@ -119,7 +119,7 @@ void World::initializeWorld() {
 }
 
 void World::updateSnapshot() {
-    this->worldPhysic.aliveBodies();
+    //this->worldPhysic.aliveBodies();
     //if (this->worldPhysic.hasAliveBodies()) {
         this->game_snapshot.updateWorms(this->worms);
         this->game_snapshot.updateProjectiles(this->weapons);
@@ -131,9 +131,10 @@ void World::updateBodies() {
     std::map<int, Weapon*>::iterator it;
     for(it=this->weapons.begin();it != this->weapons.end();) {
         if ((it)->second->hasExploded()) {
-            this->game_snapshot.updateProjectiles(this->weapons);
-            this->snapshots.push(this->game_snapshot);
+            //this->game_snapshot.updateProjectiles(this->weapons);
+            //this->snapshots.push(this->game_snapshot);
             this->game_snapshot.removeProjectile(it->second->getId());
+            std::cout << "REMUEVO PROJECTIL" << std::endl;
             delete (it->second);
             it = this->weapons.erase(it);
         } else {
@@ -159,6 +160,7 @@ void World::run() {
         updateSnapshot();
         this->snapshots.push(this->game_snapshot);
         step_counter++;
+        
 
         if (step_counter == 60) {
             this->time_sec++;
@@ -249,6 +251,22 @@ void World::shootWeapon(Event & event, size_t id) {
         nodeEvent["event"]["power"].as<int>(),
         w_green_grenade
         );
+    } else if (weapon_shooted == w_air_strike) {
+        AirStrike air_strike(this->weapon_counter,
+        this->worldPhysic.getWorld(),
+        300 * gConfiguration.SCALING_FACTOR,
+        300 * gConfiguration.SCALING_FACTOR
+        );
+
+        std::vector<Missil*> missils = air_strike.getMissils();
+        for (std::vector<Missil*>::iterator it = missils.begin(); it != missils.end(); ++it) {
+            this->game_snapshot.addProjectile((*it));
+            this->weapons.insert(std::pair<int, Weapon*>((*it)->getId(), (*it)));
+            this->weapon_counter++;
+
+            this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
+            this->worms[id]->shoot();
+        }
     }
 
     if (newWeapon) {
