@@ -78,10 +78,11 @@ void Snapshot::updateGameStatus(Match & match) {
 void Snapshot::removeProjectile(size_t projectile_id) {
     std::vector<YAML::Node> vec_projectiles = this->dynamics["projectiles"].as<std::vector<YAML::Node>>();
     std::vector<YAML::Node>::iterator it;
-    for (it = vec_projectiles.begin(); it != vec_projectiles.end(); it++) {
+    for (it = vec_projectiles.begin(); it != vec_projectiles.end();) {
         if ((*it)["id"].as<size_t>() == projectile_id) {
             it = vec_projectiles.erase(it);
-            break;
+        } else {
+            ++it;
         }
     }
     
