@@ -9,6 +9,7 @@ typedef enum {
     a_refreshLobby,
     a_createMatch,
     a_rmWaitingMatch,
+    a_joinWaitingMatch,
     a_quitLobby,
     a_moveLeft,
     a_moveRight,
