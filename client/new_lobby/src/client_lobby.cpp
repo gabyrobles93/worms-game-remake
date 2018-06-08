@@ -142,6 +142,7 @@ void ClientLobby::createMatch(void) {
 
 void ClientLobby::exitLobby(void) {
     std::cout << "Me voy del lobby" << std::endl;
+    cleanLobby();
     this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
     Event new_event(a_quitLobby, 1);
     this->protocol->sendEvent(new_event);
@@ -150,7 +151,16 @@ void ClientLobby::exitLobby(void) {
 
 void ClientLobby::joinMatch(void) {
     std::cout << "Me uno a una partida!" << std::endl;
+    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    int index_selected = matchsList->selectionModel()->currentIndex().row();
 
+    if (index_selected < 0) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Seleccione una partida.");
+        msgBox.setText("Por favor, seleccione una partida de la lista.");
+        msgBox.exec();
+        return;
+    }
 }
 
 void ClientLobby::refreshLobby(void) {
