@@ -31,9 +31,10 @@ int main(/* int argc, char *argv[] */) try {
     YAML::Node mapNode = YAML::LoadFile(world_path);
     protocol.sendGameMap(mapNode);
 
-    Queue<Snapshot> snapshots(MAX_QUEUE_SNAPSHOTS);
+    Queue<Snapshot*> snapshots(MAX_QUEUE_SNAPSHOTS);
     World world(world_path, snapshots);    
-    Match match(world.getWorms(), gConfiguration.TURN_DURATION);
+    Match match(world.getWorms(), world.getTeams(), gConfiguration.TURN_DURATION);
+    //Match match(world.getWorms(), gConfiguration.TURN_DURATION);
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
     // y que Mandan las fotos por socket al cliente (SnapshotSender)

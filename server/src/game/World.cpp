@@ -5,10 +5,13 @@
 #define MAP_WIDTH 2500
 #define MAP_HEIGTH 1500
 // #define WATER_LEVEL 300
+#define CONSTANT_WAIT 16.000
 
-World::World(std::string & map_path, Queue<Snapshot> & snps) :
+World::World(std::string & map_path, Queue<Snapshot*> & snps) :
 snapshots(snps),
-game_snapshot(YAML::LoadFile(map_path)) {
+game_snapshot(YAML::LoadFile(map_path)),
+map_path(map_path) {
+    this->map_node = YAML::LoadFile(map_path);
     initializeWorld();
     this->keep_running = true;
     this->time_sec = 0;
@@ -63,6 +66,10 @@ bool World::hasWormShooted(size_t worm_id) {
     return this->worms[worm_id]->didShootInTurn();
 }
 
+std::map<int, Team*> & World::getTeams() {
+    return this->teams;
+}
+
 void World::initializeWorld() {
     float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
@@ -71,12 +78,16 @@ void World::initializeWorld() {
 
     this->water = new Water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
 
-    YAML::Node short_girders_node = this->game_snapshot.getShortGirders();
-    YAML::Node long_girders_node = this->game_snapshot.getLongGirders();
-    YAML::Node worms_teams_node = this->game_snapshot.getWormsTeams();
+    const YAML::Node & static_node = this->map_node["static"];
+    const YAML::Node & dynamic_node = this->map_node["dynamic"];
+
+    const YAML::Node& short_girders_node = static_node["short_girders"];
+    const YAML::Node& long_girders_node = static_node["long_girders"];
+    const YAML::Node& worms_teams_node = dynamic_node["worms_teams"];
 
     // Initialize de vigas cortas
     for (YAML::const_iterator it = short_girders_node.begin(); it != short_girders_node.end(); ++it) {
+        std::cout << "GIRDER" << std::endl;
         const YAML::Node &  short_girder = *it;
         int id = short_girder["id"].as<int>();
         float posX = (float) short_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
@@ -88,6 +99,7 @@ void World::initializeWorld() {
 
     // Initialize de vigas largas
     for (YAML::const_iterator it = long_girders_node.begin(); it != long_girders_node.end(); ++it) {
+         std::cout << "GIRDER" << std::endl;
         const YAML::Node&  long_girder = *it;
         int id = long_girder["id"].as<int>();
         float posX = (float) long_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
@@ -97,14 +109,15 @@ void World::initializeWorld() {
         this->girders.insert(std::pair<int, Girder*>(id, girder_ptr));
     }
 
-    // Initialize de worms
+    // Initialize team
     int id, tid, health;
     float x;
     float y;
     std::string name;
     for (YAML::const_iterator it = worms_teams_node.begin(); it != worms_teams_node.end(); it++) {
-        const YAML::Node& worms_node = it->second["worms"];
         tid = it->first.as<int>();
+        Team* new_team = new Team(tid);
+        const YAML::Node& worms_node = it->second["worms"];
         for (YAML::const_iterator worms_it = worms_node.begin(); worms_it != worms_node.end(); worms_it++) {
             const YAML::Node& worm = *worms_it;
             name = worm["name"].as<std::string>();
@@ -114,27 +127,20 @@ void World::initializeWorld() {
             y = (float) worm["y"].as<int>() * gConfiguration.SCALING_FACTOR;
             Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
             this->worms.insert(std::pair<int, Worm*>(id, new_worm));
+            new_team->addMember(new_worm);
+            std::cout << "AGREGO UN WORM" << std::endl;
         }
+        new_team->initializeInventory(dynamic_node["worms_teams"][tid]["inventory"]);
+        this->teams.insert(std::pair<int, Team*>(tid, new_team));
     }
-}
 
-void World::updateSnapshot() {
-    //this->worldPhysic.aliveBodies();
-    //if (this->worldPhysic.hasAliveBodies()) {
-        this->game_snapshot.updateWorms(this->worms);
-        this->game_snapshot.updateProjectiles(this->weapons);
-    //}
-   
+    this->game_snapshot.updateTeams(this->teams);
 }
 
 void World::updateBodies() {
     std::map<int, Weapon*>::iterator it;
     for(it=this->weapons.begin();it != this->weapons.end();) {
         if ((it)->second->hasExploded()) {
-            //this->game_snapshot.updateProjectiles(this->weapons);
-            //this->snapshots.push(this->game_snapshot);
-            this->game_snapshot.removeProjectile(it->second->getId());
-            std::cout << "REMUEVO PROJECTIL" << std::endl;
             delete (it->second);
             it = this->weapons.erase(it);
         } else {
@@ -151,20 +157,21 @@ void World::updateBodies() {
 }
 
 void World::run() {
+    double pilin;
     unsigned int step_counter = 0;
     while (this->keep_running) {
         usleep(16666);
+        Snapshot* snapshot = new Snapshot();
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
+        snapshot->updateTeams(this->teams);
+        snapshot->updateProjectiles(this->weapons);
         updateBodies();
-        updateSnapshot();
-        this->snapshots.push(this->game_snapshot);
+        this->snapshots.push(snapshot);
         step_counter++;
-        
 
         if (step_counter == 60) {
             this->time_sec++;
-            //std::cout << "Timer: " << this->time_sec << std::endl;
             step_counter = 0;
         }
     }
@@ -260,22 +267,18 @@ void World::shootWeapon(Event & event, size_t id) {
 
         std::vector<Missil*> missils = air_strike.getMissils();
         for (std::vector<Missil*>::iterator it = missils.begin(); it != missils.end(); ++it) {
-            this->game_snapshot.addProjectile((*it));
+            //this->game_snapshot.addProjectile((*it));
             this->weapons.insert(std::pair<int, Weapon*>((*it)->getId(), (*it)));
             this->weapon_counter++;
-
             this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
             this->worms[id]->shoot();
         }
     }
 
     if (newWeapon) {
-        this->game_snapshot.addProjectile(newWeapon);
         this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, newWeapon));
         this->weapon_counter++;
         this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
-
-        // Seteo el flag en el worm que disparó:
         this->worms[id]->shoot(); 
     }
 }

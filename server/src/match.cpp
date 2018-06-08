@@ -8,7 +8,8 @@
 
 #define US_SEC_FACTOR 1000000
 
-Match::Match(std::map<int, Worm*> & worms, size_t td) :
+Match::Match(std::map<int, Worm*>& worms, std::map<int, Team*> & teams, size_t td) :
+teams(teams),
 worms(worms) {
     this->turn_duration_sec = td;
     this->actual_turn_start_time = 0;
@@ -25,17 +26,28 @@ worms(worms) {
 }
 
 void Match::createTeams(std::map<int, Worm*> & worms) {
-    std::map<int, Worm *>::const_iterator it;
-    for (it = worms.begin(); it != worms.end(); it++) {
-        int team_id = it->second->getTeam();
-        if (this->teams.find(team_id) == this->teams.end()) {
-            Team * new_team = new Team(team_id);
-            this->teams[team_id] = new_team;
-            this->team_turn_order.push(team_id);
+    std::map<int, Team*>::const_iterator it;
+    for (it = this->teams.begin(); it != this->teams.end(); it++) {
+        this->team_turn_order.push((it)->first);
+        std::map<int, Worm*> worms_team = (it)->second->getWorms();
+        std::map<int, Worm*>::const_iterator worms_it;
+        
+        for(worms_it = worms_team.begin(); worms_it != worms_team.end(); worms_it++) {
+            this->worm_turn_order[(it)->second->getTeamId()].push(worms_it->second->getId());
         }
-        this->teams[team_id]->addMember(it->second);
-        this->worm_turn_order[team_id].push(it->second->getId());
+
     }
+    // std::map<int, Worm *>::const_iterator it;
+    // for (it = worms.begin(); it != worms.end(); it++) {
+    //     int team_id = it->second->getTeam();
+    //     if (this->teams.find(team_id) == this->teams.end()) {
+    //         Team * new_team = new Team(team_id);
+    //         this->teams[team_id] = new_team;
+    //         this->team_turn_order.push(team_id);
+    //     }
+    //     this->teams[team_id]->addMember(it->second);
+    //     this->worm_turn_order[team_id].push(it->second->getId());
+    // }
 }
 
 void Match::printTeams(void) {

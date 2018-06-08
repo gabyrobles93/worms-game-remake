@@ -5,8 +5,17 @@
 #include "World.h"
 
 Snapshot::Snapshot(YAML::Node mapNode) {
+    std::cout << "HOLA AMIGACHO" << std::endl;
     this->statics = YAML::Clone(mapNode["static"]);
-    this->dynamics = YAML::Clone(mapNode["dynamic"]);
+    YAML::Node dynamic_node;
+    dynamic_node["dynamics"];
+    this->dynamics = dynamic_node;
+}
+
+Snapshot::Snapshot() {
+    YAML::Node dynamic_node;
+    dynamic_node["dynamics"];
+    this->dynamics = dynamic_node;
 }
 
 int Snapshot::getWaterLevel(void) {
@@ -26,44 +35,67 @@ YAML::Node Snapshot::getWormsTeams(void) {
     return this->dynamics["worms_teams"];
 }
 
-void Snapshot::updateWorms(std::map<int, Worm *> worms) {
-    YAML::Node::iterator it;
-    for (it = this->dynamics["worms_teams"].begin(); it != this->dynamics["worms_teams"].end(); it++) {
-        YAML::Node worms_node = it->second["worms"];
-        for (YAML::iterator worms_it = worms_node.begin(); worms_it != worms_node.end(); worms_it++) {
-            YAML::Node worm = *worms_it;
-            int id = worm["id"].as<int>();
-            worm["x"] = std::to_string((int) (worms[id]->getPosX() / gConfiguration.SCALING_FACTOR));
-            worm["y"] = std::to_string((int) (worms[id]->getPosY() / gConfiguration.SCALING_FACTOR));
-            worm["sight_angle"] = std::to_string((int) worms[id]->getSightAngle());
-            worm["health"] = std::to_string(worms[id]->getHealth());
-            worm["status"]["mirrored"] = std::to_string(worms[id]->isMirrored());
-            worm["status"]["walking"] = std::to_string(worms[id]->isWalking());
-            worm["status"]["falling"] = std::to_string(worms[id]->isFalling());
-            worm["status"]["grounded"] = std::to_string(worms[id]->isGrounded());
-        }
-    }
+YAML::Node Snapshot::getInventory(void) {
+    return this->statics["init_inventory"];
 }
 
-void Snapshot::updateProjectiles(std::map<int, Weapon*> weapons) {
-    // if (weapons.size() == 0) {
-    //     std::cout << "NO HAY ARMAS" << std::endl;
-    //     return;
-    // }
-    YAML::Node::iterator it;
-    for (it = this->dynamics["projectiles"].begin(); it != this->dynamics["projectiles"].end(); it++) {
-        YAML::Node projectile = *it;
-        int weapon_id = projectile["id"].as<int>();
-        projectile["x"] = std::to_string((int) (weapons[weapon_id]->getPosX() / gConfiguration.SCALING_FACTOR));
-        projectile["y"] = std::to_string((int) (weapons[weapon_id]->getPosY() / gConfiguration.SCALING_FACTOR));
-        projectile["countdown"] = std::to_string(weapons[weapon_id]->getCountdown());
-        if (weapons[weapon_id]->hasExploded()) std::cout << " LA BAZOOKA EXPLOTO" << std::endl;
-        projectile["exploded"] = std::to_string(weapons[weapon_id]->hasExploded());
-        projectile["blast_radius"] = std::to_string((int) (weapons[weapon_id]->getBlastRadius() / gConfiguration.SCALING_FACTOR));
 
-        // std::stringstream ss;
-        // ss << this->dynamics["projectiles"] << std::endl;
-        // std::cout << ss.str() << std::endl;
+
+void Snapshot::updateTeams(std::map<int, Team*> & teams) {
+    std::map<int, Team*>::const_iterator teams_it;
+    for (teams_it = teams.begin(); teams_it != teams.end(); ++teams_it) {
+        
+        int team_id = teams_it->second->getTeamId();
+        std::map<int, Worm*> & worms = teams_it->second->getWorms();
+        std::map<int, Worm*>::const_iterator worm_it;
+
+        this->dynamics["worms_teams"][team_id];
+        
+        for (worm_it = worms.begin(); worm_it != worms.end(); ++worm_it) {
+            Worm* worm = worm_it->second;
+            YAML::Node worm_node;
+            worm_node["id"] = worm->getId();
+            worm_node["name"] = worm->getName();
+            worm_node["health"] = worm->getHealth();        
+            worm_node["x"] = (int) (worm->getPosX() / gConfiguration.SCALING_FACTOR);
+            worm_node["y"] = (int) (worm->getPosY() / gConfiguration.SCALING_FACTOR);
+            worm_node["sight_angle"] = worm->getSightAngle();
+            worm_node["status"]["grounded"] = (int) worm->isGrounded();        
+            worm_node["status"]["falling"] = (int) worm->isFalling();        
+            worm_node["status"]["mirrored"] = (int) worm->isMirrored();
+            worm_node["status"]["walking"] = (int) worm->isWalking();
+            this->dynamics["worms_teams"][team_id]["worms"].push_back(worm_node);
+        }
+
+        std::map<std::string, int> inventory = teams_it->second->getInventory();
+        std::map<std::string, int>::const_iterator inventory_it;
+        
+        int weapon_type = 1;
+        for (inventory_it = inventory.begin(); inventory_it != inventory.end(); ++inventory_it) {
+            this->dynamics["worms_teams"][team_id]["inventory"][weapon_type]["item_name"] = inventory_it->first;
+            this->dynamics["worms_teams"][team_id]["inventory"][weapon_type]["supplies"] = inventory_it->second;
+            weapon_type++;
+        }
+    }
+
+    // std::stringstream ss;
+    // ss << this->dynamics << std::endl;
+    // std::cout << ss.str() << std::endl;
+    // this->dynamics["worms_teams"];
+}
+
+void Snapshot::updateProjectiles(std::map<int, Weapon*> & weapons) {
+    for (std::map <int, Weapon*>::iterator it = weapons.begin(); it != weapons.end(); ++it) {
+        Weapon* weapon = it->second;
+        YAML::Node projectile_node;
+        projectile_node["id"] = weapon->getId();
+        projectile_node["type"] = std::to_string(weapon->getType());
+        projectile_node["x"] = (int) (weapon->getPosX() /  gConfiguration.SCALING_FACTOR);
+        projectile_node["y"] = (int) (weapon->getPosY() /  gConfiguration.SCALING_FACTOR);
+        projectile_node["countdown"] =  weapon->getCountdown();
+        projectile_node["exploded"] = (int) weapon->hasExploded();
+        projectile_node["blast_radius"] = weapon->getBlastRadius();
+        this->dynamics["projectiles"].push_back(projectile_node);
     }
 }
 
@@ -79,44 +111,9 @@ void Snapshot::updateGameStatus(Match & match) {
     this->dynamics["game_status"]["finished"] = std::to_string(match.finished());
 }
 
-void Snapshot::removeProjectile(size_t projectile_id) {
-    std::vector<YAML::Node> vec_projectiles = this->dynamics["projectiles"].as<std::vector<YAML::Node>>();
-    std::vector<YAML::Node>::iterator it;
-    
 
-    for (it = vec_projectiles.begin(); it != vec_projectiles.end();) {
-        std::cout << "REMUEVO EL PROEJCTIL CON ID: " << projectile_id << std::endl;
-        if ((*it)["id"].as<size_t>() == projectile_id) {
-            std::cout << "REMUEVO PROJECTILE" << std::endl;
-            it = vec_projectiles.erase(it);
-        } else {
-            it++;
-        }
-    }
-    
-    this->dynamics["projectiles"].reset();
-
-    std::stringstream ss;
-    ss << this->dynamics["projectiles"] << std::endl;
-    std::cout << ss.str() << std::endl;
-
-    this->dynamics["projectiles"] = vec_projectiles;
-}
-
-YAML::Node Snapshot::getSnapshot() {
+const YAML::Node& Snapshot::getSnapshot() {
     return this->dynamics;
-}
-
-void Snapshot::addProjectile(Weapon * projectile) {
-    YAML::Node new_projectile;
-    new_projectile["id"] = std::to_string(projectile->getId());
-    // EL CLIENTE ESPERA UN STRING EJ "DYNAMITE". DESDE SERVER SOLO PODEMOS MANDAR EL WEAPON ID, ARI ARREGLATE XD
-    new_projectile["type"] = std::to_string(projectile->getType());
-    new_projectile["x"] = std::to_string((int) (projectile->getPosX() / gConfiguration.SCALING_FACTOR));
-    new_projectile["y"] = std::to_string((int) (projectile->getPosY() / gConfiguration.SCALING_FACTOR));
-    new_projectile["countdown"] = std::to_string(projectile->getCountdown());
-    new_projectile["exploded"] = std::to_string(projectile->hasExploded());
-    this->dynamics["projectiles"].push_back(new_projectile);
 }
 
 bool Snapshot::hasWeaponSupplies(size_t team_id, weapon_t weapon_type) {

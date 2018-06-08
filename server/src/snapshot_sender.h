@@ -12,7 +12,7 @@
 
 class SnapshotSender : public Thread {
     private:
-        Queue<Snapshot> & snapshots;
+        Queue<Snapshot*> & snapshots;
         Match & match;
         Protocol& protocol;
         bool keep_running;
@@ -21,7 +21,7 @@ class SnapshotSender : public Thread {
         virtual size_t getId(void) const;
         
     public:
-        SnapshotSender(Queue<Snapshot> & snapshots, Match &, Protocol & protocol);
+        SnapshotSender(Queue<Snapshot*> & snapshots, Match &, Protocol & protocol);
         ~SnapshotSender();
         virtual void run(void);
         void stop();

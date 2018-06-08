@@ -27,6 +27,16 @@ void Team::print(void) const {
     std::cout << "*********************" << std::endl;
 }
 
+void Team::initializeInventory(YAML::Node inventory_node) {
+    std::string item_name;
+    int supplies;
+    for (int i = 0; i < 9; ++i) {
+        item_name = inventory_node[i]["item_name"].as<std::string>();
+        supplies = inventory_node[i]["supplies"].as<int>();
+        this->inventory.insert(std::pair<std::string,int>(item_name, supplies));
+    }
+}
+
 std::vector<int> Team::getWormsID(void) {
     std::vector<int> ids;
     std::map<int, Worm*>::const_iterator it;
@@ -60,4 +70,12 @@ int Team::getTotalLife(void) {
         counter += it->second->getHealth();
     }
     return counter;
+}
+
+std::map<int, Worm*> & Team::getWorms() {
+    return this->worms;
+}
+
+std::map<std::string, int> & Team::getInventory() {
+    return this->inventory;
 }

@@ -2,8 +2,9 @@
 #include "snapshot_sender.h"
 #include "socket_error.h"
 #include <iostream>
+#include <unistd.h>
 
-SnapshotSender::SnapshotSender(Queue<Snapshot> & snapshots, Match & m, Protocol& protocol) : 
+SnapshotSender::SnapshotSender(Queue<Snapshot*> & snapshots, Match & m, Protocol& protocol) : 
 snapshots(snapshots) ,
 match(m),
 protocol(protocol) {
@@ -15,14 +16,16 @@ SnapshotSender::~SnapshotSender() {
 
 void SnapshotSender::run() {
     while (keep_running) {
-        Snapshot snapshot(this->snapshots.pop());
+        usleep(16666);
+        Snapshot* snapshot = this->snapshots.pop();
         // agregar nodo de game status.
-        snapshot.updateGameStatus(this->match);
-        YAML::Node nodeSnapshot = snapshot.getSnapshot();
+        snapshot->updateGameStatus(this->match);
+        YAML::Node nodeSnapshot = snapshot->getSnapshot();
         // std::stringstream ss;
         // ss << nodeSnapshot["projectiles"] << std::endl;
         // std::cout << ss.str() << std::endl;
         this->protocol.sendModel(nodeSnapshot);
+        delete snapshot;
     }
 }
 

@@ -10,7 +10,7 @@
 
 class Match {
     private:
-        std::map<int, Team *> teams;
+        std::map<int, Team *> & teams;
         std::map<int, Worm *> & worms;
         std::queue<int> team_turn_order;
         std::map<int, std::queue<int>> worm_turn_order;
@@ -32,7 +32,7 @@ class Match {
         void refreshWormsFlagsByNewTurn(void);
 
     public:
-        Match(std::map<int, Worm*> &, size_t);
+        Match(std::map<int, Worm*>& worms, std::map<int, Team*> &, size_t);
         void printTeams(void);
         int getTeamTurn(void);
         int getWormTurn(int);
