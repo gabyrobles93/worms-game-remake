@@ -99,7 +99,7 @@ void Snapshot::removeProjectile(size_t projectile_id) {
     std::stringstream ss;
     ss << this->dynamics["projectiles"] << std::endl;
     std::cout << ss.str() << std::endl;
-    
+
     this->dynamics["projectiles"] = vec_projectiles;
 }
 

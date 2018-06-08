@@ -2,6 +2,7 @@
 #include <sstream>
 #include <qt5/QtWidgets/QMessageBox>
 #include <QFileDialog>
+#include <QTableWidget>
 #include "QStackedWidget"
 #include "client_lobby.h"
 #include "ui_clientlobby.h"
@@ -141,6 +142,7 @@ void ClientLobby::createMatch(void) {
 
 void ClientLobby::exitLobby(void) {
     std::cout << "Me voy del lobby" << std::endl;
+    cleanLobby();
     this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
     Event new_event(a_quitLobby, 1);
     this->protocol->sendEvent(new_event);
@@ -149,11 +151,22 @@ void ClientLobby::exitLobby(void) {
 
 void ClientLobby::joinMatch(void) {
     std::cout << "Me uno a una partida!" << std::endl;
+    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    int index_selected = matchsList->selectionModel()->currentIndex().row();
+
+    if (index_selected < 0) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Seleccione una partida.");
+        msgBox.setText("Por favor, seleccione una partida de la lista.");
+        msgBox.exec();
+        return;
+    }
 }
 
 void ClientLobby::refreshLobby(void) {
     std::cout << "Refresh del lobby" << std::endl;
     cleanLobby();
+    std::cout << "Lobby limpiado" << std::endl;
     Event new_event(a_refreshLobby, 1);
     this->protocol->sendEvent(new_event);
     feedLobby();
@@ -194,16 +207,15 @@ void ClientLobby::backLobby(void) {
 }
 
 void ClientLobby::cleanLobby(void) {
-    QList<QListWidgetItem*>::iterator it;
-    for (it = this->lobby_games.begin(); it != this->lobby_games.end();) {
-        delete (*it);
-        it = this->lobby_games.erase(it);
+    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    while (matchsList->rowCount() > 0) {
+        matchsList->removeRow(0);
     }
 }
 
 void ClientLobby::feedLobby(void) {
     std::cout << "Alimentando lobby!" << std::endl;
-    QListWidget * matchsList = findChild<QListWidget*>("list_matchs");
+    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
     YAML::Node gameStatus;
     this->protocol->rcvGameStatus(gameStatus);
 
@@ -211,20 +223,28 @@ void ClientLobby::feedLobby(void) {
     ss << gameStatus;
     std::cout << ss.str() << std::endl;
 
+
+
     YAML::Node::const_iterator it;
     for (it = gameStatus["waiting_games"].begin(); it != gameStatus["waiting_games"].end(); it++) {
-        std::string text_row;
-        text_row = (*it)["match_name"].as<std::string>();
-        text_row += " - Created By: ";
-        text_row += (*it)["creator"].as<std::string>();
-        text_row += " - With: ";
-        text_row += (*it)["joined_players"].as<std::string>();
-        text_row += "/";
-        text_row += (*it)["required_players"].as<std::string>();
-        text_row += " players.";
-        this->lobby_games.append(new QListWidgetItem());
-        this->lobby_games.last()->setText(tr(text_row.c_str()));
-        matchsList->insertItem(1, this->lobby_games.last());
+
+        matchsList->insertRow(matchsList->rowCount());
+
+        QTableWidgetItem * table_game_name = new QTableWidgetItem((*it)["match_name"].as<std::string>().c_str());
+        table_game_name->setFlags(table_game_name->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 0, table_game_name);
+
+        QTableWidgetItem * table_game_creator = new QTableWidgetItem((*it)["creator"].as<std::string>().c_str());
+        table_game_creator->setFlags(table_game_creator->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 1, table_game_creator);
+        
+        QTableWidgetItem * table_actual_players = new QTableWidgetItem((*it)["joined_players"].as<std::string>().c_str());
+        table_actual_players->setFlags(table_actual_players->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 2, table_actual_players);
+
+        QTableWidgetItem * table_max_players = new QTableWidgetItem((*it)["required_players"].as<std::string>().c_str());
+        table_max_players->setFlags(table_max_players->flags() ^ Qt::ItemIsEditable);
+        matchsList->setItem(matchsList->rowCount()-1, 3, table_max_players);
     }
 }
 

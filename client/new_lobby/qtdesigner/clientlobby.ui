@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page_connection">
      <widget class="QGroupBox" name="box_connection">
@@ -159,16 +159,6 @@
        <string/>
       </property>
      </widget>
-     <widget class="QListWidget" name="list_matchs">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>50</y>
-        <width>421</width>
-        <height>161</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QWidget" name="horizontalLayoutWidget_4">
       <property name="geometry">
        <rect>
@@ -246,6 +236,51 @@
       <property name="text">
        <string>Refresh</string>
       </property>
+     </widget>
+     <widget class="QTableWidget" name="table_matchs">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>40</y>
+        <width>511</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="tabKeyNavigation">
+       <bool>false</bool>
+      </property>
+      <property name="dragDropOverwriteMode">
+       <bool>false</bool>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>Partida</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Creador</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Participantes</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Necesarios</string>
+       </property>
+      </column>
      </widget>
     </widget>
     <widget class="QWidget" name="page_create_match">
