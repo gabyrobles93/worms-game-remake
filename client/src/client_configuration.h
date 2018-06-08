@@ -8,6 +8,7 @@
 #include "sound_effect.h"
 #include "shoot_power.h"
 #include "paths.h"
+#include "yaml.h"
 
 class ClientConfiguration {
   private:
@@ -20,7 +21,6 @@ class ClientConfiguration {
     Timer shootingTimer;
     SoundEffect shootingSound;
     View::ShootPower shootPower;
-
 
   public:
     ClientConfiguration();

@@ -46,6 +46,8 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->x = 0;
   this->y = 0;
 
+  this->walkingSound.setSound(gPath.PATH_SOUND_WORM_WALKING);
+
   this->nameText.loadFromRenderedText(r, this->font, this->name, colors[this->team]);
   this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
 }
@@ -85,6 +87,13 @@ void View::Worm::setY(int y) {
 }
 
 void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
+
+  if (this->walking) {
+    this->walkingSound.playSound(0);
+  } else {
+    this->walkingSound.stopSound();
+  }
+
   if (this->walking) {
     if (this->currentAnimation != WALK) {
       this->currentAnimation = WALK;

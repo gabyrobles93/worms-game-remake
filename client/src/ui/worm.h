@@ -8,7 +8,7 @@
 #include "drawable.h"
 #include "paths.h"
 #include "sprite_animation.h"
-
+#include "sound_effect.h"
 #include "font.h"
 #include "sight.h"
 
@@ -51,6 +51,9 @@ namespace View {
       std::string name;
       size_t team;
       int health;
+
+      // Sound
+      SoundEffect walkingSound;
 
       // Worm data UI
       Font font;
