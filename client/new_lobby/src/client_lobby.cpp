@@ -17,6 +17,7 @@
 #define PAGE_LOBBY_INDEX 1
 #define PAGE_MATCH_CREATE 2
 #define PAGE_WAITING_MATCH_INDEX 3
+#define PAGE_JOINED_WAITING_MATCH_INDEX 4
 
 ClientLobby::ClientLobby(QWidget *parent) :
     QMainWindow(parent),
@@ -82,6 +83,10 @@ void ClientLobby::connectEvents(void) {
     QPushButton* cancelWaitingMatchButton = findChild<QPushButton*>("button_cancel_waiting_match");
     QObject::connect(cancelWaitingMatchButton, &QPushButton::clicked,
                      this, &ClientLobby::cancelWaitingMatch);
+
+    QPushButton* exitWaitingMatchButton = findChild<QPushButton*>("button_exit_waiting_match");
+    QObject::connect(exitWaitingMatchButton, &QPushButton::clicked,
+                     this, &ClientLobby::exitWaitingMatch);
 }
 
 void ClientLobby::cleanTextBoxes(void) {
@@ -168,6 +173,24 @@ void ClientLobby::joinMatch(void) {
 
     Event new_event(a_joinWaitingMatch, match_creator_name);
     this->protocol->sendEvent(new_event);
+    
+    YAML::Node join_match_response;
+    this->protocol->rcvMsg(join_match_response);
+    if (join_match_response["code"].as<int>() == 0) {
+        refreshLobby();
+        std::cout << "La partida esta llena, no se puede acceder." << std::endl;
+        std::string msg = join_match_response["msg"].as<std::string>();
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("No se puede unir a partida:");
+        msgBox.setText(msg.c_str());
+        msgBox.exec();
+        return;
+    } else if (join_match_response["code"].as<int>() == 1) {
+        std::cout << "Hay lugar en la partida, accediendo!." << std::endl;
+        this->pages->setCurrentIndex(PAGE_JOINED_WAITING_MATCH_INDEX);
+        QLabel* gameCreator = findChild<QLabel*>("text_game_creator");
+        gameCreator->setText(match_creator_name.c_str());
+    }
 }
 
 void ClientLobby::refreshLobby(void) {
@@ -284,9 +307,18 @@ void ClientLobby::startWaitingMatch(void) {
     std::cout << "Comienzo juego" << std::endl;
 }
 
+// Invocada cuando el CREADOR de una partida en espera cancela dicha partida...
 void ClientLobby::cancelWaitingMatch(void) {
     std::cout << "Cancelo juego en espera." << std::endl;
     Event new_event(a_rmWaitingMatch);
+    this->protocol->sendEvent(new_event);
+    backLobby();
+}
+
+// Invocada cuando un participante no-creador de una partida en espera se va de dicha partida en espera
+void ClientLobby::exitWaitingMatch(void) {
+    std::cout << "Me voy de una waiting match siendo un invitado." << std::endl;
+    Event new_event(a_exitWaitingMatch);
     this->protocol->sendEvent(new_event);
     backLobby();
 }

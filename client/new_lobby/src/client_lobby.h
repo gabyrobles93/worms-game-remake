@@ -46,6 +46,7 @@ private:
     void feedWaitingPlayers(void);
     void startWaitingMatch(void);
     void cancelWaitingMatch(void);
+    void exitWaitingMatch(void);
 };
 
 #endif // CLIENT_LOBBY_H

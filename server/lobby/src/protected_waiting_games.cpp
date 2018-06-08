@@ -23,7 +23,7 @@ YAML::Node ProtectedWaitingGames::getGamesInfoNode(void) {
         a_waiting_game_node["match_name"] = it->second->getMatchName();
         a_waiting_game_node["creator"] = it->second->getCreator();
         a_waiting_game_node["required_players"] = it->second->getPlayersQty();
-        a_waiting_game_node["joined_players"] = it->second->getPlayersQty();
+        a_waiting_game_node["joined_players"] = it->second->getJoinedPlayersQty();
         waiting_games["waiting_games"].push_back(a_waiting_game_node);
     }
     return waiting_games;
@@ -48,4 +48,9 @@ bool ProtectedWaitingGames::gameHasFreeSlots(std::string & creator_name) {
 void ProtectedWaitingGames::addPlayerToGame(std::string & creator_name, std::string & new_player) {
     std::lock_guard<std::mutex> lck(this->mutex);
     this->waiting_games[creator_name]->addPlayer(new_player);
+}
+
+void ProtectedWaitingGames::rmvPlayerFromGame(std::string & creator_name, std::string & rm_player_name) {
+    std::lock_guard<std::mutex> lck(this->mutex);
+    this->waiting_games[creator_name]->rmPlayer(rm_player_name);
 }

@@ -19,6 +19,7 @@ class ProtectedWaitingGames {
         void removeGame(std::string &);
         bool gameHasFreeSlots(std::string &);
         void addPlayerToGame(std::string &, std::string &);
+        void rmvPlayerFromGame(std::string &, std::string &);
 };
 
 #endif

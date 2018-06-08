@@ -58,12 +58,14 @@ void LobbyAttendant::processEvent(Event & event) {
             this->client->setStatus(creator);
             WaitingGame * new_waiting_game = new WaitingGame(player_name, match_name, map_players_qty);
             this->waiting_games.addNewWaitingGame(player_name, new_waiting_game);
+            this->client->setJoinedMatchGameCreator(match_name);
             break;
         }
         case a_rmWaitingMatch: {
             std::cout << "El creador de la partida en espera " << this->waiting_games.getGameName(player_name) << " ha cancelado la partida." << std::endl;
             this->waiting_games.removeGame(player_name);
             this->client->setStatus(lobby);
+            this->client->clearJoinedMatchGameCreator();
             // INFORMARLE A TODOS QUE BYE...
             break;
         }
@@ -74,8 +76,19 @@ void LobbyAttendant::processEvent(Event & event) {
             if (this->waiting_games.gameHasFreeSlots(match_creator_name)) {
                 this->waiting_games.addPlayerToGame(match_creator_name, player_name);
                 this->client->setStatus(joined);
-            }         
+                std::string msg = "";
+                this->client->sendResponse(1, msg);
+                this->client->setJoinedMatchGameCreator(match_creator_name);
+            } else {
+                std::string msg = "La partida está llena.";
+                this->client->sendResponse(0, msg);
+            }    
             break;
+        }
+        case a_exitWaitingMatch: {
+            std::cout << "saliendo de partida en espera a la que me uni" << std::endl;
+            std::string joined_match_creator_name = this->client->getJoinedMatchCreatorName();
+            this->waiting_games.rmvPlayerFromGame(joined_match_creator_name, player_name);
         }
         default: break;
     }

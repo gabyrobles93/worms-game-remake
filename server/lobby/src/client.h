@@ -10,6 +10,8 @@ class Client {
         Protocol protocol;
         std::string player_name;
         client_status_t status;
+        std::string joined_match_creator_name;
+
     public:
         Client(Protocol, std::string &);
         void sendGamesStatus(YAML::Node);
@@ -17,6 +19,10 @@ class Client {
         std::string getPlayerName(void);
         void setStatus(client_status_t);
         client_status_t getStatus(void);
+        void sendResponse(int, std::string &);
+        void setJoinedMatchGameCreator(std::string &);
+        void clearJoinedMatchGameCreator(void);
+        std::string getJoinedMatchCreatorName(void);
 };
 
 #endif

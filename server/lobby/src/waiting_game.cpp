@@ -29,3 +29,18 @@ size_t WaitingGame::getPlayersQty(void) {
 bool WaitingGame::hasFreeSlots(void) {
     return (this->players_qty - this->joined_players) > 0;
 }
+
+size_t WaitingGame::getJoinedPlayersQty(void) {
+    return this->joined_players;
+}
+
+void WaitingGame::rmPlayer(std::string & player_name) {
+    std::vector<std::string>::iterator it;
+    for (it = this->members.begin(); it != this->members.end(); it++) {
+        if ((*it) == player_name) {
+            this->members.erase(it);
+            this->joined_players--;
+            return;
+        }
+    }
+}

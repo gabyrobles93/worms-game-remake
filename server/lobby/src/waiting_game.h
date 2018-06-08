@@ -17,8 +17,10 @@ class WaitingGame {
         std::string const & getCreator(void);
         std::string const & getMatchName(void);
         size_t getPlayersQty(void);
+        size_t getJoinedPlayersQty(void);
         bool hasFreeSlots(void);
         void addPlayer(std::string &);
+        void rmPlayer(std::string &);
 };
 
 #endif

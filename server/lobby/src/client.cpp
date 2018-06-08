@@ -36,3 +36,22 @@ void Client::setStatus(client_status_t new_status) {
 client_status_t Client::getStatus(void) {
     return this->status;
 }
+
+void Client::sendResponse(int code, std::string & msg) {
+    YAML::Node response;
+    response["code"] = code;
+    response["msg"] = msg;
+    this->protocol.sendMsg(response);
+}
+
+void Client::setJoinedMatchGameCreator(std::string & jmn) {
+    this->joined_match_creator_name = jmn;
+}
+
+void Client::clearJoinedMatchGameCreator(void) {
+    this->joined_match_creator_name.clear();
+}
+
+std::string Client::getJoinedMatchCreatorName(void) {
+    return this->joined_match_creator_name;
+}
