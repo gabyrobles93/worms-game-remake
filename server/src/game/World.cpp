@@ -120,7 +120,7 @@ void World::initializeWorld() {
 
 void World::updateSnapshot() {
     //this->worldPhysic.aliveBodies();
-    //if (this->worldPhysic.hasAliveBodies()) {
+    //if (this->worldPhysic.aliveBodies()) {
         this->game_snapshot.updateWorms(this->worms);
         this->game_snapshot.updateProjectiles(this->weapons);
     //}
@@ -148,6 +148,11 @@ void World::updateBodies() {
         if (!worm->isDead())
             worm->update();
     }
+
+    // for (std::map<int, Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
+    //     Girder* girder = it->second;
+    //     girder->update();
+    // }
 }
 
 void World::run() {

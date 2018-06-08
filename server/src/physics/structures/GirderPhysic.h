@@ -17,7 +17,7 @@ public:
     float getPosX();
     float getPosY();
     float getAngle();
-
+    void sleep();
 };
 
 #endif
