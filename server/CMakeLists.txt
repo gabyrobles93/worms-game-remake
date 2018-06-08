@@ -111,6 +111,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/Configuration.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/weapons/BazookaPhysic.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/weapons/BazookaPhysic.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Missil.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Missil.cpp
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
