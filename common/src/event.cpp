@@ -12,6 +12,14 @@ Event::Event(action_t a, size_t tid) {
     this->eventNode["event"]["action"] = std::to_string(a);
 }
 
+Event::Event(action_t a, std::string & mn) {
+    this->action = a;
+    this->team_id = 0;
+    this->eventNode["event"]["action"] = std::to_string(a);
+    this->eventNode["event"]["match_name"] = mn;
+    this->eventNode["event"]["team_id"] = 0;
+}
+
 Event::Event(action_t a, weapon_t w, size_t tid, int countdown, int power) {
     this->action = a;
     this->team_id = tid;

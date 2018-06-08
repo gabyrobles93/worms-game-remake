@@ -6,9 +6,11 @@
 class WaitingGame {
     private:
         std::string creator;
+        std::string match_name;
     public:
-        WaitingGame(std::string &);
+        WaitingGame(std::string &, std::string &);
         std::string const & getCreator(void);
+        std::string const & getMatchName(void);
 };
 
 #endif

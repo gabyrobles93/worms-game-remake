@@ -40,6 +40,7 @@ void LobbyAttendant::run(void) {
 void LobbyAttendant::processEvent(Event & event) {
     YAML::Node event_node = event.getNode();
     action_t action = (action_t) event_node["event"]["action"].as<int>();
+    std::string player_name =  this->client->getPlayerName();
 
     switch(action) {
         case a_refreshLobby: {
@@ -47,13 +48,21 @@ void LobbyAttendant::processEvent(Event & event) {
             break;
         }
         case a_createMatch: {
-            std::string player_name = this->client->getPlayerName();
+            std::cout << "INTENCIONES DE CREAR PARTIDA EN ESPERA." << std::endl;
+            std::string match_name = event_node["event"]["match_name"].as<std::string>();
             std::cout << "El cliente " << player_name << " ha creado una partida." << std::endl;
             this->client->setStatus(creator);
-            WaitingGame * new_waiting_game = new WaitingGame(player_name);
+            WaitingGame * new_waiting_game = new WaitingGame(player_name, match_name);
             this->waiting_games[player_name] = new_waiting_game;
             this->matchs_status.addWaitingGame(new_waiting_game);
             break;
+        }
+        case a_rmWaitingMatch: {
+            std::cout << "El creador de la partida en espera " << this->waiting_games[player_name]->getMatchName() << " ha cancelado la partida." << std::endl;
+            delete this->waiting_games[player_name];
+            this->waiting_games.erase(player_name);
+            this->matchs_status.rmWaitingGame(player_name);
+            // INFORMARLE A TODOS QUE BYE...
         }
         default: break;
     }

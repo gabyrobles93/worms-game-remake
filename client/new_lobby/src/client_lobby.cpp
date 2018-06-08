@@ -161,6 +161,7 @@ void ClientLobby::refreshLobby(void) {
 
 void ClientLobby::waitForPlayersOnCreatedMatch(void) {
     QLineEdit * matchName = findChild<QLineEdit*>("text_game_name");
+    std::string matchGame = matchName->text().toUtf8().constData();
 
     if (matchName->text().isEmpty()) {
         QMessageBox msgBox;
@@ -180,12 +181,15 @@ void ClientLobby::waitForPlayersOnCreatedMatch(void) {
 
     std::cout << "Lanzo una partida en espera!" << std::endl;
     this->pages->setCurrentIndex(PAGE_WAITING_MATCH_INDEX);
-    Event new_event(a_createMatch);
+    Event new_event(a_createMatch, matchGame);
     this->protocol->sendEvent(new_event);
 }
 
 void ClientLobby::backLobby(void) {
     this->pages->setCurrentIndex(PAGE_LOBBY_INDEX);
+    QLabel* currentMapPath = findChild<QLabel*>("text_current_map_path");
+    currentMapPath->setText("Not selected. Please, choose a map!");
+    this->map_game_path.clear();
     refreshLobby();
 }
 
@@ -208,14 +212,16 @@ void ClientLobby::feedLobby(void) {
     std::cout << ss.str() << std::endl;
 
     YAML::Node::const_iterator it;
-    for (it = gameStatus["games"].begin(); it != gameStatus["games"].end(); it++) {
+    for (it = gameStatus["waiting_games"].begin(); it != gameStatus["waiting_games"].end(); it++) {
         std::string text_row;
-        text_row = (*it)["name"].as<std::string>();
+        text_row = (*it)["match_name"].as<std::string>();
         text_row += " - Created By: ";
         text_row += (*it)["creator"].as<std::string>();
         text_row += " - With: ";
-        text_row += (*it)["players"].as<std::string>();
-        text_row += "/3 players.";
+        text_row += (*it)["joined_players"].as<std::string>();
+        text_row += "/";
+        text_row += (*it)["required_players"].as<std::string>();
+        text_row += " players.";
         this->lobby_games.append(new QListWidgetItem());
         this->lobby_games.last()->setText(tr(text_row.c_str()));
         matchsList->insertItem(1, this->lobby_games.last());
@@ -245,4 +251,7 @@ void ClientLobby::startWaitingMatch(void) {
 
 void ClientLobby::cancelWaitingMatch(void) {
     std::cout << "Cancelo juego en espera." << std::endl;
+    Event new_event(a_rmWaitingMatch);
+    this->protocol->sendEvent(new_event);
+    backLobby();
 }
