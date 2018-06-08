@@ -161,7 +161,7 @@ void ClientLobby::refreshLobby(void) {
 
 void ClientLobby::waitForPlayersOnCreatedMatch(void) {
     QLineEdit * matchName = findChild<QLineEdit*>("text_game_name");
-    std::string matchGame = matchName->text().toUtf8().constData();
+    std::string matchNameStr = matchName->text().toUtf8().constData();
 
     if (matchName->text().isEmpty()) {
         QMessageBox msgBox;
@@ -181,7 +181,7 @@ void ClientLobby::waitForPlayersOnCreatedMatch(void) {
 
     std::cout << "Lanzo una partida en espera!" << std::endl;
     this->pages->setCurrentIndex(PAGE_WAITING_MATCH_INDEX);
-    Event new_event(a_createMatch, matchGame);
+    Event new_event(a_createMatch, matchNameStr, this->map_players_qty);
     this->protocol->sendEvent(new_event);
 }
 
@@ -236,6 +236,14 @@ void ClientLobby::chooseMap(void) {
         std::cout << "El mapa elegido es " << this->map_game_path << std::endl;
         QLabel* currentMapPath = findChild<QLabel*>("text_current_map_path");
         currentMapPath->setText(this->map_game_path.c_str());
+        std::string cmd_mkdir = "mkdir temp_map_folder";
+        std::string cmd_unzip = "tar -xvf \"" +  this->map_game_path + "\" -C ./temp_map_folder/";
+        std::system(cmd_mkdir.c_str());
+        std::system(cmd_unzip.c_str());
+        YAML::Node mapNode = YAML::LoadFile("temp_map_folder/map.yml");
+        this->map_players_qty = mapNode["dynamic"]["worms_teams"].size();
+        std::string cmd_rm_temp_dir = "rm -fr ./temp_map_folder";
+        std::system(cmd_rm_temp_dir.c_str());
     } else {
         std::cout << "No se eligio un mapa." << std::endl;
     }

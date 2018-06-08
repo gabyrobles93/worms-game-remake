@@ -14,7 +14,7 @@ class Event {
         std::string matchName;
     public:
         Event(action_t action = a_noEvent , size_t team_id = 0);
-        Event(action_t, std::string &);
+        Event(action_t, std::string &, size_t map_players_qty);
         // Las armas que no se pueden configurar 
         // el countdown y o la potencia tienen
         // como parametro por default -1

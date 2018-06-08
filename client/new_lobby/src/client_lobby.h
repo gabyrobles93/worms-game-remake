@@ -26,6 +26,7 @@ private:
     QStackedWidget * pages;
 
     std::string map_game_path;
+    int map_players_qty;
 
     void connectEvents(void);
     void cleanTextBoxes(void);

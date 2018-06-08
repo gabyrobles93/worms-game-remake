@@ -7,10 +7,13 @@ class WaitingGame {
     private:
         std::string creator;
         std::string match_name;
+        size_t players_qty;
+
     public:
-        WaitingGame(std::string &, std::string &);
+        WaitingGame(std::string &, std::string &, size_t);
         std::string const & getCreator(void);
         std::string const & getMatchName(void);
+        size_t getPlayersQty(void);
 };
 
 #endif

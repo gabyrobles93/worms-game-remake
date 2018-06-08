@@ -50,9 +50,10 @@ void LobbyAttendant::processEvent(Event & event) {
         case a_createMatch: {
             std::cout << "INTENCIONES DE CREAR PARTIDA EN ESPERA." << std::endl;
             std::string match_name = event_node["event"]["match_name"].as<std::string>();
+            size_t map_players_qty = event_node["event"]["map_players_qty"].as<size_t>();
             std::cout << "El cliente " << player_name << " ha creado una partida." << std::endl;
             this->client->setStatus(creator);
-            WaitingGame * new_waiting_game = new WaitingGame(player_name, match_name);
+            WaitingGame * new_waiting_game = new WaitingGame(player_name, match_name, map_players_qty);
             this->waiting_games[player_name] = new_waiting_game;
             this->matchs_status.addWaitingGame(new_waiting_game);
             break;
