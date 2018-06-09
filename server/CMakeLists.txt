@@ -69,8 +69,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/snapshot_sender.h
 		${PROJECT_SOURCE_DIR}/src/snapshot.cpp
 		${PROJECT_SOURCE_DIR}/src/snapshot.h
-		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/Water.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Water.h
 		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.h
