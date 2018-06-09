@@ -15,7 +15,6 @@ class Worm : public Entity {
         float posX;
         float posY;
         float angle;
-        float sight_angle;
         float fallenDistance;
 
         bool affectedByExplosion;
@@ -49,7 +48,6 @@ class Worm : public Entity {
         int getId(void);
         int getTeam(void);
         int getHealth(void);
-        float getSightAngle(void);
         std::string getName(void);
         entity_t getEntityType() {return WORM;}
         void addFootContact(void);

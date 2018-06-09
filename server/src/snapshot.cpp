@@ -29,11 +29,10 @@ void Snapshot::updateTeams(std::map<int, Team*> & teams) {
             Worm* worm = worm_it->second;
             snapshot << YAML::BeginMap;
             snapshot << YAML::Key << "id" << YAML::Value << worm->getId();
-            snapshot << YAML::Key << "name" << YAML::Value << worm->getName();
+            //snapshot << YAML::Key << "name" << YAML::Value << worm->getName();
             snapshot << YAML::Key << "health" << YAML::Value << worm->getHealth();
             snapshot << YAML::Key << "x" << YAML::Value << (int)(worm->getPosX() / gConfiguration.SCALING_FACTOR);
             snapshot << YAML::Key << "y" << YAML::Value << (int)(worm->getPosY() / gConfiguration.SCALING_FACTOR);
-            snapshot << YAML::Key << "sight_angle" << YAML::Value << worm->getSightAngle();
             snapshot << YAML::Key << "status";
             snapshot << YAML::Value << YAML::BeginMap;
             snapshot << YAML::Key << "grounded" << YAML::Value << (int) worm->isGrounded();

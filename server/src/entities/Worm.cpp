@@ -9,7 +9,6 @@ world(world) {
     this->team_id = team_id;
     this->name = n;
     this->angle = 0;
-    this->sight_angle = 0;
     this->falling = false;
     this->mirrored = false;
     this->hurtInTurn = false;
@@ -47,18 +46,6 @@ void Worm::moveLeft(void) {
     }
 }
 
-void Worm::pointHigher(void) {
-    if (this->sight_angle < 90) {
-        this->sight_angle = this->sight_angle + 3;
-    }
-}
-
-void Worm::pointMoreDown(void) {
-    if (this->sight_angle > -90) {
-        this->sight_angle = this->sight_angle - 3;
-    }
-}
-
 bool Worm::isMirrored(void) {
     return this->mirrored;
 }
@@ -81,10 +68,6 @@ int Worm::getTeam(void) {
 
 int Worm::getHealth(void) {
     return this->health;
-}
-
-float Worm::getSightAngle(void) {
-    return this->sight_angle;
 }
 
 std::string Worm::getName(void) {

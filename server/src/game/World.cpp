@@ -149,26 +149,29 @@ void World::updateBodies() {
             worm->update();
     }
 
-    // for (std::map<int, Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
-    //     Girder* girder = it->second;
-    //     girder->update();
-    // }
+    for (std::map<int, Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
+        Girder* girder = it->second;
+        girder->update();
+    }
 }
 
 void World::run() {
     unsigned int step_counter = 0;
+    int update_time = 0;
     while (this->keep_running) {
-        usleep(16666);
-        Snapshot* snapshot = new Snapshot();
+        usleep(16666); 
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
-        //if (this->worldPhysic.aliveBodies()) {
+        step_counter++;
+        //this->worldPhysic.aliveBodies();
+        if (this->worldPhysic.aliveBodies() || step_counter == 60) {
+            Snapshot* snapshot = new Snapshot();            
             snapshot->updateTeams(this->teams);
             snapshot->updateProjectiles(this->weapons);
             this->snapshots.push(snapshot);
-        //}
+        }
         updateBodies();
-        step_counter++;
+        //step_counter++;
 
         if (step_counter == 60) {
             this->time_sec++;
@@ -209,14 +212,6 @@ void World::executeAction(Event & event, size_t id) {
             }
             break;
         }
-        
-        case a_pointUp:
-            this->worms[id]->pointHigher();
-            break;
-
-        case a_pointDown:
-            this->worms[id]->pointMoreDown();
-            break;
         default: break;
     }
 }
@@ -242,7 +237,7 @@ void World::shootWeapon(Event & event, size_t id) {
         this->worms[id]->getPosX(), 
         this->worms[id]->getPosY(), 
         this->worms[id]->isMirrored() , 
-        this->worms[id]->getSightAngle() , 
+        nodeEvent["event"]["sight_angle"].as<int>() , 
         nodeEvent["event"]["power"].as<int>(), 
         nodeEvent["event"]["countdown"].as<int>(), 
         getTimeSeconds(), 
@@ -254,7 +249,7 @@ void World::shootWeapon(Event & event, size_t id) {
         this->worms[id]->getPosX(), 
         this->worms[id]->getPosY(),
         this->worms[id]->isMirrored(),
-        this->worms[id]->getSightAngle(),
+        nodeEvent["event"]["sight_angle"].as<int>(),
         nodeEvent["event"]["power"].as<int>(),
         w_green_grenade
         );
