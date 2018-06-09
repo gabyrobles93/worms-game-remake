@@ -5,7 +5,25 @@
 Bazooka::Bazooka(int id, b2World& world, float posX, float posY, float mirrored, 
 float shooting_angle, int power_factor, weapon_t type) : 
 Weapon(type),
-bazookaPhysic(world, posX, posY, this) {
+world(world) {
+    b2BodyDef bazookaDef;
+    bazookaDef.type = b2_dynamicBody;
+    bazookaDef.position.Set(posX, posY);
+    b2Body* body = world.CreateBody(&bazookaDef);
+    body->SetUserData(this);
+
+    b2PolygonShape bazookaShape;
+    bazookaShape.SetAsBox(BAZOOKA_WIDTH/2, BAZOKOA_HEIGHT/2);
+
+    b2FixtureDef bazookaFixture;
+    bazookaFixture.shape = &bazookaShape;
+    bazookaFixture.density = 1;
+    bazookaFixture.friction = 0.3;
+    //bazookaFixture.filter.categoryBits = BAZOOKA_PHYSIC;
+    //bazookaFixture.filter.maskBits = STRUCTURE_PHYSIC | WORM_PHYSIC;
+    body->CreateFixture(&bazookaFixture);
+    this->body = body;
+
     this->exploded = false;
     this->power_factor = power_factor;
     this->mirrored = mirrored;
@@ -17,25 +35,35 @@ bazookaPhysic(world, posX, posY, this) {
     shoot();
 }
 
+Bazooka::~Bazooka() {
+    this->world.DestroyBody(this->body);
+}
+
 void Bazooka::explode() {
-    this->bazookaPhysic.explode(this->blast_radius, this->blast_power);
+    ExplosionManager explosionManager(this->world);
+    b2Vec2 center = this->body->GetPosition();
+    explosionManager.manageExplosion(center, blast_radius, blast_power);
     this->exploded = true;
 }
 
 float Bazooka::getPosX() {
-    return this->bazookaPhysic.getPosX();
+    return this->body->GetPosition().x;
 }
 
 float Bazooka::getPosY() {
-    return this->bazookaPhysic.getPosY();
+    return this->body->GetPosition().y;
 }
 
 void Bazooka::shoot() {
-    this->bazookaPhysic.shoot(mirrored, shooting_angle, power_factor);
+    float impulse = this->body->GetMass() * power_factor;
+    float x_impulse = impulse * cosf(shooting_angle * gConfiguration.DEGTORAD);
+    float y_impulse = impulse * sinf(shooting_angle * gConfiguration.DEGTORAD);
+    if (!mirrored) x_impulse = x_impulse * -1;
+    this->body->ApplyLinearImpulse(b2Vec2(x_impulse, -y_impulse), this->body->GetWorldCenter(), true);
 }
 
 void Bazooka::update(int currenTime) {
-    if (this->bazookaPhysic.getPosY() > gConfiguration.WORLD_Y_LIMIT || contact) {
+    if (getPosY() > gConfiguration.WORLD_Y_LIMIT || contact) {
         this->explode();
     }
 }
