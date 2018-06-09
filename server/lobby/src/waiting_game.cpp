@@ -44,3 +44,7 @@ void WaitingGame::rmPlayer(std::string & player_name) {
         }
     }
 }
+
+std::vector<std::string> WaitingGame::getWaitingPlayers(void) {
+    return members;
+}

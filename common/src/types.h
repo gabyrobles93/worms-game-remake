@@ -11,6 +11,7 @@ typedef enum {
     a_rmWaitingMatch,
     a_joinWaitingMatch,
     a_exitWaitingMatch,
+    a_refreshWaitingList,
     a_quitLobby,
     a_moveLeft,
     a_moveRight,

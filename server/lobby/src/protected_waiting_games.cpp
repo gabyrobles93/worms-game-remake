@@ -54,3 +54,7 @@ void ProtectedWaitingGames::rmvPlayerFromGame(std::string & creator_name, std::s
     std::lock_guard<std::mutex> lck(this->mutex);
     this->waiting_games[creator_name]->rmPlayer(rm_player_name);
 }
+
+std::vector<std::string> ProtectedWaitingGames::getWaitingPlayers(std::string & creator_name) {
+    return this->waiting_games[creator_name]->getWaitingPlayers();
+}

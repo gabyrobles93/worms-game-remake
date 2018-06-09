@@ -55,3 +55,10 @@ void Client::clearJoinedMatchGameCreator(void) {
 std::string Client::getJoinedMatchCreatorName(void) {
     return this->joined_match_creator_name;
 }
+
+void Client::sendWaitingPlayers(std::vector<std::string> players) {
+    YAML::Node response;
+    response["waiting_players"];
+    response["waiting_players"] = players;
+    this->protocol.sendMsg(response);
+}

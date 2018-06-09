@@ -21,6 +21,7 @@ class WaitingGame {
         bool hasFreeSlots(void);
         void addPlayer(std::string &);
         void rmPlayer(std::string &);
+        std::vector<std::string> getWaitingPlayers(void);
 };
 
 #endif

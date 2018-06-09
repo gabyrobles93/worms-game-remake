@@ -89,6 +89,12 @@ void LobbyAttendant::processEvent(Event & event) {
             std::cout << "saliendo de partida en espera a la que me uni" << std::endl;
             std::string joined_match_creator_name = this->client->getJoinedMatchCreatorName();
             this->waiting_games.rmvPlayerFromGame(joined_match_creator_name, player_name);
+            break;
+        }
+        case a_refreshWaitingList: {
+            std::cout << "El creador de partida " << player_name << " quiere hacer refresh de la lista de jugadores en espera." << std::endl;
+            this->client->sendWaitingPlayers(this->waiting_games.getWaitingPlayers(player_name));
+            break;
         }
         default: break;
     }

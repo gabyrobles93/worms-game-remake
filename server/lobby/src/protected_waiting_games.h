@@ -4,6 +4,8 @@
 #include <mutex>
 #include <map>
 #include <string>
+#include <vector>
+#include <string>
 #include "waiting_game.h"
 #include "yaml.h"
 
@@ -20,6 +22,7 @@ class ProtectedWaitingGames {
         bool gameHasFreeSlots(std::string &);
         void addPlayerToGame(std::string &, std::string &);
         void rmvPlayerFromGame(std::string &, std::string &);
+        std::vector<std::string> getWaitingPlayers(std::string &);
 };
 
 #endif

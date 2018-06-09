@@ -4,6 +4,8 @@
 #include "protocol.h"
 #include "yaml.h"
 #include "types.h"
+#include <string>
+#include <vector>
 
 class Client {
     private:
@@ -23,6 +25,7 @@ class Client {
         void setJoinedMatchGameCreator(std::string &);
         void clearJoinedMatchGameCreator(void);
         std::string getJoinedMatchCreatorName(void);
+        void sendWaitingPlayers(std::vector<std::string>);
 };
 
 #endif

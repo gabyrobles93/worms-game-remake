@@ -301,6 +301,29 @@ void ClientLobby::chooseMap(void) {
 
 void ClientLobby::feedWaitingPlayers(void) {
     std::cout << "Alimento la lista de jugadores en espera." << std::endl;
+    Event new_event(a_refreshWaitingList);
+    this->protocol->sendEvent(new_event);
+    YAML::Node waiting_players_list;
+    this->protocol->rcvMsg(waiting_players_list);
+
+    std::stringstream ss;
+    ss << waiting_players_list;
+    std::cout << ss.str() << std::endl;
+
+    QListWidget * waitingPlayersList = findChild<QListWidget*>("list_waiting_players");
+
+    waitingPlayersList->clear();
+
+    YAML::Node::const_iterator it;
+    for (it = waiting_players_list["waiting_players"].begin(); it != waiting_players_list["waiting_players"].end(); it++) {
+        std::string waiting_player_name = (*it).as<std::string>();
+        if (waiting_player_name == this->player_name) continue;
+
+        QListWidgetItem * new_list_widget = new QListWidgetItem;
+        new_list_widget->setText(tr(waiting_player_name.c_str()));
+        waitingPlayersList->insertItem(1, new_list_widget);    
+
+    }
 }
 
 void ClientLobby::startWaitingMatch(void) {
