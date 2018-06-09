@@ -16,7 +16,7 @@ AirStrike::~AirStrike() {
 }
 
 void AirStrike::createMissils() {
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < gConfiguration.AIR_STRIKE_MISSIL_QUANTITY; ++i) {
         this->missils.push_back(new Missil(this->id+i,
         this->world,
         this->deploy_x + (i * 2),
