@@ -22,10 +22,10 @@ worms(worms) {
     this->worms_affected_by_explosion = false;
     this->protagonic_worm_got_hurt = false;
     this->protagonic_worm_did_shoot = false;
-    createTeams(worms);
+    createTeams();
 }
 
-void Match::createTeams(std::map<int, Worm*> & worms) {
+void Match::createTeams() {
     std::map<int, Team*>::const_iterator it;
     for (it = this->teams.begin(); it != this->teams.end(); it++) {
         this->team_turn_order.push((it)->first);
@@ -37,17 +37,6 @@ void Match::createTeams(std::map<int, Worm*> & worms) {
         }
 
     }
-    // std::map<int, Worm *>::const_iterator it;
-    // for (it = worms.begin(); it != worms.end(); it++) {
-    //     int team_id = it->second->getTeam();
-    //     if (this->teams.find(team_id) == this->teams.end()) {
-    //         Team * new_team = new Team(team_id);
-    //         this->teams[team_id] = new_team;
-    //         this->team_turn_order.push(team_id);
-    //     }
-    //     this->teams[team_id]->addMember(it->second);
-    //     this->worm_turn_order[team_id].push(it->second->getId());
-    // }
 }
 
 void Match::printTeams(void) {

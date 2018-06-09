@@ -26,7 +26,7 @@ class Match {
         bool protagonic_worm_got_hurt;
         bool protagonic_worm_did_shoot;
 
-        void createTeams(std::map<int, Worm*> &);
+        void createTeams();
         int removeDeadTeamsTurns(void);
         void removeDeadWormsTurns(void);
         void refreshWormsFlagsByNewTurn(void);
