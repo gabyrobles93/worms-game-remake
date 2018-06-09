@@ -155,9 +155,10 @@ void World::updateBodies() {
             worm->update();
     }
 
-    for (std::map<int,Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
-        it->second->update();
-    }
+    // for (std::map<int, Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
+    //     Girder* girder = it->second;
+    //     girder->update();
+    // }
 }
 
 void World::run() {

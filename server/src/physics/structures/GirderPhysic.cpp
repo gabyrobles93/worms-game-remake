@@ -8,6 +8,7 @@ GirderPhysic::GirderPhysic(b2World& world, float posX, float posY, float height,
     girderDef.angle = angle;
     b2Body* body = world.CreateBody(&girderDef);
     body->SetUserData(entity);
+    body->SetAwake(false);
 
     b2PolygonShape girderShape;
     girderShape.SetAsBox(width/2, height/2);

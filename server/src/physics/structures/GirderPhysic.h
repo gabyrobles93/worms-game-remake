@@ -18,7 +18,6 @@ public:
     float getPosY();
     float getAngle();
     void sleep();
-
 };
 
 #endif
