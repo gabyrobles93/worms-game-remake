@@ -24,8 +24,6 @@
 class World : public Thread {
 private:
     Queue<Snapshot*> & snapshots;
-//    YAML::Node node_map;
-    Snapshot game_snapshot;
     bool keep_running;
     WorldPhysic worldPhysic;
     std::map<int, Girder *> girders;

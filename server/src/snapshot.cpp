@@ -4,38 +4,7 @@
 #include "yaml.h"
 #include "World.h"
 
-Snapshot::Snapshot(YAML::Node mapNode) {
-    this->statics = YAML::Clone(mapNode["static"]);
-    YAML::Node dynamic_node;
-    dynamic_node["dynamics"];
-    this->dynamics = dynamic_node;
-}
-
 Snapshot::Snapshot() {
-    //YAML::Node dynamic_node;
-    //dynamic_node["dynamics"];
-    //this->dynamics = dynamic_node;
-}
-
-int Snapshot::getWaterLevel(void) {
-    return this->statics["water_level"].as<int>();
-}
-
-YAML::Node Snapshot::getShortGirders(void) {
-    return this->statics["short_girders"];
-}
-
-//CHEQUEAR QUE PASA SI NO HAY LONG GIRDERS EN EL MAPA, VER SI CRASHEA.
-YAML::Node Snapshot::getLongGirders(void) {
-    return this->statics["long_girders"];
-}
-
-YAML::Node Snapshot::getWormsTeams(void) {
-    return this->dynamics["worms_teams"];
-}
-
-YAML::Node Snapshot::getInventory(void) {
-    return this->statics["init_inventory"];
 }
 
 void Snapshot::updateTeams(std::map<int, Team*> & teams) {
@@ -127,24 +96,6 @@ void Snapshot::updateGameStatus(Match & match) {
     snapshot << YAML::EndMap;
 }
 
-const YAML::Node& Snapshot::getSnapshot() {
-    return this->dynamics;
-}
-
-const char* Snapshot::getSnapshotCString() {
+const char* Snapshot::getSnapshot() {
     return this->snapshot.c_str();
-}
-
-bool Snapshot::hasWeaponSupplies(size_t team_id, weapon_t weapon_type) {
-    int supplies = this->dynamics["worms_teams"][team_id]["inventory"][(int)weapon_type]["supplies"].as<int>();
-    std::cout << "El equipo " << team_id << " tiene " << supplies << " supplies del arma " << weapon_type << std::endl;
-    if (supplies > 0) {
-        return true;
-    }
-    return false;
-}
-
-void Snapshot::reduceWeaponSupply(size_t team_id , weapon_t weapon_type) {
-    int supplies = this->dynamics["worms_teams"][team_id]["inventory"][(int)weapon_type]["supplies"].as<int>();
-    this->dynamics["worms_teams"][team_id]["inventory"][(int)weapon_type]["supplies"] = std::to_string(--supplies);
 }

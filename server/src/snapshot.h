@@ -10,26 +10,13 @@
 
 class Snapshot {
     private:
-        YAML::Node statics;
-        YAML::Node dynamics;
         YAML::Emitter snapshot;
     public:
-        Snapshot(YAML::Node);
         Snapshot();
-        int getWaterLevel(void);
-        YAML::Node getShortGirders(void);
-        YAML::Node getLongGirders(void);
-        YAML::Node getWormsTeams(void);
-        YAML::Node getInventory(void);
         void updateTeams(std::map<int, Team*> & teams);
         void updateProjectiles(std::map<int, Weapon*> &);
         void updateGameStatus(Match &);
-        void removeProjectile(size_t);
-        const YAML::Node& getSnapshot(void);
-        void addProjectile(Weapon *);
-        bool hasWeaponSupplies(size_t, weapon_t);
-        void reduceWeaponSupply(size_t, weapon_t);  
-        const char* getSnapshotCString();     
+        const char* getSnapshot();     
 };
 
 #endif

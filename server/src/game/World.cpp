@@ -9,7 +9,7 @@
 
 World::World(std::string & map_path, Queue<Snapshot*> & snps) :
 snapshots(snps),
-game_snapshot(YAML::LoadFile(map_path)),
+//game_snapshot(YAML::LoadFile(map_path)),
 map_path(map_path) {
     this->map_node = YAML::LoadFile(map_path);
     initializeWorld();
@@ -73,7 +73,7 @@ std::map<int, Team*> & World::getTeams() {
 void World::initializeWorld() {
     float water_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
     float water_posY = (MAP_HEIGTH - 100) * gConfiguration.SCALING_FACTOR ;
-    float water_height = this->game_snapshot.getWaterLevel() * gConfiguration.SCALING_FACTOR;
+    float water_height = this->map_node["static"]["water_level"].as<int>() * gConfiguration.SCALING_FACTOR;
     float water_width =   MAP_WIDTH * gConfiguration.SCALING_FACTOR;
 
     this->water = new Water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
@@ -134,7 +134,7 @@ void World::initializeWorld() {
         this->teams.insert(std::pair<int, Team*>(tid, new_team));
     }
 
-    this->game_snapshot.updateTeams(this->teams);
+    //this->game_snapshot.updateTeams(this->teams);
 }
 
 void World::updateBodies() {

@@ -28,7 +28,7 @@ void SnapshotSender::run() {
         //YAML::Node test = YAML::Load(text_node);
         //YAML::Node nodeSnap = YAML::Load(text_node);
         std::stringstream ss;
-        ss << snapshot->getSnapshotCString();
+        ss << snapshot->getSnapshot();
         //ss << nodeSnap << std::endl;
         //std::cout << ss.str() << std::endl;
         //this->protocol.sendModel(nodeSnap);
