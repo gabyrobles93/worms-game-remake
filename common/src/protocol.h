@@ -35,6 +35,7 @@ class Protocol {
         void rcvGameStatus(YAML::Node &);
         void rcvMsg(YAML::Node &);
         void sendMsg(YAML::Node &);
+        void sendGameMapAsString(std::stringstream & map_dump);
 };
 
 #endif

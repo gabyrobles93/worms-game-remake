@@ -23,7 +23,7 @@
 
 class World : public Thread {
 private:
-    Queue<Snapshot> & snapshots;
+    Queue<Snapshot*> & snapshots;
 //    YAML::Node node_map;
     Snapshot game_snapshot;
     bool keep_running;
@@ -31,9 +31,11 @@ private:
     std::map<int, Girder *> girders;
     std::map<int, Worm *> worms;
     std::map<int, Weapon *> weapons;
+    std::map<int, Team *> teams;
     int weapon_counter;
     Water * water;
     unsigned int time_sec;
+    std::string & map_path;
 
     WorldPhysic _createWorldPhysic();
     virtual bool isRunning(void) const;
@@ -47,13 +49,15 @@ private:
     // Dispara el arma dependiendo del evento
     // recibido del cliente
     void shootWeapon(Event &, size_t);
+    YAML::Node map_node;
 
 public:
-    World(std::string &, Queue<Snapshot> &);
+    World(std::string &, Queue<Snapshot*> &);
     ~World(void);
     void initializeWorld();
     std::map<int, Worm *> & getWorms();
     std::map<int, Girder *> getGirders();
+    std::map<int, Team*> & getTeams();
     virtual void run(void);
     /* YAML::Node getSnapshot(); */
     void stop();
@@ -64,6 +68,8 @@ public:
     bool hasWormsAffectedByExplosion(void);
     bool hasWormGotHurt(size_t);
     bool hasWormShooted(size_t);
+
+    void generateSnapshot();
 };
 
 #endif

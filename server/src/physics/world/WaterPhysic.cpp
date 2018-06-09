@@ -8,7 +8,6 @@ WaterPhysic::WaterPhysic(b2World& world, float posX, float posY, float width, fl
     b2Body* body = world.CreateBody(&waterDef);
     body->SetUserData(entity);
     body->SetAwake(false);
-
     b2PolygonShape waterShape;
     waterShape.SetAsBox(width/2, height/2);
 
