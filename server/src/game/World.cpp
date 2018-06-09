@@ -87,7 +87,6 @@ void World::initializeWorld() {
 
     // Initialize de vigas cortas
     for (YAML::const_iterator it = short_girders_node.begin(); it != short_girders_node.end(); ++it) {
-        std::cout << "GIRDER" << std::endl;
         const YAML::Node &  short_girder = *it;
         int id = short_girder["id"].as<int>();
         float posX = (float) short_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
@@ -99,7 +98,6 @@ void World::initializeWorld() {
 
     // Initialize de vigas largas
     for (YAML::const_iterator it = long_girders_node.begin(); it != long_girders_node.end(); ++it) {
-         std::cout << "GIRDER" << std::endl;
         const YAML::Node&  long_girder = *it;
         int id = long_girder["id"].as<int>();
         float posX = (float) long_girder["x"].as<int>() * gConfiguration.SCALING_FACTOR;
@@ -128,7 +126,6 @@ void World::initializeWorld() {
             Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
             this->worms.insert(std::pair<int, Worm*>(id, new_worm));
             new_team->addMember(new_worm);
-            std::cout << "AGREGO UN WORM" << std::endl;
         }
         new_team->initializeInventory(dynamic_node["worms_teams"][tid]["inventory"]);
         this->teams.insert(std::pair<int, Team*>(tid, new_team));
