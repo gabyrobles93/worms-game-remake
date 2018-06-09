@@ -50,6 +50,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
 
   this->nameText.loadFromRenderedText(r, this->font, this->name, colors[this->team]);
   this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
+  this->dataConfiguration = ALL;
 }
 
 View::Worm::~Worm() {}
@@ -145,50 +146,55 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
 
 void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
 
-  const SDL_Color colors[] = {
-    {0, 0, 0, 0},
-    {255, 0, 0, 0},
-    {0, 255, 0, 0},
-    {0, 0, 255, 0}
-  };
+  if (this->dataConfiguration != NONE) {
+    const SDL_Color colors[] = {
+      {0, 0, 0, 0},
+      {255, 0, 0, 0},
+      {0, 255, 0, 0},
+      {0, 0, 255, 0}
+    };
 
-  Texture & current = this->textures[this->currentAnimation];
+    Texture & current = this->textures[this->currentAnimation];
 
-  this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
-  //Render health
-  SDL_Rect fillRect = { 
-    this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX - PADDING, 
-    this->y - this->healthText.getHeight() / 2 - camY - PADDING, 
-    this->healthText.getWidth() + PADDING * 2, 
-    this->healthText.getHeight() + PADDING * 2
-  };
-  SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
-  SDL_RenderFillRect(r, &fillRect);
+    this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
+    //Render health
+    SDL_Rect fillRect = { 
+      this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX - PADDING, 
+      this->y - this->healthText.getHeight() / 2 - camY - PADDING, 
+      this->healthText.getWidth() + PADDING * 2, 
+      this->healthText.getHeight() + PADDING * 2
+    };
+    SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
+    SDL_RenderFillRect(r, &fillRect);
 
-  
+    
 
-  this->healthText.render(
-    r, 
-    this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX, 
-    this->y - this->healthText.getHeight() / 2 - camY
-  );
+    this->healthText.render(
+      r, 
+      this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX, 
+      this->y - this->healthText.getHeight() / 2 - camY
+    );
 
-  // Render name
-  SDL_Rect fillRectName = { 
-    this->x + (current.getWidth() - this->nameText.getWidth()) / 2 - camX - PADDING, 
-    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - camY - PADDING - PADDING * 2, 
-    this->nameText.getWidth() + PADDING * 2, 
-    this->nameText.getHeight() + PADDING * 2
-  };
+    if (this->dataConfiguration == ALL) {
+      // Render name
+      SDL_Rect fillRectName = { 
+        this->x + (current.getWidth() - this->nameText.getWidth()) / 2 - camX - PADDING, 
+        this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - camY - PADDING - PADDING * 2, 
+        this->nameText.getWidth() + PADDING * 2, 
+        this->nameText.getHeight() + PADDING * 2
+      };
 
-  SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
-  SDL_RenderFillRect(r, &fillRectName);
-  
-  this->nameText.render(
-    r, 
-    this->x + (current.getWidth() - this->nameText.getWidth()) / 2  - camX, 
-    this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2  - camY - PADDING * 2
-  );
+      SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
+      SDL_RenderFillRect(r, &fillRectName);
+      
+      this->nameText.render(
+        r, 
+        this->x + (current.getWidth() - this->nameText.getWidth()) / 2  - camX, 
+        this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2  - camY - PADDING * 2
+      );
+    }
+    
+  }
 }
 
 void View::Worm::setHealth(int newHealth) {
@@ -228,4 +234,8 @@ void View::Worm::setProtagonic(bool p) {
 
 void View::Worm::setSightAngle(int angle) {
   this->sight.setAngle(angle);
+}
+
+void View::Worm::setDataConfiguration(worm_data_cfg_t config) {
+  this->dataConfiguration = config;
 }

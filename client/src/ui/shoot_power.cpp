@@ -1,6 +1,7 @@
 #include "shoot_power.h"
 
-#define WHITE_TICKNESS 3
+#define WHITE_TICKNESS_PERCENT 10
+
 
 
 View::ShootPower::ShootPower(int w, int h, int maxTime) {
@@ -9,6 +10,7 @@ View::ShootPower::ShootPower(int w, int h, int maxTime) {
   this->maxTimeShoot = maxTime;
   this->x = 0;
   this->y = 0;
+  this->whiteTickness = this->height / (100 / WHITE_TICKNESS_PERCENT);
 }
 
 View::ShootPower::~ShootPower() {
@@ -55,13 +57,13 @@ void View::ShootPower::render(SDL_Renderer * r, int timeShooting) {
   SDL_SetRenderDrawColor(r, 0xFF, 0xFF, 0xFF, 0xFF);        
   SDL_RenderFillRect(r, &whiteRect);
 
-  int totalWidth = this->width - 2 * WHITE_TICKNESS;
+  int totalWidth = this->width - 2 * this->whiteTickness;
   // Black rect
   SDL_Rect blackRect = {
-    this->x + WHITE_TICKNESS,
-    this->y + WHITE_TICKNESS,
+    this->x + this->whiteTickness,
+    this->y + this->whiteTickness,
     totalWidth,
-    this->height - 2 * WHITE_TICKNESS,
+    this->height - 2 * this->whiteTickness,
   };
   SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF);        
   SDL_RenderFillRect(r, &blackRect);
@@ -70,10 +72,10 @@ void View::ShootPower::render(SDL_Renderer * r, int timeShooting) {
   int widthRedRect = (int)(factor * totalWidth);
   // Red rect
   SDL_Rect redRect = {
-    this->x + WHITE_TICKNESS,
-    this->y + WHITE_TICKNESS,
+    this->x + this->whiteTickness,
+    this->y + this->whiteTickness,
     widthRedRect,
-    this->height - 2 * WHITE_TICKNESS,
+    this->height - 2 * this->whiteTickness,
   };
 
   SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);        

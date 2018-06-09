@@ -1,95 +1,42 @@
 #include "inventory.h"
 #include "inventory_weapons.h"
 #include "types.h"
+#include <iostream>
 
-View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r) :
+View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r, const YAML::Node & initInv) :
   font(gPath.PATH_FONT_ARIAL_BOLD, TEXT_SUPPLIES_SIZE) {
-  ItemIcon * icon = new ItemIcon;
 
-  icon->texture.loadFromFile(gPath.PATH_ICON_BAZOOKA, r);
-  icon->selected = true;
-  icon->supplies = 10; // Supplies se recibira por archivo de cfg
-  icon->itemName = WEAPON_NAME_BAZOOKA;
-  this->weapons[WEAPON_NAME_BAZOOKA] =  w_bazooka;
-  this->items.push_back(icon);
+  this->iconPaths[w_bazooka] = gPath.PATH_ICON_BAZOOKA;
+  this->iconPaths[w_mortar] = gPath.PATH_ICON_MORTAR;
+  this->iconPaths[w_cluster] = gPath.PATH_ICON_RED_GRENADE;
+  this->iconPaths[w_green_grenade] = gPath.PATH_ICON_GREEN_GRENADE;
+  this->iconPaths[w_banana] = gPath.PATH_ICON_BANANA;
+  this->iconPaths[w_holy_grenade] = gPath.PATH_ICON_HOLY_GRENADE;
+  this->iconPaths[w_air_strike] = gPath.PATH_ICON_AIR_STRIKE;
+  this->iconPaths[w_dynamite] = gPath.PATH_ICON_DYNAMITE;
+  this->iconPaths[w_bat] = gPath.PATH_ICON_BASEBALL;
+  this->iconPaths[w_teleport] = gPath.PATH_ICON_TELEPORT;
 
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_MORTAR, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_MORTAR;
-  this->weapons[WEAPON_NAME_MORTAR] =  w_mortar;
-  this->items.push_back(icon);
+  YAML::const_iterator invIt = initInv.begin();
+  for (; invIt != initInv.end() ; invIt++) {
+    ItemIcon * icon = new ItemIcon;
+    weapon_t idItem = (weapon_t)invIt->first.as<int>();
+    icon->texture.loadFromFile(this->iconPaths[idItem], r);
+    icon->supplies = invIt->second["supplies"].as<int>();
+    std::string itName(invIt->second["item_name"].as<std::string>());
+    icon->itemName = itName;
 
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_GREEN_GRENADE, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_GREEN_GRENADE;
-  this->weapons[WEAPON_NAME_GREEN_GRENADE] = w_green_grenade;
-  this->items.push_back(icon);
+    if (itName == WEAPON_NAME_BAZOOKA) {
+      icon->selected = true;
+    } else {
+      icon->selected = false;
+    }
 
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_RED_GRENADE, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_RED_GRENADE;
-  this->weapons[WEAPON_NAME_RED_GRENADE] = w_cluster;
-  this->items.push_back(icon);
-
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_BANANA, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_BANANA;
-  this->weapons[WEAPON_NAME_BANANA] = w_banana;
-  this->items.push_back(icon);
-
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_HOLY_GRENADE, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_HOLY_GRENADE;
-  this->weapons[WEAPON_NAME_HOLY_GRENADE] = w_holy_grenade;
-  this->items.push_back(icon);
-
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_DYNAMITE, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_DYNAMITE;
-  this->weapons[WEAPON_NAME_DYNAMITE] = w_dynamite;
-  this->items.push_back(icon);
-
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_BASEBALL, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_BASEBALL;
-  this->weapons[WEAPON_NAME_BASEBALL] = w_bat;
-  this->items.push_back(icon);
-
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_AIR_STRIKE, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_AIR_STRIKE;
-  this->weapons[WEAPON_NAME_AIR_STRIKE] = w_air_strike;
-  this->items.push_back(icon);
-
-  icon = new ItemIcon;
-  icon->texture.loadFromFile(gPath.PATH_ICON_TELEPORT, r);
-  icon->selected = false;
-  icon->supplies = 10;
-  icon->itemName = WEAPON_NAME_TELEPORT;
-  this->weapons[WEAPON_NAME_TELEPORT] = w_teleport;
-  this->items.push_back(icon);
+    this->weapons[itName] = idItem;
+    this->items.push_back(icon);
+  }
 
   this->open = false;
-
-  // Tamanio de la imagen de los iconos
-  /* this->iconWidth = this->items.back()->texture.getWidth();
-  this->iconHeight = this->items.back()->texture.getHeight(); */
 
   // Tamanio grande hardcodeado
   this->iconWidth = 60;
@@ -100,6 +47,11 @@ View::WeaponsInventory::~WeaponsInventory() {
   for (size_t i = 0 ; i < this->items.size() ; i++) {
     delete this->items[i];
   }
+}
+
+void View::WeaponsInventory::setIconSide(int size) {
+  this->iconWidth = size;
+  this->iconHeight = size;
 }
 
 void View::WeaponsInventory::render(SDL_Renderer * renderer) {
@@ -252,4 +204,8 @@ weapon_t View::WeaponsInventory::getSelectedWeapon(void) {
     }
   }
   return weapon;
+}
+
+void View::WeaponsInventory::update(const YAML::Node & node) {
+
 }

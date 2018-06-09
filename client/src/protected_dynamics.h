@@ -15,6 +15,8 @@ class ProtectedDynamics {
         void addModel(YAML::Node &);
         YAML::Node getWorms(void);
         YAML::Node getProjectiles(void);
+        YAML::Node getGameStatus(void);
+        YAML::Node getTeamInventory(void);
         int getTurnTimeLeft(void);
         size_t getWormProtagonicId(void);
         bool popModel(void);

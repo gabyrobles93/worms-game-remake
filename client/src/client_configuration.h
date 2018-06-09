@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "clock.h"
+#include "inventory_weapons.h"
 #include "types.h"
 #include "sdl_timer.h"
 #include "sound_effect.h"
@@ -21,9 +23,11 @@ class ClientConfiguration {
     Timer shootingTimer;
     SoundEffect shootingSound;
     View::ShootPower shootPower;
+    View::Clock clock;
+    View::WeaponsInventory inventory;
 
   public:
-    ClientConfiguration();
+    ClientConfiguration(SDL_Renderer *, int, int, const YAML::Node &);
     ~ClientConfiguration();
 
     void handleEvent(SDL_Event &);
@@ -32,6 +36,18 @@ class ClientConfiguration {
     bool hasShooted(void) const;
     int getPowerShoot(void);
     void render(SDL_Renderer *);
+
+    // Retorna el weapon_t seleccionado
+    weapon_t getSelectedWeapon(void);
+
+    // Retorna el worm_data_cfg_t configurado
+    worm_data_cfg_t getWormDataConfiguration(void);
+
+    // Retorna el sight_angle configurado
+    int getSightAngle(void);
+
+    // Updatea la configuracion que muestra el cliente
+    void update(const YAML::Node &, const YAML::Node &);
 };
 
 #endif

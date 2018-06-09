@@ -9,6 +9,7 @@ namespace View {
   class ShootPower: public Drawable {
     private:
       int maxTimeShoot;
+      int whiteTickness;
 
     public:
       ShootPower(int w, int h, int time);

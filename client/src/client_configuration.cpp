@@ -8,8 +8,41 @@
 #define VIEW_SHOOT_POWER_WIDTH 300
 #define VIEW_SHOOT_POWER_HEIGHT 50
 
-ClientConfiguration::ClientConfiguration() :
-  shootPower(VIEW_SHOOT_POWER_WIDTH, VIEW_SHOOT_POWER_HEIGHT, MAX_TIME_SHOOTING) {
+#define SCREEN_PADDING 10
+
+#define MAX_WEAPONS 10
+#define SCREEN_PERCENT_CLOCK 10
+#define SCREEN_PERCENT_INVENTORY 50
+#define SCREEN_PERCENT_SHOOT_POWER_HEIGHT 5
+#define SCREEN_PERCENT_SHOOT_POWER_WIDTH 30
+
+ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int screenH, const YAML::Node & inv) :
+  shootPower(
+    screenW / (100 / SCREEN_PERCENT_SHOOT_POWER_WIDTH), 
+    screenH / (100 / SCREEN_PERCENT_SHOOT_POWER_HEIGHT), 
+    MAX_TIME_SHOOTING
+  ),
+  clock( 
+    screenH / (100 / SCREEN_PERCENT_CLOCK), 
+    screenH / (100 / SCREEN_PERCENT_CLOCK)
+  ),
+  inventory(
+    r,
+    inv
+  ) {
+
+  int clockX = SCREEN_PADDING;
+  int clockY = screenH - SCREEN_PADDING - this->clock.getHeight();
+  this->clock.setX(clockX);
+  this->clock.setY(clockY);
+
+  int shootX = screenW - SCREEN_PADDING - this->shootPower.getWidth() / 2;
+  int shootY = screenH - SCREEN_PADDING - this->shootPower.getHeight() / 2;
+  this->shootPower.setX(shootX);
+  this->shootPower.setY(shootY);
+
+  this->inventory.setIconSide(screenH / (100 / SCREEN_PERCENT_INVENTORY) / MAX_WEAPONS);
+  
   this->sightAngle = 0;
   this->weaponsCountdown = 5;
   this->wormDataConfig = ALL;
@@ -24,6 +57,8 @@ ClientConfiguration::~ClientConfiguration() {
 }
 
 void ClientConfiguration::handleEvent(SDL_Event & e) {
+  this->inventory.handleEvent(e); 
+
   if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_1) {
 			this->weaponsCountdown = 1;
@@ -127,4 +162,30 @@ void ClientConfiguration::render(SDL_Renderer * r) {
   if (this->shooting) {
     this->shootPower.render(r, this->shootingTimer.getTicks());
   }
+
+  this->inventory.render(r);
+  this->clock.render(r, 0, 0);
+}
+
+weapon_t ClientConfiguration::getSelectedWeapon(void) {
+  return this->inventory.getSelectedWeapon();
+}
+
+void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node & inventory) {
+  int newTime = gameStatus["turn_timeleft"].as<int>();
+  if (newTime) {
+    this->clock.toggleHide(false);
+  } else {
+    this->clock.toggleHide(true);
+  }
+
+  this->clock.setTime(newTime);
+}
+
+int ClientConfiguration::getSightAngle(void) {
+  return this->sightAngle;
+}
+
+worm_data_cfg_t ClientConfiguration::getWormDataConfiguration(void) {
+  return this->wormDataConfig;
 }

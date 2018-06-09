@@ -6,6 +6,7 @@
 #include "yaml.h"
 #include "worm.h"
 #include "camera.h"
+#include "client_configuration.h"
 
 namespace View {
     class WormsStatus;
@@ -13,13 +14,14 @@ namespace View {
 
 class View::WormsStatus {
     private:
-         std::map<size_t, View::Worm *> worms;
+        std::map<size_t, View::Worm *> worms;
     public:
         ~WormsStatus(void);
         WormsStatus(YAML::Node &, SDL_Renderer * r);
         void render(SDL_Renderer *, View::Camera &);
         void update(const YAML::Node &);
         void updateWormProtagonic(size_t);
+        void updateWormsClientConfiguration(ClientConfiguration &);
 };
 
 #endif

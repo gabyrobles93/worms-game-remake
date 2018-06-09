@@ -41,7 +41,7 @@ void View::WormsStatus::update(const YAML::Node & wormsNode) {
 			worm->setX(eachWorm["x"].as<int>());
 			worm->setY(eachWorm["y"].as<int>());
 			worm->setHealth(eachWorm["health"].as<int>());
-			worm->setSightAngle(eachWorm["sight_angle"].as<int>());
+			//worm->setSightAngle(eachWorm["sight_angle"].as<int>());
 			worm->setMirrored(eachWorm["status"]["mirrored"].as<int>());
 			worm->setWalking(eachWorm["status"]["walking"].as<int>());
 			worm->setFalling(eachWorm["status"]["falling"].as<int>());
@@ -55,6 +55,15 @@ void View::WormsStatus::updateWormProtagonic(size_t wormId) {
 	for (; it != this->worms.end() ; it++) {
 		View::Worm * eachWorm = it->second;
 		eachWorm->setProtagonic(it->first == wormId);
+	}
+}
+
+void View::WormsStatus::updateWormsClientConfiguration(ClientConfiguration & cfg) {
+	std::map<size_t, View::Worm *>::const_iterator it = this->worms.begin();
+	for (; it != this->worms.end() ; it++) {
+		View::Worm * eachWorm = it->second;
+		eachWorm->setDataConfiguration(cfg.getWormDataConfiguration());
+		eachWorm->setSightAngle(cfg.getSightAngle());
 	}
 }
 

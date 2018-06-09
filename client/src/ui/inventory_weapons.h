@@ -7,6 +7,7 @@
 #include "paths.h"
 #include "texture.h"
 #include "types.h"
+#include "yaml.h"
 
 #define WEAPON_NAME_BAZOOKA "Bazooka"
 #define WEAPON_NAME_MORTAR "Mortar"
@@ -32,6 +33,7 @@ namespace View {
       Font font;
       Texture suppliesTexture;
       std::map<std::string, weapon_t> weapons;
+      std::map<weapon_t, std::string> iconPaths;
 
       // Handlea el click izquierdo del mouse
       virtual void handleClick(void);
@@ -45,7 +47,7 @@ namespace View {
 
     public:
       // Constructor por default con todas las armas
-      WeaponsInventory(SDL_Renderer *);
+      WeaponsInventory(SDL_Renderer *, const YAML::Node &);
 
       // Destructor
       ~WeaponsInventory();
@@ -55,8 +57,14 @@ namespace View {
       // Handlea un evento
       void handleEvent(SDL_Event &);
 
+      // Setea el tamanio de las vistas de los iconos
+      void setIconSide(int);
+
       // Retorna el weapon_t seleccionado
       weapon_t getSelectedWeapon(void);
+
+      // Updatea el inventario con el nodo que envia el server
+      void update(const YAML::Node &);
   };
 }
 

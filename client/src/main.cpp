@@ -40,11 +40,6 @@
 #define MAX_QUEUE_MODELS 256
 #define TEAM_ID 1
 
-#define CLOCK_X_OFFSET 10
-#define CLOCK_Y_OFFSET 10
-#define CLOCK_WIDTH 120
-#define CLOCK_HEIGHT 120
-
 #define CONSTANT_WAIT 100/6
 
 #define HARCODED_POWER_SHOOT 1
@@ -60,6 +55,7 @@ int main(/* int argc, char *argv[] */) try {
 	protocol.rcvGameMap(mapNode);
 
 	YAML::Node staticMap = mapNode["static"];
+	const YAML::Node & initInventory = staticMap["init_inventory"];
 	YAML::Node dynamicMap = mapNode["dynamic"];
 	YAML::Node wormsNode = dynamicMap["worms_teams"];
 
@@ -73,14 +69,13 @@ int main(/* int argc, char *argv[] */) try {
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
 
 	View::WormsStatus worms(wormsNode, renderer);
-	View::WeaponsInventory inventory(renderer);
+	
 
 	View::Projectiles projectiles;
 	// Lanzo threads de enviar eventos y de recibir modelos
 	event_sender.start();
 	model_receiver.start();
 
-	View::Clock clock(CLOCK_X_OFFSET, mainWindow.getScreenHeight() - CLOCK_Y_OFFSET - CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_HEIGHT);
 	// Comienza el ciclo del juego para el cliente
 	bool quit = false;	
 	SDL_Event e;
@@ -91,7 +86,12 @@ int main(/* int argc, char *argv[] */) try {
 	int updateCount = 0;
 	int renderCount = 0;
 
-	ClientConfiguration cfg;
+	ClientConfiguration cfg(
+		renderer, 
+		mainWindow.getScreenWidth(), 
+		mainWindow.getScreenHeight(),
+		initInventory
+	);
 
 	while (!quit) {
 		ti = SDL_GetTicks();
@@ -102,7 +102,7 @@ int main(/* int argc, char *argv[] */) try {
 			cfg.handleEvent(e);
 
 			if (cfg.hasShooted()) {
-				Event event(a_shoot, inventory.getSelectedWeapon(), TEAM_ID, cfg.getWeaponsCountdown(), cfg.getPowerShoot());
+				Event event(a_shoot, cfg.getSelectedWeapon(), TEAM_ID, cfg.getWeaponsCountdown(), cfg.getPowerShoot());
 				events.push(event);
 			}
 
@@ -145,8 +145,6 @@ int main(/* int argc, char *argv[] */) try {
 					camera.handleEvent(e);
 				}
 			}
-
-			inventory.handleEvent(e); 
 		}
 
 		camera.updateCameraPosition();
@@ -161,15 +159,15 @@ int main(/* int argc, char *argv[] */) try {
 		bool thereIsModel = pdynamics.popModel();
 		while (thereIsModel) {
 			updateCount++;
-			/* std::cout << "Pop & Updating \n"; */
 			worms.update(pdynamics.getWorms());
 			worms.updateWormProtagonic(pdynamics.getWormProtagonicId());
+			worms.updateWormsClientConfiguration(cfg);
 			projectiles.update(renderer, pdynamics.getProjectiles());
-			clock.setTime(pdynamics.getTurnTimeLeft());
+			cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
 			thereIsModel = pdynamics.popModel();
 		}
 		renderCount++;
-		/* std::cout << "Rendering \n"; */
+
 		// Dibujamos cosas dinámicas
 		// Gusanos
 		worms.render(renderer, camera);
@@ -180,17 +178,11 @@ int main(/* int argc, char *argv[] */) try {
 		// El agua va sobre todo menos el inventario
 		mainWindow.renderWater(camera);
 
-		// El inventario y el timer va adelante de todo
-		inventory.render(renderer);
-
-		// Dibujamos los objetos configurables por el cliente
+		// Dibujamos los objetos propios del cliente
 		cfg.render(renderer);
-		
-		clock.render(renderer, 0, 0);
 
 		SDL_RenderPresent(renderer);
 		tf = SDL_GetTicks();
-		//std::cout << "tf " << tf << " ti " << ti << " pilin " << pilin << std::endl;
 
 		int to_sleep = CONSTANT_WAIT - (tf-ti) - timeLostSleeping;
 		if (to_sleep < 0) {

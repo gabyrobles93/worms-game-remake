@@ -7,6 +7,7 @@
 #include "texture.h"
 #include "drawable.h"
 #include "paths.h"
+#include "types.h"
 #include "sprite_animation.h"
 #include "sound_effect.h"
 #include "font.h"
@@ -56,6 +57,7 @@ namespace View {
       SoundEffect walkingSound;
 
       // Worm data UI
+      worm_data_cfg_t dataConfiguration;
       Font font;
       Texture nameText;
       Texture healthText;
@@ -78,6 +80,7 @@ namespace View {
       void setFalling(bool);
       void setGrounded(bool);
       void setSightAngle(int);
+      void setDataConfiguration(worm_data_cfg_t);
       int getHealth(void);
       bool isAlive(void);
   };

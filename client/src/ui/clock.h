@@ -24,7 +24,7 @@ namespace View {
 
 
     public:
-      Clock(int x, int y, int width, int height);
+      Clock(int width, int height);
       ~Clock();
       void setTime(int);
       void toggleHide(bool);

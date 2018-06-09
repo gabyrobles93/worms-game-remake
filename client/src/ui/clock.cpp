@@ -2,11 +2,11 @@
 
 #define HURRY_TIME 11
 
-View::Clock::Clock(int x, int y, int width, int height) : 
+View::Clock::Clock(int width, int height) : 
   font(gPath.PATH_FONT_ARIAL_BOLD, height - PADDING * 2) {
 
-  this->x = x;
-  this->y = y;
+  this->x = 0;
+  this->y = 0;
   this->width = width;
   this->height = height;
 

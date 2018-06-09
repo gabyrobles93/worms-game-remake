@@ -31,6 +31,17 @@ YAML::Node ProtectedDynamics::getProjectiles(void) {
     return projectiles;
 }
 
+YAML::Node ProtectedDynamics::getGameStatus(void) {
+    const YAML::Node & game_status = this->dynamics["game_status"];
+    return game_status;
+}
+
+YAML::Node ProtectedDynamics::getTeamInventory(void) {
+    // FIXME: cuando tengamos el team id devolvemos el inventory correspondiente
+    const YAML::Node & game_status = this->dynamics["game_status"];
+    return game_status;
+}
+
 int ProtectedDynamics::getTurnTimeLeft(void) {
     if (this->dynamics["game_status"]) {
         return this->dynamics["game_status"]["turn_timeleft"].as<int>();
