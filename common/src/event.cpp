@@ -29,7 +29,7 @@ Event::Event(action_t a, std::string & mcn) {
     this->eventNode["event"]["team_id"] = 0;
 }
 
-Event::Event(action_t a, weapon_t w, size_t tid, int countdown, int power) {
+Event::Event(action_t a, weapon_t w, size_t tid, int countdown, int power, int sight_angle) {
     this->action = a;
     this->team_id = tid;
     this->eventNode["event"]["team_id"] = std::to_string(tid);
@@ -45,7 +45,9 @@ Event::Event(action_t a, weapon_t w, size_t tid, int countdown, int power) {
         this->eventNode["event"]["power"] = std::to_string(powerConverted);
     }
 
-    
+    if (sight_angle != -1) {
+        this->eventNode["event"]["sight_angle"] = std::to_string(sight_angle);
+    } 
 }
 
 Event::Event(YAML::Node & event) {

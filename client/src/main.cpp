@@ -102,7 +102,7 @@ int main(/* int argc, char *argv[] */) try {
 			cfg.handleEvent(e);
 
 			if (cfg.hasShooted()) {
-				Event event(a_shoot, cfg.getSelectedWeapon(), TEAM_ID, cfg.getWeaponsCountdown(), cfg.getPowerShoot());
+				Event event(a_shoot, cfg.getSelectedWeapon(), TEAM_ID, cfg.getWeaponsCountdown(), cfg.getPowerShoot(), cfg.getSightAngle());
 				events.push(event);
 			}
 

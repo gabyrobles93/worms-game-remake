@@ -19,7 +19,7 @@ class Event {
         // Las armas que no se pueden configurar 
         // el countdown y o la potencia tienen
         // como parametro por default -1
-        Event(action_t action, weapon_t, size_t, int countdown = -1, int power = -1);
+        Event(action_t action, weapon_t, size_t, int countdown = -1, int power = -1, int sight_angle = -1);
         
         Event(YAML::Node &);
         bool quit(void);

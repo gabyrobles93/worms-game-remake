@@ -41,7 +41,6 @@ void View::WormsStatus::update(const YAML::Node & wormsNode) {
 			worm->setX(eachWorm["x"].as<int>());
 			worm->setY(eachWorm["y"].as<int>());
 			worm->setHealth(eachWorm["health"].as<int>());
-			//worm->setSightAngle(eachWorm["sight_angle"].as<int>());
 			worm->setMirrored(eachWorm["status"]["mirrored"].as<int>());
 			worm->setWalking(eachWorm["status"]["walking"].as<int>());
 			worm->setFalling(eachWorm["status"]["falling"].as<int>());
