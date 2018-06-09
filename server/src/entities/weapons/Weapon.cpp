@@ -2,6 +2,8 @@
 
 Weapon::Weapon(weapon_t t) {
     this->type = t;
+    this->countdown = -1;
+    this->exploded = false;
 }
 
 Weapon::~Weapon() {
