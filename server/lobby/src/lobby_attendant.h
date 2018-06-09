@@ -14,9 +14,17 @@ class LobbyAttendant : public Thread {
         Client * client;
         ProtectedWaitingGames & waiting_games;
         bool keep_running;
+        std::string player_name;
 
         size_t getId(void) const;
         void processEvent(Event &);
+        void refreshLobby(void);
+        void createMatch(std::string &, size_t);
+        void removeWaitingMatch(void);
+        void joinWaitingMatch(std::string &);
+        void exitWaitingMatch(void);
+        void refreshWaitingList(void);
+
 
     public:
         LobbyAttendant(Client *, ProtectedWaitingGames &);
