@@ -75,8 +75,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/RayCastClosestCallBack.h
 		${PROJECT_SOURCE_DIR}/src/physics/RayCastClosestCallBack.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Entity.h
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/DynamitePhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/DynamitePhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Dynamite.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Dynamite.h
 		${PROJECT_SOURCE_DIR}/src/physics/ExplosionManager.cpp
