@@ -4,12 +4,9 @@
 
 #define MAP_WIDTH 2500
 #define MAP_HEIGTH 1500
-// #define WATER_LEVEL 300
-#define CONSTANT_WAIT 16.000
 
 World::World(std::string & map_path, Queue<Snapshot*> & snps) :
 snapshots(snps),
-//game_snapshot(YAML::LoadFile(map_path)),
 map_path(map_path) {
     this->map_node = YAML::LoadFile(map_path);
     initializeWorld();

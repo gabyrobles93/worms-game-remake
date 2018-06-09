@@ -3,18 +3,23 @@
 
 #include "Weapon.h"
 #include "Box2D.h"
-#include "BatPhysic.h"
 #include "Worm.h"
 #include "types.h"
 #include "Configuration.h"
+#include "PhysicEntity.h"
+
+#define BAT_WIDTH 0.2f
+#define BAT_HEIGTH 0.4f
 
 class Bat : public Weapon {
 private:
-    BatPhysic batPhysic;
+    b2World& world;
+    b2Body* body;
 public:
     Bat(b2World& world, float posX, float posY, float angle);
+    ~Bat();
     void atack(Worm* worm);
-
+    bool isMoving(void);
 };
 
 #endif

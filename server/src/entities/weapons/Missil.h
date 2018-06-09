@@ -23,6 +23,7 @@ public:
     float getPosX();
     float getPosY();
     void setContact(bool made_contact);
+    bool isMoving();
     entity_t getEntityType() {return MISSIL;}
     void update(int currentTime);
 };

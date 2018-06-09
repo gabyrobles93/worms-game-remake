@@ -10,6 +10,7 @@ public:
     virtual void update(int currentTime) = 0;
     virtual void explode(void) = 0;
     virtual weapon_t getType(void);
+    virtual bool isMoving() = 0;
     bool hasExploded(void);
     virtual int getCountdown();
     int getBlastRadius();

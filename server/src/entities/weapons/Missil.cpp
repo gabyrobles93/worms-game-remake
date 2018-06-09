@@ -55,3 +55,9 @@ void Missil::update(int currentTime) {
 void Missil::setContact(bool made_contact) {
     this->contact = made_contact;
 }
+
+bool Missil::isMoving() {
+    b2Vec2 speed = this->body->GetLinearVelocity();
+    if (!speed.x && !speed.y) return false;
+    return true;
+}

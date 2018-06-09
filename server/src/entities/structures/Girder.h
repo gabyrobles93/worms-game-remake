@@ -2,13 +2,18 @@
 #define GIRDER_H
 
 #include "Box2D.h"
-#include "GirderPhysic.h"
+#include "PhysicEntity.h"
 #include "Entity.h"
+#include "Configuration.h"
+
+#define GIRDER_DENSITY 1
+#define GIRDER_FRICTION 5
+#define SLIPPERY_GIRDER 0
 
 class Girder : public Entity {
 private:
-    int id;
-    GirderPhysic girderPhysic;
+    b2World& world;
+    b2Body* body;
 public:
     Girder(b2World& world, float posX, float posY, float angle, float height, float width);
     virtual ~Girder(void);

@@ -55,8 +55,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/Worm.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Worm.h
-		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.h
 		${PROJECT_SOURCE_DIR}/src/game/World.cpp
@@ -69,8 +67,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/snapshot_sender.h
 		${PROJECT_SOURCE_DIR}/src/snapshot.cpp
 		${PROJECT_SOURCE_DIR}/src/snapshot.h
-		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/world/WaterPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/Water.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Water.h
 		${PROJECT_SOURCE_DIR}/src/physics/PhysicEntity.h
@@ -79,8 +75,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/RayCastClosestCallBack.h
 		${PROJECT_SOURCE_DIR}/src/physics/RayCastClosestCallBack.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Entity.h
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/DynamitePhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/DynamitePhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Dynamite.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Dynamite.h
 		${PROJECT_SOURCE_DIR}/src/physics/ExplosionManager.cpp
@@ -91,12 +85,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Weapon.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bat.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bat.h
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.h
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/GrenadePhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/GrenadePhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Grenade.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Grenade.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/AirStrike.cpp
@@ -109,8 +99,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/RedGrenade.h
 		${PROJECT_SOURCE_DIR}/src/Configuration.h
 		${PROJECT_SOURCE_DIR}/src/Configuration.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/BazookaPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/BazookaPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Missil.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Missil.cpp
 		)
