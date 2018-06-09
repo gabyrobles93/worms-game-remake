@@ -25,6 +25,7 @@ public:
     bool hasExploded(void);
     float getPosX(void);
     float getPosY(void);
+    bool isMoving(void);
     entity_t getEntityType() {return DYNAMITE;}
 };
 

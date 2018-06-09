@@ -14,6 +14,7 @@ private:
 public:
     Teleportation(Worm& worm, float posX, float posY);
     void teleport(void);
+    bool isMoving();
 };
 
 #endif

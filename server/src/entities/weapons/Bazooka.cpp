@@ -72,3 +72,9 @@ void Bazooka::setContact(bool made_contact) {
     this->contact = made_contact;
 }
 
+bool Bazooka::isMoving() {
+    b2Vec2 speed = this->body->GetLinearVelocity();
+    if (!speed.x && !speed.y) return false;
+    return true;
+}
+

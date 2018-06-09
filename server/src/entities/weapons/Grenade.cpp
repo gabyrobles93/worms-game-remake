@@ -74,3 +74,9 @@ void Grenade::shoot() {
     if (!mirrored) x_impulse = x_impulse * -1;
     this->body->ApplyLinearImpulse(b2Vec2(x_impulse, -y_impulse), this->body->GetWorldCenter(), true);
 }
+
+bool Grenade::isMoving() {
+    b2Vec2 speed = this->body->GetLinearVelocity();
+    if (!speed.x && !speed.y) return false;
+    return true;
+}

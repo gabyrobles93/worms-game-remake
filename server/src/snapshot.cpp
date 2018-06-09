@@ -81,6 +81,7 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> & weapons) {
         snapshot << YAML::Key << "countdown" << YAML::Value << weapon->getCountdown();
         snapshot << YAML::Key << "exploded" << YAML::Value << (int) weapon->hasExploded();
         snapshot << YAML::Key << "blast_radius" << YAML::Value << (int) (weapon->getBlastRadius() / gConfiguration.SCALING_FACTOR);
+        snapshot << YAML::Key << "moving" << YAML::Value << (int) (weapon->isMoving());
         snapshot << YAML::EndMap;
     }
     snapshot << YAML::EndSeq;

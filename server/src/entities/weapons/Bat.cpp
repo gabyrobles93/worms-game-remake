@@ -33,3 +33,7 @@ Bat::~Bat() {
 void Bat::atack(Worm* worm) {
     worm->hurt(gConfiguration.BAT_DAMAGE);
 }
+
+bool Bat::isMoving(void) {
+    return false;
+}

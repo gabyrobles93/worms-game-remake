@@ -19,6 +19,7 @@ public:
     Bat(b2World& world, float posX, float posY, float angle);
     ~Bat();
     void atack(Worm* worm);
+    bool isMoving(void);
 };
 
 #endif

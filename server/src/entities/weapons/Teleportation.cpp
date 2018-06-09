@@ -12,3 +12,7 @@ void Teleportation::teleport() {
     this->worm.setPosX(this->posX);
     this->worm.setPosY(this->posY);
 }
+
+bool Teleportation::isMoving() {
+    return false;
+}

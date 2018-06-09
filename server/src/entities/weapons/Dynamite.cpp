@@ -53,3 +53,7 @@ float Dynamite::getPosX() {
 float Dynamite::getPosY() {
     return this->body->GetPosition().y;
 }
+
+bool Dynamite::isMoving() {
+    return true;
+}

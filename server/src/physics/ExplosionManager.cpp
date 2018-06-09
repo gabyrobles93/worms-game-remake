@@ -1,6 +1,10 @@
 #include "ExplosionManager.h"
 #include <iostream>
 
+/*
+Fuente: https://www.iforce2d.net/b2dtut/explosions
+*/
+
 ExplosionManager::ExplosionManager(b2World& world) :
 world(world) {
 

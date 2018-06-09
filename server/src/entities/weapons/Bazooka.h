@@ -27,6 +27,7 @@ public:
     float getPosY();
     void setContact(bool made_contact);
     void shoot(void);
+    bool isMoving(void);
     entity_t getEntityType() {return BAZOOKA;}
     void update(int currentTime);
 };
