@@ -10,7 +10,9 @@ world(world) {
     dynamiteDef.type = b2_dynamicBody;
     dynamiteDef.fixedRotation = true;
     dynamiteDef.position.Set(posX, posY);
+    dynamiteDef.allowSleep = false;
     b2Body* body = world.CreateBody(&dynamiteDef);
+    body->SetUserData(this);
 
     b2PolygonShape dynamiteShape;
     dynamiteShape.SetAsBox(0.1f, 0.2f);

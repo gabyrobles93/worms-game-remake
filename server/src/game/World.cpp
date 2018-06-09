@@ -153,13 +153,13 @@ void World::updateBodies() {
         Girder* girder = it->second;
         girder->update();
     }
+
+    this->water->update();
 }
 
 void World::run() {
     unsigned int step_counter = 0;
-    int update_time = 0;
-    while (this->keep_running) {
-        usleep(16666); 
+    while (this->keep_running) { 
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         step_counter++;
@@ -177,6 +177,7 @@ void World::run() {
             this->time_sec++;
             step_counter = 0;
         }
+        usleep(16666);
     }
 }
 

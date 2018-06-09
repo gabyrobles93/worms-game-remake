@@ -9,6 +9,7 @@ typedef enum {
     WATER,
     BAZOOKA,
     MISSIL,
+    GRENADE,
 } entity_t;
 
 class Entity {

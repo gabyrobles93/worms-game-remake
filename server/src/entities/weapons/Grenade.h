@@ -28,7 +28,7 @@ public:
     float getPosX();
     float getPosY();
     bool isMoving();
-    entity_t getEntityType() {return DYNAMITE;}
+    entity_t getEntityType() {return GRENADE;}
 };
 
 #endif

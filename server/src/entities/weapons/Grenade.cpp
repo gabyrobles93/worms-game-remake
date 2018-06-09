@@ -9,6 +9,7 @@ world(world) {
     grenadeDef.type = b2_dynamicBody;
     grenadeDef.position.Set(posX, posY);
     b2Body* body = world.CreateBody(&grenadeDef);
+    body->SetUserData(this);
 
     b2CircleShape grenadeShape;
     grenadeShape.m_radius = GRENADE_RADIUS;
