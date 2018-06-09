@@ -85,8 +85,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Weapon.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bat.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Bat.h
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/weapons/BatPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Teleportation.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Grenade.cpp
