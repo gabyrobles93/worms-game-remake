@@ -55,8 +55,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/physics/worm/WormPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/Worm.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/Worm.h
-		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.cpp
-		${PROJECT_SOURCE_DIR}/src/physics/structures/GirderPhysic.h
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.h
 		${PROJECT_SOURCE_DIR}/src/game/World.cpp
