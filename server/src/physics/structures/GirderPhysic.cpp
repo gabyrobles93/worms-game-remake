@@ -39,3 +39,7 @@ float GirderPhysic::getPosY() {
 float GirderPhysic::getAngle() {
     return this->body->GetAngle();
 }
+
+void GirderPhysic::sleep() {
+    this->body->SetAwake(false);
+}

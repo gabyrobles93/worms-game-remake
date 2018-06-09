@@ -12,6 +12,7 @@ class Snapshot {
     private:
         YAML::Node statics;
         YAML::Node dynamics;
+        YAML::Emitter snapshot;
     public:
         Snapshot(YAML::Node);
         Snapshot();
@@ -27,7 +28,8 @@ class Snapshot {
         const YAML::Node& getSnapshot(void);
         void addProjectile(Weapon *);
         bool hasWeaponSupplies(size_t, weapon_t);
-        void reduceWeaponSupply(size_t, weapon_t);      
+        void reduceWeaponSupply(size_t, weapon_t);  
+        const char* getSnapshotCString();     
 };
 
 #endif

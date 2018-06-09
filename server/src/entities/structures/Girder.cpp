@@ -21,5 +21,5 @@ Girder::~Girder(void) {
 }
 
 void Girder::update() {
-
+    this->girderPhysic.sleep();
 }

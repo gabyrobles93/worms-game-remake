@@ -5,7 +5,6 @@
 #include "World.h"
 
 Snapshot::Snapshot(YAML::Node mapNode) {
-    std::cout << "HOLA AMIGACHO" << std::endl;
     this->statics = YAML::Clone(mapNode["static"]);
     YAML::Node dynamic_node;
     dynamic_node["dynamics"];
@@ -13,9 +12,9 @@ Snapshot::Snapshot(YAML::Node mapNode) {
 }
 
 Snapshot::Snapshot() {
-    YAML::Node dynamic_node;
-    dynamic_node["dynamics"];
-    this->dynamics = dynamic_node;
+    //YAML::Node dynamic_node;
+    //dynamic_node["dynamics"];
+    //this->dynamics = dynamic_node;
 }
 
 int Snapshot::getWaterLevel(void) {
@@ -39,81 +38,101 @@ YAML::Node Snapshot::getInventory(void) {
     return this->statics["init_inventory"];
 }
 
-
-
 void Snapshot::updateTeams(std::map<int, Team*> & teams) {
-    std::map<int, Team*>::const_iterator teams_it;
-    for (teams_it = teams.begin(); teams_it != teams.end(); ++teams_it) {
+    snapshot << YAML::BeginMap;
+    snapshot << YAML::Key<< "worms_teams";
+    snapshot << YAML::Value << YAML::BeginMap;
+
+    std::map<int, Team*>::const_iterator teamss_it;
+    for (teamss_it = teams.begin(); teamss_it != teams.end(); ++teamss_it) {
         
-        int team_id = teams_it->second->getTeamId();
-        std::map<int, Worm*> & worms = teams_it->second->getWorms();
+        int team_id = teamss_it->second->getTeamId();
+        std::map<int, Worm*> & worms = teamss_it->second->getWorms();
         std::map<int, Worm*>::const_iterator worm_it;
 
-        this->dynamics["worms_teams"][team_id];
+        
+        snapshot << YAML::Key << (int) team_id;
+        snapshot << YAML::Value << YAML::BeginMap;
+        snapshot << YAML::Key << "worms";
+        snapshot << YAML::Value << YAML::BeginSeq;
         
         for (worm_it = worms.begin(); worm_it != worms.end(); ++worm_it) {
             Worm* worm = worm_it->second;
-            YAML::Node worm_node;
-            worm_node["id"] = worm->getId();
-            worm_node["name"] = worm->getName();
-            worm_node["health"] = worm->getHealth();        
-            worm_node["x"] = (int) (worm->getPosX() / gConfiguration.SCALING_FACTOR);
-            worm_node["y"] = (int) (worm->getPosY() / gConfiguration.SCALING_FACTOR);
-            worm_node["sight_angle"] = worm->getSightAngle();
-            worm_node["status"]["grounded"] = (int) worm->isGrounded();        
-            worm_node["status"]["falling"] = (int) worm->isFalling();        
-            worm_node["status"]["mirrored"] = (int) worm->isMirrored();
-            worm_node["status"]["walking"] = (int) worm->isWalking();
-            this->dynamics["worms_teams"][team_id]["worms"].push_back(worm_node);
+            snapshot << YAML::BeginMap;
+            snapshot << YAML::Key << "id" << YAML::Value << worm->getId();
+            snapshot << YAML::Key << "name" << YAML::Value << worm->getName();
+            snapshot << YAML::Key << "health" << YAML::Value << worm->getHealth();
+            snapshot << YAML::Key << "x" << YAML::Value << (int)(worm->getPosX() / gConfiguration.SCALING_FACTOR);
+            snapshot << YAML::Key << "y" << YAML::Value << (int)(worm->getPosY() / gConfiguration.SCALING_FACTOR);
+            snapshot << YAML::Key << "sight_angle" << YAML::Value << worm->getSightAngle();
+            snapshot << YAML::Key << "status";
+            snapshot << YAML::Value << YAML::BeginMap;
+            snapshot << YAML::Key << "grounded" << YAML::Value << (int) worm->isGrounded();
+            snapshot << YAML::Key << "falling" << YAML::Value << (int) worm->isFalling();
+            snapshot << YAML::Key << "mirrored" << YAML::Value << (int) worm->isMirrored();
+            snapshot << YAML::Key << "walking" << YAML::Value << (int) worm->isWalking();
+            snapshot << YAML::EndMap;
+            snapshot << YAML::EndMap;
         }
+        snapshot << YAML::EndSeq;
 
-        std::map<std::string, int> inventory = teams_it->second->getInventory();
+        std::map<std::string, int> inventory = teamss_it->second->getInventory();
         std::map<std::string, int>::const_iterator inventory_it;
-        
-        int weapon_type = 1;
-        for (inventory_it = inventory.begin(); inventory_it != inventory.end(); ++inventory_it) {
-            this->dynamics["worms_teams"][team_id]["inventory"][weapon_type]["item_name"] = inventory_it->first;
-            this->dynamics["worms_teams"][team_id]["inventory"][weapon_type]["supplies"] = inventory_it->second;
-            weapon_type++;
-        }
+
+        snapshot << YAML::Key << "inventory";
+        snapshot << YAML::Value << YAML::BeginMap;
+
+    int weapon_type = 1;
+    for (inventory_it = inventory.begin(); inventory_it != inventory.end(); ++inventory_it) {
+        snapshot << YAML::Key << weapon_type;
+        snapshot << YAML::Value <<YAML::BeginMap;
+        snapshot << YAML::Key << "item_name" << YAML::Value << inventory_it->first;
+        snapshot << YAML::Key << "supplies" << YAML::Value << inventory_it->second;
+        snapshot << YAML::EndMap;
+        weapon_type++;
+    }
+    snapshot << YAML::EndMap;
+    snapshot << YAML::EndMap;
     }
 
-    // std::stringstream ss;
-    // ss << this->dynamics << std::endl;
-    // std::cout << ss.str() << std::endl;
-    // this->dynamics["worms_teams"];
+    snapshot << YAML::EndMap;
 }
 
 void Snapshot::updateProjectiles(std::map<int, Weapon*> & weapons) {
+    snapshot << YAML::Key << "projectiles";
+    snapshot << YAML::Value << YAML::BeginSeq;
+
     for (std::map <int, Weapon*>::iterator it = weapons.begin(); it != weapons.end(); ++it) {
         Weapon* weapon = it->second;
-        YAML::Node projectile_node;
-        projectile_node["id"] = weapon->getId();
-        projectile_node["type"] = std::to_string(weapon->getType());
-        projectile_node["x"] = (int) (weapon->getPosX() /  gConfiguration.SCALING_FACTOR);
-        projectile_node["y"] = (int) (weapon->getPosY() /  gConfiguration.SCALING_FACTOR);
-        projectile_node["countdown"] =  weapon->getCountdown();
-        projectile_node["exploded"] = (int) weapon->hasExploded();
-        projectile_node["blast_radius"] = weapon->getBlastRadius();
-        this->dynamics["projectiles"].push_back(projectile_node);
+        snapshot << YAML::BeginMap;
+        snapshot << YAML::Key << "id" << YAML::Value << weapon->getId();
+        snapshot << YAML::Key << "type" << YAML::Value << std::to_string(weapon->getType());        
+        snapshot << YAML::Key << "x" << YAML::Value << (int) (weapon->getPosX() /  gConfiguration.SCALING_FACTOR);
+        snapshot << YAML::Key << "y" << YAML::Value << (int) (weapon->getPosY() /  gConfiguration.SCALING_FACTOR);
+        snapshot << YAML::Key << "countdown" << YAML::Value << weapon->getCountdown();
+        snapshot << YAML::Key << "exploded" << YAML::Value << (int) weapon->hasExploded();
+        snapshot << YAML::Key << "blast_radius" << YAML::Value << weapon->getBlastRadius();
+        snapshot << YAML::EndMap;
     }
+    snapshot << YAML::EndSeq;
 }
 
 void Snapshot::updateGameStatus(Match & match) {
-/*     std::vector<size_t> alive_teams = match.getAliveTeams();
-    std::vector<size_t>::const_iterator it;
-    for (it = alive_teams.begin(); it != alive_teams.end(); it++) {
-        this->dynamics["game_status"]["alive_teams"][*it]["total_life"] = match.getTeamTotalLife(*it);
-    } */
-    this->dynamics["game_status"]["teams_health"] = match.getTeamInfo();
-    this->dynamics["game_status"]["protagonic_worm"] = match.getWormTurn(match.getTeamTurn());
-    this->dynamics["game_status"]["turn_timeleft"] = std::to_string(match.getTurnTimeleft());
-    this->dynamics["game_status"]["finished"] = std::to_string(match.finished());
+    snapshot << YAML::Key << "game_status";
+    snapshot << YAML::Value << YAML::BeginMap;
+    snapshot << YAML::Key << "teams_health" << YAML::Value << match.getTeamInfo();
+    snapshot << YAML::Key << "protagonic_worm" << YAML::Value << match.getWormTurn(match.getTeamTurn());
+    snapshot << YAML::Key << "turn_timeleft" << YAML::Value << std::to_string(match.getTurnTimeleft());
+    snapshot << YAML::Key << "finished" << YAML::Value << std::to_string(match.finished());
+    snapshot << YAML::EndMap;
 }
-
 
 const YAML::Node& Snapshot::getSnapshot() {
     return this->dynamics;
+}
+
+const char* Snapshot::getSnapshotCString() {
+    return this->snapshot.c_str();
 }
 
 bool Snapshot::hasWeaponSupplies(size_t team_id, weapon_t weapon_type) {

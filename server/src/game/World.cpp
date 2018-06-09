@@ -154,20 +154,25 @@ void World::updateBodies() {
         if (!worm->isDead())
             worm->update();
     }
+
+    for (std::map<int,Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
+        it->second->update();
+    }
 }
 
 void World::run() {
-    double pilin;
     unsigned int step_counter = 0;
     while (this->keep_running) {
         usleep(16666);
         Snapshot* snapshot = new Snapshot();
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
-        snapshot->updateTeams(this->teams);
-        snapshot->updateProjectiles(this->weapons);
+        //if (this->worldPhysic.aliveBodies()) {
+            snapshot->updateTeams(this->teams);
+            snapshot->updateProjectiles(this->weapons);
+            this->snapshots.push(snapshot);
+        //}
         updateBodies();
-        this->snapshots.push(snapshot);
         step_counter++;
 
         if (step_counter == 60) {
@@ -226,10 +231,10 @@ void World::shootWeapon(Event & event, size_t id) {
     weapon_t weapon_shooted = (weapon_t) nodeEvent["event"]["weapon"].as<int>();
     Weapon * newWeapon = NULL;
 
-    if (!this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) {
-        std::cout << "Sin municiones, accion ignorada." << std::endl;
-        return;
-    }
+    //if (!this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) {
+    //    std::cout << "Sin municiones, accion ignorada." << std::endl;
+    //    return;
+    //}
 
     std::cout << "Quedan municiones entonces dispara." << std::endl;
 
@@ -270,7 +275,7 @@ void World::shootWeapon(Event & event, size_t id) {
             //this->game_snapshot.addProjectile((*it));
             this->weapons.insert(std::pair<int, Weapon*>((*it)->getId(), (*it)));
             this->weapon_counter++;
-            this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
+        //    this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
             this->worms[id]->shoot();
         }
     }
@@ -278,7 +283,7 @@ void World::shootWeapon(Event & event, size_t id) {
     if (newWeapon) {
         this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, newWeapon));
         this->weapon_counter++;
-        this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
+        //this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
         this->worms[id]->shoot(); 
     }
 }

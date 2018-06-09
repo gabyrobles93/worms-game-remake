@@ -110,6 +110,13 @@ void Protocol::sendGameMap(YAML::Node & mapNode) {
     skt.sendBuffer((const uchar *) map_dump.str().c_str(), node_size);
 }
 
+void Protocol::sendGameMapAsString(std::stringstream & map_dump) {
+    uint32_t size = map_dump.str().length();
+    uint32_t net_size = htonl(size);
+    skt.sendBuffer((const uchar*) &net_size, 4);
+    skt.sendBuffer((const uchar*) map_dump.str().c_str(), size);
+}
+
 void Protocol::sendEvent(Event event) {
     YAML::Node nodeEvent = event.getNode();
     this->sendGameMap(nodeEvent);
