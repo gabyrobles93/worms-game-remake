@@ -31,6 +31,8 @@ void WaitingMatch::run(void) {
             }
             if (msg["msg"].as<std::string>() == "started") {
                 std::cout << "El hoster decidio que la partida empieza ahora!" << std::endl;
+                size_t team_id = msg["team_id"].as<size_t>();
+                std::cout << "El hoster me asignó el id team: " << team_id << std::endl;
             }
         } else if (msg["code"].as<int>() == 0) {
             if (msg["msg"].as<std::string>() == "aborted") {
