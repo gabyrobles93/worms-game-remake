@@ -364,8 +364,10 @@ void ClientLobby::cancelWaitingMatch(void) {
 // Invocada cuando un participante no-creador de una partida en espera se va de dicha partida en espera
 void ClientLobby::exitWaitingMatch(void) {
     std::cout << "Me voy de una waiting match siendo un invitado." << std::endl;
-    Event new_event(a_exitWaitingMatch);
-    this->protocol->sendEvent(new_event);
+    if (this->waiting_match->isRunning()) {
+        Event new_event(a_exitWaitingMatch);
+        this->protocol->sendEvent(new_event);
+    }
     this->waiting_match->stop();
     this->waiting_match->join();
     delete this->waiting_match;

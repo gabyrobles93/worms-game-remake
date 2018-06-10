@@ -2,6 +2,7 @@
 #include "thread.h"
 #include "protocol.h"
 #include "yaml.h"
+#include <qt5/QtWidgets/QMessageBox>
 
 WaitingMatch::WaitingMatch(Protocol * p) :
 protocol(p) {
@@ -34,6 +35,10 @@ void WaitingMatch::run(void) {
         } else if (msg["code"].as<int>() == 0) {
             if (msg["msg"].as<std::string>() == "aborted") {
                 std::cout << "El hoster decidió cancelar la partida en espera." << std::endl;
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Partida cancelada.");
+                msgBox.setText("El creador del juego canceló la partida.");
+                msgBox.exec();
                 this->keep_running = false;
                 return;
             }
