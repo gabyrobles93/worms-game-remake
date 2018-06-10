@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include "QStackedWidget"
 #include "protocol.h"
+#include "waiting_match.h"
 
 namespace Ui {
 class ClientLobby;
@@ -24,6 +25,7 @@ private:
     std::string player_name;
     QList<QListWidgetItem*> lobby_games;
     QStackedWidget * pages;
+    WaitingMatch * waiting_match;
 
     std::string map_game_path;
     int map_players_qty;
@@ -47,6 +49,9 @@ private:
     void startWaitingMatch(void);
     void cancelWaitingMatch(void);
     void exitWaitingMatch(void);
+
+public slots:
+    void startGame(void);
 };
 
 #endif // CLIENT_LOBBY_H

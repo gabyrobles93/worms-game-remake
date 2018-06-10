@@ -39,6 +39,8 @@ add_executable(	client
 		${PROJECT_SOURCE_DIR}/src/main.cpp 
 		${PROJECT_SOURCE_DIR}/src/client_lobby.cpp
 		${PROJECT_SOURCE_DIR}/src/client_lobby.h
+		${PROJECT_SOURCE_DIR}/src/waiting_match.cpp
+		${PROJECT_SOURCE_DIR}/src/waiting_match.h
 		${COMMON_SOURCE_DIR}/src/socket.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
 		${COMMON_SOURCE_DIR}/src/protocol.cpp

@@ -10,6 +10,7 @@
 #include "socket_error.h"
 #include "event.h"
 #include "types.h"
+#include "waiting_match.h"
 
 #define DEFAULT_MAPS_FOLDER "../../../editor/maps"
 
@@ -190,6 +191,10 @@ void ClientLobby::joinMatch(void) {
         this->pages->setCurrentIndex(PAGE_JOINED_WAITING_MATCH_INDEX);
         QLabel* gameCreator = findChild<QLabel*>("text_game_creator");
         gameCreator->setText(match_creator_name.c_str());
+
+        this->waiting_match = new WaitingMatch(this->protocol);
+        this->waiting_match->start();
+
     }
 }
 
@@ -328,6 +333,24 @@ void ClientLobby::feedWaitingPlayers(void) {
 
 void ClientLobby::startWaitingMatch(void) {
     std::cout << "Comienzo juego" << std::endl;
+    Event new_event(a_startMatch);
+    YAML::Node response;
+    this->protocol->sendEvent(new_event);
+    std::cout << "Esperando respuesta del server..." << std::endl;
+    this->protocol->rcvMsg(response);
+    std::cout << "Respuesta del server recibida." << std::endl;
+
+    if (response["code"].as<int>() == 1) {
+        std::cout << "El servidor me dio el OK para iniciar la partida.";
+    } else {
+        std::cout << "La partida no puede comenzar" << std::endl;
+        feedWaitingPlayers();
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("No se puede iniciar partida.");
+        std::string msg_response = response["msg"].as<std::string>();
+        msgBox.setText(msg_response.c_str());
+        msgBox.exec();
+    }
 }
 
 // Invocada cuando el CREADOR de una partida en espera cancela dicha partida...
@@ -343,5 +366,12 @@ void ClientLobby::exitWaitingMatch(void) {
     std::cout << "Me voy de una waiting match siendo un invitado." << std::endl;
     Event new_event(a_exitWaitingMatch);
     this->protocol->sendEvent(new_event);
+    this->waiting_match->stop();
+    this->waiting_match->join();
+    delete this->waiting_match;
     backLobby();
+}
+
+void ClientLobby::startGame(void) {
+    std::cout << "El juego va a comenzar!" << std::endl;
 }

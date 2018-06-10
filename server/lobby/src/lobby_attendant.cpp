@@ -70,6 +70,10 @@ void LobbyAttendant::processEvent(Event & event) {
             refreshWaitingList();
             break;
         }
+        case a_startMatch: {
+            startMatch();
+            break;
+        }
         default: break;
     }
 }
@@ -113,9 +117,26 @@ void LobbyAttendant::exitWaitingMatch(void) {
     std::string joined_match_creator_name = this->client->getJoinedMatchCreatorName();
     this->waiting_games.rmvPlayerFromGame(joined_match_creator_name, this->player_name);
     this->client->clearJoinedMatchGameCreator();
+    std::string msg = "exited";
+    this->client->sendResponse(1, msg);
 }
 
 void LobbyAttendant::refreshWaitingList(void) {
     std::cout << "El creador de partida " << this->player_name << " quiere hacer refresh de la lista de jugadores en espera." << std::endl;
     this->client->sendWaitingPlayers(this->waiting_games.getWaitingPlayers(this->player_name));
+}
+
+void LobbyAttendant::startMatch(void) {
+    std::cout << "El jugador " << this->player_name << " intenta iniciar su partida." << std::endl;
+    if (this->waiting_games.gameHasFreeSlots(this->player_name)) {
+        // No se puede iniciar la partida, pues faltan lugares que ocupar.
+        std::string msg = "La partida no tiene los suficientes jugadores para iniciar.";
+        this->client->sendResponse(0, msg);
+    } else {
+        // La partida puede comenzar
+        std::cout << "La partida puede comenzar, se le informará al cliente." << std::endl;
+        std::string msg = "";
+        this->client->sendResponse(1, msg);
+        std::cout << "Cliente informado." << std::endl;
+    }
 }

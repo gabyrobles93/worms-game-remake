@@ -24,7 +24,7 @@ class LobbyAttendant : public Thread {
         void joinWaitingMatch(std::string &);
         void exitWaitingMatch(void);
         void refreshWaitingList(void);
-
+        void startMatch(void);
 
     public:
         LobbyAttendant(Client *, ProtectedWaitingGames &);
