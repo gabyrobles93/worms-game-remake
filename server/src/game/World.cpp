@@ -161,7 +161,6 @@ void World::updateBodies() {
     }
 
     this->water->update();
-    std::cout << "WIND POWER" << this->wind->getWindForce() << std::endl;
 }
 
 void World::run() {
