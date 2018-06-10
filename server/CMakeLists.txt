@@ -22,6 +22,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/physics/structures)
 include_directories(${PROJECT_SOURCE_DIR}/src/physics/world)
 include_directories(${PROJECT_SOURCE_DIR}/src/entities/structures)
 include_directories(${PROJECT_SOURCE_DIR}/src/entities)
+include_directories(${PROJECT_SOURCE_DIR}/src/entities/weather)
 include_directories(${PROJECT_SOURCE_DIR}/src/game)
 include_directories(${PROJECT_SOURCE_DIR}/src/physics)
 include_directories(${PROJECT_SOURCE_DIR}/src/entities/weapons)
@@ -101,6 +102,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/Configuration.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Missil.h
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Missil.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weather/Wind.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/weather/Wind.h
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

@@ -18,8 +18,17 @@ void SnapshotSender::run() {
     while (keep_running) {
         usleep(16666);
         Snapshot* snapshot = this->snapshots.pop();
+        if (keep_running && snapshot) {
+            snapshot->updateGameStatus(this->match);
+            std::stringstream ss;
+            ss << snapshot->getSnapshot();
+            //ss << nodeSnap << std::endl;
+            //std::cout << ss.str() << std::endl;
+            //this->protocol.sendModel(nodeSnap);
+            this->protocol.sendGameMapAsString(ss);
+            delete snapshot;   
+        }
         // agregar nodo de game status.
-        snapshot->updateGameStatus(this->match);
         
         //YAML::Node nodeSnapshot = snapshot->getSnapshot();
         
@@ -27,13 +36,10 @@ void SnapshotSender::run() {
         //std::string text_node(snapshot->getSnapshotCString());
         //YAML::Node test = YAML::Load(text_node);
         //YAML::Node nodeSnap = YAML::Load(text_node);
-        std::stringstream ss;
-        ss << snapshot->getSnapshot();
+
         //ss << nodeSnap << std::endl;
         //std::cout << ss.str() << std::endl;
         //this->protocol.sendModel(nodeSnap);
-        this->protocol.sendGameMapAsString(ss);
-        delete snapshot;
     }
 }
 

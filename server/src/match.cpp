@@ -8,9 +8,10 @@
 
 #define US_SEC_FACTOR 1000000
 
-Match::Match(std::map<int, Worm*>& worms, std::map<int, Team*> & teams, size_t td) :
+Match::Match(std::map<int, Worm*>& worms, std::map<int, Team*> & teams, Wind* wind, size_t td) :
 teams(teams),
-worms(worms) {
+worms(worms),
+wind(wind) {
     this->turn_duration_sec = td;
     this->actual_turn_start_time = 0;
     this->turn_timeleft_sec = td;
@@ -60,6 +61,7 @@ int Match::getWormTurn(int team_id) {
 }
 
 int Match::nextTurn(void) {
+    this->wind->updateWindForce();
     int alive_teams;
     
     int actual_team_turn = getTeamTurn();
@@ -198,4 +200,8 @@ int Match::getWinner(void) {
 
 int Match::getTeamTotalLife(size_t team_id) {
     return this->teams[team_id]->getTotalLife();
+}
+
+int Match::getWindForce() {
+    return this->wind->getWindForce();
 }

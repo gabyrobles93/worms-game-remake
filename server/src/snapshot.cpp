@@ -81,6 +81,7 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> & weapons) {
         snapshot << YAML::Key << "exploded" << YAML::Value << (int) weapon->hasExploded();
         snapshot << YAML::Key << "blast_radius" << YAML::Value << (int) (weapon->getBlastRadius() / gConfiguration.SCALING_FACTOR);
         snapshot << YAML::Key << "moving" << YAML::Value << (int) (weapon->isMoving());
+        snapshot << YAML::Key << "angle_direction" << YAML::Value << weapon->getDirectionAngle();
         snapshot << YAML::EndMap;
     }
     snapshot << YAML::EndSeq;
@@ -90,6 +91,7 @@ void Snapshot::updateGameStatus(Match & match) {
     snapshot << YAML::Key << "game_status";
     snapshot << YAML::Value << YAML::BeginMap;
     snapshot << YAML::Key << "teams_health" << YAML::Value << match.getTeamInfo();
+    snapshot << YAML::Key << "wind_force" << YAML::Value << match.getWindForce();
     snapshot << YAML::Key << "protagonic_worm" << YAML::Value << match.getWormTurn(match.getTeamTurn());
     snapshot << YAML::Key << "turn_timeleft" << YAML::Value << std::to_string(match.getTurnTimeleft());
     snapshot << YAML::Key << "finished" << YAML::Value << std::to_string(match.finished());

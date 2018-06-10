@@ -24,7 +24,7 @@ public:
     Grenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type);
     ~Grenade();
     void shoot(void);
-    void update(int currentTime);
+    void update(int current_time, int wind_force);
     float getPosX();
     float getPosY();
     bool isMoving();

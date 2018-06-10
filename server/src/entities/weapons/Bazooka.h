@@ -29,7 +29,7 @@ public:
     void shoot(void);
     bool isMoving(void);
     entity_t getEntityType() {return BAZOOKA;}
-    void update(int currentTime);
+    void update(int currentTime, int wind_force);
 };
 
 #endif

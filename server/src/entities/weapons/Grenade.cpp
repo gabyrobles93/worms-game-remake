@@ -1,5 +1,6 @@
 #include "Grenade.h"
 #include "types.h"
+#include <iostream>
 
 Grenade::Grenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type) :
 Weapon(type),
@@ -46,16 +47,25 @@ Grenade::~Grenade() {
     this->world.DestroyBody(this->body);
 }
 
-void Grenade::update(int currentTime) {
+void Grenade::update(int currentTime, int wind_force) {
     if (currentTime >= this->detonationTime && !exploded) {
         explode();
     }
     this->countdown = this->detonationTime - currentTime;
+
+    if (wind_affected) {
+        this->body->ApplyForce(body->GetMass() * b2Vec2(wind_force,0), body->GetWorldCenter(), true);
+    }
+    
+    b2Vec2 mov_speed = this->body->GetLinearVelocity();
+    this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
+
+
 }
 
 void Grenade::explode() {
     ExplosionManager explosioManager(this->world);
-    b2Vec2 center = this->body->GetPosition();
+    b2Vec2 center = this->body->GetPosition(); 
     explosioManager.manageExplosion(center, blast_radius, blast_power);
     this->exploded = true;
 }

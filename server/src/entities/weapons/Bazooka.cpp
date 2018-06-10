@@ -24,6 +24,7 @@ world(world) {
     body->CreateFixture(&bazookaFixture);
     this->body = body;
 
+    this->wind_affected = true;
     this->exploded = false;
     this->power_factor = power_factor;
     this->mirrored = mirrored;
@@ -62,10 +63,15 @@ void Bazooka::shoot() {
     this->body->ApplyLinearImpulse(b2Vec2(x_impulse, -y_impulse), this->body->GetWorldCenter(), true);
 }
 
-void Bazooka::update(int currenTime) {
+void Bazooka::update(int currenTime, int wind_force) {
     if (getPosY() > gConfiguration.WORLD_Y_LIMIT || contact) {
         this->explode();
     }
+    if (wind_affected) {
+        this->body->ApplyForce(body->GetMass() * b2Vec2(wind_force,0), body->GetWorldCenter(), true);
+    }
+    b2Vec2 mov_speed = this->body->GetLinearVelocity();
+    this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
 }
 
 void Bazooka::setContact(bool made_contact) {
