@@ -66,6 +66,8 @@ void Bazooka::update(int currenTime) {
     if (getPosY() > gConfiguration.WORLD_Y_LIMIT || contact) {
         this->explode();
     }
+    b2Vec2 mov_speed = this->body->GetLinearVelocity();
+    this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
 }
 
 void Bazooka::setContact(bool made_contact) {

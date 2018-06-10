@@ -50,6 +50,8 @@ void Missil::update(int currentTime) {
     if (this->body->GetPosition().y > gConfiguration.WORLD_Y_LIMIT || contact) {
         this->explode();
     }
+    b2Vec2 mov_speed = this->body->GetLinearVelocity();
+    this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
 }
 
 void Missil::setContact(bool made_contact) {

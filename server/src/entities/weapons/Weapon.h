@@ -11,6 +11,7 @@ public:
     virtual void explode(void) = 0;
     virtual weapon_t getType(void);
     virtual bool isMoving() = 0;
+    virtual int getDirectionAngle();
     bool hasExploded(void);
     virtual int getCountdown();
     int getBlastRadius();
@@ -22,6 +23,7 @@ protected:
     int blast_radius;
     int countdown;
     int id;
+    int direction_angle;
 };
 
 #endif
