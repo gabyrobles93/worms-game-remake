@@ -21,7 +21,7 @@ YAML::Node ProtectedWaitingGames::getGamesInfoNode(void) {
     for (it = this->waiting_games.begin(); it != this->waiting_games.end(); it++) {
         YAML::Node a_waiting_game_node;
         a_waiting_game_node["match_name"] = it->second->getMatchName();
-        a_waiting_game_node["creator"] = it->second->getCreator();
+        a_waiting_game_node["creator"] = it->second->getCreatorName();
         a_waiting_game_node["required_players"] = it->second->getPlayersQty();
         a_waiting_game_node["joined_players"] = it->second->getJoinedPlayersQty();
         waiting_games["waiting_games"].push_back(a_waiting_game_node);
@@ -45,7 +45,7 @@ bool ProtectedWaitingGames::gameHasFreeSlots(std::string & creator_name) {
     return this->waiting_games[creator_name]->hasFreeSlots();
 }
 
-void ProtectedWaitingGames::addPlayerToGame(std::string & creator_name, std::string & new_player) {
+void ProtectedWaitingGames::addPlayerToGame(std::string & creator_name, Client * new_player) {
     std::lock_guard<std::mutex> lck(this->mutex);
     this->waiting_games[creator_name]->addPlayer(new_player);
 }
@@ -56,5 +56,16 @@ void ProtectedWaitingGames::rmvPlayerFromGame(std::string & creator_name, std::s
 }
 
 std::vector<std::string> ProtectedWaitingGames::getWaitingPlayers(std::string & creator_name) {
-    return this->waiting_games[creator_name]->getWaitingPlayers();
+    std::lock_guard<std::mutex> lck(this->mutex);
+    return this->waiting_games[creator_name]->getWaitingPlayersName();
+}
+
+void ProtectedWaitingGames::notifyAllStartGame(std::string & creator_name) {
+    std::lock_guard<std::mutex> lck(this->mutex);
+    this->waiting_games[creator_name]->notifyAllStartGame();
+}
+
+void ProtectedWaitingGames::notifyAllCancellGame(std::string & creator_name) {
+    std::lock_guard<std::mutex> lck(this->mutex);
+    this->waiting_games[creator_name]->notifyAllCancellGame();
 }

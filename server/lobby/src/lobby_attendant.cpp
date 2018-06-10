@@ -85,23 +85,23 @@ void LobbyAttendant::refreshLobby(void) {
 void LobbyAttendant::createMatch(std::string & match_name, size_t map_players_qty) {
     std::cout << "El cliente " << this->player_name << " ha creado una partida." << std::endl;
     this->client->setStatus(creator);
-    WaitingGame * new_waiting_game = new WaitingGame(this->player_name, match_name, map_players_qty);
+    WaitingGame * new_waiting_game = new WaitingGame(this->client, match_name, map_players_qty);
     this->waiting_games.addNewWaitingGame(this->player_name, new_waiting_game);
     this->client->setJoinedMatchGameCreator(match_name);
 }
 
 void LobbyAttendant::removeWaitingMatch(void) {
     std::cout << "El creador de la partida en espera " << this->waiting_games.getGameName(this->player_name) << " ha cancelado la partida." << std::endl;
-    this->waiting_games.removeGame(this->player_name);
     this->client->setStatus(lobby);
     this->client->clearJoinedMatchGameCreator();
-    // INFORMARLE A TODOS QUE BYE...
+    this->waiting_games.notifyAllCancellGame(this->player_name);
+    this->waiting_games.removeGame(this->player_name);
 }
 
 void LobbyAttendant::joinWaitingMatch(std::string & match_creator_name) {
     std::cout << "El cliente " << this->player_name << " intenta joinearse a la partida de " << match_creator_name << std::endl;
     if (this->waiting_games.gameHasFreeSlots(match_creator_name)) {
-        this->waiting_games.addPlayerToGame(match_creator_name, this->player_name);
+        this->waiting_games.addPlayerToGame(match_creator_name, this->client);
         this->client->setStatus(joined);
         std::string msg = "";
         this->client->sendResponse(1, msg);
@@ -134,9 +134,7 @@ void LobbyAttendant::startMatch(void) {
         this->client->sendResponse(0, msg);
     } else {
         // La partida puede comenzar
-        std::cout << "La partida puede comenzar, se le informará al cliente." << std::endl;
-        std::string msg = "";
-        this->client->sendResponse(1, msg);
-        std::cout << "Cliente informado." << std::endl;
+        std::cout << "La partida puede comenzar, se le informará a todos los participantes." << std::endl;
+        this->waiting_games.notifyAllStartGame(this->player_name);
     }
 }

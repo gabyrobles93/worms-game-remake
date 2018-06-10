@@ -20,9 +20,11 @@ class ProtectedWaitingGames {
         std::string getGameName(std::string &);
         void removeGame(std::string &);
         bool gameHasFreeSlots(std::string &);
-        void addPlayerToGame(std::string &, std::string &);
+        void addPlayerToGame(std::string &, Client *);
         void rmvPlayerFromGame(std::string &, std::string &);
         std::vector<std::string> getWaitingPlayers(std::string &);
+        void notifyAllStartGame(std::string &);
+        void notifyAllCancellGame(std::string &);
 };
 
 #endif
