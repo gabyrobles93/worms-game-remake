@@ -252,13 +252,13 @@ void World::shootWeapon(Event & event, size_t id) {
         this->worms[id]->isMirrored(),
         nodeEvent["event"]["sight_angle"].as<int>(),
         nodeEvent["event"]["power"].as<int>(),
-        w_green_grenade
+        weapon_shooted
         );
     } else if (weapon_shooted == w_air_strike) {
         AirStrike air_strike(this->weapon_counter,
         this->worldPhysic.getWorld(),
-        300 * gConfiguration.SCALING_FACTOR,
-        300 * gConfiguration.SCALING_FACTOR
+        nodeEvent["event"]["remote_control_x"].as<int>() * gConfiguration.SCALING_FACTOR,
+        nodeEvent["event"]["remote_control_y"].as<int>() * gConfiguration.SCALING_FACTOR
         );
 
         std::vector<Missil*> missils = air_strike.getMissils();

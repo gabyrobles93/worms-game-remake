@@ -4,7 +4,7 @@
 #define COUNTDOWN_HOLY_SOUND 2
 
 View::HolyGrenade::HolyGrenade(SDL_Renderer * r, int countdown, int ratioExplosion) : 
-	sprite(HOLY_GRENADE_FPC, INFINITE_GOING_AND_BACK),
+	sprite(HOLY_GRENADE_FPC, INFINITE_GOING),
 	explosion(r, ratioExplosion, "Holy Grenade"),
 	countdownText(COUNTDOWN_TEXT_SIZE) {
   this->texture.loadFromFile(gPath.PATH_HOLY_GRENADE, r);

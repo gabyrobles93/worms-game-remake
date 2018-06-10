@@ -7,7 +7,9 @@
 
 typedef enum {
   INFINITE_GOING_AND_BACK = 0,
-  ONLY_GOING = 1
+  ONLY_GOING = 1,
+  INFINITE_GOING = 2,
+  DEPENDENT_ON_GRADES = 3
 } sprite_type_t;
 
 namespace View {
@@ -27,13 +29,15 @@ namespace View {
 
       SDL_Rect getNextClipInfiniteRoundTrip(void);
       SDL_Rect getNextClipOnlyGoing(void);
+      SDL_Rect getNextClipInfiniteGoing(void);
+      SDL_Rect getNextClipDependentOnGrades(int grades);
 
     public:
       SpriteAnimation(size_t fpc = DEFAULT_FPC, sprite_type_t type = INFINITE_GOING_AND_BACK);
       ~SpriteAnimation();
       void setSpriteSheet(Texture *);
 
-      SDL_Rect getNextClip(void);
+      SDL_Rect getNextClip(int grades = -1);
 
       // Verifica si el recorrido del spritesheet
       // finalizo (para ONLY_GOING sprites)

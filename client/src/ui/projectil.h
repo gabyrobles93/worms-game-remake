@@ -23,6 +23,7 @@ namespace View {
       bool finished;
       int countdown;
       int ratioExplosion;
+      int angleDirection;
       weapon_t type;
 
     public:
@@ -40,6 +41,7 @@ namespace View {
       void setCountdown(int);
       void setExplode(bool);
       void setWeaponType(weapon_t);
+      void setAngleDirection(int);
   };
 }
 

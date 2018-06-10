@@ -53,8 +53,25 @@ void Grenade::update(int currentTime) {
     }
     this->countdown = this->detonationTime - currentTime;
 
-    b2Vec2 mov_speed = this->body->GetLinearVelocity();
-    this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
+        // ESTE NO FUNCIONA, FUNCIONA EL DE LA BAZOOKA
+    /* b2Vec2 mov_speed = this->body->GetLinearVelocity();
+    int ang = atan(mov_speed.y/mov_speed.x) * gConfiguration.RADTODEG;
+
+    if (mov_speed.y < 0 && mov_speed.x > 0) {
+        this->direction_angle = -ang;
+    }
+
+    if (mov_speed.y < 0 && mov_speed.x < 0) {
+        this->direction_angle = 180 - ang;
+    }
+
+    if (mov_speed.y > 0 && mov_speed.x < 0) {
+        this->direction_angle = 180 - ang;
+    }
+
+    if (mov_speed.y > 0 && mov_speed.x > 0) {
+        this->direction_angle = 360 - ang;
+    }*/
 }
 
 void Grenade::explode() {

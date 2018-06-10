@@ -50,6 +50,16 @@ Event::Event(action_t a, weapon_t w, size_t tid, int countdown, int power, int s
     } 
 }
 
+Event::Event(action_t a, weapon_t w, size_t tid, int remoteX, int remoteY) {
+    this->action = a;
+    this->team_id = tid;
+    this->eventNode["event"]["team_id"] = std::to_string(tid);
+    this->eventNode["event"]["action"] = std::to_string(a);
+    this->eventNode["event"]["weapon"] = std::to_string(w);
+    this->eventNode["event"]["remote_control_x"] = std::to_string(remoteX);
+    this->eventNode["event"]["remote_control_y"] = std::to_string(remoteY);
+}
+
 Event::Event(YAML::Node & event) {
     this->eventNode = YAML::Clone(event);
     this->action = (action_t) event["event"]["action"].as<int>();

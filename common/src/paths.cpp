@@ -73,6 +73,8 @@ Paths::Paths(const char * r) {
   this->PATH_GREEN_GRENADE = root + "resources/graphics/Weapons/grenade.png";
   this->PATH_HOLY_GRENADE = root + "resources/graphics/Weapons/hgrenade.png";
   this->PATH_BANANA = root + "resources/graphics/Weapons/sbanana.png";
+  this->PATH_BAZOOKA = root + "resources/graphics/Weapons/missile.png";
+  this->PATH_AIR_STRIKE = root + "resources/graphics/Weapons/airmisil.png";
   /* ------------- */
 
   /* EFFECTS */
@@ -95,6 +97,7 @@ Paths::Paths(const char * r) {
   this->PATH_SOUND_TIME_TRICK = root + "resources/sounds/Effects/TIMERTICK.WAV";
   this->PATH_SOUND_THROW_POWER_UP = root + "resources/sounds/Effects/THROWPOWERUP.WAV";
   this->PATH_SOUND_WORM_WALKING = root + "resources/sounds/Effects/Walk-Expand.wav";
+  this->PATH_SOUND_AIR_STRIKE = root + "resources/sounds/Effects/Airstrike.wav";
 
     // Worms voices
     this->PATH_SOUND_LAUGH = root + "resources/sounds/Voices/Spanish/LAUGH.WAV";
@@ -109,6 +112,6 @@ Paths::Paths(const char * r) {
   // Explosions
   this->PATH_SOUND_EXPLOSION_1 = root + "resources/sounds/Effects/Explosion1.wav";
   this->PATH_SOUND_EXPLOSION_2 = root + "resources/sounds/Effects/Explosion2.wav";
-  this->PATH_SOUND_EXPLOSION_3 = root + "resources/sounds/Effects/Explosion3.wav";
+  this->PATH_SOUND_EXPLOSION_3 = root + "resources/sounds/Effects/Explosion3.WAV";
   /* -------------- */
 }

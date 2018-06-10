@@ -13,13 +13,19 @@ View::SpriteAnimation::~SpriteAnimation() {}
 // Funciona y no le deseo a nadie que tenga
 // que intentar de entender como es que funciona
 // y mucho menos tener que debuggear este metodo.
-SDL_Rect View::SpriteAnimation::getNextClip(void) {
+SDL_Rect View::SpriteAnimation::getNextClip(int grades) {
   switch (this->type) {
     case INFINITE_GOING_AND_BACK:
       return this->getNextClipInfiniteRoundTrip();
       break;
     case ONLY_GOING:
       return this->getNextClipOnlyGoing();
+      break;
+    case INFINITE_GOING:
+      return this->getNextClipInfiniteGoing();
+      break;
+    case DEPENDENT_ON_GRADES:
+      return this->getNextClipDependentOnGrades(grades);
       break;
     default:
       return {0, 0, 0, 0};
@@ -92,6 +98,41 @@ SDL_Rect View::SpriteAnimation::getNextClipOnlyGoing(void) {
   } else {
     this->finish = true;
   }
+
+  return currentClip;
+}
+
+SDL_Rect View::SpriteAnimation::getNextClipInfiniteGoing(void) {
+  SDL_Rect currentClip = {
+    0,
+    0 + (this->counter / this->fpc ) * this->clipHeight,
+    this->clipWidth,
+    this->clipHeight
+  };
+
+  if (this->counter < this->numClips * this->fpc) {
+    this->counter++;
+  } else {
+    this->counter = 0;
+    currentClip = {
+      0,
+      0 + (this->counter / this->fpc ) * this->clipHeight,
+      this->clipWidth,
+      this->clipHeight
+    };
+  }
+
+  return currentClip;
+}
+
+SDL_Rect View::SpriteAnimation::getNextClipDependentOnGrades(int grades) {
+  int numClip = (grades * this->numClips) / 360;
+  SDL_Rect currentClip = {
+    0,
+    0 + numClip * this->clipHeight,
+    this->clipWidth,
+    this->clipHeight
+  };
 
   return currentClip;
 }

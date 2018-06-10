@@ -18,6 +18,8 @@ class ClientConfiguration {
     int weaponsCountdown;
     int sightAngle;
     int powerShoot;
+    int remoteControlX;
+    int remoteControlY;
     bool shooting;
     bool shooted;
     Timer shootingTimer;
@@ -45,6 +47,10 @@ class ClientConfiguration {
 
     // Retorna el sight_angle configurado
     int getSightAngle(void);
+
+    // Retorna la posicion X/Y del teledirigido
+    int getRemoteControlX(void);
+    int getRemoteControlY(void);
 
     // Updatea la configuracion que muestra el cliente
     void update(const YAML::Node &, const YAML::Node &);
