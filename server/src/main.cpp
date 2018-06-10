@@ -68,6 +68,7 @@ int main(/* int argc, char *argv[] */) try {
     world.stop();
     snapshot_sender.stop();
     event_receiver.stop();
+    snapshots.push(NULL);
     snapshot_sender.join();
     world.join();
     event_receiver.join();
