@@ -5,6 +5,7 @@ Weapon::Weapon(weapon_t t) {
     this->countdown = -1;
     this->exploded = false;
     this->direction_angle = 0;
+    this->wind_affected = false;
 }
 
 Weapon::~Weapon() {

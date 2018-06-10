@@ -28,6 +28,10 @@ Configuration::Configuration() {
     this->MORTAR_FRAGMENT_BLAST_RADIUS = 2;
     this->MORTAR_FRAGMENT_BLAST_POWER = 10;
 
+    //WIND
+    this->MAX_WIND_FORCE = 6;
+    this->MIN_WIND_FORCE = -6;
+    
     //GRENADE
     this->GRENADE_RESTITUTION = 0.6;
 

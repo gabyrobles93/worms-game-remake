@@ -33,7 +33,7 @@ int main(/* int argc, char *argv[] */) try {
 
     Queue<Snapshot*> snapshots(MAX_QUEUE_SNAPSHOTS);
     World world(world_path, snapshots);    
-    Match match(world.getWorms(), world.getTeams(), gConfiguration.TURN_DURATION);
+    Match match(world.getWorms(), world.getTeams(), world.getWind(), gConfiguration.TURN_DURATION);
     //Match match(world.getWorms(), gConfiguration.TURN_DURATION);
 
     // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)

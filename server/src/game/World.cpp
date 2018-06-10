@@ -37,6 +37,10 @@ std::map<int, Worm *> & World::getWorms() {
     return this->worms;
 }
 
+Wind* World::getWind() {
+    return this->wind;
+}
+
 bool World::hasWormsMoving() {
     for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
         if (it->second->isMoving() && !it->second->isDead()) return true;
@@ -74,6 +78,8 @@ void World::initializeWorld() {
     float water_width =   MAP_WIDTH * gConfiguration.SCALING_FACTOR;
 
     this->water = new Water(this->worldPhysic.getWorld(), water_posX, water_posY, water_width, water_height);
+
+    this->wind = new Wind();
 
     const YAML::Node & static_node = this->map_node["static"];
     const YAML::Node & dynamic_node = this->map_node["dynamic"];
@@ -138,7 +144,7 @@ void World::updateBodies() {
             delete (it->second);
             it = this->weapons.erase(it);
         } else {
-            (it)->second->update(getTimeSeconds());
+            (it)->second->update(getTimeSeconds(), wind->getWindForce());
             it++;
         }
     }
@@ -155,6 +161,7 @@ void World::updateBodies() {
     }
 
     this->water->update();
+    std::cout << "WIND POWER" << this->wind->getWindForce() << std::endl;
 }
 
 void World::run() {

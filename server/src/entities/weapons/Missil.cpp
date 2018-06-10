@@ -25,6 +25,7 @@ world(world) {
     this->exploded = false;
     this->contact = false;
     this->id = id;
+    this->wind_affected = true;
 }
 
 Missil::~Missil() {
@@ -46,10 +47,15 @@ float Missil::getPosY() {
     return this->body->GetPosition().y;
 }
 
-void Missil::update(int currentTime) {
+void Missil::update(int currentTime, int wind_force) {
     if (this->body->GetPosition().y > gConfiguration.WORLD_Y_LIMIT || contact) {
         this->explode();
     }
+    
+    if (wind_affected) {
+        this->body->ApplyForce(body->GetMass() * b2Vec2(wind_force, 0), body->GetWorldCenter(), true);
+    }
+
     b2Vec2 mov_speed = this->body->GetLinearVelocity();
     this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
 }

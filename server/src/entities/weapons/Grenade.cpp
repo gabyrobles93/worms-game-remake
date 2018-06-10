@@ -47,14 +47,20 @@ Grenade::~Grenade() {
     this->world.DestroyBody(this->body);
 }
 
-void Grenade::update(int currentTime) {
+void Grenade::update(int currentTime, int wind_force) {
     if (currentTime >= this->detonationTime && !exploded) {
         explode();
     }
     this->countdown = this->detonationTime - currentTime;
 
+    if (wind_affected) {
+        this->body->ApplyForce(body->GetMass() * b2Vec2(wind_force,0), body->GetWorldCenter(), true);
+    }
+    
     b2Vec2 mov_speed = this->body->GetLinearVelocity();
     this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
+
+
 }
 
 void Grenade::explode() {

@@ -18,6 +18,7 @@
 #include "Configuration.h"
 #include "Grenade.h"
 #include "AirStrike.h"
+#include "Wind.h"
 
 #define GRADTORAD 0.0174533
 
@@ -34,7 +35,7 @@ private:
     Water * water;
     unsigned int time_sec;
     std::string & map_path;
-
+    Wind* wind;
     WorldPhysic _createWorldPhysic();
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;
@@ -56,6 +57,7 @@ public:
     std::map<int, Worm *> & getWorms();
     std::map<int, Girder *> getGirders();
     std::map<int, Team*> & getTeams();
+    Wind* getWind();
     virtual void run(void);
     /* YAML::Node getSnapshot(); */
     void stop();

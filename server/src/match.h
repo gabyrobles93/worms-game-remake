@@ -7,11 +7,13 @@
 #include "team.h"
 #include "Worm.h"
 #include "thread.h"
+#include "Wind.h"
 
 class Match {
     private:
         std::map<int, Team *> & teams;
         std::map<int, Worm *> & worms;
+        Wind* wind;
         std::queue<int> team_turn_order;
         std::map<int, std::queue<int>> worm_turn_order;
         unsigned int turn_duration_sec;
@@ -32,7 +34,7 @@ class Match {
         void refreshWormsFlagsByNewTurn(void);
 
     public:
-        Match(std::map<int, Worm*>& worms, std::map<int, Team*> &, size_t);
+        Match(std::map<int, Worm*>& worms, std::map<int, Team*> &,Wind* wind, size_t);
         void printTeams(void);
         int getTeamTurn(void);
         int getWormTurn(int);
@@ -49,6 +51,7 @@ class Match {
         void setProtagonicWormGotHurt(bool);
         void setProtagonicWormDidShoot(bool);
         int getTeamTotalLife(size_t);
+        int getWindForce();
 };
 
 #endif

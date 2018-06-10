@@ -21,7 +21,7 @@ public:
     Dynamite(int id, b2World& world, float posX, float posY, int delay, int currentTime);
     ~Dynamite();
     void explode(void);
-    void update(int currentTime);
+    void update(int currentTime, int wind_force);
     bool hasExploded(void);
     float getPosX(void);
     float getPosY(void);

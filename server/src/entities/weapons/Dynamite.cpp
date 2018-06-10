@@ -34,9 +34,12 @@ Dynamite::~Dynamite() {
     this->world.DestroyBody(this->body);
 }
 
-void Dynamite::update(int currentTime) {
+void Dynamite::update(int currentTime, int wind_force) {
     if (currentTime >= this->detonationTime && !exploded) {
         explode();
+    }
+    if (wind_affected) {
+       this->body->ApplyForce(body->GetMass() * b2Vec2(wind_force,0), body->GetWorldCenter(), true);
     }
     this->countdown = this->detonationTime - currentTime;
 }
