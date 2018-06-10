@@ -62,3 +62,11 @@ void Client::sendWaitingPlayers(std::vector<std::string> players) {
     response["waiting_players"] = players;
     this->protocol.sendMsg(response);
 }
+
+void Client::sendGameStart(int code, std::string & msg, std::string & team_id) {
+    YAML::Node response;
+    response["code"] = code;
+    response["msg"] = msg;
+    response["team_id"] = team_id;
+    this->protocol.sendMsg(response);
+}

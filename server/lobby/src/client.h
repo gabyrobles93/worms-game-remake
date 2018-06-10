@@ -22,6 +22,7 @@ class Client {
         void setStatus(client_status_t);
         client_status_t getStatus(void);
         void sendResponse(int, std::string &);
+        void sendGameStart(int, std::string &, std::string &);
         void setJoinedMatchGameCreator(std::string &);
         void clearJoinedMatchGameCreator(void);
         std::string getJoinedMatchCreatorName(void);

@@ -47,7 +47,7 @@ Grenade::~Grenade() {
     this->world.DestroyBody(this->body);
 }
 
-void Grenade::update(int currentTime) {
+void Grenade::update(int currentTime, int wind_force) {
     if (currentTime >= this->detonationTime && !exploded) {
         explode();
     }
@@ -72,6 +72,9 @@ void Grenade::update(int currentTime) {
     if (mov_speed.y > 0 && mov_speed.x > 0) {
         this->direction_angle = 360 - ang;
     }*/
+    if (wind_affected) {
+        this->body->ApplyForce(body->GetMass() * b2Vec2(wind_force,0), body->GetWorldCenter(), true);
+    }
 }
 
 void Grenade::explode() {

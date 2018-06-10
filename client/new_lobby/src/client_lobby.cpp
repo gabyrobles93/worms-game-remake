@@ -342,6 +342,8 @@ void ClientLobby::startWaitingMatch(void) {
 
     if (response["code"].as<int>() == 1) {
         std::cout << "El servidor me dio el OK para iniciar la partida.";
+        size_t team_id = response["team_id"].as<size_t>();
+        std::cout << "Me asignó el team id " << team_id << std::endl;
     } else {
         std::cout << "La partida no puede comenzar" << std::endl;
         feedWaitingPlayers();
@@ -364,8 +366,10 @@ void ClientLobby::cancelWaitingMatch(void) {
 // Invocada cuando un participante no-creador de una partida en espera se va de dicha partida en espera
 void ClientLobby::exitWaitingMatch(void) {
     std::cout << "Me voy de una waiting match siendo un invitado." << std::endl;
-    Event new_event(a_exitWaitingMatch);
-    this->protocol->sendEvent(new_event);
+    if (this->waiting_match->isRunning()) {
+        Event new_event(a_exitWaitingMatch);
+        this->protocol->sendEvent(new_event);
+    }
     this->waiting_match->stop();
     this->waiting_match->join();
     delete this->waiting_match;

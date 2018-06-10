@@ -25,7 +25,7 @@ public:
     void setContact(bool made_contact);
     bool isMoving();
     entity_t getEntityType() {return MISSIL;}
-    void update(int currentTime);
+    void update(int currentTime, int wind_force);
 };
 
 #endif

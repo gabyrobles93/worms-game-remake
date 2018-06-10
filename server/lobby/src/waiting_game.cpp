@@ -57,8 +57,11 @@ std::vector<std::string> WaitingGame::getWaitingPlayersName(void) {
 void WaitingGame::notifyAllStartGame(void) {
     std::vector<Client*>::iterator it;
     std::string msg = "started";
+    size_t team_id = 1;
     for (it = this->members.begin(); it != this->members.end(); it++) {
-        (*it)->sendResponse(1, msg);
+        std::string tid = std::to_string(team_id);
+        (*it)->sendGameStart(1, msg, tid);
+        team_id++;
     }
 }
 
