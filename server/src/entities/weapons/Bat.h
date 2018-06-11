@@ -7,19 +7,15 @@
 #include "types.h"
 #include "Configuration.h"
 #include "PhysicEntity.h"
+#include "RayCastClosestCallBack.h"
+#include "Entity.h"
 
-#define BAT_WIDTH 0.2f
-#define BAT_HEIGTH 0.4f
-
-class Bat : public Weapon {
+class Bat {
 private:
     b2World& world;
-    b2Body* body;
 public:
-    Bat(b2World& world, float posX, float posY, float angle);
-    ~Bat();
+    Bat(b2World& world, float posX, float posY, bool mirrored, float angle);
     void atack(Worm* worm);
-    bool isMoving(void);
 };
 
 #endif

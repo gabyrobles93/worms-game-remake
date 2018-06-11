@@ -44,10 +44,12 @@ void ContactListener::BeginContact(b2Contact* contact) {
 
         //WORM BAT CONTACT
         if (entityA_type == BAT && entityB_type == WORM) {
+            std::cout << "HUBO CONTACTO CON EL BATE" << std::endl;
             static_cast<Bat*>(bodyAUserData)->atack(static_cast<Worm*>(bodyBUserData));
         }
 
         if (entityB_type == BAT && entityA_type == WORM) {
+            std::cout << "HUBO CONTACTO CON EL BATE" << std::endl;
             static_cast<Bat*>(bodyBUserData)->atack(static_cast<Worm*>(bodyAUserData));
         }
 

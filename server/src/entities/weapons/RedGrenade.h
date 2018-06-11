@@ -15,7 +15,7 @@ class RedGrenade : public Grenade {
 public:
     RedGrenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type);
     //~RedGrenade();
-    void addProjectiles(std::map<int, Weapon*> & weapons);
+    int addProjectiles(std::map<int, Weapon*> & weapons);
 };
 
 #endif

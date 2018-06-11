@@ -13,7 +13,7 @@ public:
     virtual weapon_t getType(void);
     virtual bool isMoving() = 0;
     virtual int getDirectionAngle();
-    virtual void addProjectiles(std::map<int, Weapon*> & weapons);
+    virtual int addProjectiles(std::map<int, Weapon*> & weapons);
     bool hasExploded(void);
     virtual int getCountdown();
     int getBlastRadius();

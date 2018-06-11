@@ -11,7 +11,7 @@
 class Mortar : public Bazooka {
 public:
     Mortar(int id, b2World& world, float posX, float posY, float mirrored, float shooting_angle, int power_factor, weapon_t type);
-    void addProjectiles(std::map<int, Weapon*> & weapons);
+    int addProjectiles(std::map<int, Weapon*> & weapons);
 };
 
 #endif
