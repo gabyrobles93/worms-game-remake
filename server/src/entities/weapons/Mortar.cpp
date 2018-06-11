@@ -6,7 +6,7 @@ Bazooka(id, world, posX, posY, mirrored, shooting_angle, power_factor, type) {
 
 }
 
-void Mortar::addProjectiles(std::map<int, Weapon*> & weapons) {
+int Mortar::addProjectiles(std::map<int, Weapon*> & weapons) {
     for (int i = 1; i < gConfiguration.MORTAR_FRAGMENT_QUANTITY; ++i) {
         Fragment* fragment = new Fragment(this->id + i,
         this->world,
@@ -15,4 +15,5 @@ void Mortar::addProjectiles(std::map<int, Weapon*> & weapons) {
         w_air_strike);
         weapons.insert(std::pair<int, Weapon*>(fragment->getId(), fragment));
     }
+    return gConfiguration.MORTAR_FRAGMENT_QUANTITY;
 }

@@ -5,7 +5,7 @@ RedGrenade::RedGrenade(int id, b2World& world, float posX, float posY, bool mirr
 Grenade(id, world, posX, posY, mirrored, shooting_angle, power_factor, delay, currentTime, type) {
 }
 
-void RedGrenade::addProjectiles(std::map<int, Weapon*> & weapons) {
+int RedGrenade::addProjectiles(std::map<int, Weapon*> & weapons) {
     for (int i = 1; i < gConfiguration.RED_GRENADE_FRAGMENT_QUANTITY + 1; ++i) {
         Fragment* fragment = new Fragment(this->id+i, 
         this->world, 
@@ -14,4 +14,5 @@ void RedGrenade::addProjectiles(std::map<int, Weapon*> & weapons) {
         w_air_strike);
         weapons.insert(std::pair<int, Weapon*>(fragment->getId(), fragment));
     }
+    return gConfiguration.RED_GRENADE_FRAGMENT_QUANTITY;
 }

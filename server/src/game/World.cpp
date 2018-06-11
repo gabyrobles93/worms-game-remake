@@ -141,7 +141,8 @@ void World::updateBodies() {
     std::map<int, Weapon*>::iterator it;
     for(it=this->weapons.begin();it != this->weapons.end();) {
         if ((it)->second->hasExploded()) {
-            it->second->addProjectiles(this->weapons);
+            int q_added = it->second->addProjectiles(this->weapons);
+            this->weapon_counter = this->weapon_counter + q_added;
             delete (it->second);
             it = this->weapons.erase(it);
         } else {
