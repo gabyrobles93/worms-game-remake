@@ -34,3 +34,7 @@ int Weapon::getBlastRadius() {
 int Weapon::getDirectionAngle() {
     return this->direction_angle;
 }
+
+void Weapon::addProjectiles(std::map<int, Weapon*> & weapons) {
+    return;
+}

@@ -141,6 +141,7 @@ void World::updateBodies() {
     std::map<int, Weapon*>::iterator it;
     for(it=this->weapons.begin();it != this->weapons.end();) {
         if ((it)->second->hasExploded()) {
+            it->second->addProjectiles(this->weapons);
             delete (it->second);
             it = this->weapons.erase(it);
         } else {
@@ -275,6 +276,19 @@ void World::shootWeapon(Event & event, size_t id) {
         //    this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
             this->worms[id]->shoot();
         }
+    } else if (weapon_shooted == w_cluster) {
+        newWeapon = new RedGrenade(this->weapon_counter,
+        this->worldPhysic.getWorld(),
+        this->worms[id]->getPosX(),
+        this->worms[id]->getPosY(),
+        this->worms[id]->isMirrored(),
+        nodeEvent["event"]["sight_angle"].as<int>(),
+        nodeEvent["event"]["power"].as<int>(),
+        nodeEvent["event"]["countdown"].as<int>(), 
+        getTimeSeconds(), 
+        w_green_grenade
+        );
+        std::cout << "GRANADA ROAJ CREADA" << std::endl;
     }
 
     if (newWeapon) {

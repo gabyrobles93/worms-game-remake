@@ -8,6 +8,7 @@
 #include "Bat.h"
 #include "Bazooka.h"
 #include "Missil.h"
+#include "Fragment.h"
 
 class ContactListener : public b2ContactListener {
 public: 

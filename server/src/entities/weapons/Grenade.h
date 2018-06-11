@@ -11,7 +11,7 @@
 #define GRENADE_DENSITY 1
 
 class Grenade : public Weapon {
-private:    
+protected:    
     int detonationTime;
     b2World & world;
     b2Body* body;
@@ -19,7 +19,6 @@ private:
     bool mirrored;
     int shooting_angle;
     int power_factor;
-    void explode(void);
 public:
     Grenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type);
     ~Grenade();
@@ -29,6 +28,7 @@ public:
     float getPosY();
     bool isMoving();
     entity_t getEntityType() {return GRENADE;}
+    void explode(void);
 };
 
 #endif

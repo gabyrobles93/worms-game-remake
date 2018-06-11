@@ -62,13 +62,20 @@ void ContactListener::BeginContact(b2Contact* contact) {
 
         //MISSIL STRUCTURE/WATER CONTACT
         if (entityA_type == MISSIL && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER)) {
-            std::cout << "HUBO CONTACTO CON EL AGUA" << std::endl;
             static_cast<Missil*>(bodyAUserData)->setContact(true);
         }
         
         if (entityB_type == MISSIL && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER)) {
-            std::cout << "HUBO CONTACTO CON EL AGUA" << std::endl;
             static_cast<Missil*>(bodyBUserData)->setContact(true);
+        }
+
+        // FRAGMENT STRUCTURE/WATER CONTACT
+        if (entityA_type == FRAGMENT && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER)) {
+            static_cast<Fragment*>(bodyAUserData)->setContact(true);
+        }
+        
+        if (entityB_type == FRAGMENT && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER)) {
+            static_cast<Fragment*>(bodyBUserData)->setContact(true);
         }
     }
 }

@@ -19,6 +19,7 @@
 #include "Grenade.h"
 #include "AirStrike.h"
 #include "Wind.h"
+#include "RedGrenade.h"
 
 #define GRADTORAD 0.0174533
 
