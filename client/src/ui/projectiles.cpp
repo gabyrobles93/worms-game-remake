@@ -84,6 +84,10 @@ void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, const YAML
     case w_air_strike:
       this->projectiles[projId] = new View::AirStrike(r, ratio);
       break;
+    
+    case w_cluster:
+      this->projectiles[projId] = new View::Cluster(r, count, ratio);
+      break;
 
     default:
       throw View::Exception("%s: %i", ERR_MSG_UNKNOWN_PROJECTIL_TYPE, w_dynamite);

@@ -72,6 +72,8 @@ class Paths {
     std::string PATH_BANANA;
     std::string PATH_BAZOOKA;
     std::string PATH_AIR_STRIKE;
+    std::string PATH_CLUSTER;
+    std::string PATH_MORTAR;
     /* ---------------------------- */
 
     /* EFFECTS */

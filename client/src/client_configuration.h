@@ -10,6 +10,7 @@
 #include "sound_effect.h"
 #include "shoot_power.h"
 #include "paths.h"
+#include "wind.h"
 #include "yaml.h"
 
 class ClientConfiguration {
@@ -27,6 +28,7 @@ class ClientConfiguration {
     View::ShootPower shootPower;
     View::Clock clock;
     View::WeaponsInventory inventory;
+    View::Wind wind;
 
   public:
     ClientConfiguration(SDL_Renderer *, int, int, const YAML::Node &);

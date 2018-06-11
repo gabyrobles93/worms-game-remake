@@ -286,7 +286,7 @@ void World::shootWeapon(Event & event, size_t id) {
         nodeEvent["event"]["power"].as<int>(),
         nodeEvent["event"]["countdown"].as<int>(), 
         getTimeSeconds(), 
-        w_green_grenade
+        weapon_shooted
         );
     } else if (weapon_shooted == w_mortar) {
         newWeapon = new Mortar(this->weapon_counter,

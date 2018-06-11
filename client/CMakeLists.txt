@@ -69,6 +69,8 @@ add_executable(	client
 		${UI_SOURCE_DIR}/banana.cpp
 		${UI_SOURCE_DIR}/bazooka.cpp
 		${UI_SOURCE_DIR}/air_strike.cpp
+		${UI_SOURCE_DIR}/cluster.cpp
+		${UI_SOURCE_DIR}/wind.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
@@ -113,6 +115,8 @@ add_executable(	client
 		${UI_SOURCE_DIR}/banana.h
 		${UI_SOURCE_DIR}/bazooka.h
 		${UI_SOURCE_DIR}/air_strike.h
+		${UI_SOURCE_DIR}/cluster.h
+		${UI_SOURCE_DIR}/wind.h
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)

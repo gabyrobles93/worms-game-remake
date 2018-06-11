@@ -75,6 +75,8 @@ Paths::Paths(const char * r) {
   this->PATH_BANANA = root + "resources/graphics/Weapons/sbanana.png";
   this->PATH_BAZOOKA = root + "resources/graphics/Weapons/missile.png";
   this->PATH_AIR_STRIKE = root + "resources/graphics/Weapons/airmisil.png";
+  this->PATH_CLUSTER = root + "resources/graphics/Weapons/cluster.png";
+  this->PATH_MORTAR = root + "resources/graphics/Weapons/missile.png";
   /* ------------- */
 
   /* EFFECTS */
