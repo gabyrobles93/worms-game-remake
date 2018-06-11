@@ -29,7 +29,7 @@ class WaitingGame {
         std::vector<std::string> getWaitingPlayersName(void);
         void notifyAllStartGame(void);
         void notifyAllCancellGame(void);
-        void startGame(void);
+        void startGame(std::string &);
         bool hasFinished(void);
         void waitUntilFinish(void);
 };

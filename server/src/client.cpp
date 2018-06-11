@@ -87,3 +87,7 @@ void Client::setIdInMatch(size_t id) {
 size_t Client::getIdInMatch(void) {
     return this->in_match_id;
 }
+
+void Client::rcvMapGame(std::fstream & map_file) {
+    this->protocol.rcvFile(map_file);
+}

@@ -13,7 +13,7 @@ class ServerGame {
         std::vector<Client*> clients;
         //std::map<size_t, Protocol*> protocols;
         YAML::Node mapNode;
-
+        std::string map_path;
         void gameLoop(Match &, World &);
 
     public:

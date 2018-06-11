@@ -34,6 +34,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/client.cpp
 		${PROJECT_SOURCE_DIR}/src/client.h
+		${PROJECT_SOURCE_DIR}/src/server_game.cpp
+		${PROJECT_SOURCE_DIR}/src/server_game.h
 		${PROJECT_SOURCE_DIR}/src/server.cpp
 		${PROJECT_SOURCE_DIR}/src/server.h
 		${PROJECT_SOURCE_DIR}/src/server_error.cpp

@@ -12,15 +12,17 @@
 #include "window_game.h"
 #include "worms_status.h"
 #include "protected_dynamics.h"
+#include <string>
 
 class ClientGame {
     private:
         Protocol * protocol;
         Queue<Event> events;
         size_t team_id;
+        std::string map_path;
 
     public:
-        ClientGame(Protocol *, size_t);
+        ClientGame(std::string &, Protocol *, size_t);
         void startGame(void);
         void gameLoop(View::Camera &, View::WindowGame &, SDL_Renderer *, ProtectedDynamics &, View::WormsStatus &, ClientConfiguration &);
 };

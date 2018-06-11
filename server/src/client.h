@@ -33,6 +33,7 @@ class Client {
         void sendSnapShot(std::stringstream &);
         void setIdInMatch(size_t);
         size_t getIdInMatch(void);
+        void rcvMapGame(std::fstream &);
 };
 
 #endif

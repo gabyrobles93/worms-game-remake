@@ -24,7 +24,6 @@
 #define SRV_CONFIG_FILE_POS 1
 #define SRV_PORT_POS 2
 #define MAP_PATH "../maps/el_mapa_1.yml"
-#define MAX_QUEUE_SNAPSHOTS 256
 
 Configuration gConfiguration;
 

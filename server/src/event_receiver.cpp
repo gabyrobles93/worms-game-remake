@@ -22,14 +22,14 @@ size_t EventReceiver::getId(void) const {
 
 void EventReceiver::run(void) {
     while (keep_running) {
-        Event new_event = this->protocol.rcvEvent();
+        Event new_event = this->client->rcvEvent();
         if (new_event.quit()) {
             this->quit_event = true;
             stop();
             return;
         }
-        int team_turn = match.getTeamTurn();
-        if (match.getTurnTimeleft() > 0) {
+        size_t team_turn = match.getTeamTurn();
+        if (match.getTurnTimeleft() > 0 && team_turn == new_event.getTeamId()) {
             this->world.executeAction(new_event, match.getWormTurn(team_turn));
         }
     }

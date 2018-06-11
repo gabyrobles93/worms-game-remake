@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <qt5/QtWidgets/QMessageBox>
 #include <QFileDialog>
 #include <QTableWidget>
@@ -345,8 +346,11 @@ void ClientLobby::startWaitingMatch(void) {
         std::cout << "El servidor me dio el OK para iniciar la partida.";
         size_t team_id = response["team_id"].as<size_t>();
         std::cout << "Me asignó el team id " << team_id << std::endl;
+        std::fstream map_file(this->map_game_path, std::fstream::in | std::fstream::binary);
+        this->protocol->sendFile(map_file);
+        map_file.close();
         std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
-        ClientGame the_game(this->protocol, team_id);
+        ClientGame the_game(this->map_game_path, this->protocol, team_id);
         the_game.startGame();
     } else {
         std::cout << "La partida no puede comenzar" << std::endl;

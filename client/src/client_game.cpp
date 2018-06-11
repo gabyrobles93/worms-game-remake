@@ -23,10 +23,11 @@
 #define CONSTANT_WAIT 100/60
 #define MAX_QUEUE_MODELS 256
 
-ClientGame::ClientGame(Protocol * prt, size_t tid) :
+ClientGame::ClientGame(std::string & mp, Protocol * prt, size_t tid) :
 protocol(prt),
 events(MAX_QUEUE_MODELS) {
     this->team_id = tid;
+	this->map_path = mp;
 }
 
 void ClientGame::startGame(void) {

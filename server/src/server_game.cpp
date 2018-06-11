@@ -1,4 +1,5 @@
 #include <string>
+#include <unistd.h>
 #include "server_game.h"
 #include "protocol.h"
 #include "yaml.h"
@@ -8,55 +9,58 @@
 #include "snapshot_sender.h"
 #include "event_receiver.h"
 
+#define MAX_QUEUE_SNAPSHOTS 256
+
 ServerGame::ServerGame(std::vector<Client*> cl, std::string & map_path) :
 clients(cl),
-mapNode(YAML::LoadFile(map_path)) {
+mapNode(YAML::LoadFile(map_path)),
+map_path(map_path) {
     std::vector<Client*>::const_iterator it;
     // Envio a todos los clientes el mapa del juego.
     for (it = this->clients.begin(); it != this->clients.end(); it++) {
+        if ((*it)->getIdInMatch() == 1) continue;
+        std::cout << "Enviándole el mapa al jugador nro. " << (*it)->getIdInMatch() << std::endl;
         (*it)->sendGameMap(this->mapNode);
     }
 }
 
 void ServerGame::startGame(void) {
     Queue<Snapshot*> snapshots(MAX_QUEUE_SNAPSHOTS);
-    World world(world_path, snapshots);    
+    World world(this->map_path, snapshots);    
     Match match(world.getWorms(), world.getTeams(), world.getWind(), gConfiguration.TURN_DURATION);
     SnapshotSender snapshot_sender(snapshots, match, this->clients);
     
     std::vector<EventReceiver*> event_receiver;
     std::vector<Client*>::const_iterator it;
     for (it = this->clients.begin(); it != this->clients.end(); it++) {
-        event_receiver.push_back(new EventReceiver((*it), world, match, (*it)->getInMatchId()));
+        event_receiver.push_back(new EventReceiver((*it), world, match, (*it)->getIdInMatch()));
     }
 
     world.start();
     snapshot_sender.start();
     //Lanzo hilos de event receiver
     std::vector<EventReceiver*>::const_iterator it2;
-    for (it2 = event_receiver.begin(); it2 = event_receiver.end(); it2++) {
+    for (it2 = event_receiver.begin(); it2 != event_receiver.end(); it2++) {
         (*it2)->start();
     }
 
     std::cout << "Inicio de game loop de servidor." << std::endl;
-    gameLoop();
+    gameLoop(match, world);
     std::cout << "Fin de game loop de servidor." << std::endl;
 
-    if (event_receiver.quitEvent()) {
-        std::cout << "El cliente cerró la ventana." << std::endl;
-    } else if (match.finished()) {
+    if (match.finished()) {
         std::cout << "La partida finalizó y el ganador es " << match.getWinner() << std::endl;
     }
     //Stops y joins de los hilos lanzados
     world.stop();
     snapshot_sender.stop();
-    for (it2 = event_receiver.begin(); it2 = event_receiver.end(); it2++) {
+    for (it2 = event_receiver.begin(); it2 != event_receiver.end(); it2++) {
         (*it2)->stop();
     }
     snapshots.push(NULL);
     snapshot_sender.join();
     world.join();
-    for (it2 = event_receiver.begin(); it2 = event_receiver.end(); it2++) {
+    for (it2 = event_receiver.begin(); it2 != event_receiver.end(); it2++) {
         (*it2)->join();
     }
 
