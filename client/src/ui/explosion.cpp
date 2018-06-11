@@ -10,7 +10,7 @@ View::Explosion::Explosion(SDL_Renderer * r, int ratio, std::string weapon) :
 
   this->sprite.setSpriteSheet(&this->texture);
   if (weapon == "Bazooka") {
-    this->sound.setSound(gPath.PATH_SOUND_EXPLOSION_3);  
+    this->sound.setSound(gPath.PATH_SOUND_EXPLOSION_3); 
   } else if (weapon == "Grenade") {
     this->sound.setSound(gPath.PATH_SOUND_EXPLOSION_2);
   } else {

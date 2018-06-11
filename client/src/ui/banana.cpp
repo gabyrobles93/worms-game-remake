@@ -1,31 +1,32 @@
-#include "green_grenade.h"
+#include "banana.h"
 
-#define GREEN_GRENADE_FPC 3
+#define BANANA_FPC 3
 
-View::GreenGrenade::GreenGrenade(SDL_Renderer * r, int countdown, int ratioExplosion) : 
-	sprite(GREEN_GRENADE_FPC, INFINITE_GOING),
-	explosion(r, ratioExplosion, "Grenade"),
+View::Banana::Banana(SDL_Renderer * r, int countdown, int ratioExplosion) :
+  sprite(BANANA_FPC, INFINITE_GOING),
+	explosion(r, ratioExplosion, "Banana"),
 	countdownText(COUNTDOWN_TEXT_SIZE) {
-  this->texture.loadFromFile(gPath.PATH_GREEN_GRENADE, r);
+  this->texture.loadFromFile(gPath.PATH_BANANA, r);
   this->sprite.setSpriteSheet(&this->texture);
 
 	this->exploded = false;
 	this->finished = false;
-	this->playedAboutToExplode = false;
 
 	this->sound.setSound(gPath.PATH_SOUND_THROW_PROJECTIL);
   this->sound.playSound(0);
 	this->countdown = countdown;
 	this->ratioExplosion = ratioExplosion;
+
+	this->playedAboutToExplode = false;
 }
 
-View::GreenGrenade::~GreenGrenade() {
+View::Banana::~Banana() {
 
 }
 
-void View::GreenGrenade::render(SDL_Renderer * r, int camX, int camY) {
-	if (!this->exploded) {
-		// Render GreenGrenade animation
+void View::Banana::render(SDL_Renderer * r, int camX, int camY) {
+  if (!this->exploded) {
+		// Render Banana animation
 		SDL_Rect clip = this->sprite.getNextClip();
 		this->texture.render(r, this->x - camX, this->y - camY, &clip);
 

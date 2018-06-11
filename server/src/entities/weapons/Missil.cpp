@@ -1,4 +1,5 @@
 #include "Missil.h"
+#include <iostream>
 
 Missil::Missil(int id, b2World& world, float posX, float posY, weapon_t type) : 
 Weapon(type),
@@ -57,7 +58,52 @@ void Missil::update(int currentTime, int wind_force) {
     }
 
     b2Vec2 mov_speed = this->body->GetLinearVelocity();
-    this->direction_angle = acos(mov_speed.x/mov_speed.Normalize()) * gConfiguration.RADTODEG;
+
+    if (round(mov_speed.x) == 0) {
+        if (mov_speed.y > 0) {
+            this->direction_angle = 180;
+            return;
+        }
+
+        if (mov_speed.y < 0) {
+            this->direction_angle = 0;
+            return;
+        }
+    }
+
+    if (round(mov_speed.y) == 0) {
+        if (mov_speed.x > 0) {
+            this->direction_angle = 90;
+            return;
+        }
+
+        if (mov_speed.x < 0) {
+            this->direction_angle = 270;
+            return;
+        }
+    }
+
+    int ang = atan(mov_speed.x/mov_speed.y) * gConfiguration.RADTODEG;
+
+    // Primer cuadrante
+    if (mov_speed.y < 0 && mov_speed.x > 0) {
+        this->direction_angle = -ang;
+    }
+
+    // Segundo cuadrante
+    if (mov_speed.y < 0 && mov_speed.x < 0) {
+        this->direction_angle = 360 - ang;
+    }
+
+    // Tercer cuadrante
+    if (mov_speed.y > 0 && mov_speed.x < 0) {
+        this->direction_angle = 180 - ang;
+    }
+
+    // Cuarto cuadrante
+    if (mov_speed.y > 0 && mov_speed.x > 0) {
+        this->direction_angle = 180 - ang;
+    }
 }
 
 void Missil::setContact(bool made_contact) {

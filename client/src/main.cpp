@@ -40,9 +40,7 @@
 #define MAX_QUEUE_MODELS 256
 #define TEAM_ID 1
 
-#define CONSTANT_WAIT 100/6
-
-#define HARCODED_POWER_SHOOT 1
+#define CONSTANT_WAIT 100/60
 
 // Variable global
 Paths gPath;
@@ -102,8 +100,14 @@ int main(/* int argc, char *argv[] */) try {
 			cfg.handleEvent(e);
 
 			if (cfg.hasShooted()) {
-				Event event(a_shoot, cfg.getSelectedWeapon(), TEAM_ID, cfg.getWeaponsCountdown(), cfg.getPowerShoot(), cfg.getSightAngle());
-				events.push(event);
+				weapon_t weapon = cfg.getSelectedWeapon();
+				if (weapon != w_air_strike && weapon != w_teleport) {
+					Event event(a_shoot, weapon, TEAM_ID, cfg.getWeaponsCountdown(), cfg.getPowerShoot(), cfg.getSightAngle());
+					events.push(event);
+				} else {
+					Event event(a_shoot, weapon, TEAM_ID, cfg.getRemoteControlX() + camera.getX(), cfg.getRemoteControlY() + camera.getY());
+					events.push(event);
+				}
 			}
 
 			if (e.type == SDL_KEYDOWN) {
@@ -161,12 +165,15 @@ int main(/* int argc, char *argv[] */) try {
 			updateCount++;
 			worms.update(pdynamics.getWorms());
 			worms.updateWormProtagonic(pdynamics.getWormProtagonicId());
-			worms.updateWormsClientConfiguration(cfg);
 			projectiles.update(renderer, pdynamics.getProjectiles());
-			cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
 			thereIsModel = pdynamics.popModel();
+			//std::cout << "Pop model " << ++i << std::endl;
 		}
+		//std::cout << "Render" << std::endl;
+
 		renderCount++;
+		cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
+		worms.updateWormsClientConfiguration(cfg);
 
 		// Dibujamos cosas dinámicas
 		// Gusanos

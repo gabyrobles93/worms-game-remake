@@ -21,7 +21,7 @@ void AirStrike::createMissils() {
         this->world,
         this->deploy_x + (i * 2),
         this->deploy_y,
-        w_dynamite));
+        w_air_strike));
     }
 }
 

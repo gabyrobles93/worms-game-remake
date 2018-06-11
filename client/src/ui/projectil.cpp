@@ -1,6 +1,7 @@
 #include "projectil.h"
 
 #define ABOUT_TO_EXPLODE 1
+#define NONE_COUNTDOWN -1
 
 View::Projectil::~Projectil(void) {
 }
@@ -42,7 +43,9 @@ void View::Projectil::setExplode(bool exploded) {
 }
 
 void View::Projectil::setCountdown(int newCount) {
-  if (!this->playedAboutToExplode && this->countdown <= ABOUT_TO_EXPLODE) {
+  this->countdown = newCount;
+  
+  if (!this->playedAboutToExplode && this->countdown <= ABOUT_TO_EXPLODE && this->countdown != NONE_COUNTDOWN) {
     const char * ab2exp[] = {
       gPath.PATH_SOUND_WHAT_THE.c_str(),
       gPath.PATH_SOUND_UH_OH.c_str(),
@@ -53,10 +56,12 @@ void View::Projectil::setCountdown(int newCount) {
     this->aboutToExplode.playSound(0);
     this->playedAboutToExplode = true;
   }
-
-  this->countdown = newCount;
 }
 
 void View::Projectil::setWeaponType(weapon_t type) {
   this->type = type;
+}
+
+void View::Projectil::setAngleDirection(int angle) {
+  this->angleDirection = angle;
 }

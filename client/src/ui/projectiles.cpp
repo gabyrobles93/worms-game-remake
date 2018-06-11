@@ -39,6 +39,9 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
       viewProjectile->setY(proj["y"].as<int>());
       viewProjectile->setCountdown(proj["countdown"].as<int>());
       viewProjectile->setExplode((bool)proj["exploded"].as<int>());
+      if (proj["angle_direction"]) {
+        viewProjectile->setAngleDirection(proj["angle_direction"].as<int>());
+      }
     } else {
       //std::cout << "No existe el proyectil, lo creare\n";
       this->createProjectil(
@@ -68,6 +71,18 @@ void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, const YAML
 
     case w_holy_grenade:
       this->projectiles[projId] = new View::HolyGrenade(r, count, ratio);
+      break;
+
+    case w_banana:
+      this->projectiles[projId] = new View::Banana(r, count, ratio);
+      break;
+
+    case w_bazooka:
+      this->projectiles[projId] = new View::Bazooka(r, ratio);
+      break;
+
+    case w_air_strike:
+      this->projectiles[projId] = new View::AirStrike(r, ratio);
       break;
 
     default:

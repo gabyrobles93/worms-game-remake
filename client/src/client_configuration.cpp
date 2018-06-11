@@ -50,6 +50,9 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
   this->shooted = false;
   this->powerShoot = -1;
   this->shootingSound.setSound(gPath.PATH_SOUND_THROW_POWER_UP);
+
+  this->remoteControlX = 0;
+  this->remoteControlY = 0;
 }
 
 ClientConfiguration::~ClientConfiguration() {
@@ -57,7 +60,17 @@ ClientConfiguration::~ClientConfiguration() {
 }
 
 void ClientConfiguration::handleEvent(SDL_Event & e) {
-  this->inventory.handleEvent(e); 
+  this->inventory.handleEvent(e);
+  weapon_t weapon = this->inventory.getSelectedWeapon();
+
+  if (e.type == SDL_MOUSEBUTTONDOWN) {
+    if (e.button.button == SDL_BUTTON_LEFT) {
+      if (weapon == w_air_strike || weapon == w_teleport) {
+        this->shooted = true;
+        SDL_GetMouseState(&this->remoteControlX, &this->remoteControlY);
+      }
+    }
+  }
 
   if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_1) {
@@ -113,7 +126,7 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
       }
     }
 
-    if (e.key.keysym.sym == SDLK_SPACE) {
+    if (e.key.keysym.sym == SDLK_SPACE && weapon != w_air_strike && weapon != w_teleport) {
       if (!this->shootingTimer.isStarted()) {
         this->shootingSound.playSound(0);
         this->shootingTimer.start();
@@ -189,3 +202,14 @@ int ClientConfiguration::getSightAngle(void) {
 worm_data_cfg_t ClientConfiguration::getWormDataConfiguration(void) {
   return this->wormDataConfig;
 }
+
+int ClientConfiguration::getRemoteControlX(void) {
+  this->shooted = false;
+  return this->remoteControlX;
+}
+
+int ClientConfiguration::getRemoteControlY(void) {
+  this->shooted = false;
+  return this->remoteControlY;
+}
+
