@@ -9,14 +9,14 @@
 #include "types.h"
 #include "event.h"
 
-EventSender::EventSender(Protocol & p, Queue<Event> & e) :
+EventSender::EventSender(Protocol * p, Queue<Event> & e) :
 protocol(p),
 events(e) {
     keep_runing = true;
 }
 
 EventSender::~EventSender(void) {
-    this->protocol.sendExit();
+    this->protocol->sendExit();
 }
 
 bool EventSender::isRunning(void) const {
@@ -33,9 +33,9 @@ void EventSender::run(void) {
         YAML::Node evento = event.getNode();
         //std::cout << "Cliente envia evento " << evento << std::endl;
         if (!event.quit()) {
-            this->protocol.sendEvent(event);
+            this->protocol->sendEvent(event);
         } else {
-            this->protocol.sendEvent(event);
+            this->protocol->sendEvent(event);
             return;
         }
     }

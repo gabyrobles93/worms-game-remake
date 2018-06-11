@@ -27,9 +27,25 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
 
+qt5_wrap_ui(UIS_HEADERS
+	${PROJECT_SOURCE_DIR}/qtdesigner/clientlobby.ui
+)
+
+SET(UI_RESOURCES
+	${PROJECT_SOURCE_DIR}/qtdesigner/client_lobby_resources.qrc
+)
+
+QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
+
 add_executable(	client
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.cpp
+		${PROJECT_SOURCE_DIR}/src/client_lobby.cpp
+		${PROJECT_SOURCE_DIR}/src/client_lobby.h
+		${PROJECT_SOURCE_DIR}/src/client_game.cpp
+		${PROJECT_SOURCE_DIR}/src/client_game.h
+		${PROJECT_SOURCE_DIR}/src/waiting_match.cpp
+		${PROJECT_SOURCE_DIR}/src/waiting_match.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.cpp
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.cpp
 		${PROJECT_SOURCE_DIR}/src/client_configuration.cpp
@@ -113,6 +129,8 @@ add_executable(	client
 		${UI_SOURCE_DIR}/banana.h
 		${UI_SOURCE_DIR}/bazooka.h
 		${UI_SOURCE_DIR}/air_strike.h
+		${UIS_HEADERS}
+		${UI_RESOURCES_RCC}
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)

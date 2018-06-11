@@ -10,14 +10,14 @@
 
 class EventSender : public Thread {
     private:
-        Protocol & protocol;
+        Protocol * protocol;
         Queue<Event> & events;
         bool keep_runing;
     
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
     public:
-        EventSender(Protocol &, Queue<Event> &);
+        EventSender(Protocol *, Queue<Event> &);
         ~EventSender(void);
         virtual void run(void);
         void stop(void);

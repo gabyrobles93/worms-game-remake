@@ -8,14 +8,14 @@
 
 class ModelReceiver : public Thread {
     private:
-        Protocol & protocol;
+        Protocol * protocol;
         ProtectedDynamics & dynamics;
         bool keep_runing;
 
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
     public:
-        ModelReceiver(Protocol &, ProtectedDynamics &);
+        ModelReceiver(Protocol *, ProtectedDynamics &);
         ~ModelReceiver(void);
         virtual void run(void);
         void stop(void);
