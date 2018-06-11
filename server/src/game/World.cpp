@@ -298,6 +298,13 @@ void World::shootWeapon(Event & event, size_t id) {
         nodeEvent["event"]["power"].as<int>(), 
         w_bazooka
         );
+    } else if (weapon_shooted == w_bat) {
+        std::cout << "ANGULO DE MIRA" << nodeEvent["event"]["sight_angle"];
+        Bat bat(this->worldPhysic.getWorld(), 
+        this->worms[id]->getPosX(),
+        this->worms[id]->getPosY(),
+        this->worms[id]->isMirrored(),
+        nodeEvent["event"]["sight_angle"].as<int>());
     }
 
     if (newWeapon) {
