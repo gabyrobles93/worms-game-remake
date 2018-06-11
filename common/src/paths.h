@@ -79,6 +79,8 @@ class Paths {
     /* EFFECTS */
     std::string PATH_EXPLOSION_EFFECT;
     std::string PATH_DEFAULT_SIGHT;
+    std::string PATH_WIND_LEFT;
+    std::string PATH_WIND_RIGHT;
     /* ---------------------------- */
 
     /* FONTS */

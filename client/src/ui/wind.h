@@ -5,6 +5,7 @@
 #include "drawable.h"
 #include "rectangle_text.h"
 #include "paths.h"
+#include "texture.h"
 
 namespace View {
   class Wind: public Drawable {
@@ -14,6 +15,9 @@ namespace View {
       int windRectWidth;
       int windRectX;
       int windRectY;
+
+      Texture windLeft;
+      Texture windRight;
 
       RectangleText text;
 

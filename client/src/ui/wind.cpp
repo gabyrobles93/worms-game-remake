@@ -20,6 +20,8 @@ View::Wind::Wind(SDL_Renderer * r, int width, int height) :
   this->text.setTextColor(white);
 
   this->text.setText(r, "Wind force");
+  this->windLeft.loadFromFile(gPath.PATH_WIND_LEFT, r);
+  this->windRight.loadFromFile(gPath.PATH_WIND_RIGHT, r);
 }
 
 View::Wind::~Wind() {
@@ -85,20 +87,11 @@ void View::Wind::render(SDL_Renderer * r, int camX, int camY) {
   SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF);        
   SDL_RenderFillRect(r, &blackRect);
 
-  SDL_Rect windRect = {
-    this->windRectX,
-    this->windRectY,
-    this->windRectWidth, 
-    this->height - this->whiteTickness * 2,
-  };
-
   if (this->windPower > 0) {
-    SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
+    this->windRight.render(r, this->windRectX, this->windRectY, this->windRectWidth, this->height - this->whiteTickness * 2);
   } else {
-    SDL_SetRenderDrawColor(r, 0x00, 0x00, 0xFF, 0xFF);
+    this->windLeft.render(r, this->windRectX, this->windRectY, this->windRectWidth, this->height - this->whiteTickness * 2);
   }
-      
-  SDL_RenderFillRect(r, &windRect);
 
   this->text.render(r, 0, 0);
 }
