@@ -3,8 +3,8 @@
 #include "event.h"
 #include "match.h"
 
-EventReceiver::EventReceiver(Protocol & prt, World & w, Match & match, size_t id) :
-protocol(prt),
+EventReceiver::EventReceiver(Client * cli, World & w, Match & match, size_t id) :
+client(cli),
 world(w),
 match(match),
 team_id(id) {

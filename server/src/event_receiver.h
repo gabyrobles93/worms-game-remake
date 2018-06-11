@@ -3,12 +3,12 @@
 
 #include "thread.h"
 #include "World.h"
-#include "protocol.h"
+#include "client.h"
 #include "match.h"
 
 class EventReceiver : public Thread {
     private:
-        Protocol & protocol;
+        Client * client;
         World & world;
         Match & match;
         size_t team_id;
@@ -19,7 +19,7 @@ class EventReceiver : public Thread {
         virtual size_t getId(void) const;
 
     public:
-        EventReceiver(Protocol &, World &, Match &, size_t);
+        EventReceiver(Client *, World &, Match &, size_t);
         virtual void run(void);
         void stop(void);
         bool quitEvent(void);
