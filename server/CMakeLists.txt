@@ -32,6 +32,18 @@ include_directories(${PROJECT_SOURCE_DIR}/src/physics/weapons)
 
 add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/main.cpp
+		${PROJECT_SOURCE_DIR}/src/client.cpp
+		${PROJECT_SOURCE_DIR}/src/client.h
+		${PROJECT_SOURCE_DIR}/src/server.cpp
+		${PROJECT_SOURCE_DIR}/src/server.h
+		${PROJECT_SOURCE_DIR}/src/server_error.cpp
+		${PROJECT_SOURCE_DIR}/src/server_error.h
+		${PROJECT_SOURCE_DIR}/src/lobby_attendant.cpp
+		${PROJECT_SOURCE_DIR}/src/lobby_attendant.h
+		${PROJECT_SOURCE_DIR}/src/waiting_game.cpp
+		${PROJECT_SOURCE_DIR}/src/waiting_game.h
+		${PROJECT_SOURCE_DIR}/src/protected_waiting_games.cpp
+		${PROJECT_SOURCE_DIR}/src/protected_waiting_games.h		
 		${PROJECT_SOURCE_DIR}/src/team.cpp
 		${PROJECT_SOURCE_DIR}/src/team.h
 		${PROJECT_SOURCE_DIR}/src/event_receiver.cpp

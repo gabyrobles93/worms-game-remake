@@ -9,19 +9,20 @@
 #include "blocking_queue.h"
 #include "yaml.h"
 #include "match.h"
+#include "client.h"
 
 class SnapshotSender : public Thread {
     private:
         Queue<Snapshot*> & snapshots;
         Match & match;
-        Protocol& protocol;
+        std::vector<Client*> clients;
         bool keep_running;
 
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
         
     public:
-        SnapshotSender(Queue<Snapshot*> & snapshots, Match &, Protocol & protocol);
+        SnapshotSender(Queue<Snapshot*> &, Match &, std::vector<Client*>);
         ~SnapshotSender();
         virtual void run(void);
         void stop();

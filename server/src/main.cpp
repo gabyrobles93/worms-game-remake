@@ -7,6 +7,7 @@
 #include "socket.h"
 #include "socket_error.h"
 #include "protocol.h"
+#include "protocol_error.h"
 #include "types.h"
 #include "World.h"
 #include "snapshot_sender.h"
@@ -16,66 +17,45 @@
 #include "event_receiver.h"
 #include "Configuration.h"
 #include "snapshot.h"
+#include "server.h"
+#include "server_error.h"
 
-#define PORT "8080"
+#define SRV_ARGS_QTY 3
+#define SRV_CONFIG_FILE_POS 1
+#define SRV_PORT_POS 2
 #define MAP_PATH "../maps/el_mapa_1.yml"
 #define MAX_QUEUE_SNAPSHOTS 256
 
 Configuration gConfiguration;
 
-int main(/* int argc, char *argv[] */) try {
-    SocketListener listener(PORT);
-    Protocol protocol(std::move(listener.accept_connection()));
-    std::string world_path(MAP_PATH);
-
-    YAML::Node mapNode = YAML::LoadFile(world_path);
-    protocol.sendGameMap(mapNode);
-
-    Queue<Snapshot*> snapshots(MAX_QUEUE_SNAPSHOTS);
-    World world(world_path, snapshots);    
-    Match match(world.getWorms(), world.getTeams(), world.getWind(), gConfiguration.TURN_DURATION);
-    //Match match(world.getWorms(), gConfiguration.TURN_DURATION);
-
-    // Creamos hilos que sacan las fotos y las acolan (SnapshotPusher)
-    // y que Mandan las fotos por socket al cliente (SnapshotSender)
-    SnapshotSender snapshot_sender(snapshots, match, protocol);
-    EventReceiver event_receiver(protocol, world, match, 1);
-
-    // Lanzo hilos
-    world.start();
-    snapshot_sender.start();
-    event_receiver.start();
-    
-    unsigned int timer = 0;
-    match.start(world.getTimeSeconds()); //NO LANZA UN HILO, EMPIEZA LA PARTIDA.
-    while(!event_receiver.quitEvent() && !match.finished()) {
-        timer = world.getTimeSeconds();
-        match.setAliveProjectilesFlag(world.hasAliveProjectiles());
-        match.setMovingWormsFlag(world.hasWormsMoving());
-        match.setWormsAffectedByExplosion(world.hasWormsAffectedByExplosion());
-        match.setProtagonicWormGotHurt(world.hasWormGotHurt(match.getWormTurn(match.getTeamTurn())));
-        match.setProtagonicWormDidShoot(world.hasWormShooted(match.getWormTurn(match.getTeamTurn())));
-        usleep(16666);
-        match.update(world.getTimeSeconds() - timer);
+int main(int argc, char *argv[]) try {
+     if (argc < SRV_ARGS_QTY) {
+        std::cout << "Servidor mal invocado." << std::endl;
+        std::cout << "Forma de uso: './server <config_file_path> <port>" << std::endl;
+        return 0;
     }
+    std::string config_file_path(argv[SRV_CONFIG_FILE_POS]);
+    std::string port(argv[SRV_PORT_POS]);
+    Server server(config_file_path, port);
 
-    if (event_receiver.quitEvent()) {
-        std::cout << "El cliente cerró la ventana." << std::endl;
-    } else if (match.finished()) {
-        std::cout << "La partida finalizó y el ganador es " << match.getWinner() << std::endl;
-    }
-    //Stops y joins de los hilos lanzados
-    world.stop();
-    snapshot_sender.stop();
-    event_receiver.stop();
-    snapshots.push(NULL);
-    snapshot_sender.join();
-    world.join();
-    event_receiver.join();
+    server.start();
 
-    std::cout << "Server finalizado." << std::endl;
+    char c;
+    do {
+        c = getchar();
+    } while (c != 'q');
+
+    server.stop();
+    server.join();
+
     return 0;
 
 } catch(const SocketError & e) {
     std::cout << e.what() << std::endl;
+} catch(const ServerError & s) {
+    std::cout << s.what() << std::endl;
+} catch(const ProtocolError & p) {
+    std::cout << p.what() << std::endl;
+} catch(const std::exception & g) {
+    std::cout << g.what() << std::endl;
 }

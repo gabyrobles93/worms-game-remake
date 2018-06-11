@@ -3,11 +3,12 @@
 #include "socket_error.h"
 #include <iostream>
 #include <unistd.h>
+#include "client.h"
 
-SnapshotSender::SnapshotSender(Queue<Snapshot*> & snapshots, Match & m, Protocol& protocol) : 
+SnapshotSender::SnapshotSender(Queue<Snapshot*> & snapshots, Match & m, std::vector<Client*> cl) : 
 snapshots(snapshots) ,
 match(m),
-protocol(protocol) {
+clients(cl) {
     this->keep_running = true;
 }
 
@@ -22,24 +23,14 @@ void SnapshotSender::run() {
             snapshot->updateGameStatus(this->match);
             std::stringstream ss;
             ss << snapshot->getSnapshot();
-            //ss << nodeSnap << std::endl;
-            //std::cout << ss.str() << std::endl;
-            //this->protocol.sendModel(nodeSnap);
-            this->protocol.sendGameMapAsString(ss);
+
+            std::vector<Client*>::const_iterator it;
+            for (it = this->clients.begin(); it != this->clients.end(); it++) {
+                (*it)->sendSnapShot(ss);
+            }
+            
             delete snapshot;   
         }
-        // agregar nodo de game status.
-        
-        //YAML::Node nodeSnapshot = snapshot->getSnapshot();
-        
-        //std::cout << snapshot->getSnapshotCString() << std::endl;
-        //std::string text_node(snapshot->getSnapshotCString());
-        //YAML::Node test = YAML::Load(text_node);
-        //YAML::Node nodeSnap = YAML::Load(text_node);
-
-        //ss << nodeSnap << std::endl;
-        //std::cout << ss.str() << std::endl;
-        //this->protocol.sendModel(nodeSnap);
     }
 }
 
