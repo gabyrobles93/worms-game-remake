@@ -344,6 +344,7 @@ void ClientLobby::startWaitingMatch(void) {
         std::cout << "El servidor me dio el OK para iniciar la partida.";
         size_t team_id = response["team_id"].as<size_t>();
         std::cout << "Me asignó el team id " << team_id << std::endl;
+        std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
     } else {
         std::cout << "La partida no puede comenzar" << std::endl;
         feedWaitingPlayers();

@@ -1,12 +1,14 @@
 #include <string>
 #include "waiting_game.h"
 #include "client.h"
+#include <unistd.h>
 
 WaitingGame::WaitingGame(Client * cn, std::string & mn, size_t pq) {
     this->members.push_back(cn);
     this->match_name = mn;
     this->players_qty = pq;
     this->joined_players = 1;
+    this->finished = false;
 }
 
 void WaitingGame::addPlayer(Client * new_member) {
@@ -72,4 +74,27 @@ void WaitingGame::notifyAllCancellGame(void) {
         if ((*it)->getPlayerName() == this->getCreatorName()) continue;
         (*it)->sendResponse(0, msg);
     } 
+}
+
+void WaitingGame::startGame(void) {
+    std::unique_lock<std::mutex> lock(this->mutex);
+    std::cout << "Partida iniciada." << std::endl;
+    usleep(10000000);
+//    ServerGame new_server_game(members);
+//    new_server_game.start();
+    this->finished = true;
+    this->cv.notify_all();
+}
+
+bool WaitingGame::hasFinished(void) {
+    return this->finished;
+}
+
+void WaitingGame::waitUntilFinish(void) {
+    std::cout << "Esperando a que termine la partida." << std::endl;
+    std::unique_lock<std::mutex> lock(this->mutex);
+    while (!this->finished) {
+        this->cv.wait(lock);
+    }
+    std::cout << "La partida termino, ya no esperaré mas." << std::endl;
 }

@@ -33,6 +33,11 @@ void WaitingMatch::run(void) {
                 std::cout << "El hoster decidio que la partida empieza ahora!" << std::endl;
                 size_t team_id = msg["team_id"].as<size_t>();
                 std::cout << "El hoster me asignó el id team: " << team_id << std::endl;
+                // Este evento se manda para destrabar el event receiver del servidor y que pueda pasarle el socket
+                // al handler de la partida...
+                Event new_event(a_goToMatch);
+                this->protocol->sendEvent(new_event);
+                std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
             }
         } else if (msg["code"].as<int>() == 0) {
             if (msg["msg"].as<std::string>() == "aborted") {

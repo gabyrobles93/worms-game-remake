@@ -24,6 +24,7 @@ class Event {
         Event(YAML::Node &);
         bool quit(void);
         bool createMatch(void);
+        bool goToMatch(void);
         YAML::Node getNode(void);
         size_t getTeamId(void);
 };

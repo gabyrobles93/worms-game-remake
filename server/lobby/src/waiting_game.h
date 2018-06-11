@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <mutex>
+#include <condition_variable>
 #include "client.h"
 
 class WaitingGame {
@@ -11,6 +13,9 @@ class WaitingGame {
         std::string match_name;
         size_t players_qty;
         size_t joined_players;
+        std::mutex mutex;
+        std::condition_variable cv;
+        bool finished;
 
     public:
         WaitingGame(Client *, std::string &, size_t);
@@ -24,6 +29,9 @@ class WaitingGame {
         std::vector<std::string> getWaitingPlayersName(void);
         void notifyAllStartGame(void);
         void notifyAllCancellGame(void);
+        void startGame(void);
+        bool hasFinished(void);
+        void waitUntilFinish(void);
 };
 
 #endif

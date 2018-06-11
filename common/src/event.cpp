@@ -71,3 +71,7 @@ bool Event::createMatch(void) {
 size_t Event::getTeamId(void) {
     return this->team_id;
 }
+
+bool Event::goToMatch(void) {
+    return this->action == a_goToMatch;
+}

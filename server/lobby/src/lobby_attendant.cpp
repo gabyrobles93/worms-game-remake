@@ -31,6 +31,13 @@ void LobbyAttendant::run(void) {
             this->keep_running = false;
             return;
         }
+        if (new_event.goToMatch()) {
+            std::cout << "Hay que esperar aca hasta que termine la partida." << std::endl;
+            std::string creator_match_name = this->client->getJoinedMatchCreatorName();
+            this->waiting_games.waitGameUntilFinish(creator_match_name);
+            std::cout << "La partida termino asique dejo de esperar." << std::endl;
+            continue;
+        }
         processEvent(new_event);
     }
 }
@@ -136,5 +143,6 @@ void LobbyAttendant::startMatch(void) {
         // La partida puede comenzar
         std::cout << "La partida puede comenzar, se le informará a todos los participantes." << std::endl;
         this->waiting_games.notifyAllStartGame(this->player_name);
+        this->waiting_games.startWaitingGame(this->player_name);
     }
 }

@@ -69,3 +69,13 @@ void ProtectedWaitingGames::notifyAllCancellGame(std::string & creator_name) {
     std::lock_guard<std::mutex> lck(this->mutex);
     this->waiting_games[creator_name]->notifyAllCancellGame();
 }
+
+void ProtectedWaitingGames::startWaitingGame(std::string & creator_name) {
+    std::lock_guard<std::mutex> lck(this->mutex);
+    this->waiting_games[creator_name]->startGame();
+}
+
+void ProtectedWaitingGames::waitGameUntilFinish(std::string & creator_name) {
+    std::lock_guard<std::mutex> lck(this->mutex);
+    this->waiting_games[creator_name]->waitUntilFinish();
+}

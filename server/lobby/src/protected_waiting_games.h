@@ -25,6 +25,8 @@ class ProtectedWaitingGames {
         std::vector<std::string> getWaitingPlayers(std::string &);
         void notifyAllStartGame(std::string &);
         void notifyAllCancellGame(std::string &);
+        void startWaitingGame(std::string &);
+        void waitGameUntilFinish(std::string &);
 };
 
 #endif
