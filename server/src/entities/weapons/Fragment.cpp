@@ -117,7 +117,7 @@ bool Fragment::isMoving() {
 }
 
 void Fragment::shoot() {
-    float impulse = this->body->GetMass() * 5;
+    float impulse = this->body->GetMass() * 7;
     int angle = rand()%(181);
     float x_impulse = cosf(angle * gConfiguration.DEGTORAD) * impulse;
     float y_impulse = sinf(angle * gConfiguration.DEGTORAD) * impulse;

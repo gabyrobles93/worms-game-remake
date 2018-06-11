@@ -12,12 +12,9 @@
 #include <map>
 
 class RedGrenade : public Grenade {
-private:
-    std::list<Fragment*> projectiles;
 public:
     RedGrenade(int id, b2World& world, float posX, float posY, bool mirrored, float shooting_angle, int power_factor, int delay, int currentTime, weapon_t type);
     //~RedGrenade();
-    void explode() override;
     void addProjectiles(std::map<int, Weapon*> & weapons);
 };
 

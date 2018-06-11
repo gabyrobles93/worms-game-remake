@@ -288,7 +288,16 @@ void World::shootWeapon(Event & event, size_t id) {
         getTimeSeconds(), 
         w_green_grenade
         );
-        std::cout << "GRANADA ROAJ CREADA" << std::endl;
+    } else if (weapon_shooted == w_mortar) {
+        newWeapon = new Mortar(this->weapon_counter,
+        this->worldPhysic.getWorld(),
+        this->worms[id]->getPosX(),
+        this->worms[id]->getPosY(),
+        this->worms[id]->isMirrored(),
+        nodeEvent["event"]["sight_angle"].as<int>(),
+        nodeEvent["event"]["power"].as<int>(), 
+        w_bazooka
+        );
     }
 
     if (newWeapon) {
