@@ -42,6 +42,8 @@ void WaitingMatch::run(void) {
                 std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
                 ClientGame the_game(this->protocol, team_id);
                 the_game.startGame();
+                this->keep_running = false;
+                return;
             }
         } else if (msg["code"].as<int>() == 0) {
             if (msg["msg"].as<std::string>() == "aborted") {

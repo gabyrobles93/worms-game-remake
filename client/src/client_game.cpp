@@ -4,6 +4,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <fstream>
 #include <string>
+#include <unistd.h>
 #include "client_game.h"
 #include "protocol.h"
 #include "event_sender.h"
@@ -84,15 +85,18 @@ void ClientGame::startGame(void) {
     gameLoop(camera, mainWindow, renderer, pdynamics, worms, cfg);
 	std::cout << "Fin de game loop." << std::endl;
 
-	// Salimos del ciclo del juego, enviamos evento de que nos fuimos.
+	// Salimos del ciclo del juego, enviamos evento de que nos fuimos.;
+
 	Event event(a_quitGame, this->team_id);
 	this->events.push(event);
-
+	usleep(1000000);
 	// Stop y Join de threads
 	event_sender.stop();
 	event_sender.join();
+	std::cout << "Event Sender stopeado y joineado." << std::endl;
 	model_receiver.stop();
 	model_receiver.join();
+	std::cout << "Model receiver stopeado y joineado." << std::endl;
 }
 
 void ClientGame::gameLoop(View::Camera & camera, View::WindowGame & mainWindow, SDL_Renderer * renderer, 

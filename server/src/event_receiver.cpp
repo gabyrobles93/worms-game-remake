@@ -24,6 +24,7 @@ void EventReceiver::run(void) {
     while (keep_running) {
         Event new_event = this->client->rcvEvent();
         if (new_event.quit()) {
+            std::cout << "Recibido evento de quit." << std::endl;
             this->quit_event = true;
             stop();
             return;

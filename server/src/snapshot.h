@@ -16,7 +16,9 @@ class Snapshot {
         void updateTeams(std::map<int, Team*> & teams);
         void updateProjectiles(std::map<int, Weapon*> &);
         void updateGameStatus(Match &);
-        const char* getSnapshot();     
+        void updateGameStatusLastSnapshot(Match &);
+        const char* getSnapshot();   
+        void updateGameStatusLastSnapshot();
 };
 
 #endif

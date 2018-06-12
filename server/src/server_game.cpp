@@ -65,7 +65,7 @@ void ServerGame::startGame(void) {
     }
 
     snapshot_sender.stop();
-    std::cout << "Snapshot sender stopeado y joineado." << std::endl;
+    std::cout << "Snapshot sender stopeado" << std::endl;
     //Stops y joins de los hilos lanzados
     world.stop();
     world.join();

@@ -101,3 +101,14 @@ void Snapshot::updateGameStatus(Match & match) {
 const char* Snapshot::getSnapshot() {
     return this->snapshot.c_str();
 }
+
+void Snapshot::updateGameStatusLastSnapshot(Match & match) {
+    snapshot << YAML::Key << "game_status";
+    snapshot << YAML::Value << YAML::BeginMap;
+    snapshot << YAML::Key << "teams_health" << YAML::Value << match.getTeamInfo();
+    snapshot << YAML::Key << "wind_force" << YAML::Value << match.getWindForce();
+    snapshot << YAML::Key << "protagonic_worm" << YAML::Value << match.getWormTurn(match.getTeamTurn());
+    snapshot << YAML::Key << "turn_timeleft" << YAML::Value << std::to_string(match.getTurnTimeleft());
+    snapshot << YAML::Key << "finished" << YAML::Value << std::to_string(1);
+    snapshot << YAML::EndMap;
+}

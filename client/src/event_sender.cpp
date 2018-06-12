@@ -35,6 +35,7 @@ void EventSender::run(void) {
         if (!event.quit()) {
             this->protocol->sendEvent(event);
         } else {
+            std::cout << "Enviando evento de quit." << std::endl;
             this->protocol->sendEvent(event);
             return;
         }

@@ -23,19 +23,18 @@ size_t ModelReceiver::getId(void) const {
 }
 
 void ModelReceiver::run(void) {
-    while (keep_runing) {
+    while (this->keep_runing) {
         YAML::Node newDynamics;
         this->protocol->rcvModel(newDynamics);
         std::stringstream ss;
         ss << newDynamics;
-        std::cout << ss.str() << std::endl; 
-/*         if (newDynamics["projectiles"]) {
-            if (newDynamics["projectiles"].size() > 0) {
-                ss << newDynamics["projectiles"];
-                std::cout << "Proyectiles recibidos por MODEL RECEIVER" << std::endl;
-                std::cout << ss.str() << std::endl;
+        /* std::cout << ss.str() << std::endl; */
+        if (newDynamics["game_status"]) {
+            if (newDynamics["game_status"]["finished"].as<int>() == 1) {
+                std::cout << "La partida termino." << std::endl;
+                this->keep_runing = false;
             }
-        } */
+        }
         this->dynamics.addModel(newDynamics);
     }
 }

@@ -150,5 +150,7 @@ void LobbyAttendant::startMatch(void) {
         std::cout << "Recibido el mapa del cliente creador. Va a iniciarse la partida." << std::endl;
         map_file.close();
         this->waiting_games.startWaitingGame(this->player_name, map_path);
+        this->waiting_games.removeGame(this->player_name);
+        std::cout << "Waiting game removido." << std::endl;
     }
 }

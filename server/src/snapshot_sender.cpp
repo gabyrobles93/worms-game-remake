@@ -23,6 +23,9 @@ void SnapshotSender::run() {
             sendSnapshot(snapshot);
         }
     }
+    std::cout << "Sacando la ultima foto con partida finished." << std::endl;
+    Snapshot* snapshot = this->snapshots.pop();
+    sendLastSnapshot(snapshot);
 }
 
 void SnapshotSender::sendSnapshot(Snapshot * snapshot) {
@@ -38,6 +41,19 @@ void SnapshotSender::sendSnapshot(Snapshot * snapshot) {
     delete snapshot;   
 }
 
+void SnapshotSender::sendLastSnapshot(Snapshot * last_snapshot) {
+    last_snapshot->updateGameStatusLastSnapshot(this->match);
+    std::stringstream ss;
+    ss << last_snapshot->getSnapshot();
+    std::cout << ss.str() << std::endl;
+    std::vector<Client*>::const_iterator it;
+    for (it = this->clients.begin(); it != this->clients.end(); it++) {
+        std::cout << "Enviando ultima snapshot a cliente." << std::endl;
+        (*it)->sendSnapShot(ss);
+    }
+    
+    delete last_snapshot;  
+}
 
 size_t SnapshotSender::getId(void) const{
     return 0;
