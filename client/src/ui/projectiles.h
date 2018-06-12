@@ -12,6 +12,7 @@
 #include "bazooka.h"
 #include "projectil.h"
 #include "air_strike.h"
+#include "cluster.h"
 #include "types.h"
 #include "yaml.h"
 #include "view_exceptions.h"

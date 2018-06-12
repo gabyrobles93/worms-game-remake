@@ -11,7 +11,7 @@
 #define BAZOKOA_HEIGHT 0.2f
 
 class Bazooka : public Weapon {
-private:
+protected:
     b2World& world;
     b2Body* body;
     int shooting_angle;

@@ -10,6 +10,7 @@ typedef enum {
     BAZOOKA,
     MISSIL,
     GRENADE,
+    FRAGMENT,
 } entity_t;
 
 class Entity {

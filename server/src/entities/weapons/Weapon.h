@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "types.h"
+#include <map>
 
 class Weapon : public Entity {
 public:
@@ -12,6 +13,7 @@ public:
     virtual weapon_t getType(void);
     virtual bool isMoving() = 0;
     virtual int getDirectionAngle();
+    virtual int addProjectiles(std::map<int, Weapon*> & weapons);
     bool hasExploded(void);
     virtual int getCountdown();
     int getBlastRadius();

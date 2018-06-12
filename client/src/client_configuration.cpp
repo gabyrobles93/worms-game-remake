@@ -16,6 +16,9 @@
 #define SCREEN_PERCENT_SHOOT_POWER_HEIGHT 5
 #define SCREEN_PERCENT_SHOOT_POWER_WIDTH 30
 
+#define SCREEN_PERCENT_WIND_HEIGHT 5
+#define SCREEN_PERCENT_WIND_WIDTH 30
+
 ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int screenH, const YAML::Node & inv) :
   shootPower(
     screenW / (100 / SCREEN_PERCENT_SHOOT_POWER_WIDTH), 
@@ -29,6 +32,11 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
   inventory(
     r,
     inv
+  ),
+  wind(
+    r,
+    screenW / (100 / SCREEN_PERCENT_WIND_WIDTH), 
+    screenH / (100 / SCREEN_PERCENT_WIND_HEIGHT) 
   ) {
 
   int clockX = SCREEN_PADDING;
@@ -37,9 +45,14 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
   this->clock.setY(clockY);
 
   int shootX = screenW - SCREEN_PADDING - this->shootPower.getWidth() / 2;
-  int shootY = screenH - SCREEN_PADDING - this->shootPower.getHeight() / 2;
+  int shootY = screenH - SCREEN_PADDING - this->shootPower.getHeight() / 2 - this->wind.getHeight() - SCREEN_PADDING;
   this->shootPower.setX(shootX);
   this->shootPower.setY(shootY);
+
+  int windX = screenW - SCREEN_PADDING - this->wind.getWidth() / 2;
+  int windY = screenH - SCREEN_PADDING - this->wind.getHeight() / 2;
+  this->wind.setX(windX);
+  this->wind.setY(windY);
 
   this->inventory.setIconSide(screenH / (100 / SCREEN_PERCENT_INVENTORY) / MAX_WEAPONS);
   
@@ -176,6 +189,8 @@ void ClientConfiguration::render(SDL_Renderer * r) {
     this->shootPower.render(r, this->shootingTimer.getTicks());
   }
 
+  this->wind.render(r, 0, 0);
+
   this->inventory.render(r);
   this->clock.render(r, 0, 0);
 }
@@ -186,6 +201,8 @@ weapon_t ClientConfiguration::getSelectedWeapon(void) {
 
 void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node & inventory) {
   int newTime = gameStatus["turn_timeleft"].as<int>();
+  int windForce = gameStatus["wind_force"].as<int>();
+
   if (newTime) {
     this->clock.toggleHide(false);
   } else {
@@ -193,6 +210,7 @@ void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node
   }
 
   this->clock.setTime(newTime);
+  this->wind.setWindPower(windForce);
 }
 
 int ClientConfiguration::getSightAngle(void) {

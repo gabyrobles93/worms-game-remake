@@ -67,6 +67,7 @@ class Worm : public Entity {
         bool isMoving(void);
         bool isAffectedByExplosion(void);
         void refreshByNewTurn(void);
+        void setPosition(float posX, float posY);
 };
 
 #endif

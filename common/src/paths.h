@@ -72,11 +72,15 @@ class Paths {
     std::string PATH_BANANA;
     std::string PATH_BAZOOKA;
     std::string PATH_AIR_STRIKE;
+    std::string PATH_CLUSTER;
+    std::string PATH_MORTAR;
     /* ---------------------------- */
 
     /* EFFECTS */
     std::string PATH_EXPLOSION_EFFECT;
     std::string PATH_DEFAULT_SIGHT;
+    std::string PATH_WIND_LEFT;
+    std::string PATH_WIND_RIGHT;
     /* ---------------------------- */
 
     /* FONTS */

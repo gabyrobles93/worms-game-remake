@@ -39,6 +39,9 @@ world(world) {
     } else if (type == w_green_grenade) {
         this->blast_power = gConfiguration.GREEN_GRENADE_BLAST_POWER;
         this->blast_radius = gConfiguration.GREEN_GRENADE_BLAST_RADIUS;
+    } else if (type == w_cluster) {
+        this->blast_power = gConfiguration.RED_GRENADE_BLAST_POWER;
+        this->blast_radius = gConfiguration.RED_GRENADE_BLAST_RADIUS;
     }
     shoot();
 }

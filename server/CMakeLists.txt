@@ -118,6 +118,9 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/weapons/Missil.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weather/Wind.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/weather/Wind.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Fragment.h
+		${PROJECT_SOURCE_DIR}/src/entities/weapons/Fragment.cpp
+
 		)
 
 target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

@@ -115,3 +115,8 @@ void WormPhysic::setPosX(float posX) {
 void WormPhysic::setPosY(float posY) {
     this->body->SetTransform(b2Vec2(getPosX(), posY), this->body->GetAngle());  
 }
+
+void WormPhysic::setPosition(float posX, float posY) {
+    this->body->SetTransform(b2Vec2(posX, posY), this->body->GetAngle());
+    this->body->SetAwake(true);
+}

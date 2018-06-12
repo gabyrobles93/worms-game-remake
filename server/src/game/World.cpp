@@ -141,6 +141,8 @@ void World::updateBodies() {
     std::map<int, Weapon*>::iterator it;
     for(it=this->weapons.begin();it != this->weapons.end();) {
         if ((it)->second->hasExploded()) {
+            int q_added = it->second->addProjectiles(this->weapons);
+            this->weapon_counter = this->weapon_counter + q_added;
             delete (it->second);
             it = this->weapons.erase(it);
         } else {
@@ -283,12 +285,49 @@ void World::shootWeapon(Event & event, size_t id) {
         //    this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
             this->worms[id]->shoot();
         }
+    } else if (weapon_shooted == w_cluster) {
+        newWeapon = new RedGrenade(this->weapon_counter,
+        this->worldPhysic.getWorld(),
+        this->worms[id]->getPosX(),
+        this->worms[id]->getPosY(),
+        this->worms[id]->isMirrored(),
+        nodeEvent["event"]["sight_angle"].as<int>(),
+        nodeEvent["event"]["power"].as<int>(),
+        nodeEvent["event"]["countdown"].as<int>(), 
+        getTimeSeconds(), 
+        weapon_shooted
+        );
+    } else if (weapon_shooted == w_mortar) {
+        newWeapon = new Mortar(this->weapon_counter,
+        this->worldPhysic.getWorld(),
+        this->worms[id]->getPosX(),
+        this->worms[id]->getPosY(),
+        this->worms[id]->isMirrored(),
+        nodeEvent["event"]["sight_angle"].as<int>(),
+        nodeEvent["event"]["power"].as<int>(), 
+        w_bazooka
+        );
+    } else if (weapon_shooted == w_bat) {
+        std::cout << "ANGULO DE MIRA" << nodeEvent["event"]["sight_angle"];
+        Bat bat(this->worldPhysic.getWorld(), 
+        this->worms[id]->getPosX(),
+        this->worms[id]->getPosY(),
+        this->worms[id]->isMirrored(),
+        nodeEvent["event"]["sight_angle"].as<int>());
+    } else if (weapon_shooted == w_teleport) {
+        std::cout << "TELEPORT" << "x " << nodeEvent["event"]["remote_control_x"].as<int>() << "y " << nodeEvent["event"]["remote_control_y"].as<int>()<< std::endl;
+        Teleportation teleportation(this->worms[id],
+        (float) nodeEvent["event"]["remote_control_x"].as<int>() * gConfiguration.SCALING_FACTOR,
+        (float) nodeEvent["event"]["remote_control_y"].as<int>() * gConfiguration.SCALING_FACTOR);
+        teleportation.teleport();
     }
 
     if (newWeapon) {
         this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, newWeapon));
         this->weapon_counter++;
         //this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
-        this->worms[id]->shoot(); 
+        
     }
+
+    this->worms[id]->shoot();  
 }
