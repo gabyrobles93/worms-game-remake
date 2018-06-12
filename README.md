@@ -35,7 +35,7 @@ https://trello.com/b/opoeIXXF/worms-tp-final
  $ make
  $ ./editor
 ```
-   2.1) Seleccionar un background (imagen .png), elegir la configuración del fondo (centrado, mosaico o extendido) ponerle nombre al escenario, seleccionar cantidad de equipos, vida inicial de Worms, nivel del agua y municiones. Cuando todo esté seteado presionar 'Go Create'".
+2.1) Seleccionar un background (imagen .png), elegir la configuración del fondo (centrado, mosaico o extendido) ponerle nombre al escenario, seleccionar cantidad de equipos, vida inicial de Worms, nivel del agua y municiones. Cuando todo esté seteado presionar 'Go Create'".
    
    2.2) Colocar vigas y gusanos. Todos los gusanos deben ser colocados. Se puede utilizar los comandos rápidos ctrl+z y ctrl+y como 'undo' y 'redo' de las acciones. Los objetos a colocar se pueden seleccionar con el mouse o cambiarlos con la letra Q. Las vigas pueden rotarse con la letr R o bien con la rueda del mouse.
    
