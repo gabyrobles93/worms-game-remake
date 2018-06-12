@@ -16,7 +16,7 @@ class WormPhysic {
 private:
     b2Body* body;
     b2World& world;
-    int numFootContacts;
+    int numFootContaczts;
 
 public:
     WormPhysic(b2World& world, float posX, float posY, Entity* entity);

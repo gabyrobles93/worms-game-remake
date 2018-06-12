@@ -1,10 +1,17 @@
 #ifndef WORM_H
 #define WORM_H
 
-#include "WormPhysic.h"
 #include "Box2D/Box2D.h"
 #include "Entity.h"
 #include <string>
+#include "PhysicEntity.h"
+#include "Configuration.h"
+
+#define WORM_HEIGHT 0.8f
+#define WORM_RADIUS 0.54f
+#define WORM_WIDTH 0.8f
+#define WORM_DENSITY 1.0f
+#define WORM_FRICTION 0.3f
 
 class Worm : public Entity {
     private:
@@ -23,17 +30,15 @@ class Worm : public Entity {
         bool falling;
         bool hurtInTurn;
         bool shootedInTurn;
-
-        WormPhysic wormPhysic;
+        int numFootContacts;
         std::string name;
         b2World& world;
-
+        b2Body* body;
     public:
         // mirrored = true significa mirando a derecha
         Worm(std::string, int id, int team_id, int h, b2World& World, float posX, float posY);
         virtual ~Worm(void);
         void hurt(int);
-        void jump(void);
         void frontJump(void);
         void backJump(void);
         void moveLeft(void);
@@ -42,8 +47,6 @@ class Worm : public Entity {
         void pointMoreDown(void);
         float getPosY(void);
         float getPosX(void);
-        void setPosY(float posY);
-        void setPosX(float posX);
         void setAngle(float angle);
         int getId(void);
         int getTeam(void);
