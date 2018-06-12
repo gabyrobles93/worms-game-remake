@@ -37,6 +37,7 @@ public:
     bool haveVerticalSpeed(void);
     bool isGrounded(void);
     float getVerticalSpeed(void);
+    void setPosition(float posX, float posY);
 };
 
 #endif

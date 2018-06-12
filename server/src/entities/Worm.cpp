@@ -196,3 +196,7 @@ bool Worm::gotHurtInTurn(void) {
 bool Worm::didShootInTurn(void) {
     return this->shootedInTurn;
 }
+
+void Worm::setPosition(float posX, float posY) {
+    this->wormPhysic.setPosition(posX, posY);
+}

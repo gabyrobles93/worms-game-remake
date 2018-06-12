@@ -22,6 +22,7 @@
 #include "RedGrenade.h"
 #include "Mortar.h"
 #include "Bat.h"
+#include "Teleportation.h"
 
 #define GRADTORAD 0.0174533
 

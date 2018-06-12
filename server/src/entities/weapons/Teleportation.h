@@ -5,16 +5,15 @@
 #include "Worm.h"
 #include "types.h"
 
-class Teleportation : public Weapon {
+class Teleportation {
 private:
-    Worm& worm;
+    Worm* worm;
     float posX;
     float posY;
 
 public:
-    Teleportation(Worm& worm, float posX, float posY);
+    Teleportation(Worm* worm, float posX, float posY);
     void teleport(void);
-    bool isMoving();
 };
 
 #endif
