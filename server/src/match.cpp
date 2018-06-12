@@ -105,8 +105,9 @@ int Match::removeDeadTeamsTurns(void) {
     int teams_qty = this->team_turn_order.size();
     for (int i = 0; i < teams_qty; i++) {
         int team_id = this->team_turn_order.front();
-        if (!this->teams[team_id]->haveAliveMember()) {
-            this->team_turn_order.pop();
+        this->team_turn_order.pop();
+        if (this->teams[team_id]->haveAliveMember()) {
+            this->team_turn_order.push(team_id);
         }
     }
     return this->team_turn_order.size();
