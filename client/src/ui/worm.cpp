@@ -99,16 +99,19 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
     if (this->currentAnimation != WALK) {
       this->currentAnimation = WALK;
       this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
+      this->sprite.changeSpriteType(INFINITE_GOING_AND_BACK);
     }
   } else if (this->falling) {
     if (this->currentAnimation != ROLL) {
       this->currentAnimation = ROLL;
       this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
+      this->sprite.changeSpriteType(INFINITE_GOING);
     }
   } else {
     if (this->currentAnimation != BREATH_1) {
       this->currentAnimation = BREATH_1;
       this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
+      this->sprite.changeSpriteType(INFINITE_GOING_AND_BACK);
     }    
   }
 

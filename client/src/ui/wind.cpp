@@ -46,12 +46,12 @@ int View::Wind::getY(void) const {
 
 void View::Wind::setX(int x) {
 	this->x = x - this->width / 2;
-  this->text.setX(x - this->text.getWidth() * 2 - this->whiteTickness);
+  this->text.setX(this->x - this->text.getWidth() / 2 - this->whiteTickness);
 }
 
 void View::Wind::setY(int y) {
 	this->y = y - this->height / 2;
-  this->text.setY(y + this->text.getHeight() / 2);
+  this->text.setY(this->y + this->height / 2);
 }
 
 void View::Wind::render(SDL_Renderer * r, int camX, int camY) {

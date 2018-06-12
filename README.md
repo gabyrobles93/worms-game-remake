@@ -16,44 +16,53 @@ Código y notas del proyecto final de Taller de Programación I - FIUBA
 Tablero de tareas en TRELLO:
 https://trello.com/b/opoeIXXF/worms-tp-final
 
-# Tutorial de uso de CxxTest:
+# Tutorial de instalacion:
 
-1) Descargar cxxtest generator
+1) Descargar las siguientes librerias
 ```bash
- $ sudo apt-get install cxxtest
+ $ sudo apt-get install libsdl2-dev
+ $ sudo apt-get install libsdl2-image-dev
+ $ sudo apt-get install libsdl2-ttf-dev
+ $ sudo apt-get install libsdl2-mixer-dev
+ $ sudo apt-get install qt5-default
+ $ sudo apt-get install cmake 
 ```
 
-2) Escribir casos de pruebas en un .h, como en el siguiente ejemplo:
+2) En el directorio tp-final-taller/server ejecutar los siguientes comandos:
 
 ```c++
-#ifndef __MY_TEST_CASES_H__
-#define __MY_TEST_CASES_H__
-
- #include <cxxtest/TestSuite.h>
-
-  class MyTestSuite : public CxxTest::TestSuite {
-      public:
-          void testAddition(void) {
-              TS_ASSERT(1+1>1);
-              TS_ASSERT_EQUALS(1+1,2);
-          }
-  };
-
-  #endif
+ $ mkdir build
+ $ cd build
+ $ cmake ..
+ $ make
+ $ ./server 
 ```
-3) Generar casos de prueba:
+3) En el directorio tp-final-taller/client ejecutar los siguientes comandos:
 ```bash
- $ cxxtestgen --error-printer -o runner.cpp MyTestSuite1.h
+ $ mkdir build
+ $ cd build
+ $ cmake ..
+ $ make
+ $ ./client
 ```
 
-4) Compilar casos de prueba:
+4) Manual de juego
 ```bash
-  $ g++ -o runner runner.cpp
+  $ Movimiento de gusano: 
+        - A: movimiento a izquierda.
+        - D: movimiento a derecha.
+        - W: movimiento de mira hacia arriba.
+        - S: movimiento de miera hacia abajo.
+        - ENTER: salto hacia adelante.
+        - BACK: salto hacia atras.
+   $ Inventario de armas:
+        - Q: abre el inventario, apretar nuevamente para navegar por el.
+        - E: cierra el inventario.
+        - RIGHT CLICK: abre el inventario.
+        - LEFT CLICK: selecciona el arma.
+   $ Disparos:
+        - SPACE: disparar arma seleccionada, si se mantiene apretada aumenta la potencia de tiro
+        - AIR STRIKE Y TELEPORT: se activan con el click izquierdo del mouse.
+   $ Camara:
+        - ARROW KEYS: mueven la camara.
 ```
-
-5) Ejecutar casos de prueba:
-```bash
- $ ./runner
-```
-
-Para más información ver [guía oficial de uso de cxxtest](test_cases/guide.pdf)

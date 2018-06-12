@@ -2,8 +2,33 @@
 #include <iostream>
 
 Worm::Worm(std::string n, int id, int team_id, int h, b2World& world, float posX, float posY) : 
-wormPhysic(world, posX, posY, this),
 world(world) {
+
+    b2BodyDef wormDef;
+    wormDef.type = b2_dynamicBody;
+    wormDef.fixedRotation = true;
+    wormDef.allowSleep = true;
+    wormDef.position.Set(posX, posY);
+    b2Body* body = world.CreateBody(&wormDef);
+    body->SetUserData(this);
+
+    //b2PolygonShape wormShape;
+    //wormShape.SetAsBox(WORM_WIDTH/2, WORM_HEIGHT/2);
+
+    b2CircleShape wormShape;
+    wormShape.m_radius = WORM_RADIUS;
+
+    b2FixtureDef wormFixture;
+    wormFixture.shape = &wormShape;
+    wormFixture.density = WORM_DENSITY;
+    wormFixture.friction = WORM_FRICTION;
+    wormFixture.filter.categoryBits = WORM_PHYSIC;
+    wormFixture.filter.maskBits = STRUCTURE_PHYSIC | WATER_PHYSIC;
+    body->CreateFixture(&wormFixture);
+
+    this->body = body;
+    this->numFootContacts = 0;
+
     this->id = id;
     this->health = h;
     this->team_id = team_id;
@@ -17,31 +42,41 @@ world(world) {
 }
 
 Worm::~Worm(void) {
-
-}
-
-void Worm::jump(void) {
-    this->wormPhysic.jump();
+    this->world.DestroyBody(this->body);
 }
 
 void Worm::frontJump(void) {
-    this->wormPhysic.frontJump(this->mirrored);
+    if (this->numFootContacts <= 0) return;
+    float factor;
+    mirrored == true ? factor = 1.0 : factor = -1.0;
+    float impulse = this->body->GetMass() * 4;
+    this->body->ApplyLinearImpulse(b2Vec2(impulse * factor,-impulse), this->body->GetWorldCenter(), true);
 }
 
 void Worm::backJump(void) {
-    this->wormPhysic.backJump(this->mirrored);
+    if (this->numFootContacts <= 0) return;
+    float factor;
+    mirrored == true ? factor = 1.0 : factor = -1.0;
+    float impulse = this->body->GetMass() * 4;
+    this->body->ApplyLinearImpulse(b2Vec2(-impulse * factor, -impulse), this->body->GetWorldCenter(), true);
 }
 
 void Worm::moveRight(void) {
     if (isGrounded() && !affectedByExplosion) {
-        this->wormPhysic.moveRight(this->angle);
+        b2Vec2 velocity;
+        velocity.x = cosf(angle) * gConfiguration.WORM_SPEED;
+        velocity.y = sinf(angle) * gConfiguration.WORM_SPEED;
+        this->body->SetLinearVelocity(velocity);
         this->mirrored = true;
     }
 }
 
 void Worm::moveLeft(void) {
     if (isGrounded() && !affectedByExplosion) {
-        this->wormPhysic.moveLeft(this->angle);
+        b2Vec2 velocity; // = this->body->GetLinearVelocity();
+        velocity.x = cosf(angle) * -gConfiguration.WORM_SPEED;
+        velocity.y = sinf(angle) * -gConfiguration.WORM_SPEED;
+        this->body->SetLinearVelocity(velocity);
         this->mirrored = false;
     }
 }
@@ -51,11 +86,11 @@ bool Worm::isMirrored(void) {
 }
 
 float Worm::getPosX(void) {
-    return this->wormPhysic.getPosX();
+    return this->body->GetPosition().x;
 }
 
 float Worm::getPosY(void) {
-    return this->wormPhysic.getPosY();
+    return this->body->GetPosition().y;
 }
 
 int Worm::getId(void) {
@@ -75,23 +110,15 @@ std::string Worm::getName(void) {
 }
 
 void Worm::addFootContact(void) {
-    this->wormPhysic.addFootContact();
+    this->numFootContacts++;
 }
 
 void Worm::deleteFootContact(void) {
-    this->wormPhysic.deleteFootContact();
+    this->numFootContacts--;
 }
 
 void Worm::shoot(/* entity_t weapon */) {
     this->shootedInTurn = true;
-    // switch(weapon) {
-    //     case DYNAMITE : {
-    //         Dynamite dynamite(this->world, posX, posY);
-    //         dynamite.explode();
-    //         break;
-    //     }
-    //     default: break;
-    // }
 }
 
 void Worm::hurt(int damage) {
@@ -104,25 +131,23 @@ void Worm::hurt(int damage) {
 }
 
 bool Worm::isWalking(void) {
-    if (this->wormPhysic.haveVerticalSpeed()) {
-        return false;
-    }
-    return this->wormPhysic.haveHorizontalSpeed();
+    b2Vec2 velocity = this->body->GetLinearVelocity();
+    return !velocity.y && velocity.x;
 }
 
 bool Worm::isMoving(void) {
-    return this->wormPhysic.haveHorizontalSpeed() || this->wormPhysic.haveVerticalSpeed();
+    b2Vec2 velocity = this->body->GetLinearVelocity();
+    return velocity.y || velocity.x;
+    //return this->wormPhysic.haveHorizontalSpeed() || this->wormPhysic.haveVerticalSpeed();
 }
 
 bool Worm::isFalling(void) {
-    if (this->wormPhysic.haveHorizontalSpeed()) {
-        return false;
-    }
-    return this->wormPhysic.haveVerticalSpeed();
+    b2Vec2 velocity = this->body->GetLinearVelocity();
+    return !isGrounded() && velocity.y;// && !jumping;
 }
 
 bool Worm::isGrounded(void) {
-    return this->wormPhysic.isGrounded();
+    return numFootContacts > 0;
 }
 
 bool Worm::isDead(void) {
@@ -154,25 +179,17 @@ void Worm::update() {
         this->fallenDistance = 0;
     }
 
-    if (!this->wormPhysic.haveVerticalSpeed() && !this->wormPhysic.haveHorizontalSpeed()) {
+    if (!this->body->GetLinearVelocity().x && !this->body->GetLinearVelocity().y) {
         this->affectedByExplosion = false;
     }
 
-    if (this->wormPhysic.getPosY() > gConfiguration.WORLD_Y_LIMIT) {
+    if (getPosY() > gConfiguration.WORLD_Y_LIMIT) {
         this->kill();
     }
 }
 
 bool Worm::isAffectedByExplosion() {
     return this->affectedByExplosion;
-}
-
-void Worm::setPosX(float posX) {
-    this->wormPhysic.setPosX(posX);
-}
-
-void Worm::setPosY(float posY) {
-    this->wormPhysic.setPosX(posY);
 }
 
 void Worm::setAffectedByExplosion(){
@@ -198,5 +215,6 @@ bool Worm::didShootInTurn(void) {
 }
 
 void Worm::setPosition(float posX, float posY) {
-    this->wormPhysic.setPosition(posX, posY);
+    this->body->SetTransform(b2Vec2(posX, posY), this->body->GetAngle());
+    this->body->SetAwake(true);
 }

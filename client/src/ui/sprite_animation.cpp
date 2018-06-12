@@ -140,3 +140,7 @@ SDL_Rect View::SpriteAnimation::getNextClipDependentOnGrades(int grades) {
 bool View::SpriteAnimation::finished(void) {
   return this->finish;
 }
+
+void View::SpriteAnimation::changeSpriteType(sprite_type_t newType) {
+  this->type = newType;
+}
