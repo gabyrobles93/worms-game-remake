@@ -61,7 +61,7 @@ int main(/* int argc, char *argv[] */) try {
 	ModelReceiver model_receiver(protocol, pdynamics);
 
 		// Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(staticMap, 1280, 1024);
+	View::WindowGame mainWindow(staticMap, 800, 600);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());

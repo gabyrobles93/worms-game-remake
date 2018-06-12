@@ -11,8 +11,8 @@ View::RectangleText::RectangleText(int height, int padding, std::string fontPath
   // Text color default blanco
   this->textColor = {255, 255, 255, 0};
 
-  // Background color default negro
-  this->backgroundColor = {0, 0, 255, 0};
+  // Background color default azul
+  this->backgroundColor = {0, 0, 0, 0};
 
   this->hide = false;
   this->padding = padding;
@@ -67,8 +67,8 @@ void View::RectangleText::render(SDL_Renderer * r, int camX, int camY) {
   if (!this->hide) {    
     // Background rect
     SDL_Rect bgRect = {
-      this->x - this->width / 2 - camX,
-      this->y - this->height / 2 - camY,
+      this->x /*- this->width / 2 */- camX,
+      this->y /*- this->height / 2 */- camY,
       this->width,
       this->height,
     };
@@ -85,8 +85,8 @@ void View::RectangleText::render(SDL_Renderer * r, int camX, int camY) {
     // Render text
     this->text.render(
       r, 
-      this->x - this->width / 2 + this->padding - camX, 
-      this->y - this->height / 2 + this->padding - camY
+      this->x /*- this->width / 2*/ + this->padding - camX, 
+      this->y /*- this->height / 2 */+ this->padding - camY
     );
   }
 }
