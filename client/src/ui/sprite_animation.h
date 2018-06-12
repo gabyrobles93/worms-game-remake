@@ -42,6 +42,9 @@ namespace View {
       // Verifica si el recorrido del spritesheet
       // finalizo (para ONLY_GOING sprites)
       bool finished(void);
+
+      // Cambia el tipo de sprite sheet
+      void changeSpriteType(sprite_type_t);
   };
 }
 
