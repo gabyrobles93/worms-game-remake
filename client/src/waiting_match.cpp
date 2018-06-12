@@ -3,11 +3,15 @@
 #include "protocol.h"
 #include "yaml.h"
 #include <qt5/QtWidgets/QMessageBox>
+#include "QStackedWidget"
 #include <fstream>
 #include "client_game.h"
 
-WaitingMatch::WaitingMatch(Protocol * p) :
-protocol(p) {
+#define PAGE_LOBBY_INDEX 1
+
+WaitingMatch::WaitingMatch(Protocol * p, QStackedWidget * pag) :
+protocol(p),
+pages(pag) {
     this->keep_running = true;
 }
 
@@ -42,6 +46,8 @@ void WaitingMatch::run(void) {
                 std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
                 ClientGame the_game(this->protocol, team_id);
                 the_game.startGame();
+                std::cout << "La partida termino, se regresa al lobby." << std::endl;
+                this->pages->setCurrentIndex(PAGE_LOBBY_INDEX);
                 this->keep_running = false;
                 return;
             }

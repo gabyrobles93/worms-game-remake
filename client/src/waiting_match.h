@@ -3,16 +3,18 @@
 
 #include "thread.h"
 #include "protocol.h"
+#include "QStackedWidget"
 
 class WaitingMatch : public Thread {
     private:
         Protocol * protocol;
+        QStackedWidget * pages;
         bool keep_running;
 
         size_t getId(void) const;
 
     public:
-        WaitingMatch(Protocol *);
+        WaitingMatch(Protocol *, QStackedWidget*);
         bool isRunning(void) const;
         virtual void run(void);
         void stop(void);

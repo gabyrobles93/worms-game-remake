@@ -25,6 +25,7 @@ void LobbyAttendant::stop(void) {
 
 void LobbyAttendant::run(void) {
     while (this->keep_running) {
+        std::cout << "Esperando evento." << std::endl;
         Event new_event = this->client->rcvEvent();
         if (new_event.quit()) {
             std::cout << "El cliente " << this->client->getPlayerName() << " ha saldo del lobby." << std::endl;
@@ -46,6 +47,10 @@ void LobbyAttendant::run(void) {
 void LobbyAttendant::processEvent(Event & event) {
     YAML::Node event_node = event.getNode();
     std::cout << "Evento recibido del cliente " << this->player_name << std::endl;
+
+    std::stringstream ss;
+    ss << event_node;
+    std::cout << ss.str() << std::endl;
 
     action_t action = (action_t) event_node["event"]["action"].as<int>();
 

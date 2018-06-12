@@ -194,7 +194,7 @@ void ClientLobby::joinMatch(void) {
         QLabel* gameCreator = findChild<QLabel*>("text_game_creator");
         gameCreator->setText(match_creator_name.c_str());
 
-        this->waiting_match = new WaitingMatch(this->protocol);
+        this->waiting_match = new WaitingMatch(this->protocol, this->pages);
         this->waiting_match->start();
 
     }
@@ -352,6 +352,7 @@ void ClientLobby::startWaitingMatch(void) {
         std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
         ClientGame the_game(this->protocol, team_id, this->map_game_path);
         the_game.startGame();
+        backLobby();
     } else {
         std::cout << "La partida no puede comenzar" << std::endl;
         feedWaitingPlayers();

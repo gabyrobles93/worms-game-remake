@@ -80,12 +80,13 @@ void WaitingGame::notifyAllCancellGame(void) {
 
 void WaitingGame::startGame(std::string & map_path) {
     std::unique_lock<std::mutex> lock(this->mutex);
-    std::cout << "Partida iniciada." << std::endl;
+    std::cout << "Iniciando partida." << std::endl;
 //    usleep(10000000);
     ServerGame new_server_game(members, map_path);
     new_server_game.startGame();
     this->finished = true;
     this->cv.notify_all();
+    std::cout << "Partida finalizada" << std::endl;
 }
 
 bool WaitingGame::hasFinished(void) {
