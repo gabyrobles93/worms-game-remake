@@ -105,8 +105,9 @@ int Match::removeDeadTeamsTurns(void) {
     int teams_qty = this->team_turn_order.size();
     for (int i = 0; i < teams_qty; i++) {
         int team_id = this->team_turn_order.front();
-        if (!this->teams[team_id]->haveAliveMember()) {
-            this->team_turn_order.pop();
+        this->team_turn_order.pop();
+        if (this->teams[team_id]->haveAliveMember()) {
+            this->team_turn_order.push(team_id);
         }
     }
     return this->team_turn_order.size();
@@ -118,8 +119,9 @@ void Match::removeDeadWormsTurns(void) {
         int queue_size = it->second.size();
         for (int i = 0; i < queue_size; i++) {
             int worm_id = it->second.front();
-            if (this->worms[worm_id]->isDead()) {
-                it->second.pop();
+            it->second.pop();
+            if (!this->worms[worm_id]->isDead()) {
+                it->second.push(worm_id);
             }
         }
     }
