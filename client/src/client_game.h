@@ -21,6 +21,8 @@ class ClientGame {
         size_t team_id;
         YAML::Node mapNode;
 
+        void removePreviousTempFiles(void);
+
     public:
         ClientGame(Protocol *, size_t, std::string &);
         ClientGame(Protocol *, size_t);

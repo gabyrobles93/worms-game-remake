@@ -213,9 +213,10 @@ int View::MapGame::getNextWormId(void) {
 }
 
 void View::MapGame::saveAs(std::string mapName, std::string bgName) {
-  std::ofstream fout("../maps/" + mapName + ".yml");
+  std::ofstream fout("../maps/map.yml", std::ofstream::trunc);
   YAML::Node * state = this->mapStates[this->stateIndex];
-  (*state)["static"]["background"]["file"] = bgName;
+  std::string bg_name = "background.png";
+  (*state)["static"]["background"]["file"] = bg_name;
   addInventoryToTeams(*state);
   fout << *state;
   fout.close();

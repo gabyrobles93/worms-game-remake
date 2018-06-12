@@ -41,7 +41,7 @@ void EditorLauncher::connectEvents(void) {
 
 void EditorLauncher::chooseBackground(void) {
     QString bg_path;
-    bg_path = QFileDialog::getOpenFileName(this, tr("Choose Background"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
+    bg_path = QFileDialog::getOpenFileName(this, tr("Choose Background"), "/home", tr("Image Files (*.png)"));
     this->background_path = bg_path.toUtf8().constData();
     QLabel* label_background_path = findChild<QLabel*>("label_background_path");
     label_background_path->setText(bg_path);
@@ -130,11 +130,11 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
     int err_code;
     err_code = the_editor.start();
     if (err_code == 0) {
-        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" ../maps" + " > /dev/null";
+        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" ../maps/background.png";
         std::system(cmd_cp_background.c_str());
-        std::string cmd_tar_gz = "tar -zcf \"../maps/" + map_name + "\" --directory=../maps \"" + map_name + ".yml\" "+ "\"" + this->background_name + "\"";
+        std::string cmd_tar_gz = "tar -zcf \"../maps/" + map_name + ".tar.gz\" --directory=../maps map.yml background.png";
         std::system(cmd_tar_gz.c_str());
-        std::string cmd_rmv_temp = "rm \"../maps/" + this->background_name + "\" \"../maps/" + map_name + ".yml\"";
+        std::string cmd_rmv_temp = "rm ../maps/background.png ../maps/map.yml";
         std::system(cmd_rmv_temp.c_str());
     }
     this->close();

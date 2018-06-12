@@ -33,11 +33,13 @@ ClientGame::ClientGame(Protocol * prt, size_t tid) :
 protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
+	removePreviousTempFiles();
 	std::string map_received_name(MAP_RECEIVED_NAME);
 	std::fstream file_map(map_received_name, std::fstream::out | std::fstream::binary | std::fstream::trunc);
 	std::cout << "Esperando mapa del sevidor." << std::endl;
     this->protocol->rcvFile(file_map);
 	std::cout << "Mapa recibido del servidor." << std::endl;
+	file_map.close();
 	std::string cmd_unzip_tar_gz = "tar -xf " + map_received_name;
 	std::system(cmd_unzip_tar_gz.c_str());
 	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
@@ -47,9 +49,16 @@ ClientGame::ClientGame(Protocol * prt, size_t tid, std::string & mp) :
 protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
+	removePreviousTempFiles();
+	std::cout << "La ruta del mapa es " << mp << std::endl;
 	std::string cmd_unzip_tar_gz = "tar -xf " + mp;
 	std::system(cmd_unzip_tar_gz.c_str());
 	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
+}
+
+void ClientGame::removePreviousTempFiles(void) {
+	std::string cmd_rm_map_yml = "rm map.yml background.png";
+	std::system(cmd_rm_map_yml.c_str());
 }
 
 void ClientGame::startGame(void) {
@@ -64,7 +73,7 @@ void ClientGame::startGame(void) {
 	ModelReceiver model_receiver(this->protocol, pdynamics);
 
 	// Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(staticMap, 1280, 1024);
+	View::WindowGame mainWindow(staticMap, 800, 600);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
