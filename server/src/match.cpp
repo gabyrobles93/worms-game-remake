@@ -118,8 +118,9 @@ void Match::removeDeadWormsTurns(void) {
         int queue_size = it->second.size();
         for (int i = 0; i < queue_size; i++) {
             int worm_id = it->second.front();
-            if (this->worms[worm_id]->isDead()) {
-                it->second.pop();
+            it->second.pop();
+            if (!this->worms[worm_id]->isDead()) {
+                it->second.push(worm_id);
             }
         }
     }
