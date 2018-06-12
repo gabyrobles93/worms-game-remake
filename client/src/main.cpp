@@ -40,7 +40,7 @@
 #define MAX_QUEUE_MODELS 256
 #define TEAM_ID 1
 
-#define CONSTANT_WAIT 100/60
+#define CONSTANT_WAIT 100/6
 
 // Variable global
 Paths gPath;
@@ -196,7 +196,7 @@ int main(/* int argc, char *argv[] */) try {
 			timeLostSleeping = 0;
 		} else {
 			SDL_Delay(to_sleep);
-			timeLostSleeping = SDL_GetTicks() - (tf - to_sleep);
+			timeLostSleeping = SDL_GetTicks() - (tf + to_sleep);
 		}
 	
 	}
