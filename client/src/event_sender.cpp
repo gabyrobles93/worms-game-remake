@@ -16,7 +16,7 @@ events(e) {
 }
 
 EventSender::~EventSender(void) {
-    this->protocol->sendExit();
+    
 }
 
 bool EventSender::isRunning(void) const {

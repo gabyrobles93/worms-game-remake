@@ -201,7 +201,8 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 		//std::cout << "Render" << std::endl;
 		match_finished  = pdynamics.finishedMatch();
 		if (match_finished) {
-			std::cout << "La partida termino." << std::endl;
+			std::cout << "La partida terminóó." << std::endl;
+			return;
 		}
 
 		renderCount++;
