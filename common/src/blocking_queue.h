@@ -46,6 +46,10 @@ class Queue {
 
             return val;            
         }
+
+        size_t size(void) {
+            return this->q.size();
+        }
 };
 
 #endif

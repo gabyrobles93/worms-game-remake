@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <fstream>
 
 class Client {
     private:
@@ -29,7 +30,7 @@ class Client {
         void clearJoinedMatchGameCreator(void);
         std::string getJoinedMatchCreatorName(void);
         void sendWaitingPlayers(std::vector<std::string>);
-        void sendGameMap(YAML::Node);
+        void sendMapGame(std::fstream &);
         void sendSnapShot(std::stringstream &);
         void setIdInMatch(size_t);
         size_t getIdInMatch(void);

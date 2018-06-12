@@ -72,8 +72,8 @@ void Client::sendGameStart(int code, std::string & msg, std::string & team_id) {
     this->protocol.sendMsg(response);
 }
 
-void Client::sendGameMap(YAML::Node mapNode) {
-    this->protocol.sendGameMap(mapNode);
+void Client::sendMapGame(std::fstream & map_file) {
+    this->protocol.sendFile(map_file);
 }
 
 void Client::sendSnapShot(std::stringstream & ss) {

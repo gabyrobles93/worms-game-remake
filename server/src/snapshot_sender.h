@@ -20,7 +20,8 @@ class SnapshotSender : public Thread {
 
         virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
-        
+        void sendSnapshot(Snapshot *);
+
     public:
         SnapshotSender(Queue<Snapshot*> &, Match &, std::vector<Client*>);
         ~SnapshotSender();

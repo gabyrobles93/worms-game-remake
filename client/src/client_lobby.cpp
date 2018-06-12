@@ -350,7 +350,7 @@ void ClientLobby::startWaitingMatch(void) {
         this->protocol->sendFile(map_file);
         map_file.close();
         std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
-        ClientGame the_game(this->map_game_path, this->protocol, team_id);
+        ClientGame the_game(this->protocol, team_id, this->map_game_path);
         the_game.startGame();
     } else {
         std::cout << "La partida no puede comenzar" << std::endl;

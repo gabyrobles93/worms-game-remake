@@ -2,6 +2,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
+#include <fstream>
+#include <string>
 #include "client_game.h"
 #include "protocol.h"
 #include "event_sender.h"
@@ -22,22 +24,39 @@
 
 #define CONSTANT_WAIT 100/60
 #define MAX_QUEUE_MODELS 256
+#define MAP_RECEIVED_NAME "map.tar.gz"
+#define MAP_YML_NAME "map.yml"
+#define BACKGROUND_NAME "background.png"
 
-ClientGame::ClientGame(std::string & mp, Protocol * prt, size_t tid) :
+ClientGame::ClientGame(Protocol * prt, size_t tid) :
 protocol(prt),
-events(MAX_QUEUE_MODELS) {
-    this->team_id = tid;
-	this->map_path = mp;
+events(MAX_QUEUE_MODELS),
+team_id(tid) {
+	std::string map_received_name(MAP_RECEIVED_NAME);
+	std::fstream file_map(map_received_name, std::fstream::out | std::fstream::binary | std::fstream::trunc);
+	std::cout << "Esperando mapa del sevidor." << std::endl;
+    this->protocol->rcvFile(file_map);
+	std::cout << "Mapa recibido del servidor." << std::endl;
+	std::string cmd_unzip_tar_gz = "tar -xf " + map_received_name;
+	std::system(cmd_unzip_tar_gz.c_str());
+	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
+}
+
+ClientGame::ClientGame(Protocol * prt, size_t tid, std::string & mp) :
+protocol(prt),
+events(MAX_QUEUE_MODELS),
+team_id(tid) {
+	std::string cmd_unzip_tar_gz = "tar -xf " + mp;
+	std::system(cmd_unzip_tar_gz.c_str());
+	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
 }
 
 void ClientGame::startGame(void) {
-    YAML::Node mapNode;
-    EventSender event_sender(this->protocol, events);
-    this->protocol->rcvGameMap(mapNode);
-
-	YAML::Node staticMap = mapNode["static"];
+	std::cout << "Start GAME!!" << std::endl;
+	EventSender event_sender(this->protocol, events);
+	YAML::Node staticMap = this->mapNode["static"];
 	const YAML::Node & initInventory = staticMap["init_inventory"];
-	YAML::Node dynamicMap = mapNode["dynamic"];
+	YAML::Node dynamicMap = this->mapNode["dynamic"];
 	YAML::Node wormsNode = dynamicMap["worms_teams"];
 
 	ProtectedDynamics pdynamics(dynamicMap);
@@ -87,8 +106,8 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 	int renderCount = 0;
 
     View::Projectiles projectiles;
-
-	while (!quit) {
+	bool match_finished = false;
+	while (!quit && !match_finished) {
 		ti = SDL_GetTicks();
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
@@ -167,6 +186,10 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 			//std::cout << "Pop model " << ++i << std::endl;
 		}
 		//std::cout << "Render" << std::endl;
+		match_finished  = pdynamics.finishedMatch();
+		if (match_finished) {
+			std::cout << "La partida termino." << std::endl;
+		}
 
 		renderCount++;
 		cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());

@@ -38,14 +38,9 @@ void WaitingMatch::run(void) {
                 // Este evento se manda para destrabar el event receiver del servidor y que pueda pasarle el socket
                 // al handler de la partida...
                 Event new_event(a_goToMatch);
-                this->protocol->sendEvent(new_event);
-                // Recibo el mapa del juego
-                std::string file_map_path = "map.tar.gz";
-                std::fstream map_file(file_map_path, std::fstream::in | std::fstream::binary | std::fstream::trunc);
-                this->protocol->rcvFile(map_file);
-                map_file.close();           
+                this->protocol->sendEvent(new_event);      
                 std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
-                ClientGame the_game(file_map_path, this->protocol, team_id);
+                ClientGame the_game(this->protocol, team_id);
                 the_game.startGame();
             }
         } else if (msg["code"].as<int>() == 0) {

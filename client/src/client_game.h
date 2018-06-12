@@ -19,10 +19,11 @@ class ClientGame {
         Protocol * protocol;
         Queue<Event> events;
         size_t team_id;
-        std::string map_path;
+        YAML::Node mapNode;
 
     public:
-        ClientGame(std::string &, Protocol *, size_t);
+        ClientGame(Protocol *, size_t, std::string &);
+        ClientGame(Protocol *, size_t);
         void startGame(void);
         void gameLoop(View::Camera &, View::WindowGame &, SDL_Renderer *, ProtectedDynamics &, View::WormsStatus &, ClientConfiguration &);
 };

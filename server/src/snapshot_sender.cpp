@@ -20,19 +20,24 @@ void SnapshotSender::run() {
         usleep(16666);
         Snapshot* snapshot = this->snapshots.pop();
         if (keep_running && snapshot) {
-            snapshot->updateGameStatus(this->match);
-            std::stringstream ss;
-            ss << snapshot->getSnapshot();
-
-            std::vector<Client*>::const_iterator it;
-            for (it = this->clients.begin(); it != this->clients.end(); it++) {
-                (*it)->sendSnapShot(ss);
-            }
-            
-            delete snapshot;   
+            sendSnapshot(snapshot);
         }
     }
 }
+
+void SnapshotSender::sendSnapshot(Snapshot * snapshot) {
+    snapshot->updateGameStatus(this->match);
+    std::stringstream ss;
+    ss << snapshot->getSnapshot();
+    std::cout << ss.str() << std::endl;
+    std::vector<Client*>::const_iterator it;
+    for (it = this->clients.begin(); it != this->clients.end(); it++) {
+        (*it)->sendSnapShot(ss);
+    }
+    
+    delete snapshot;   
+}
+
 
 size_t SnapshotSender::getId(void) const{
     return 0;

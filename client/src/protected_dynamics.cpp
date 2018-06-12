@@ -21,6 +21,11 @@ bool ProtectedDynamics::popModel(void) {
     return thereIsModel;
 }
 
+bool ProtectedDynamics::finishedMatch(void) {
+    bool end_match = this->dynamics["game_status"]["finished"].as<int>();
+    return end_match;
+}
+
 YAML::Node ProtectedDynamics::getWorms(void) {
     const YAML::Node & teams = this->dynamics["worms_teams"];
     return teams;
