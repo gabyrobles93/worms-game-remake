@@ -31,8 +31,8 @@ void View::GreenGrenade::render(SDL_Renderer * r, int camX, int camY) {
 
 		// Render countdown text
 		this->countdownText.setText(r, std::to_string(this->countdown));
-		this->countdownText.setX(this->x + this->texture.getWidth() - this->countdownText.getWidth());
-		this->countdownText.setY(this->y + this->countdownText.getHeight());
+		this->countdownText.setX(this->x + this->texture.getWidth() +  this->countdownText.getWidth() / 2);
+		this->countdownText.setY(this->y - this->countdownText.getHeight() / 2);
 		this->countdownText.render(r, camX, camY);
 	} else {
 		if (!this->explosion.finishedExplosion()) {

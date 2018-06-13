@@ -21,6 +21,7 @@ class ProtectedDynamics {
         size_t getWormProtagonicId(void);
         bool popModel(void);
         bool finishedMatch(void);
+        bool hasGameStatus(void);
 };
 
 #endif

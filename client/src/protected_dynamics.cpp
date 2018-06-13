@@ -22,7 +22,10 @@ bool ProtectedDynamics::popModel(void) {
 }
 
 bool ProtectedDynamics::finishedMatch(void) {
-    bool end_match = this->dynamics["game_status"]["finished"].as<int>();
+    bool end_match = false;
+    if (this->dynamics["game_status"]) {
+        end_match = this->dynamics["game_status"]["finished"].as<int>();
+    }
     return end_match;
 }
 
@@ -55,5 +58,15 @@ int ProtectedDynamics::getTurnTimeLeft(void) {
 }
 
 size_t ProtectedDynamics::getWormProtagonicId(void) {
-    return this->dynamics["game_status"]["protagonic_worm"].as<size_t>();
+    if (this->dynamics["game_status"]) {
+        return this->dynamics["game_status"]["protagonic_worm"].as<size_t>();
+    }
+    return 1;
+}
+
+bool ProtectedDynamics::hasGameStatus(void) {
+    if (this->dynamics["game_status"]) {
+        return true;
+    }
+    return false;
 }

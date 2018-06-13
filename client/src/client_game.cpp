@@ -33,7 +33,6 @@ ClientGame::ClientGame(Protocol * prt, size_t tid) :
 protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
-	removePreviousTempFiles();
 	std::string map_received_name(MAP_RECEIVED_NAME);
 	std::fstream file_map(map_received_name, std::fstream::out | std::fstream::binary | std::fstream::trunc);
 	std::cout << "Esperando mapa del sevidor." << std::endl;
@@ -45,19 +44,28 @@ team_id(tid) {
 	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
 }
 
+ClientGame::~ClientGame(void) {
+	removePreviousTempFiles();
+}
+
 ClientGame::ClientGame(Protocol * prt, size_t tid, std::string & mp) :
 protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
-	removePreviousTempFiles();
 	std::cout << "La ruta del mapa es " << mp << std::endl;
 	std::string cmd_unzip_tar_gz = "tar -xf " + mp;
 	std::system(cmd_unzip_tar_gz.c_str());
 	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
+
+	std::stringstream ss;
+	ss << this->mapNode;
+	std::cout << "El mapa recibido es:" << std::endl;
+	std::cout << ss.str() << std::endl;
 }
 
 void ClientGame::removePreviousTempFiles(void) {
-	std::string cmd_rm_map_yml = "rm map.yml background.png";
+	std::string map_received_name(MAP_RECEIVED_NAME);
+	std::string cmd_rm_map_yml = "rm map.yml background.png " + map_received_name;
 	std::system(cmd_rm_map_yml.c_str());
 }
 
@@ -206,8 +214,11 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 		}
 
 		renderCount++;
-		cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
-		worms.updateWormsClientConfiguration(cfg);
+		
+		if (pdynamics.hasGameStatus()) {
+			cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
+			worms.updateWormsClientConfiguration(cfg);
+		}
 
 		// Dibujamos cosas dinámicas
 		// Gusanos

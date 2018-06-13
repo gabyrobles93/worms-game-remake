@@ -28,7 +28,6 @@ void ModelReceiver::run(void) {
         this->protocol->rcvModel(newDynamics);
         std::stringstream ss;
         ss << newDynamics;
-        /* std::cout << ss.str() << std::endl; */
         if (newDynamics["game_status"]) {
             if (newDynamics["game_status"]["finished"].as<int>() == 1) {
                 std::cout << "La partida termino." << std::endl;

@@ -149,7 +149,7 @@ void LobbyAttendant::startMatch(void) {
         // La partida puede comenzar
         std::cout << "La partida puede comenzar, se le informará a todos los participantes." << std::endl;
         this->waiting_games.notifyAllStartGame(this->player_name);
-        std::string map_path = this->player_name + "-map-tar-gz";
+        std::string map_path = this->player_name + "-map.tar.gz";
         std::fstream map_file(map_path, std::fstream::out | std::fstream::binary | std::fstream::trunc);
         this->client->rcvMapGame(map_file);
         std::cout << "Recibido el mapa del cliente creador. Va a iniciarse la partida." << std::endl;

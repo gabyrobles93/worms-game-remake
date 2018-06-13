@@ -26,6 +26,7 @@ class ClientGame {
     public:
         ClientGame(Protocol *, size_t, std::string &);
         ClientGame(Protocol *, size_t);
+        ~ClientGame(void);
         void startGame(void);
         void gameLoop(View::Camera &, View::WindowGame &, SDL_Renderer *, ProtectedDynamics &, View::WormsStatus &, ClientConfiguration &);
 };

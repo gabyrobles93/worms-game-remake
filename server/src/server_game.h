@@ -15,9 +15,11 @@ class ServerGame {
         //YAML::Node mapNode;
         std::string map_path;
         void gameLoop(Match &, World &);
+        void removePreviousTempFiles(void);
 
     public:
         ServerGame(std::vector<Client*>, std::string &);
+        ~ServerGame(void);
         void startGame(void);
 };
 
