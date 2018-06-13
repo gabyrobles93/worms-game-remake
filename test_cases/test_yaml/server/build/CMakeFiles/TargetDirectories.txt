@@ -1,3 +1,0 @@
-/home/grobles/Desktop/prueba/build/CMakeFiles/rebuild_cache.dir
-/home/grobles/Desktop/prueba/build/CMakeFiles/server.dir
-/home/grobles/Desktop/prueba/build/CMakeFiles/edit_cache.dir
