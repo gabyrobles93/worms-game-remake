@@ -36,11 +36,11 @@ int View::Clock::getY(void) const {
 }
 
 void View::Clock::setX(int x) {
-	this->x = x;
+	this->x = x - this->width / 2;
 }
 
 void View::Clock::setY(int y) {
-	this->y = y;
+	this->y = y - this->height / 2;
 }
 
 void View::Clock::setTime(int newTime) {

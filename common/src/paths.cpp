@@ -72,7 +72,7 @@ Paths::Paths(const char * r) {
   this->PATH_DYNAMITE = root + "resources/graphics/Weapons/dynamite.png";
   this->PATH_GREEN_GRENADE = root + "resources/graphics/Weapons/grenade.png";
   this->PATH_HOLY_GRENADE = root + "resources/graphics/Weapons/hgrenade.png";
-  this->PATH_BANANA = root + "resources/graphics/Weapons/sbanana.png";
+  this->PATH_BANANA = root + "resources/graphics/Weapons/banana.png";
   this->PATH_BAZOOKA = root + "resources/graphics/Weapons/missile.png";
   this->PATH_AIR_STRIKE = root + "resources/graphics/Weapons/airmisil.png";
   this->PATH_CLUSTER = root + "resources/graphics/Weapons/cluster.png";

@@ -19,7 +19,10 @@
 #define SCREEN_PERCENT_WIND_HEIGHT 5
 #define SCREEN_PERCENT_WIND_WIDTH 30
 
-ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int screenH, const YAML::Node & inv) :
+#define SCREEN_PERCENT_TEAMS_HEALTH_HEIGHT 10
+#define SCREEN_PERCENT_TEAMS_HEALTH_WIDTH 20
+
+ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int screenH, const YAML::Node & staticMap) :
   shootPower(
     screenW / (100 / SCREEN_PERCENT_SHOOT_POWER_WIDTH), 
     screenH / (100 / SCREEN_PERCENT_SHOOT_POWER_HEIGHT), 
@@ -31,16 +34,23 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
   ),
   inventory(
     r,
-    inv
+    staticMap["init_inventory"]
   ),
   wind(
     r,
     screenW / (100 / SCREEN_PERCENT_WIND_WIDTH), 
     screenH / (100 / SCREEN_PERCENT_WIND_HEIGHT) 
+  ),
+  teamsHealth(
+    r,
+    screenW / (100 / SCREEN_PERCENT_TEAMS_HEALTH_WIDTH), 
+    screenH / (100 / SCREEN_PERCENT_TEAMS_HEALTH_HEIGHT),
+    staticMap["teams_amount"].as<int>(),
+    staticMap["worms_health"].as<int>()
   ) {
 
-  int clockX = SCREEN_PADDING;
-  int clockY = screenH - SCREEN_PADDING - this->clock.getHeight();
+  int clockX = SCREEN_PADDING + this->clock.getWidth() / 2;
+  int clockY = screenH - SCREEN_PADDING - this->clock.getHeight() / 2;
   this->clock.setX(clockX);
   this->clock.setY(clockY);
 
@@ -53,6 +63,11 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
   int windY = screenH - SCREEN_PADDING - this->wind.getHeight() / 2;
   this->wind.setX(windX);
   this->wind.setY(windY);
+
+  int teamsHealthX = SCREEN_PADDING + this->clock.getWidth() + SCREEN_PADDING + this->teamsHealth.getWidth() / 2;
+  int teamsHealthY = screenH - SCREEN_PADDING - this->teamsHealth.getHeight() / 2;
+  this->teamsHealth.setX(teamsHealthX);
+  this->teamsHealth.setY(teamsHealthY);
 
   this->inventory.setIconSide(screenH / (100 / SCREEN_PERCENT_INVENTORY) / MAX_WEAPONS);
   
@@ -139,6 +154,10 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
       }
     }
 
+    if (e.key.keysym.sym == SDLK_h) {
+      this->teamsHealth.toggleHide();
+    }
+
     if (e.key.keysym.sym == SDLK_SPACE && weapon != w_air_strike && weapon != w_teleport) {
       if (!this->shootingTimer.isStarted()) {
         this->shootingSound.playSound(0);
@@ -193,6 +212,8 @@ void ClientConfiguration::render(SDL_Renderer * r) {
 
   this->inventory.render(r);
   this->clock.render(r, 0, 0);
+
+  this->teamsHealth.render(r, 0, 0);
 }
 
 weapon_t ClientConfiguration::getSelectedWeapon(void) {
@@ -202,6 +223,7 @@ weapon_t ClientConfiguration::getSelectedWeapon(void) {
 void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node & inventory) {
   int newTime = gameStatus["turn_timeleft"].as<int>();
   int windForce = gameStatus["wind_force"].as<int>();
+  const YAML::Node & teamsHealthNode = gameStatus["teams_health"];
 
   if (newTime) {
     this->clock.toggleHide(false);
@@ -211,6 +233,7 @@ void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node
 
   this->clock.setTime(newTime);
   this->wind.setWindPower(windForce);
+  this->teamsHealth.update(teamsHealthNode);
 }
 
 int ClientConfiguration::getSightAngle(void) {

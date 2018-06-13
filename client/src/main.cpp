@@ -53,7 +53,6 @@ int main(/* int argc, char *argv[] */) try {
 	protocol.rcvGameMap(mapNode);
 
 	YAML::Node staticMap = mapNode["static"];
-	const YAML::Node & initInventory = staticMap["init_inventory"];
 	YAML::Node dynamicMap = mapNode["dynamic"];
 	YAML::Node wormsNode = dynamicMap["worms_teams"];
 
@@ -88,7 +87,7 @@ int main(/* int argc, char *argv[] */) try {
 		renderer, 
 		mainWindow.getScreenWidth(), 
 		mainWindow.getScreenHeight(),
-		initInventory
+		staticMap
 	);
 
 	while (!quit) {
