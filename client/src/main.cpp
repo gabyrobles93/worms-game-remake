@@ -171,8 +171,10 @@ int main(/* int argc, char *argv[] */) try {
 		//std::cout << "Render" << std::endl;
 
 		renderCount++;
-		cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
-		worms.updateWormsClientConfiguration(cfg);
+		if (pdynamics.hasGameStatus()) {
+			cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
+			worms.updateWormsClientConfiguration(cfg);
+		}
 
 		// Dibujamos cosas dinámicas
 		// Gusanos

@@ -20,6 +20,7 @@ class ProtectedDynamics {
         int getTurnTimeLeft(void);
         size_t getWormProtagonicId(void);
         bool popModel(void);
+        bool hasGameStatus(void);
 };
 
 #endif
