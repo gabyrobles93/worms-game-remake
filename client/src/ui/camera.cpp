@@ -2,7 +2,7 @@
 #include <iostream>
 
 #define OFFSET_NEAR 25
-#define MOVE_PER_FRAME 15
+#define MOVE_PER_FRAME 10
 
 View::Camera::Camera(int camW, int camH, int levelW, int levelH) :
   width(camW), height(camH), levelWidth(levelW), levelHeight(levelH) {
