@@ -30,6 +30,15 @@ map_path(map_path) {
 	std::system(cmd_unzip_tar_gz.c_str());
 }
 
+ServerGame::~ServerGame(void) {
+    removePreviousTempFiles();
+}
+
+void ServerGame::removePreviousTempFiles(void) {
+	std::string cmd_rm_map_yml = "rm map.yml background.png " + this->map_path;
+	std::system(cmd_rm_map_yml.c_str());
+}
+
 void ServerGame::startGame(void) {
     std::cout << "Inicio de server game." << std::endl;
     Queue<Snapshot*> snapshots(MAX_QUEUE_SNAPSHOTS);

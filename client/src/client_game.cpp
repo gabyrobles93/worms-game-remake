@@ -45,6 +45,10 @@ team_id(tid) {
 	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
 }
 
+ClientGame::~ClientGame(void) {
+	removePreviousTempFiles();
+}
+
 ClientGame::ClientGame(Protocol * prt, size_t tid, std::string & mp) :
 protocol(prt),
 events(MAX_QUEUE_MODELS),
@@ -57,7 +61,8 @@ team_id(tid) {
 }
 
 void ClientGame::removePreviousTempFiles(void) {
-	std::string cmd_rm_map_yml = "rm map.yml background.png";
+	std::string map_received_name(MAP_RECEIVED_NAME);
+	std::string cmd_rm_map_yml = "rm map.yml background.png " + map_received_name;
 	std::system(cmd_rm_map_yml.c_str());
 }
 
