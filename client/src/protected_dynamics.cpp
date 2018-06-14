@@ -57,6 +57,13 @@ size_t ProtectedDynamics::getWormProtagonicId(void) {
     return 1;
 }
 
+size_t ProtectedDynamics::getTeamTurn(void) {
+    if (this->dynamics["game_status"]) {
+        return this->dynamics["game_status"]["team_turn"].as<size_t>(); 
+    }
+    return 0;    
+}
+
 bool ProtectedDynamics::hasGameStatus(void) {
     if (this->dynamics["game_status"]) {
         return true;
