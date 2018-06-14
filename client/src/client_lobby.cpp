@@ -14,8 +14,6 @@
 #include "waiting_match.h"
 #include "client_game.h"
 
-#define DEFAULT_MAPS_FOLDER "../../../editor/maps"
-
 #define PAGE_CONNECTION_INDEX 0
 #define PAGE_LOBBY_INDEX 1
 #define PAGE_MATCH_CREATE 2
@@ -28,7 +26,7 @@ ClientLobby::ClientLobby(QWidget *parent) :
 {
     ui->setupUi(this);
     connectEvents();
-    this->pages = findChild<QStackedWidget*>("pages_client");
+    this->pages = findChild<QStackedWidget*>(WIDGET_PAGES);
     this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
 }
 
@@ -39,85 +37,85 @@ ClientLobby::~ClientLobby()
 }
 
 void ClientLobby::connectEvents(void) {
-    QPushButton* cleanTextBoxes = findChild<QPushButton*>("button_clean");
+    QPushButton* cleanTextBoxes = findChild<QPushButton*>(WIDGET_BUTTON_CLEAN_LOGIN);
     QObject::connect(cleanTextBoxes, &QPushButton::clicked,
                      this, &ClientLobby::cleanTextBoxes);
 
-    QPushButton* connectButton = findChild<QPushButton*>("button_connect");
+    QPushButton* connectButton = findChild<QPushButton*>(WIDGET_BUTTON_CONNECT_LOGIN);
     QObject::connect(connectButton, &QPushButton::clicked,
                      this, &ClientLobby::connectToServer);
 
-    QPushButton* createButton = findChild<QPushButton*>("button_create");
+    QPushButton* createButton = findChild<QPushButton*>(WIDGET_BUTTON_CREATE_GAME);
     QObject::connect(createButton, &QPushButton::clicked,
                      this, &ClientLobby::createMatch);
 
-    QPushButton* exitLobbyButton = findChild<QPushButton*>("button_exit_lobby");
+    QPushButton* exitLobbyButton = findChild<QPushButton*>(WIDGET_BUTTON_EXIT_LOBBY);
     QObject::connect(exitLobbyButton, &QPushButton::clicked,
                      this, &ClientLobby::exitLobby);
 
-    QPushButton* joinButton = findChild<QPushButton*>("button_join");
+    QPushButton* joinButton = findChild<QPushButton*>(WIDGET_BUTTON_JOIN_GAME);
     QObject::connect(joinButton, &QPushButton::clicked,
                      this, &ClientLobby::joinMatch);
 
-    QPushButton* refreshButton = findChild<QPushButton*>("button_refresh");
+    QPushButton* refreshButton = findChild<QPushButton*>(WIDGET_BUTTON_REFRESH_LOBBY);
     QObject::connect(refreshButton, &QPushButton::clicked,
                      this, &ClientLobby::refreshLobby);
 
-    QPushButton* createGameButton = findChild<QPushButton*>("button_start");
+    QPushButton* createGameButton = findChild<QPushButton*>(WIDGET_BUTTON_START_WAITING_MATCH);
     QObject::connect(createGameButton, &QPushButton::clicked,
                      this, &ClientLobby::waitForPlayersOnCreatedMatch);
 
-    QPushButton* backLobbyButton = findChild<QPushButton*>("button_back_lobby");
+    QPushButton* backLobbyButton = findChild<QPushButton*>(WIDGET_BUTTON_BACK_TO_LOBBY);
     QObject::connect(backLobbyButton, &QPushButton::clicked,
                      this, &ClientLobby::backLobby);
 
-    QPushButton* chooseMapsFolderButton = findChild<QPushButton*>("button_changue_maps_folder");
+    QPushButton* chooseMapsFolderButton = findChild<QPushButton*>(WIDGET_BUTTON_CHOOSE_MAP);
     QObject::connect(chooseMapsFolderButton, &QPushButton::clicked,
                      this, &ClientLobby::chooseMap);
 
-    QPushButton* refreshWaitingPlayersButton = findChild<QPushButton*>("button_refresh_waiting_players");
+    QPushButton* refreshWaitingPlayersButton = findChild<QPushButton*>(WIDGET_BUTTON_REFRESH_WAITING_PLAYERS);
     QObject::connect(refreshWaitingPlayersButton, &QPushButton::clicked,
                      this, &ClientLobby::feedWaitingPlayers);;
 
-    QPushButton* startWaitingMatchButton = findChild<QPushButton*>("button_start_waiting_match");
+    QPushButton* startWaitingMatchButton = findChild<QPushButton*>(WIDGET_BUTTON_START_MATCH);
     QObject::connect(startWaitingMatchButton, &QPushButton::clicked,
                      this, &ClientLobby::startWaitingMatch);
 
-    QPushButton* cancelWaitingMatchButton = findChild<QPushButton*>("button_cancel_waiting_match");
+    QPushButton* cancelWaitingMatchButton = findChild<QPushButton*>(WIDGET_BUTTON_CANCEL_WAITING_MATCH);
     QObject::connect(cancelWaitingMatchButton, &QPushButton::clicked,
                      this, &ClientLobby::cancelWaitingMatch);
 
-    QPushButton* exitWaitingMatchButton = findChild<QPushButton*>("button_exit_waiting_match");
+    QPushButton* exitWaitingMatchButton = findChild<QPushButton*>(WIDGET_BUTTON_EXIT_WAITING_MATCH);
     QObject::connect(exitWaitingMatchButton, &QPushButton::clicked,
                      this, &ClientLobby::exitWaitingMatch);
 }
 
 void ClientLobby::cleanTextBoxes(void) {
-    std::cout << "Clear Text." << std::endl;
-    QLineEdit* playerNameText = findChild<QLineEdit*>("text_player_name");
+    /* std::cout << "Clear Text." << std::endl; */
+    QLineEdit* playerNameText = findChild<QLineEdit*>(WIDGET_TEXT_PLAYER_NAME);
     playerNameText->clear();
-    QLineEdit* ipText = findChild<QLineEdit*>("text_ip");
+    QLineEdit* ipText = findChild<QLineEdit*>(WIDGET_TEXT_IP);
     ipText->clear();
-    QLineEdit* portText = findChild<QLineEdit*>("text_port");
+    QLineEdit* portText = findChild<QLineEdit*>(WIDGET_TEXT_PORT);
     portText->clear();
 }
 
 void ClientLobby::connectToServer(void) {
-    QLineEdit* ipText = findChild<QLineEdit*>("text_ip");
-    QLineEdit* portText = findChild<QLineEdit*>("text_port");
-    QLineEdit* pnameText = findChild<QLineEdit*>("text_player_name");
+    QLineEdit* ipText = findChild<QLineEdit*>(WIDGET_TEXT_IP);
+    QLineEdit* portText = findChild<QLineEdit*>(WIDGET_TEXT_PORT);
+    QLineEdit* pnameText = findChild<QLineEdit*>(WIDGET_TEXT_PLAYER_NAME);
     if (ipText->text().isEmpty() || portText->text().isEmpty() || pnameText->text().isEmpty()) {
         return;
     }
     std::string ip = ipText->displayText().toUtf8().constData();
     std::string port = portText->displayText().toUtf8().constData();
     this->player_name = pnameText->displayText().toUtf8().constData();
-    std::cout << "El usuario intenta conectarse a " << ip << ":" << port << std::endl;
+    /* std::cout << "El usuario intenta conectarse a " << ip << ":" << port << std::endl; */
 
     try {
         SocketConnection skt(ip, port);
         this->protocol = new Protocol(std::move(skt));
-        std::cout << "Socket creado para conexión con servidor " << skt.sockfd << std::endl;
+        /* std::cout << "Socket creado para conexión con servidor " << skt.sockfd << std::endl; */
     } catch (const SocketError & e) {
         std::cout << e.what() << std::endl;
         QMessageBox msgBox;
@@ -126,7 +124,7 @@ void ClientLobby::connectToServer(void) {
         msgBox.exec();
         return;
     }
-    std::cout << "Conexion con servidor establecida" << std::endl;
+    /* std::cout << "Conexion con servidor establecida" << std::endl; */
 
     goLobby();
 }
@@ -135,8 +133,8 @@ void ClientLobby::goLobby(void) {
     this->protocol->sendName(this->player_name);
     // Recibe el nuevo nombre (si hubo colisión) que le asigna el servidor.
     this->protocol->getPlayerName(this->player_name);
-    std::cout << "El servidor me bautizó como: " << this->player_name << std::endl;
-    QLabel* playerName = findChild<QLabel*>("playerName");
+    /* std::cout << "El servidor me bautizó como: " << this->player_name << std::endl; */
+    QLabel* playerName = findChild<QLabel*>(WIDGET_TEXT_PLAYER_NAME_LOBBY);
     playerName->setText(this->player_name.c_str());
 
     this->pages->setCurrentIndex(PAGE_LOBBY_INDEX);
@@ -149,7 +147,7 @@ void ClientLobby::createMatch(void) {
 }
 
 void ClientLobby::exitLobby(void) {
-    std::cout << "Me voy del lobby" << std::endl;
+    /* std::cout << "Me voy del lobby" << std::endl; */
     cleanLobby();
     this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
     Event new_event(a_quitLobby, 1);
@@ -158,8 +156,8 @@ void ClientLobby::exitLobby(void) {
 }
 
 void ClientLobby::joinMatch(void) {
-    std::cout << "Me uno a una partida!" << std::endl;
-    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    /* std::cout << "Me uno a una partida!" << std::endl; */
+    QTableWidget * matchsList = findChild<QTableWidget*>(WIDGET_GAMES_TABLE);
     int index_selected = matchsList->selectionModel()->currentIndex().row();
 
     if (index_selected < 0) {
@@ -172,7 +170,7 @@ void ClientLobby::joinMatch(void) {
 
     std::string match_creator_name;
     match_creator_name = matchsList->item(index_selected,1)->text().toUtf8().constData();
-    std::cout << "El creador de la partida a joinearse es: " << match_creator_name << std::endl;
+   /*  std::cout << "El creador de la partida a joinearse es: " << match_creator_name << std::endl; */
 
     Event new_event(a_joinWaitingMatch, match_creator_name);
     this->protocol->sendEvent(new_event);
@@ -181,7 +179,7 @@ void ClientLobby::joinMatch(void) {
     this->protocol->rcvMsg(join_match_response);
     if (join_match_response["code"].as<int>() == 0) {
         refreshLobby();
-        std::cout << "La partida esta llena, no se puede acceder." << std::endl;
+        /* std::cout << "La partida esta llena, no se puede acceder." << std::endl; */
         std::string msg = join_match_response["msg"].as<std::string>();
         QMessageBox msgBox;
         msgBox.setWindowTitle("No se puede unir a partida:");
@@ -189,9 +187,9 @@ void ClientLobby::joinMatch(void) {
         msgBox.exec();
         return;
     } else if (join_match_response["code"].as<int>() == 1) {
-        std::cout << "Hay lugar en la partida, accediendo!." << std::endl;
+        /* std::cout << "Hay lugar en la partida, accediendo!." << std::endl; */
         this->pages->setCurrentIndex(PAGE_JOINED_WAITING_MATCH_INDEX);
-        QLabel* gameCreator = findChild<QLabel*>("text_game_creator");
+        QLabel* gameCreator = findChild<QLabel*>(WIDGET_TEXT_GAME_CREATOR);
         gameCreator->setText(match_creator_name.c_str());
 
         this->waiting_match = new WaitingMatch(this->protocol, this->pages);
@@ -201,16 +199,16 @@ void ClientLobby::joinMatch(void) {
 }
 
 void ClientLobby::refreshLobby(void) {
-    std::cout << "Refresh del lobby" << std::endl;
+    /* std::cout << "Refresh del lobby" << std::endl; */
     cleanLobby();
-    std::cout << "Lobby limpiado" << std::endl;
+    /* std::cout << "Lobby limpiado" << std::endl; */
     Event new_event(a_refreshLobby, 1);
     this->protocol->sendEvent(new_event);
     feedLobby();
 }
 
 void ClientLobby::waitForPlayersOnCreatedMatch(void) {
-    QLineEdit * matchName = findChild<QLineEdit*>("text_game_name");
+    QLineEdit * matchName = findChild<QLineEdit*>(WIDGET_TEXT_GAME_NAME);
     std::string matchNameStr = matchName->text().toUtf8().constData();
 
     if (matchName->text().isEmpty()) {
@@ -229,7 +227,7 @@ void ClientLobby::waitForPlayersOnCreatedMatch(void) {
         return;  
     }
 
-    std::cout << "Lanzo una partida en espera!" << std::endl;
+    /* std::cout << "Lanzo una partida en espera!" << std::endl; */
     this->pages->setCurrentIndex(PAGE_WAITING_MATCH_INDEX);
     Event new_event(a_createMatch, matchNameStr, this->map_players_qty);
     this->protocol->sendEvent(new_event);
@@ -237,22 +235,22 @@ void ClientLobby::waitForPlayersOnCreatedMatch(void) {
 
 void ClientLobby::backLobby(void) {
     this->pages->setCurrentIndex(PAGE_LOBBY_INDEX);
-    QLabel* currentMapPath = findChild<QLabel*>("text_current_map_path");
+    QLabel* currentMapPath = findChild<QLabel*>(WIDGET_TEXT_CHOOSED_MAP);
     currentMapPath->setText("Not selected. Please, choose a map!");
     this->map_game_path.clear();
     refreshLobby();
 }
 
 void ClientLobby::cleanLobby(void) {
-    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    QTableWidget * matchsList = findChild<QTableWidget*>(WIDGET_GAMES_TABLE);
     while (matchsList->rowCount() > 0) {
         matchsList->removeRow(0);
     }
 }
 
 void ClientLobby::feedLobby(void) {
-    std::cout << "Alimentando lobby!" << std::endl;
-    QTableWidget * matchsList = findChild<QTableWidget*>("table_matchs");
+    /* std::cout << "Alimentando lobby!" << std::endl; */
+    QTableWidget * matchsList = findChild<QTableWidget*>(WIDGET_GAMES_TABLE);
     YAML::Node gameStatus;
     this->protocol->rcvGameStatus(gameStatus);
 
@@ -290,8 +288,8 @@ void ClientLobby::chooseMap(void) {
     map_path = QFileDialog::getOpenFileName(this, tr("Choose a map"), "/home", tr("Tar gzipped (*.tar.gz)"));
     if (map_path.length() > 0) {
         this->map_game_path = map_path.toUtf8().constData();
-        std::cout << "El mapa elegido es " << this->map_game_path << std::endl;
-        QLabel* currentMapPath = findChild<QLabel*>("text_current_map_path");
+        /* std::cout << "El mapa elegido es " << this->map_game_path << std::endl; */
+        QLabel* currentMapPath = findChild<QLabel*>(WIDGET_TEXT_CHOOSED_MAP);
         currentMapPath->setText(this->map_game_path.c_str());
         std::string cmd_mkdir = "mkdir temp_map_folder";
         std::string cmd_unzip = "tar -xvf \"" +  this->map_game_path + "\" -C ./temp_map_folder/";
@@ -302,12 +300,12 @@ void ClientLobby::chooseMap(void) {
         std::string cmd_rm_temp_dir = "rm -fr ./temp_map_folder";
         std::system(cmd_rm_temp_dir.c_str());
     } else {
-        std::cout << "No se eligio un mapa." << std::endl;
+        /* std::cout << "No se eligio un mapa." << std::endl; */
     }
 }
 
 void ClientLobby::feedWaitingPlayers(void) {
-    std::cout << "Alimento la lista de jugadores en espera." << std::endl;
+    /* std::cout << "Alimento la lista de jugadores en espera." << std::endl; */
     Event new_event(a_refreshWaitingList);
     this->protocol->sendEvent(new_event);
     YAML::Node waiting_players_list;
@@ -317,7 +315,7 @@ void ClientLobby::feedWaitingPlayers(void) {
     ss << waiting_players_list;
     std::cout << ss.str() << std::endl;
 
-    QListWidget * waitingPlayersList = findChild<QListWidget*>("list_waiting_players");
+    QListWidget * waitingPlayersList = findChild<QListWidget*>(WIDGET_LIST_WAITING_PLAYERS);
 
     waitingPlayersList->clear();
 
@@ -334,27 +332,27 @@ void ClientLobby::feedWaitingPlayers(void) {
 }
 
 void ClientLobby::startWaitingMatch(void) {
-    std::cout << "Comienzo juego" << std::endl;
+    /* std::cout << "Comienzo juego" << std::endl; */
     Event new_event(a_startMatch);
     YAML::Node response;
     this->protocol->sendEvent(new_event);
-    std::cout << "Esperando respuesta del server..." << std::endl;
+    /* std::cout << "Esperando respuesta del server..." << std::endl; */
     this->protocol->rcvMsg(response);
-    std::cout << "Respuesta del server recibida." << std::endl;
+    /* std::cout << "Respuesta del server recibida." << std::endl; */
 
     if (response["code"].as<int>() == 1) {
-        std::cout << "El servidor me dio el OK para iniciar la partida.";
+        /* std::cout << "El servidor me dio el OK para iniciar la partida."; */
         size_t team_id = response["team_id"].as<size_t>();
-        std::cout << "Me asignó el team id " << team_id << std::endl;
+        /* std::cout << "Me asignó el team id " << team_id << std::endl; */
         std::fstream map_file(this->map_game_path, std::fstream::in | std::fstream::binary);
         this->protocol->sendFile(map_file);
         map_file.close();
-        std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl;
+        /* std::cout << "Aca instancio un juego cliente y lo lanzo pasandole el protocolo." << std::endl; */
         ClientGame the_game(this->protocol, team_id, this->map_game_path);
         the_game.startGame();
         backLobby();
     } else {
-        std::cout << "La partida no puede comenzar" << std::endl;
+        /* std::cout << "La partida no puede comenzar" << std::endl; */
         feedWaitingPlayers();
         QMessageBox msgBox;
         msgBox.setWindowTitle("No se puede iniciar partida.");
@@ -366,7 +364,7 @@ void ClientLobby::startWaitingMatch(void) {
 
 // Invocada cuando el CREADOR de una partida en espera cancela dicha partida...
 void ClientLobby::cancelWaitingMatch(void) {
-    std::cout << "Cancelo juego en espera." << std::endl;
+    /* std::cout << "Cancelo juego en espera." << std::endl; */
     Event new_event(a_rmWaitingMatch);
     this->protocol->sendEvent(new_event);
     backLobby();
@@ -374,7 +372,7 @@ void ClientLobby::cancelWaitingMatch(void) {
 
 // Invocada cuando un participante no-creador de una partida en espera se va de dicha partida en espera
 void ClientLobby::exitWaitingMatch(void) {
-    std::cout << "Me voy de una waiting match siendo un invitado." << std::endl;
+    /* std::cout << "Me voy de una waiting match siendo un invitado." << std::endl; */
     if (this->waiting_match->isRunning()) {
         Event new_event(a_exitWaitingMatch);
         this->protocol->sendEvent(new_event);
@@ -383,8 +381,4 @@ void ClientLobby::exitWaitingMatch(void) {
     this->waiting_match->join();
     delete this->waiting_match;
     backLobby();
-}
-
-void ClientLobby::startGame(void) {
-    std::cout << "El juego va a comenzar!" << std::endl;
 }
