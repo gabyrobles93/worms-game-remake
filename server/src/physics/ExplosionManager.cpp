@@ -1,5 +1,4 @@
 #include "ExplosionManager.h"
-#include <iostream>
 
 /*
 Fuente: https://www.iforce2d.net/b2dtut/explosions
@@ -7,7 +6,6 @@ Fuente: https://www.iforce2d.net/b2dtut/explosions
 
 ExplosionManager::ExplosionManager(b2World& world) :
 world(world) {
-
 }
 
 void ExplosionManager::manageExplosion(b2Vec2 center, float radius, float power) {
@@ -31,19 +29,14 @@ void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec
 	float distance = blastDir.Normalize();
     if (blastDir.y > 0) 
         blastDir.y = -blastDir.y;
-	if (distance == 0)
-		return;
+	if (distance <= 1) distance = 1;
 	float invDistance = 1/distance;
-	float impulseMag = (blastPower/5) * invDistance; // * invDistance; // * invDistance;// / REDUCE_FACTOR;
-    
-    std::cout << "DISTANCE " << distance << "iMpulseMAge" << impulseMag << std::endl;
-    std::cout << "BLASTDIR.y " << blastDir.y << "BLASTDIR.x" << blastDir.x << std::endl;
+	float impulseMag = (blastPower/REDUCE_FACTOR) * invDistance;
     entity_t entity_type = static_cast<Entity*>(body->GetUserData())->getEntityType();
     if (entity_type == WORM) {
+        float damage = blastPower * invDistance;
         body->ApplyLinearImpulse(impulseMag * blastDir, applyPoint, true);
-        static_cast<Worm*>(body->GetUserData())->hurt((int) blastPower);
+        static_cast<Worm*>(body->GetUserData())->hurt(damage);
         static_cast<Worm*>(body->GetUserData())->setAffectedByExplosion();
-        std::cout << static_cast<Worm*>(body->GetUserData())->getName() << std::endl;
     }
-	
 }
