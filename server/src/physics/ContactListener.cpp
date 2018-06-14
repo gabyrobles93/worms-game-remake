@@ -4,7 +4,6 @@
 ContactListener::ContactListener(){}
 ContactListener::~ContactListener() {}
 
-
 void ContactListener::BeginContact(b2Contact* contact) {
 
     void* bodyAUserData = contact->GetFixtureA()->GetBody()->GetUserData();
