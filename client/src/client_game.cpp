@@ -2,6 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
+#include <qt5/QtWidgets/QMessageBox>
 #include <fstream>
 #include <string>
 #include <unistd.h>
@@ -23,6 +24,7 @@
 #include "projectiles.h"
 #include "inventory.h"
 
+#define TIE_GAME_CODE 0
 #define CONSTANT_WAIT 100/60
 #define MAX_QUEUE_MODELS 256
 #define MAP_RECEIVED_NAME "map.tar.gz"
@@ -81,7 +83,7 @@ void ClientGame::startGame(void) {
 	ModelReceiver model_receiver(this->protocol, pdynamics);
 
 	// Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(staticMap, 800, 600);
+	View::WindowGame mainWindow(staticMap, 1280, 1024);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
@@ -125,6 +127,7 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 	int tf;
 	int updateCount = 0;
 	int renderCount = 0;
+	bool defeated_msg_showed = false;
 
     View::Projectiles projectiles;
 	bool match_finished = false;
@@ -209,7 +212,23 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 		//std::cout << "Render" << std::endl;
 		match_finished  = pdynamics.finishedMatch();
 		if (match_finished) {
-			std::cout << "La partida terminóó." << std::endl;
+			size_t team_winner = pdynamics.getWinnerTeam();
+			if (team_winner == this->team_id) {
+				QMessageBox msgBox;
+				msgBox.setWindowTitle("Ganaste.");
+				msgBox.setText("Sos el rey de los gusanos!");
+				msgBox.exec();				
+			} else if (team_winner == TIE_GAME_CODE) {
+				QMessageBox msgBox;
+				msgBox.setWindowTitle("Empate.");
+				msgBox.setText("Fue una partida muy reñida!");
+				msgBox.exec();					
+			} else {
+				QMessageBox msgBox;
+				msgBox.setWindowTitle("Partida terminada.");
+				msgBox.setText("Terminó la partida. Una pena que hayas perdido.");
+				msgBox.exec();					
+			}
 			return;
 		}
 
@@ -218,6 +237,13 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 		if (pdynamics.hasGameStatus()) {
 			cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
 			worms.updateWormsClientConfiguration(cfg);
+			if (!defeated_msg_showed && pdynamics.teamDefeated(this->team_id)) {
+				QMessageBox msgBox;
+				msgBox.setWindowTitle("Perdiste.");
+				msgBox.setText("Tu equipo ha perdido. ¡Más suerte la próxima!");
+				msgBox.exec();
+				defeated_msg_showed = true;
+			}
 		}
 
 		// Dibujamos cosas dinámicas

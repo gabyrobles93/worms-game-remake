@@ -22,6 +22,8 @@ class ProtectedDynamics {
         bool popModel(void);
         bool finishedMatch(void);
         bool hasGameStatus(void);
+        bool teamDefeated(size_t);
+        size_t getWinnerTeam(void);
 };
 
 #endif

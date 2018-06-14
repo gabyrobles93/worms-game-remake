@@ -3,6 +3,8 @@
 #include <iostream>
 #include "protected_dynamics.h"
 
+#define TIE_GAME_CODE 0
+
 ProtectedDynamics::ProtectedDynamics(YAML::Node & dyn) {
     this->dynamics = dyn;
 }
@@ -70,3 +72,26 @@ bool ProtectedDynamics::hasGameStatus(void) {
     }
     return false;
 }
+
+ bool ProtectedDynamics::teamDefeated(size_t team_id) {
+     if (this->dynamics["game_status"]) {
+         int team_health = this->dynamics["game_status"]["teams_health"][team_id].as<int>();
+         if (team_health <= 0) {
+             return true;
+         } else {
+             return false;
+         }
+     }
+     return false;
+ }
+
+ size_t ProtectedDynamics::getWinnerTeam(void) {
+    std::map<size_t, int> teams_health = this->dynamics["game_status"]["teams_health"].as<std::map<size_t, int>>();
+    std::map<size_t, int>::iterator it;
+    for (it = teams_health.begin(); it != teams_health.end(); it++) {
+        if (it->second > 0) {
+            return it->first;
+        }
+    }
+    return TIE_GAME_CODE;
+ }
