@@ -15,7 +15,9 @@ Configuration::Configuration() {
     this->WORLD_Y_LIMIT = 58.24f;
 
     //WORM
-    this->WORM_SPEED = 1;
+    this->WORM_SPEED = 2;
+    this->WORM_JUMP_IMPULSE = 4;
+    this->WORM_MAX_FALL_DISTANCE = 4;
 
     //BAZOOKA
     this->BAZOOKA_BLAST_RADIUS = 2;
