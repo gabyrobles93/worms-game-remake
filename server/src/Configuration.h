@@ -61,6 +61,8 @@ public:
 
     //BAT
     int BAT_DAMAGE;
+    int BAT_LENGTH;
+    int BAT_IMPULSE;
 
     //DYNAMITE
     int DYNAMITE_BLAST_RADIUS;

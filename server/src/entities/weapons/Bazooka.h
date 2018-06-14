@@ -17,7 +17,6 @@ protected:
     int shooting_angle;
     int power_factor;
     bool mirrored;
-    bool contact;
     int blast_power;
 public:
     Bazooka(int id, b2World& world, float posX, float posY, float mirrored, float shooting_angle, int power_factor, weapon_t type);
@@ -25,7 +24,6 @@ public:
     void explode(void);
     float getPosX();
     float getPosY();
-    void setContact(bool made_contact);
     void shoot(void);
     bool isMoving(void);
     entity_t getEntityType() {return BAZOOKA;}

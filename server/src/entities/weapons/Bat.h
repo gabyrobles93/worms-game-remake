@@ -13,9 +13,15 @@
 class Bat {
 private:
     b2World& world;
+    float posX;
+    float posY;
+    bool mirrored;
+    float angle;
+    int rayLength;
 public:
     Bat(b2World& world, float posX, float posY, bool mirrored, float angle);
-    void atack(Worm* worm);
+    void rayCast(void);
+    void atack(Worm* worm, b2Body* body);
 };
 
 #endif

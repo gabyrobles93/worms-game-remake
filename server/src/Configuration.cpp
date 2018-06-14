@@ -57,6 +57,8 @@ Configuration::Configuration() {
 
     //BAT
     this->BAT_DAMAGE = 10;
+    this->BAT_LENGTH = 1;
+    this->BAT_IMPULSE = 10;
 
     //DYNAMITE
     this->DYNAMITE_BLAST_RADIUS = 4;
