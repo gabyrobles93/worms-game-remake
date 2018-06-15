@@ -223,6 +223,17 @@ bool Match::extraTime() {
 
 void Match::removePlayer(size_t tid) {
     this->teams[(int)tid]->killAll();
+    if (getTeamTurn() == tid) {
+        if (nextTurn() < 0) {
+            std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
+            this->match_finished = true;
+        } else {
+            std::cout << "Es el turno del equipo " << getTeamTurn() << " con su Worm " << getWormTurn(getTeamTurn()) << std::endl;
+            this->turn_timeleft_sec = this->turn_duration_sec;
+            this->turn_finished = false;
+            return;
+        }           
+    }
 }
 
 size_t Match::aliveTeams(void) {
