@@ -15,7 +15,6 @@ class EventReceiver : public Thread {
         bool keep_running;
         bool quit_event; 
         
-        virtual bool isRunning(void) const;
         virtual size_t getId(void) const;
 
     public:
@@ -23,6 +22,7 @@ class EventReceiver : public Thread {
         virtual void run(void);
         void stop(void);
         bool quitEvent(void);
+        virtual bool isRunning(void) const;
 };
 
 #endif
