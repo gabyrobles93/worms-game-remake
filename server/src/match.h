@@ -54,6 +54,7 @@ class Match {
         int getTeamTotalLife(size_t);
         int getWindForce();
         bool extraTime();
+        void removePlayer(size_t);
 };
 
 #endif

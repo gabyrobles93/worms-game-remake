@@ -111,6 +111,7 @@ void ServerGame::cleanClients(Match & match) {
     for (it = this->event_receiver.begin(); it != this->event_receiver.end();) {
         if (!(*it)->isRunning()) {
             (*it)->join();
+            match.removePlayer((*it)->getId());
             it = this->event_receiver.erase(it);
         } else {
             it++;

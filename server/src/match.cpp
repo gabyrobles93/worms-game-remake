@@ -217,3 +217,7 @@ int Match::getWindForce() {
 bool Match::extraTime() {
     return this->extra_time;
 }
+
+void Match::removePlayer(size_t tid) {
+    this->teams[(int)tid]->killAll();
+}
