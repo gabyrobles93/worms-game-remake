@@ -24,7 +24,6 @@ world(world) {
     this->blast_radius = gConfiguration.AIR_STRIKE_BLAST_RADIUS;
     this->blast_power = gConfiguration.AIR_STRIKE_BLAST_POWER;
     this->exploded = false;
-    this->contact = false;
     this->id = id;
     this->wind_affected = true;
 }
@@ -49,7 +48,7 @@ float Missil::getPosY() {
 }
 
 void Missil::update(int currentTime, int wind_force) {
-    if (this->body->GetPosition().y > gConfiguration.WORLD_Y_LIMIT || contact) {
+    if (this->body->GetPosition().y > gConfiguration.WORLD_Y_LIMIT /*|| contact*/) {
         this->explode();
     }
     
@@ -106,9 +105,9 @@ void Missil::update(int currentTime, int wind_force) {
     }
 }
 
-void Missil::setContact(bool made_contact) {
-    this->contact = made_contact;
-}
+// void Missil::setContact(bool made_contact) {
+//     this->contact = made_contact;
+// }
 
 bool Missil::isMoving() {
     b2Vec2 speed = this->body->GetLinearVelocity();

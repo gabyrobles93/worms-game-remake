@@ -6,6 +6,7 @@
 #include <string>
 #include "PhysicEntity.h"
 #include "Configuration.h"
+#include "types.h"
 
 #define WORM_HEIGHT 0.8f
 #define WORM_RADIUS 0.54f
@@ -23,6 +24,7 @@ class Worm : public Entity {
         float posY;
         float angle;
         float fallenDistance;
+        worm_inclination_t inclination;
 
         bool affectedByExplosion;
         bool falled;        
@@ -31,6 +33,8 @@ class Worm : public Entity {
         bool hurtInTurn;
         bool shootedInTurn;
         int numFootContacts;
+        float normalX;
+        float normalY;
         std::string name;
         b2World& world;
         b2Body* body;
@@ -71,6 +75,8 @@ class Worm : public Entity {
         bool isAffectedByExplosion(void);
         void refreshByNewTurn(void);
         void setPosition(float posX, float posY);
+        void setNormal(b2Vec2 normal);
+        worm_inclination_t getInclination();
 };
 
 #endif

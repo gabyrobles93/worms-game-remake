@@ -67,8 +67,8 @@ void View::RectangleText::render(SDL_Renderer * r, int camX, int camY) {
   if (!this->hide) {    
     // Background rect
     SDL_Rect bgRect = {
-      this->x /*- this->width / 2 */- camX,
-      this->y /*- this->height / 2 */- camY,
+      this->x - camX,
+      this->y - camY,
       this->width,
       this->height,
     };

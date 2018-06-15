@@ -43,6 +43,7 @@ YAML::Node ProtectedDynamics::getProjectiles(void) {
 
 YAML::Node ProtectedDynamics::getGameStatus(void) {
     const YAML::Node & game_status = this->dynamics["game_status"];
+    //std::cout << game_status << std::endl;
     return game_status;
 }
 
@@ -95,3 +96,9 @@ bool ProtectedDynamics::hasGameStatus(void) {
     }
     return TIE_GAME_CODE;
  }
+size_t ProtectedDynamics::getTeamTurn(void) {
+    if (this->dynamics["game_status"]) {
+        return this->dynamics["game_status"]["team_turn"].as<size_t>(); 
+    }
+    return 0;    
+}

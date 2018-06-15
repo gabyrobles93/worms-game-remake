@@ -29,9 +29,15 @@ void EventReceiver::run(void) {
             stop();
             return;
         }
-        size_t team_turn = match.getTeamTurn();
-        if (match.getTurnTimeleft() > 0 && team_turn == new_event.getTeamId()) {
-            this->world.executeAction(new_event, match.getWormTurn(team_turn));
+        int team_turn = match.getTeamTurn();
+        if ((int) new_event.getTeamId() != team_turn) {
+            continue;
+        }
+        if (match.getTurnTimeleft() > 0) {
+            if (match.extraTime() && new_event.getNode()["event"]["action"].as<int>() == a_shoot) {
+                continue;
+            }
+            this->world.executeAction(new_event, match.getWormTurn(team_turn));            
         }
     }
 }

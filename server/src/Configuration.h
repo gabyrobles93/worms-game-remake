@@ -20,6 +20,8 @@ public:
     
     //WORM
     float WORM_SPEED;
+    float WORM_JUMP_IMPULSE;
+    int WORM_MAX_FALL_DISTANCE;
 
     //BAZOOKA
     int BAZOOKA_BLAST_RADIUS;
@@ -61,6 +63,8 @@ public:
 
     //BAT
     int BAT_DAMAGE;
+    int BAT_LENGTH;
+    int BAT_IMPULSE;
 
     //DYNAMITE
     int DYNAMITE_BLAST_RADIUS;

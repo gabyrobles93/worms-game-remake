@@ -9,6 +9,6 @@ posY(posY) {
 
 }
 void Teleportation::teleport() {
-    std::cout << " EN TELEPORT " << this->posX << " y " << this->posY << std::endl;
     this->worm->setPosition(posX, posY);
+    //this->worm->addFootContact();
 }

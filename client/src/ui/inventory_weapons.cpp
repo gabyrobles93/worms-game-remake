@@ -31,7 +31,6 @@ View::WeaponsInventory::WeaponsInventory(SDL_Renderer * r, const YAML::Node & in
     } else {
       icon->selected = false;
     }
-
     this->weapons[itName] = idItem;
     this->items.push_back(icon);
   }

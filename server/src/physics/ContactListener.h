@@ -9,6 +9,7 @@
 #include "Bazooka.h"
 #include "Missil.h"
 #include "Fragment.h"
+#include "Grenade.h"
 
 class ContactListener : public b2ContactListener {
 public: 

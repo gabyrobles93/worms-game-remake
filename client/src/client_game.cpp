@@ -5,6 +5,7 @@
 #include <qt5/QtWidgets/QMessageBox>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <unistd.h>
 #include "client_game.h"
 #include "protocol.h"
@@ -44,6 +45,11 @@ team_id(tid) {
 	std::string cmd_unzip_tar_gz = "tar -xf " + map_received_name;
 	std::system(cmd_unzip_tar_gz.c_str());
 	this->mapNode = YAML::LoadFile(MAP_YML_NAME);
+
+	std::cout << "EL MAPA RECIBIDO ES:" << std::endl;
+	std::stringstream ss;
+	ss << this->mapNode;
+	std::cout << ss.str() << std::endl;
 }
 
 ClientGame::~ClientGame(void) {
@@ -72,10 +78,8 @@ void ClientGame::removePreviousTempFiles(void) {
 }
 
 void ClientGame::startGame(void) {
-	std::cout << "Start GAME!!" << std::endl;
 	EventSender event_sender(this->protocol, events);
 	YAML::Node staticMap = this->mapNode["static"];
-	const YAML::Node & initInventory = staticMap["init_inventory"];
 	YAML::Node dynamicMap = this->mapNode["dynamic"];
 	YAML::Node wormsNode = dynamicMap["worms_teams"];
 
@@ -83,7 +87,7 @@ void ClientGame::startGame(void) {
 	ModelReceiver model_receiver(this->protocol, pdynamics);
 
 	// Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(staticMap, 1280, 1024);
+	View::WindowGame mainWindow(staticMap, 800, 600);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
@@ -92,7 +96,7 @@ void ClientGame::startGame(void) {
 		renderer, 
 		mainWindow.getScreenWidth(), 
 		mainWindow.getScreenHeight(),
-		initInventory
+		staticMap
 	);
 
     View::WormsStatus worms(wormsNode, renderer);
@@ -112,10 +116,10 @@ void ClientGame::startGame(void) {
 	// Stop y Join de threads
 	event_sender.stop();
 	event_sender.join();
-	std::cout << "Event Sender stopeado y joineado." << std::endl;
+
 	model_receiver.stop();
 	model_receiver.join();
-	std::cout << "Model receiver stopeado y joineado." << std::endl;
+
 }
 
 void ClientGame::gameLoop(View::Camera & camera, View::WindowGame & mainWindow, SDL_Renderer * renderer, 

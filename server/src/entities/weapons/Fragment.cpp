@@ -23,7 +23,6 @@ world(world) {
     this->blast_radius = gConfiguration.AIR_STRIKE_BLAST_RADIUS;
     this->blast_power = gConfiguration.AIR_STRIKE_BLAST_POWER;
     this->exploded = false;
-    this->contact = false;
     this->id = id;
     this->wind_affected = true;
     shoot();
@@ -49,7 +48,7 @@ float Fragment::getPosY() {
 }
 
 void Fragment::update(int currentTime, int wind_force) {
-    if (this->body->GetPosition().y > gConfiguration.WORLD_Y_LIMIT || contact) {
+    if (this->body->GetPosition().y > gConfiguration.WORLD_Y_LIMIT /*|| contact*/) {
         this->explode();
     }
     
@@ -104,10 +103,6 @@ void Fragment::update(int currentTime, int wind_force) {
     if (mov_speed.y > 0 && mov_speed.x > 0) {
         this->direction_angle = 180 - ang;
     }
-}
-
-void Fragment::setContact(bool made_contact) {
-    this->contact = made_contact;
 }
 
 bool Fragment::isMoving() {

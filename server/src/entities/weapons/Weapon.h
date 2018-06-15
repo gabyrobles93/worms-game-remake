@@ -24,6 +24,7 @@ protected:
     bool exploded;
     bool wind_affected;
     int blast_radius;
+    int blast_power;
     int countdown;
     int id;
     int direction_angle;

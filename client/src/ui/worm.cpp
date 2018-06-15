@@ -3,17 +3,22 @@
 #include "worm.h"
 
 #define PADDING 1
+#define RECTANGLE_HEIGHT 22
+#define DISTANCE_TEXT_FROM_WORM 30
 #define FPC 2
 
 View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
+  renderer(r),
   sprite(FPC),
   sight(r),
   name(name),
   team(team),
   health(health),
-  font(gPath.PATH_FONT_ARIAL_BOLD, 20) {
+  font(gPath.PATH_FONT_ARIAL_BOLD, 20),
+  healthTxt(RECTANGLE_HEIGHT, PADDING, gPath.PATH_FONT_ARIAL_BOLD),
+  nameTxt(RECTANGLE_HEIGHT, PADDING, gPath.PATH_FONT_ARIAL_BOLD) {
 
-  const SDL_Color colors[] = {
+  SDL_Color colors[] = {
     {0, 0, 0, 0},
     {255, 0, 0, 0},
     {0, 255, 0, 0},
@@ -45,15 +50,30 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
 
   this->x = 0;
   this->y = 0;
+  this->inclination = NONE;
 
   this->walkingSound.setSound(gPath.PATH_SOUND_WORM_WALKING);
 
   this->nameText.loadFromRenderedText(r, this->font, this->name, colors[this->team]);
   this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
+
+  this->healthTxt.setTextColor(colors[this->team]);
+  this->nameTxt.setTextColor(colors[this->team]);
+
+  this->healthTxt.setText(r, std::to_string(this->health));
+  this->nameTxt.setText(r, this->name);
+
   this->dataConfiguration = ALL;
+
+  this->state = new View::Breathing(this, this->renderer);
+  this->stateName = WS_BREATHING;
 }
 
-View::Worm::~Worm() {}
+View::Worm::~Worm() {
+  if (this->state) {
+    delete this->state;
+  }
+}
 
 int View::Worm::getWidth(void) const {
   std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);
@@ -74,74 +94,62 @@ int View::Worm::getY(void) const {
 }
 
 void View::Worm::setX(int x) {
-  Texture & current = this->textures[this->currentAnimation];
-  current.setX(x);
-  this->x = x - (current.getWidth() / 2);
+  this->healthTxt.setX(x);
+  this->nameTxt.setX(x);
+  this->x = x;
 }
 
 void View::Worm::setY(int y) {
-  Texture & current = this->textures[this->currentAnimation];
-  current.setY(y);
-  // Uso get width porque el offset es de un solo clip
-  // Y los clips de los data sheets son cuadrados
-  this->y = y - (current.getWidth() / 2);
+  this->healthTxt.setY(y - this->healthTxt.getHeight() / 2 - DISTANCE_TEXT_FROM_WORM);
+  this->nameTxt.setY(this->healthTxt.getY() - this->nameTxt.getHeight() / 2);
+  this->y = y;
+}
+
+void View::Worm::setState(WormState * newState) {
+  delete this->state;
+  this->state = newState;
+}
+
+void View::Worm::updateState(const YAML::Node & status) {
+  this->mirrored = status["mirrored"].as<int>();
+  bool walking = status["walking"].as<int>();
+  bool falling = status["falling"].as<int>();
+  bool grounded = status["grounded"].as<int>();
+
+  if (grounded && !walking) {
+    if (this->stateName != WS_BREATHING) {
+      this->stateName = WS_BREATHING;
+      this->setState(new View::Breathing(this, this->renderer));
+      return;
+    }
+  }
+
+  if (walking) {
+    if (this->stateName != WS_WALKING) {
+      this->stateName = WS_WALKING;
+      this->setState(new View::Walking(this, this->renderer));
+      return;
+    }
+  }
+
+  if (falling) {
+    if (this->stateName != WS_FALLING) {
+      this->stateName = WS_FALLING;
+      this->setState(new View::Falling(this, this->renderer));
+      return;
+    }
+  }
 }
 
 void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
-
-  if (this->walking) {
-    this->walkingSound.playSound(0);
-  } else {
-    this->walkingSound.stopSound();
-  }
-
-  if (this->walking) {
-    if (this->currentAnimation != WALK) {
-      this->currentAnimation = WALK;
-      this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
-      this->sprite.changeSpriteType(INFINITE_GOING_AND_BACK);
-    }
-  } else if (this->falling) {
-    if (this->currentAnimation != ROLL) {
-      this->currentAnimation = ROLL;
-      this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
-      this->sprite.changeSpriteType(INFINITE_GOING);
-    }
-  } else {
-    if (this->currentAnimation != BREATH_1) {
-      this->currentAnimation = BREATH_1;
-      this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
-      this->sprite.changeSpriteType(INFINITE_GOING_AND_BACK);
-    }    
-  }
-
-  Texture & current = this->textures[this->currentAnimation];
-  SDL_Rect clip = this->sprite.getNextClip();
-  if (this->mirrored) {
-    current.render(
-      r, 
-      this->x - camX, 
-      this->y - camY, 
-      &clip, 
-      0, 
-      NULL, 
-      SDL_FLIP_HORIZONTAL
-    );
-  } else {
-    current.render(
-      r, 
-      this->x - camX, 
-      this->y - camY,
-      &clip
-    );
-  }
+  this->state->render(r, camX, camY, this->inclination, this->mirrored);
   
   // Display de la data
   this->renderWormData(r, camX, camY);
 
   // Display sight if protagonic
   if (this->protagonic) {
-    this->sight.setXYcenter(this->x + current.getWidth(), this->y + current.getWidth());
+    this->sight.setXYcenter(this->x + 30, this->y + 30);
     this->sight.setMirrored(this->mirrored);
     this->sight.render(r, camX, camY);
   }
@@ -149,54 +157,13 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
 
 void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
 
-  if (this->dataConfiguration != NONE) {
-    const SDL_Color colors[] = {
-      {0, 0, 0, 0},
-      {255, 0, 0, 0},
-      {0, 255, 0, 0},
-      {0, 0, 255, 0}
-    };
-
-    Texture & current = this->textures[this->currentAnimation];
-
-    this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
-    //Render health
-    SDL_Rect fillRect = { 
-      this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX - PADDING, 
-      this->y - this->healthText.getHeight() / 2 - camY - PADDING, 
-      this->healthText.getWidth() + PADDING * 2, 
-      this->healthText.getHeight() + PADDING * 2
-    };
-    SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
-    SDL_RenderFillRect(r, &fillRect);
-
-    
-
-    this->healthText.render(
-      r, 
-      this->x + (current.getWidth() - this->healthText.getWidth()) / 2 - camX, 
-      this->y - this->healthText.getHeight() / 2 - camY
-    );
+  if (this->dataConfiguration != NO_DATA) {
+    this->healthTxt.setText(r, std::to_string(this->health));
+    this->healthTxt.render(r, camX, camY);
 
     if (this->dataConfiguration == ALL) {
-      // Render name
-      SDL_Rect fillRectName = { 
-        this->x + (current.getWidth() - this->nameText.getWidth()) / 2 - camX - PADDING, 
-        this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2 - camY - PADDING - PADDING * 2, 
-        this->nameText.getWidth() + PADDING * 2, 
-        this->nameText.getHeight() + PADDING * 2
-      };
-
-      SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0xFF );        
-      SDL_RenderFillRect(r, &fillRectName);
-      
-      this->nameText.render(
-        r, 
-        this->x + (current.getWidth() - this->nameText.getWidth()) / 2  - camX, 
-        this->y - this->healthText.getHeight() - this->nameText.getHeight() / 2  - camY - PADDING * 2
-      );
-    }
-    
+      this->nameTxt.render(r, camX, camY);
+    }  
   }
 }
 

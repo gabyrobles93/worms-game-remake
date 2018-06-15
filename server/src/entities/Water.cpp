@@ -17,8 +17,8 @@ world(world) {
     waterFixture.density = 1;
     waterFixture.friction = 1;
     waterFixture.restitution = 0;
-    waterFixture.filter.categoryBits = WATER_PHYSIC;
-    waterFixture.filter.maskBits = WORM_PHYSIC;
+    //waterFixture.filter.categoryBits = WATER_PHYSIC;
+    //waterFixture.filter.maskBits = WORM_PHYSIC;
     body->CreateFixture(&waterFixture);
 
     this->body = body;

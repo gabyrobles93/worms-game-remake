@@ -29,7 +29,9 @@ world(world) {
     this->body = body;
     this->numFootContacts = 0;
 
+
     this->id = id;
+    this->inclination = NONE;
     this->health = h;
     this->team_id = team_id;
     this->name = n;
@@ -49,7 +51,7 @@ void Worm::frontJump(void) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * 4;
+    float impulse = this->body->GetMass() * gConfiguration.WORM_JUMP_IMPULSE;
     this->body->ApplyLinearImpulse(b2Vec2(impulse * factor,-impulse), this->body->GetWorldCenter(), true);
 }
 
@@ -57,7 +59,7 @@ void Worm::backJump(void) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * 4;
+    float impulse = this->body->GetMass() * gConfiguration.WORM_JUMP_IMPULSE;
     this->body->ApplyLinearImpulse(b2Vec2(-impulse * factor, -impulse), this->body->GetWorldCenter(), true);
 }
 
@@ -122,17 +124,13 @@ void Worm::shoot(/* entity_t weapon */) {
 }
 
 void Worm::hurt(int damage) {
-    if (this->getHealth() - damage < 0) {
-        this->health = 0;
-    } else {
-        this->health -= damage;
-    }
+    this->health -= damage;
     this->hurtInTurn = true;
 }
 
 bool Worm::isWalking(void) {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    return !velocity.y && velocity.x;
+    return (velocity.y || velocity.x) && isGrounded();
 }
 
 bool Worm::isMoving(void) {
@@ -172,7 +170,7 @@ void Worm::update() {
         }
     } else if (isGrounded() && (falled)) {
         this->fallenDistance = getPosY() - this->fallenDistance; 
-        if (this->fallenDistance > 2) {
+        if (this->fallenDistance > gConfiguration.WORM_MAX_FALL_DISTANCE) {
             hurt(this->fallenDistance);
         }
         this->falled = false;
@@ -217,4 +215,24 @@ bool Worm::didShootInTurn(void) {
 void Worm::setPosition(float posX, float posY) {
     this->body->SetTransform(b2Vec2(posX, posY), this->body->GetAngle());
     this->body->SetAwake(true);
+}
+
+void Worm::setNormal(b2Vec2 normal) {
+    std::cout << "NORMAL EN X " << normal.x << "NORMAL EN Y " << normal.y << std::endl;
+    if (normal.x < 0 && normal.y < 0 && !mirrored) {
+        this->inclination = DOWN;
+    } else if (normal.x > 0 && normal.y < 0 && !mirrored) {
+        this->inclination = UP;
+    } else if (normal.x < 0 && normal.y < 0 && mirrored) {
+        this->inclination = UP;
+    } else if (normal.x > 0 && normal.y < 0 && mirrored) {
+        this->inclination = DOWN;
+    } else this->inclination = NONE;
+
+    this->normalX = normal.x;
+    this->normalY = normal.y;
+}
+
+worm_inclination_t Worm::getInclination() {
+    return this->inclination;
 }

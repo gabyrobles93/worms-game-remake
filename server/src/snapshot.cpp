@@ -39,6 +39,7 @@ void Snapshot::updateTeams(std::map<int, Team*> & teams) {
             snapshot << YAML::Key << "falling" << YAML::Value << (int) worm->isFalling();
             snapshot << YAML::Key << "mirrored" << YAML::Value << (int) worm->isMirrored();
             snapshot << YAML::Key << "walking" << YAML::Value << (int) worm->isWalking();
+            snapshot << YAML::Key << "inclination" << YAML::Value << (int) worm->getInclination();
             snapshot << YAML::EndMap;
             snapshot << YAML::EndMap;
         }
@@ -92,6 +93,7 @@ void Snapshot::updateGameStatus(Match & match) {
     snapshot << YAML::Value << YAML::BeginMap;
     snapshot << YAML::Key << "teams_health" << YAML::Value << match.getTeamInfo();
     snapshot << YAML::Key << "wind_force" << YAML::Value << match.getWindForce();
+    snapshot << YAML::Key << "team_turn" << YAML::Value << match.getTeamTurn();
     snapshot << YAML::Key << "protagonic_worm" << YAML::Value << match.getWormTurn(match.getTeamTurn());
     snapshot << YAML::Key << "turn_timeleft" << YAML::Value << std::to_string(match.getTurnTimeleft());
     snapshot << YAML::Key << "finished" << YAML::Value << std::to_string(match.finished());

@@ -11,6 +11,7 @@ typedef enum {
     MISSIL,
     GRENADE,
     FRAGMENT,
+    WALL,
 } entity_t;
 
 class Entity {

@@ -24,6 +24,7 @@ class ProtectedDynamics {
         bool hasGameStatus(void);
         bool teamDefeated(size_t);
         size_t getWinnerTeam(void);
+        size_t getTeamTurn(void);
 };
 
 #endif

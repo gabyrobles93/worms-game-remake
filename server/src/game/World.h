@@ -23,6 +23,7 @@
 #include "Mortar.h"
 #include "Bat.h"
 #include "Teleportation.h"
+#include "Wall.h"
 
 #define GRADTORAD 0.0174533
 

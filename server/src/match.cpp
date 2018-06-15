@@ -23,6 +23,7 @@ wind(wind) {
     this->worms_affected_by_explosion = false;
     this->protagonic_worm_got_hurt = false;
     this->protagonic_worm_did_shoot = false;
+    this->extra_time = false;
     createTeams();
 }
 
@@ -167,6 +168,7 @@ void Match::update(unsigned int time_passed) {
 
     if (this->turn_timeleft_sec <= 0) {
         this->turn_finished = true;
+        this->extra_time = false;
     } else {
         this->turn_timeleft_sec = this->turn_timeleft_sec - time_passed;
     }
@@ -174,10 +176,12 @@ void Match::update(unsigned int time_passed) {
     if (this->protagonic_worm_did_shoot && this->turn_timeleft_sec > 3) {
         this->turn_timeleft_sec = 3;
         this->protagonic_worm_did_shoot = false;
+        this->extra_time = true;
     }
 
-    if ((this->protagonic_worm_did_shoot || this->protagonic_worm_got_hurt || this->turn_finished) 
-    && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion) {
+    if ((this->protagonic_worm_did_shoot || this->protagonic_worm_got_hurt) 
+    && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion && this->turn_finished) {
+        //this->extra_time = false;
         if (nextTurn() < 0) {
             std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
             this->match_finished = true;
@@ -208,4 +212,8 @@ int Match::getTeamTotalLife(size_t team_id) {
 
 int Match::getWindForce() {
     return this->wind->getWindForce();
+}
+
+bool Match::extraTime() {
+    return this->extra_time;
 }

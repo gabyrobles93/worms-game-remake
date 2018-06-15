@@ -59,8 +59,20 @@ typedef enum {
 typedef enum {
     ALL,
     ONLY_HEALTH,
-    NONE
+    NO_DATA
 } worm_data_cfg_t;
+
+typedef enum {
+    WS_BREATHING,
+    WS_WALKING,
+    WS_FALLING
+} view_worm_state_t;
+
+typedef enum {
+    NONE,
+    UP,
+    DOWN
+} worm_inclination_t;
 
 typedef unsigned char uchar;
 

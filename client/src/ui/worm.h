@@ -4,14 +4,24 @@
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
+
+// States
+#include "worm_state.h"
+#include "breathing.h"
+#include "walking.h"
+#include "falling.h"
+
 #include "texture.h"
 #include "drawable.h"
 #include "paths.h"
 #include "types.h"
+#include "rectangle_text.h"
 #include "sprite_animation.h"
 #include "sound_effect.h"
 #include "font.h"
 #include "sight.h"
+#include "yaml.h"
+
 
 typedef enum {
   PLAIN_WORM,
@@ -29,13 +39,20 @@ typedef enum {
   FALLDN
 } worm_animation_t;
 
+
+
 namespace View {
+  class WormState;
+
   class Worm: public Drawable {
     private:
+      SDL_Renderer * renderer;
       // Animation
       View::SpriteAnimation sprite;
       worm_animation_t currentAnimation;
       std::map<worm_animation_t, Texture> textures;
+      View::WormState * state;
+      view_worm_state_t stateName;
       
       // Animation state
       bool grounded;
@@ -44,6 +61,8 @@ namespace View {
       bool falling;
       bool alive;
       bool protagonic;
+
+      worm_inclination_t inclination;
 
       Sight sight;
 
@@ -62,6 +81,12 @@ namespace View {
       Texture nameText;
       Texture healthText;
 
+      RectangleText healthTxt;
+      RectangleText nameTxt;
+
+      // Setea el nuevo state del worm
+      void setState(WormState *);
+
     public:
       Worm(SDL_Renderer *, std::string, size_t, int);
       virtual ~Worm(void);
@@ -72,6 +97,7 @@ namespace View {
       virtual void setX(int);
       virtual void setY(int);
       virtual void render(SDL_Renderer *, int, int);
+      void updateState(const YAML::Node &);
       void setProtagonic(bool);
       void setMirrored(bool);
       void setWalking(bool);

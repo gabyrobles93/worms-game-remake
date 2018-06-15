@@ -6,6 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../common)
 set(UI_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src/ui)
+set(VIEW_WORM_STATE_DIR ${PROJECT_SOURCE_DIR}/src/ui/worm_state)
 
 find_package(SDL2 REQUIRED)
 find_package(Qt5 COMPONENTS Widgets DBus REQUIRED)
@@ -23,6 +24,7 @@ include_directories(${COMMON_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${COMMON_SOURCE_DIR}/src)
 include_directories(${UI_SOURCE_DIR})
+include_directories(${VIEW_WORM_STATE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
@@ -87,6 +89,10 @@ add_executable(	client
 		${UI_SOURCE_DIR}/air_strike.cpp
 		${UI_SOURCE_DIR}/cluster.cpp
 		${UI_SOURCE_DIR}/wind.cpp
+		${UI_SOURCE_DIR}/teams_health.cpp
+		${VIEW_WORM_STATE_DIR}/breathing.cpp
+		${VIEW_WORM_STATE_DIR}/walking.cpp
+		${VIEW_WORM_STATE_DIR}/falling.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
@@ -135,6 +141,11 @@ add_executable(	client
 		${UI_RESOURCES_RCC}
 		${UI_SOURCE_DIR}/cluster.h
 		${UI_SOURCE_DIR}/wind.h
+		${UI_SOURCE_DIR}/teams_health.h
+		${VIEW_WORM_STATE_DIR}/worm_state.h
+		${VIEW_WORM_STATE_DIR}/breathing.h
+		${VIEW_WORM_STATE_DIR}/walking.h
+		${VIEW_WORM_STATE_DIR}/falling.h
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)

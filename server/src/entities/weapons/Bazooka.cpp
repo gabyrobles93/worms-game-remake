@@ -19,8 +19,6 @@ world(world) {
     bazookaFixture.shape = &bazookaShape;
     bazookaFixture.density = 1;
     bazookaFixture.friction = 0.3;
-    //bazookaFixture.filter.categoryBits = BAZOOKA_PHYSIC;
-    //bazookaFixture.filter.maskBits = STRUCTURE_PHYSIC | WORM_PHYSIC;
     body->CreateFixture(&bazookaFixture);
     this->body = body;
 
@@ -30,7 +28,6 @@ world(world) {
     this->mirrored = mirrored;
     this->shooting_angle = shooting_angle;
     this->id = id;
-    this->contact = false;
     this->blast_power = gConfiguration.BAZOOKA_BLAST_POWER;
     this->blast_radius = gConfiguration.BAZOOKA_BLAST_RADIUS;
     shoot();
@@ -64,7 +61,7 @@ void Bazooka::shoot() {
 }
 
 void Bazooka::update(int currenTime, int wind_force) {
-    if (getPosY() > gConfiguration.WORLD_Y_LIMIT || contact) {
+    if (getPosY() > gConfiguration.WORLD_Y_LIMIT /*|| contact*/) {
         this->explode();
     }
     if (wind_affected) {
@@ -117,10 +114,6 @@ void Bazooka::update(int currenTime, int wind_force) {
     if (mov_speed.y > 0 && mov_speed.x > 0) {
         this->direction_angle = 180 - ang;
     }
-}
-
-void Bazooka::setContact(bool made_contact) {
-    this->contact = made_contact;
 }
 
 bool Bazooka::isMoving() {

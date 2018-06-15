@@ -23,7 +23,6 @@
 #define SRV_ARGS_QTY 3
 #define SRV_CONFIG_FILE_POS 1
 #define SRV_PORT_POS 2
-#define MAP_PATH "../maps/el_mapa_1.yml"
 
 Configuration gConfiguration;
 
