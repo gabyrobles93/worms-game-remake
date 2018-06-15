@@ -2,10 +2,15 @@
 
 #define BAZOOKA_FPC 3
 
-View::Bazooka::Bazooka(SDL_Renderer * r, int ratioExplosion) :
+View::Bazooka::Bazooka(SDL_Renderer * r, int ratioExplosion, weapon_t weapon) :
   sprite(BAZOOKA_FPC, DEPENDENT_ON_GRADES),
 	explosion(r, ratioExplosion, "Bazooka") {
-  this->texture.loadFromFile(gPath.PATH_BAZOOKA, r);
+	if (weapon == w_mortar) {
+		this->texture.loadFromFile(gPath.PATH_MORTAR, r);
+	} else {
+		this->texture.loadFromFile(gPath.PATH_BAZOOKA, r);
+	}
+
   this->sprite.setSpriteSheet(&this->texture);
 
 	this->exploded = false;

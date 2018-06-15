@@ -184,6 +184,16 @@ void Worm::update() {
     if (getPosY() > gConfiguration.WORLD_Y_LIMIT) {
         this->kill();
     }
+
+    if (normalX < 0 && normalY < 0 && !mirrored) {
+        this->inclination = DOWN;
+    } else if (normalX > 0 && normalY  < 0 && !mirrored) {
+        this->inclination = UP;
+    } else if (normalX < 0 && normalY  < 0 && mirrored) {
+        this->inclination = UP;
+    } else if (normalX > 0 && normalY  < 0 && mirrored) {
+        this->inclination = DOWN;
+    } else this->inclination = NONE;
 }
 
 bool Worm::isAffectedByExplosion() {
@@ -219,15 +229,7 @@ void Worm::setPosition(float posX, float posY) {
 
 void Worm::setNormal(b2Vec2 normal) {
     std::cout << "NORMAL EN X " << normal.x << "NORMAL EN Y " << normal.y << std::endl;
-    if (normal.x < 0 && normal.y < 0 && !mirrored) {
-        this->inclination = DOWN;
-    } else if (normal.x > 0 && normal.y < 0 && !mirrored) {
-        this->inclination = UP;
-    } else if (normal.x < 0 && normal.y < 0 && mirrored) {
-        this->inclination = UP;
-    } else if (normal.x > 0 && normal.y < 0 && mirrored) {
-        this->inclination = DOWN;
-    } else this->inclination = NONE;
+    
 
     this->normalX = normal.x;
     this->normalY = normal.y;

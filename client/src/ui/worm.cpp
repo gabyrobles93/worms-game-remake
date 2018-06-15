@@ -111,10 +111,13 @@ void View::Worm::setState(WormState * newState) {
 }
 
 void View::Worm::updateState(const YAML::Node & status) {
+  // std::cout << status << std::endl << std::endl;
   this->mirrored = status["mirrored"].as<int>();
+  this->inclination = (worm_inclination_t)status["inclination"].as<int>();
   bool walking = status["walking"].as<int>();
   bool falling = status["falling"].as<int>();
   bool grounded = status["grounded"].as<int>();
+  
 
   if (grounded && !walking) {
     if (this->stateName != WS_BREATHING) {
