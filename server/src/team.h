@@ -10,7 +10,7 @@ class Team {
     private:
         int team_id;
         int member_qty;
-        std::map<int, Worm*>  worms;
+        std::map<int, Worm*> worms;
         std::map<std::string, int> inventory;
 
     public:
@@ -25,6 +25,7 @@ class Team {
         int getTeamId(void);
         bool haveAliveMember(void);
         int getTotalLife(void);
+        void killAll(void);
 };
 
 #endif

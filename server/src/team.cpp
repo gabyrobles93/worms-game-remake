@@ -79,3 +79,10 @@ std::map<int, Worm*> & Team::getWorms() {
 std::map<std::string, int> & Team::getInventory() {
     return this->inventory;
 }
+
+void Team::killAll(void) {
+    std::map<int, Worm*>::iterator it;
+    for (it = this->worms.begin(); it != this->worms.end(); it ++) {
+        it->second->kill();
+    }
+}
