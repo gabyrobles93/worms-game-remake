@@ -6,6 +6,9 @@ ContactListener::~ContactListener() {}
 
 void ContactListener::BeginContact(b2Contact* contact) {
 
+    b2WorldManifold worldManifold;
+    contact->GetWorldManifold(&worldManifold);
+
     void* bodyAUserData = contact->GetFixtureA()->GetBody()->GetUserData();
     void* bodyBUserData = contact->GetFixtureB()->GetBody()->GetUserData();
    
@@ -16,6 +19,7 @@ void ContactListener::BeginContact(b2Contact* contact) {
         //WORM FOOT CONTACT
         if (entityA_type == WORM && entityB_type == STRUCTURE) {
             float angle = static_cast<Girder*>(bodyBUserData)->getAngle();
+            static_cast<Worm*>(bodyAUserData)->setNormal(worldManifold.normal);
             if (angle <= 0.8 && angle >= -0.8) {
                 static_cast<Worm*>(bodyAUserData)->setAngle(angle);
                 static_cast<Worm*>(bodyAUserData)->addFootContact();
@@ -24,6 +28,7 @@ void ContactListener::BeginContact(b2Contact* contact) {
 
         if (entityB_type == WORM && entityA_type == STRUCTURE) {
             float angle = static_cast<Girder*>(bodyAUserData)->getAngle();
+            static_cast<Worm*>(bodyBUserData)->setNormal(worldManifold.normal);
             if (angle <= 0.8 && angle >= -0.8) {
                 static_cast<Worm*>(bodyBUserData)->setAngle(angle);
                 static_cast<Worm*>(bodyBUserData)->addFootContact();

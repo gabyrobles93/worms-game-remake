@@ -29,7 +29,9 @@ world(world) {
     this->body = body;
     this->numFootContacts = 0;
 
+
     this->id = id;
+    this->inclination = NONE;
     this->health = h;
     this->team_id = team_id;
     this->name = n;
@@ -217,4 +219,24 @@ bool Worm::didShootInTurn(void) {
 void Worm::setPosition(float posX, float posY) {
     this->body->SetTransform(b2Vec2(posX, posY), this->body->GetAngle());
     this->body->SetAwake(true);
+}
+
+void Worm::setNormal(b2Vec2 normal) {
+    std::cout << "NORMAL EN X " << normal.x << "NORMAL EN Y " << normal.y << std::endl;
+    if (normal.x < 0 && normal.y < 0 && !mirrored) {
+        this->inclination = DOWN;
+    } else if (normal.x > 0 && normal.y < 0 && !mirrored) {
+        this->inclination = UP;
+    } else if (normal.x < 0 && normal.y < 0 && mirrored) {
+        this->inclination = UP;
+    } else if (normal.x > 0 && normal.y < 0 && mirrored) {
+        this->inclination = DOWN;
+    } else this->inclination = NONE;
+
+    this->normalX = normal.x;
+    this->normalY = normal.y;
+}
+
+worm_inclination_t Worm::getInclination() {
+    return this->inclination;
 }
