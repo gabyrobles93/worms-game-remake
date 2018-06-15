@@ -165,6 +165,9 @@ void Match::setProtagonicWormDidShoot(bool flag) {
 void Match::update(unsigned int time_passed) {
     //this->turn_timeleft_sec = this->turn_timeleft_sec - time_passed;
     if (this->match_finished) return;
+    if (aliveTeams() < 2) {
+        this->match_finished = true;
+    }
 
     if (this->turn_timeleft_sec <= 0) {
         this->turn_finished = true;
@@ -220,4 +223,15 @@ bool Match::extraTime() {
 
 void Match::removePlayer(size_t tid) {
     this->teams[(int)tid]->killAll();
+}
+
+size_t Match::aliveTeams(void) {
+    size_t counter = 0;
+    std::map<int, Team *>::const_iterator it;
+    for (it = this->teams.begin(); it != this->teams.end(); it++) {
+        if (it->second->haveAliveMember()) {
+            counter++;
+        }
+    }
+    return counter;
 }

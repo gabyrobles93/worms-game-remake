@@ -33,6 +33,7 @@ class Match {
         int removeDeadTeamsTurns(void);
         void removeDeadWormsTurns(void);
         void refreshWormsFlagsByNewTurn(void);
+        size_t aliveTeams(void);
 
     public:
         Match(std::map<int, Worm*>& worms, std::map<int, Team*> &,Wind* wind, size_t);

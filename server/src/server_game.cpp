@@ -113,6 +113,7 @@ void ServerGame::cleanClients(Match & match) {
             (*it)->join();
             match.removePlayer((*it)->getId());
             it = this->event_receiver.erase(it);
+            std::cout << "Jugador removido por quit." << std::endl;
         } else {
             it++;
         }
