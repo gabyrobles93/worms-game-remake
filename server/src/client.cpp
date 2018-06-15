@@ -83,6 +83,8 @@ void Client::sendSnapShot(std::stringstream & ss) {
 }
 
 void Client::setIdInMatch(size_t id) {
+    this->defeated = false;
+    this->exited = false;
     this->in_match_id = id;
 }
 
@@ -102,10 +104,10 @@ void Client::setDefeated(void) {
     this->defeated = true;
 }
 
-bool Client::defeated(void) {
+bool Client::isDefeated(void) {
     return this->defeated;
 }
 
-bool Client::exited(void) {
+bool Client::isExited(void) {
     return this->exited;
 }

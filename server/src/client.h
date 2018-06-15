@@ -39,8 +39,8 @@ class Client {
         void rcvMapGame(std::fstream &);
         void setExited(void);
         void setDefeated(void);
-        bool defeated(void);
-        bool exited(void);
+        bool isDefeated(void);
+        bool isExited(void);
 };
 
 #endif
