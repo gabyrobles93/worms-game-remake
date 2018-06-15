@@ -15,7 +15,9 @@ Configuration::Configuration() {
     this->WORLD_Y_LIMIT = 58.24f;
 
     //WORM
-    this->WORM_SPEED = 1;
+    this->WORM_SPEED = 2;
+    this->WORM_JUMP_IMPULSE = 4;
+    this->WORM_MAX_FALL_DISTANCE = 4;
 
     //BAZOOKA
     this->BAZOOKA_BLAST_RADIUS = 2;
@@ -38,7 +40,7 @@ Configuration::Configuration() {
     //RED GRENADE
     this->RED_GRENADE_BLAST_RADIUS = 2;
     this->RED_GRENADE_BLAST_POWER = 30;
-    this->RED_GRENADE_FRAGMENT_QUANTITY = 6;
+    this->RED_GRENADE_FRAGMENT_QUANTITY = 50;
     this->RED_GRENADE_FRAGMENT_BLAST_RADIUS = 2;
     this->RED_GRENADE_FRAGMENT_BLAST_POWER = 10;
 
@@ -57,6 +59,8 @@ Configuration::Configuration() {
 
     //BAT
     this->BAT_DAMAGE = 10;
+    this->BAT_LENGTH = 1;
+    this->BAT_IMPULSE = 10;
 
     //DYNAMITE
     this->DYNAMITE_BLAST_RADIUS = 4;

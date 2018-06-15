@@ -56,25 +56,6 @@ void Grenade::update(int currentTime, int wind_force) {
     }
     this->countdown = this->detonationTime - currentTime;
 
-        // ESTE NO FUNCIONA, FUNCIONA EL DE LA BAZOOKA
-    /* b2Vec2 mov_speed = this->body->GetLinearVelocity();
-    int ang = atan(mov_speed.y/mov_speed.x) * gConfiguration.RADTODEG;
-
-    if (mov_speed.y < 0 && mov_speed.x > 0) {
-        this->direction_angle = -ang;
-    }
-
-    if (mov_speed.y < 0 && mov_speed.x < 0) {
-        this->direction_angle = 180 - ang;
-    }
-
-    if (mov_speed.y > 0 && mov_speed.x < 0) {
-        this->direction_angle = 180 - ang;
-    }
-
-    if (mov_speed.y > 0 && mov_speed.x > 0) {
-        this->direction_angle = 360 - ang;
-    }*/
     if (wind_affected) {
         this->body->ApplyForce(body->GetMass() * b2Vec2(wind_force,0), body->GetWorldCenter(), true);
     }

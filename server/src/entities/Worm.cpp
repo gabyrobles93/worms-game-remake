@@ -49,7 +49,7 @@ void Worm::frontJump(void) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * 4;
+    float impulse = this->body->GetMass() * gConfiguration.WORM_JUMP_IMPULSE;
     this->body->ApplyLinearImpulse(b2Vec2(impulse * factor,-impulse), this->body->GetWorldCenter(), true);
 }
 
@@ -57,7 +57,7 @@ void Worm::backJump(void) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * 4;
+    float impulse = this->body->GetMass() * gConfiguration.WORM_JUMP_IMPULSE;
     this->body->ApplyLinearImpulse(b2Vec2(-impulse * factor, -impulse), this->body->GetWorldCenter(), true);
 }
 
@@ -132,7 +132,7 @@ void Worm::hurt(int damage) {
 
 bool Worm::isWalking(void) {
     b2Vec2 velocity = this->body->GetLinearVelocity();
-    return !velocity.y && velocity.x;
+    return (velocity.y || velocity.x) && isGrounded();
 }
 
 bool Worm::isMoving(void) {
@@ -172,7 +172,7 @@ void Worm::update() {
         }
     } else if (isGrounded() && (falled)) {
         this->fallenDistance = getPosY() - this->fallenDistance; 
-        if (this->fallenDistance > 2) {
+        if (this->fallenDistance > gConfiguration.WORM_MAX_FALL_DISTANCE) {
             hurt(this->fallenDistance);
         }
         this->falled = false;

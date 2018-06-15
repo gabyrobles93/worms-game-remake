@@ -56,6 +56,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/Worm.h
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.cpp
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Girder.h
+		${PROJECT_SOURCE_DIR}/src/entities/structures/Wall.cpp
+		${PROJECT_SOURCE_DIR}/src/entities/structures/Wall.h
 		${PROJECT_SOURCE_DIR}/src/game/World.cpp
 		${PROJECT_SOURCE_DIR}/src/game/World.h
 		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.cpp

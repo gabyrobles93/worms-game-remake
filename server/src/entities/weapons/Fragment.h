@@ -11,7 +11,6 @@
 
 class Fragment : public Weapon {
 private:
-    bool contact;
     int blast_power;
     b2World& world;
     b2Body* body;
@@ -22,7 +21,6 @@ public:
     void explode();
     float getPosX();
     float getPosY();
-    void setContact(bool made_contact);
     bool isMoving();
     entity_t getEntityType() {return FRAGMENT;}
     void update(int currentTime, int wind_force);

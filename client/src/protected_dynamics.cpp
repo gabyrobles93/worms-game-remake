@@ -51,5 +51,22 @@ int ProtectedDynamics::getTurnTimeLeft(void) {
 }
 
 size_t ProtectedDynamics::getWormProtagonicId(void) {
-    return this->dynamics["game_status"]["protagonic_worm"].as<size_t>();
+    if (this->dynamics["game_status"]) {
+        return this->dynamics["game_status"]["protagonic_worm"].as<size_t>(); 
+    }
+    return 1;
+}
+
+size_t ProtectedDynamics::getTeamTurn(void) {
+    if (this->dynamics["game_status"]) {
+        return this->dynamics["game_status"]["team_turn"].as<size_t>(); 
+    }
+    return 0;    
+}
+
+bool ProtectedDynamics::hasGameStatus(void) {
+    if (this->dynamics["game_status"]) {
+        return true;
+    }
+    return false;
 }

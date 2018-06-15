@@ -8,8 +8,8 @@
 #include "Configuration.h"
 #include "ExplosionManager.h"
 
-#define DYNAMITE_WIDTH 0.2f
-#define DYNAMITE_HEIGHT 0.4f
+#define DYNAMITE_WIDTH 0.1f
+#define DYNAMITE_HEIGHT 0.2f
 
 class Dynamite : public Weapon{
 private: 
