@@ -44,6 +44,17 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "string_view": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "numeric": "cpp",
+        "optional": "cpp",
+        "cinttypes": "cpp",
+        "queue": "cpp",
+        "map": "cpp"
     }
 }

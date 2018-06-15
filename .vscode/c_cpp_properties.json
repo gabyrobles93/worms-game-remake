@@ -1,112 +1,47 @@
 {
     "configurations": [
         {
-            "name": "Mac",
-            "includePath": [
-                "/usr/include",
-                "/usr/local/include",
-                "${workspaceFolder}"
-            ],
-            "defines": [],
-            "intelliSenseMode": "clang-x64",
+            "name": "Linux",
             "browse": {
                 "path": [
-                    "/usr/include",
-                    "/usr/local/include",
                     "${workspaceFolder}"
                 ],
-                "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
+                "limitSymbolsToIncludedHeaders": true
             },
-            "macFrameworkPath": [
-                "/System/Library/Frameworks",
-                "/Library/Frameworks"
-            ],
-            "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c11",
-            "cppStandard": "c++17"
-        },
-        {
-            "name": "Linux",
             "includePath": [
                 "${workspaceFolder}",
-                "/usr/include/c++/7",
-                "/usr/include/x86_64-linux-gnu/c++/7",
-                "/usr/include/c++/7/backward",
-                "/usr/lib/gcc/x86_64-linux-gnu/7/include",
-                "/usr/local/include",
-                "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
-                "/usr/include/x86_64-linux-gnu",
-                "/usr/include",
-                "${workspaceFolder}/cxxtest",
-                "${workspaceFolder}/server/include/Box2D",
-                "${workspaceFolder}/server/include/Box2D/Common",
-                "${workspaceFolder}/server/include/Box2D/Collision",
-                "${workspaceFolder}/server/include/Box2D/Dynamics",
-                "${workspaceFolder}/server/include/Box2D/Rope",
-                "${workspaceFolder}/box2d/Box2D",
-                "${workspaceFolder}/common/include/yaml-cpp",
-                "${workspaceFolder}/common/include",
                 "${workspaceFolder}/common/src",
-                "${workspaceFolder}/client/src",
+                "${workspaceFolder}/common/include/yaml-cpp",
+                "${workspaceFolder}/yaml-cpp/include",
                 "${workspaceFolder}/client/src/ui",
-                "${workspaceFolder}/server/src",
+                "${workspaceFolder}/client/src/worm_state",
+                "${workspaceFolder}/server/src/entities",
                 "${workspaceFolder}/server/src/game",
                 "${workspaceFolder}/server/src/physics/world",
-                "${workspaceFolder}/server/src/physics/structures",
-                "${workspaceFolder}/server/src/physics/weapons",
-                "${workspaceFolder}/server/src/physics/worm",
+                "${workspaceFolder}/server/include/Box2D",
                 "${workspaceFolder}/server/include",
-                "${workspaceFolder}/server/src/entities/structures",
-                "${workspaceFolder}/server/src/entities",
                 "${workspaceFolder}/server/src/physics",
+                "${workspaceFolder}/server/src/entities/structures",
+                "${workspaceFolder}/server/src/physics/structures",
+                "${workspaceFolder}/server/src/physics/worm",
                 "${workspaceFolder}/server/src/entities/weapons",
+                "${workspaceFolder}/server/src/physics/weapons",
+                "${workspaceFolder}/server/src",
+                "${workspaceFolder}/editor/src",
+                "${workspaceFolder}/client/src",
+                "${workspaceFolder}/server/src/entities/weather",
+                "/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+                "/usr/include/x86_64-linux-gnu/qt5",
+                "${workspaceFolder}/common/include",
+                "${workspaceFolder}/client/src/ui/worm_state",
+                "/usr/include",
                 "/usr/include"
             ],
             "defines": [],
-            "intelliSenseMode": "clang-x64",
-            "browse": {
-                "path": [
-                    "${workspaceFolder}",
-                    "/usr/include/c++/7",
-                    "/usr/include/x86_64-linux-gnu/c++/7",
-                    "/usr/include/c++/7/backward",
-                    "/usr/lib/gcc/x86_64-linux-gnu/7/include",
-                    "/usr/local/include",
-                    "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
-                    "/usr/include/x86_64-linux-gnu",
-                    "/usr/include"
-                ],
-                "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
-            },
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
-            "cppStandard": "c++17"
-        },
-        {
-            "name": "Win32",
-            "includePath": [
-                "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include",
-                "${workspaceFolder}"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "intelliSenseMode": "msvc-x64",
-            "browse": {
-                "path": [
-                    "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include/*",
-                    "${workspaceFolder}"
-                ],
-                "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
-            },
-            "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
         }
     ],
     "version": 4
