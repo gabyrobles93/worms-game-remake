@@ -144,11 +144,11 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
       }
 
       if (this->wormDataConfig == ONLY_HEALTH) {
-        this->wormDataConfig = NONE;
+        this->wormDataConfig = NO_DATA;
         return;
       }
 
-      if (this->wormDataConfig == NONE) {
+      if (this->wormDataConfig == NO_DATA) {
         this->wormDataConfig = ALL;
         return;
       }

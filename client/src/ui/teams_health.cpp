@@ -80,7 +80,7 @@ void View::TeamsHealth::render(SDL_Renderer * r, int camX, int camY) {
     // White rects
     SDL_Rect whiteRect = {
       this->x + this->padding,
-      this->y + i * (this->padding + this->heightHealthRect) + this->padding + this->text.getHeight(),
+      this->y + i * (this->padding + this->heightHealthRect) + this->text.getHeight(),
       this->width - this->padding * 2,
       this->heightHealthRect
     };
@@ -91,7 +91,7 @@ void View::TeamsHealth::render(SDL_Renderer * r, int camX, int camY) {
     // Black rects
     SDL_Rect blackRect = {
       this->x + this->padding + this->whiteTickness,
-      this->y + i * (this->padding + this->heightHealthRect) + this->padding + this->whiteTickness + this->text.getHeight(),
+      this->y + i * (this->padding + this->heightHealthRect) + this->whiteTickness + this->text.getHeight(),
       this->width - this->padding * 2 - this->whiteTickness * 2,
       this->heightHealthRect - this->whiteTickness * 2
     };
@@ -106,7 +106,7 @@ void View::TeamsHealth::render(SDL_Renderer * r, int camX, int camY) {
     // Team health rect
     SDL_Rect teamRect = {
       this->x + this->padding + this->whiteTickness,
-      this->y + i * (this->padding + this->heightHealthRect) + this->padding + this->whiteTickness + this->text.getHeight(),
+      this->y + i * (this->padding + this->heightHealthRect) + this->whiteTickness + this->text.getHeight(),
       rectHealthWidth,
       this->heightHealthRect - this->whiteTickness * 2
     };

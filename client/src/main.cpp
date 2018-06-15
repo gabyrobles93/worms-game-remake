@@ -169,7 +169,7 @@ int main(/* int argc, char *argv[] */) try {
 			//std::cout << "Pop model " << ++i << std::endl;
 		}
 		//std::cout << "Render" << std::endl;
-
+	
 		renderCount++;
 		cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
 		worms.updateWormsClientConfiguration(cfg);
