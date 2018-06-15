@@ -16,6 +16,8 @@ class Client {
         client_status_t status;
         std::string joined_match_creator_name;
         size_t in_match_id;
+        bool defeated;
+        bool exited;
 
     public:
         Client(Protocol, std::string &);
@@ -35,6 +37,10 @@ class Client {
         void setIdInMatch(size_t);
         size_t getIdInMatch(void);
         void rcvMapGame(std::fstream &);
+        void setExited(void);
+        void setDefeated(void);
+        bool defeated(void);
+        bool exited(void);
 };
 
 #endif

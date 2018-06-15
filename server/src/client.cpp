@@ -12,6 +12,8 @@ protocol(std::move(prt)){
     this->player_name = pn;
     this->status = lobby;
     this->in_match_id = 0;
+    this->defeated = false;
+    this->exited = false;
 }
 
 void Client::sendGamesStatus(YAML::Node gameStatusNode) {
@@ -90,4 +92,20 @@ size_t Client::getIdInMatch(void) {
 
 void Client::rcvMapGame(std::fstream & map_file) {
     this->protocol.rcvFile(map_file);
+}
+
+void Client::setExited(void) {
+    this->exited = true;
+}
+
+void Client::setDefeated(void) {
+    this->defeated = true;
+}
+
+bool Client::defeated(void) {
+    return this->defeated;
+}
+
+bool Client::exited(void) {
+    return this->exited;
 }
