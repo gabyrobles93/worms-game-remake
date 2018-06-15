@@ -81,6 +81,8 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
 
   this->remoteControlX = 0;
   this->remoteControlY = 0;
+
+  this->wormProtagonicId = 1;
 }
 
 ClientConfiguration::~ClientConfiguration() {
@@ -221,8 +223,10 @@ weapon_t ClientConfiguration::getSelectedWeapon(void) {
 }
 
 void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node & inventory) {
+  //std::cout << gameStatus << std::endl << std::endl;
   int newTime = gameStatus["turn_timeleft"].as<int>();
   int windForce = gameStatus["wind_force"].as<int>();
+  this->wormProtagonicId = gameStatus["protagonic_worm"].as<int>();
   const YAML::Node & teamsHealthNode = gameStatus["teams_health"];
 
   if (newTime) {
@@ -252,5 +256,9 @@ int ClientConfiguration::getRemoteControlX(void) {
 int ClientConfiguration::getRemoteControlY(void) {
   this->shooted = false;
   return this->remoteControlY;
+}
+
+size_t ClientConfiguration::getWormProtagonicId(void) {
+  return this->wormProtagonicId;
 }
 

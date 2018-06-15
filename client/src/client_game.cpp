@@ -196,6 +196,14 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 		}
 
 		camera.updateCameraPosition();
+		
+		const View::Projectil * projectilProtagonic = projectiles.getProjectilProtagonic();
+		const View::Worm * protagonicWorm = worms.getWormView(cfg.getWormProtagonicId());
+		if (projectilProtagonic) {
+			camera.focus(*projectilProtagonic);
+		} else if (protagonicWorm) {
+			camera.focus(*protagonicWorm);
+		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);

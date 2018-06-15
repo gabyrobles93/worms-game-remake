@@ -39,7 +39,7 @@ namespace View {
       void setXY(int, int);
 
       // Centra la camara en un dibujable
-      void focus(Drawable &);
+      void focus(const Drawable &);
 
       // Mueve la camara si recibe el evento correspondiente
       void handleEvent(SDL_Event &);

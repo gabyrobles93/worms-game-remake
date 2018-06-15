@@ -68,7 +68,7 @@ void View::Camera::setXY(int x, int y) {
   return;
 }
 
-void View::Camera::focus(Drawable & d) {
+void View::Camera::focus(const Drawable & d) {
   this->setX(d.getX() - this->width / 2);
   this->setY(d.getY() - this->height / 2);
 }

@@ -24,6 +24,7 @@ class ClientConfiguration {
     int remoteControlY;
     bool shooting;
     bool shooted;
+    size_t wormProtagonicId;
     Timer shootingTimer;
     SoundEffect shootingSound;
     View::ShootPower shootPower;
@@ -58,6 +59,9 @@ class ClientConfiguration {
 
     // Updatea la configuracion que muestra el cliente
     void update(const YAML::Node &, const YAML::Node &);
+
+    // Devuelve el id del worm protagonico
+    size_t getWormProtagonicId(void);
 };
 
 #endif

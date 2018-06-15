@@ -34,6 +34,10 @@ namespace View {
       ~Projectiles();
       void render(SDL_Renderer *, Camera &);
       void update(SDL_Renderer *, const YAML::Node &);
+
+      // Devuelve la vista del proyectil protagonico
+      // en caso de no haber proyectiles devuelve NULL
+      const View::Projectil * getProjectilProtagonic(void);
   };
 }
 

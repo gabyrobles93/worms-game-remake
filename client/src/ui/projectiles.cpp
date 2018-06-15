@@ -110,3 +110,12 @@ void View::Projectiles::cleanProjectilesFinished(void) {
     }
   }
 }
+
+const View::Projectil * View::Projectiles::getProjectilProtagonic(void) {
+  if (this->projectiles.size()) {
+    std::map<size_t, View::Projectil*>::const_iterator it = this->projectiles.begin();
+    return it->second;
+  } else {
+    return nullptr;
+  }
+}

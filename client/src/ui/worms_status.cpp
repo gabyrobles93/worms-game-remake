@@ -70,3 +70,11 @@ View::WormsStatus::~WormsStatus(void) {
 		delete it->second;
 	}
 }
+
+const View::Worm * View::WormsStatus::getWormView(size_t id) {
+	if (this->worms.find(id) != this->worms.end()) {
+		return this->worms[id];
+	} else {
+		return nullptr;
+	}
+}

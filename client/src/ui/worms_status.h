@@ -22,6 +22,11 @@ class View::WormsStatus {
         void update(const YAML::Node &);
         void updateWormProtagonic(size_t);
         void updateWormsClientConfiguration(ClientConfiguration &);
+
+        // Devuelve un puntero constante a la vista
+        // del worm con el id pasado por parametro
+        // en caso de no existir devuelve NULL
+        const View::Worm * getWormView(size_t id);
 };
 
 #endif
