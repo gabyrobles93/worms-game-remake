@@ -51,17 +51,17 @@ void ServerGame::startGame(void) {
     SnapshotSender snapshot_sender(snapshots, match, this->clients);
     
     std::cout << "Lanzando hilos." << std::endl;
-    std::vector<EventReceiver*> event_receiver;
+    
     std::vector<Client*>::const_iterator it;
     for (it = this->clients.begin(); it != this->clients.end(); it++) {
-        event_receiver.push_back(new EventReceiver((*it), world, match, (*it)->getIdInMatch()));
+        this->event_receiver.push_back(new EventReceiver((*it), world, match, (*it)->getIdInMatch()));
     }
 
     world.start();
     snapshot_sender.start();
     //Lanzo hilos de event receiver
     std::vector<EventReceiver*>::const_iterator it2;
-    for (it2 = event_receiver.begin(); it2 != event_receiver.end(); it2++) {
+    for (it2 = this->event_receiver.begin(); it2 != this->event_receiver.end(); it2++) {
         (*it2)->start();
     }
 
@@ -80,10 +80,10 @@ void ServerGame::startGame(void) {
     world.join();
     snapshot_sender.join();
     std::cout << "World stopeado y joineado." << std::endl;
-    for (it2 = event_receiver.begin(); it2 != event_receiver.end(); it2++) {
+    for (it2 = this->event_receiver.begin(); it2 != this->event_receiver.end(); it2++) {
         (*it2)->stop();
     }
-    for (it2 = event_receiver.begin(); it2 != event_receiver.end(); it2++) {
+    for (it2 = this->event_receiver.begin(); it2 != this->event_receiver.end(); it2++) {
         (*it2)->join();
     }
 

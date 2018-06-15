@@ -14,6 +14,7 @@ class ServerGame {
         //std::map<size_t, Protocol*> protocols;
         //YAML::Node mapNode;
         std::string map_path;
+        std::vector<EventReceiver*> event_receiver;
         void gameLoop(Match &, World &);
         void removePreviousTempFiles(void);
 
