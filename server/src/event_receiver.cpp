@@ -30,7 +30,10 @@ void EventReceiver::run(void) {
         }
         int team_turn = match.getTeamTurn();
         if (match.getTurnTimeleft() > 0) {
-            this->world.executeAction(new_event, match.getWormTurn(team_turn));
+            if (match.extraTime() && new_event.getNode()["event"]["action"].as<int>() == a_shoot) {
+                continue;
+            }
+            this->world.executeAction(new_event, match.getWormTurn(team_turn));            
         }
     }
 }

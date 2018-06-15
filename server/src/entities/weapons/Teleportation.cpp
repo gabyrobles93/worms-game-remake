@@ -10,4 +10,5 @@ posY(posY) {
 }
 void Teleportation::teleport() {
     this->worm->setPosition(posX, posY);
+    //this->worm->addFootContact();
 }

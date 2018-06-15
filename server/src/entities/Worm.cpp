@@ -124,11 +124,7 @@ void Worm::shoot(/* entity_t weapon */) {
 }
 
 void Worm::hurt(int damage) {
-    if (this->getHealth() - damage < 0) {
-        this->health = 0;
-    } else {
-        this->health -= damage;
-    }
+    this->health -= damage;
     this->hurtInTurn = true;
 }
 

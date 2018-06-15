@@ -186,7 +186,6 @@ void World::run() {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         step_counter++;
-        //this->worldPhysic.aliveBodies();
         if (this->worldPhysic.aliveBodies() || step_counter == 60) {
             Snapshot* snapshot = new Snapshot();            
             snapshot->updateTeams(this->teams);
@@ -194,8 +193,6 @@ void World::run() {
             this->snapshots.push(snapshot);
         }
         updateBodies();
-        //step_counter++;
-
         if (step_counter == 60) {
             this->time_sec++;
             step_counter = 0;
@@ -335,6 +332,5 @@ void World::shootWeapon(Event & event, size_t id) {
         //this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
         
     }
-
     this->worms[id]->shoot();  
 }

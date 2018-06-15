@@ -93,9 +93,11 @@ void ContactListener::EndContact(b2Contact* contact) {
         //WORM FOOT CONTACT
         if (entityA_type == WORM && entityB_type == STRUCTURE) {
             static_cast<Worm*>(bodyAUserData)->deleteFootContact();
+            static_cast<Worm*>(bodyAUserData)->setNormal(b2Vec2(0,0));
         }
 
         if (entityB_type == WORM && entityA_type == STRUCTURE) {
+            static_cast<Worm*>(bodyBUserData)->setNormal(b2Vec2(0,0));
             static_cast<Worm*>(bodyBUserData)->deleteFootContact();
         }
     }

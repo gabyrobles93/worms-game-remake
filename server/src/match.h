@@ -27,6 +27,7 @@ class Match {
         bool worms_affected_by_explosion;
         bool protagonic_worm_got_hurt;
         bool protagonic_worm_did_shoot;
+        bool extra_time;
 
         void createTeams();
         int removeDeadTeamsTurns(void);
@@ -52,6 +53,7 @@ class Match {
         void setProtagonicWormDidShoot(bool);
         int getTeamTotalLife(size_t);
         int getWindForce();
+        bool extraTime();
 };
 
 #endif
