@@ -102,11 +102,11 @@ void ServerGame::gameLoop(Match & match, World & world) {
         match.setProtagonicWormDidShoot(world.hasWormShooted(match.getWormTurn(match.getTeamTurn())));
         usleep(16666);
         match.update(world.getTimeSeconds() - timer);
-        cleanClients();
+        cleanClients(match);
     }
 }
 
-void ServerGame::cleanClients(void) {
+void ServerGame::cleanClients(Match & match) {
     std::vector<EventReceiver*>::iterator it;
     for (it = this->event_receiver.begin(); it != this->event_receiver.end();) {
         if (!(*it)->isRunning()) {

@@ -17,7 +17,7 @@ class ServerGame {
         std::vector<EventReceiver*> event_receiver;
         void gameLoop(Match &, World &);
         void removePreviousTempFiles(void);
-        void cleanClients(void);
+        void cleanClients(Match &);
 
     public:
         ServerGame(std::vector<Client*>, std::string &);

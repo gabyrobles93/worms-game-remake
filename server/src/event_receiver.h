@@ -15,14 +15,13 @@ class EventReceiver : public Thread {
         bool keep_running;
         bool quit_event; 
         
-        virtual size_t getId(void) const;
-
     public:
         EventReceiver(Client *, World &, Match &, size_t);
         virtual void run(void);
         void stop(void);
         bool quitEvent(void);
         virtual bool isRunning(void) const;
+        virtual size_t getId(void) const;
 };
 
 #endif
