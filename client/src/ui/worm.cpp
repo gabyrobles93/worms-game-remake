@@ -152,7 +152,7 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
 
   // Display sight if protagonic
   if (this->protagonic) {
-    this->sight.setXYcenter(this->x + 30, this->y + 30);
+    this->sight.setXYcenter(this->x, this->y);
     this->sight.setMirrored(this->mirrored);
     this->sight.render(r, camX, camY);
   }

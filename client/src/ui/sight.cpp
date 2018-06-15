@@ -63,5 +63,5 @@ void View::Sight::render(SDL_Renderer * r, int camX, int camY) {
   SDL_Rect clip = this->sprite.getNextClip();
   int x = xCenter + (int)(this->ratio * cos(this->angle) * fct);
   int y = yCenter - (int)(this->ratio * sin(this->angle));
-  this->texture.render(r, x - this->texture.getWidth() - camX, y - this->texture.getWidth() - camY, &clip);
+  this->texture.render(r, x - this->texture.getWidth() / 2 - camX, y - this->texture.getWidth() / 2 - camY, &clip);
 }
