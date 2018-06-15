@@ -63,6 +63,7 @@ int Match::getWormTurn(int team_id) {
 
 int Match::nextTurn(void) {
     this->wind->updateWindForce();
+    this->extra_time = false;
     int alive_teams;
     
     int actual_team_turn = getTeamTurn();
@@ -177,8 +178,8 @@ void Match::update(unsigned int time_passed) {
         this->extra_time = true;
     }
 
-    if ((this->protagonic_worm_did_shoot || this->protagonic_worm_got_hurt) 
-    && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion && this->turn_finished) {
+    if ((this->protagonic_worm_did_shoot || this->protagonic_worm_got_hurt || this->turn_finished) 
+    && !this->worms_moving && !this->alive_projectiles && !this->worms_affected_by_explosion && !this->extra_time) {
         //this->extra_time = false;
         if (nextTurn() < 0) {
             std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
