@@ -81,6 +81,10 @@ void View::Projectiles::createProjectil(SDL_Renderer * r, int projId, const YAML
       this->projectiles[projId] = new View::Bazooka(r, ratio);
       break;
 
+    case w_mortar:
+      this->projectiles[projId] = new View::Bazooka(r, ratio, w_mortar);
+      break;
+
     case w_air_strike:
       this->projectiles[projId] = new View::AirStrike(r, ratio);
       break;
