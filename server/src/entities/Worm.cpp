@@ -181,6 +181,56 @@ void Worm::update() {
         this->affectedByExplosion = false;
     }
 
+        b2Vec2 mov_speed = this->body->GetLinearVelocity();
+
+    if (round(mov_speed.x) == 0) {
+        if (mov_speed.y > 0) {
+            this->direction_angle = 180;
+            return;
+        }
+
+        if (mov_speed.y < 0) {
+            this->direction_angle = 0;
+            return;
+        }
+    }
+
+    if (round(mov_speed.y) == 0) {
+        if (mov_speed.x > 0) {
+            this->direction_angle = 90;
+            return;
+        }
+
+        if (mov_speed.x < 0) {
+            this->direction_angle = 270;
+            return;
+        }
+    }
+
+    int ang = atan(mov_speed.x/mov_speed.y) * gConfiguration.RADTODEG;
+
+    // Primer cuadrante
+    if (mov_speed.y < 0 && mov_speed.x > 0) {
+        this->direction_angle = -ang;
+    }
+
+    // Segundo cuadrante
+    if (mov_speed.y < 0 && mov_speed.x < 0) {
+        this->direction_angle = 360 - ang;
+    }
+
+    // Tercer cuadrante
+    if (mov_speed.y > 0 && mov_speed.x < 0) {
+        this->direction_angle = 180 - ang;
+    }
+
+    // Cuarto cuadrante
+    if (mov_speed.y > 0 && mov_speed.x > 0) {
+        this->direction_angle = 180 - ang;
+    }
+
+    
+
     if (getPosY() > gConfiguration.WORLD_Y_LIMIT) {
         this->kill();
     }
@@ -235,4 +285,8 @@ void Worm::setNormal(b2Vec2 normal) {
 
 worm_inclination_t Worm::getInclination() {
     return this->inclination;
+}
+
+int Worm::getDirectionAngle() {
+    return this->direction_angle;
 }
