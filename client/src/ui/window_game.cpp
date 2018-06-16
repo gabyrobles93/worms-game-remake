@@ -97,7 +97,7 @@ void View::WindowGame::init(void) {
 		} else {
 			//Create this->renderer for window
 			//this->renderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
-			this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
 			if (this->renderer == NULL) {
 				throw View::Exception("%s. SDL Error: %s", ERR_MSG_SDL_CREATE_RENDERER, SDL_GetError());
 			} else {

@@ -17,7 +17,11 @@ b2World& WorldPhysic::getWorld() {
 bool WorldPhysic::aliveBodies() {
     for (b2Body* b = this->world.GetBodyList(); b; b = b->GetNext()) {
         if (b->IsAwake()) {
+            entity_t entity = static_cast<Entity*>(b->GetUserData())->getEntityType();
             // std::cout << "LA ENTIDAD DESPIERTA ES: " << static_cast<Entity*>(b->GetUserData())->getEntityType() << std::endl;
+            if (entity == STRUCTURE || entity == WATER || entity == WALL) {
+                continue;
+            }
             return true;
         }
     }

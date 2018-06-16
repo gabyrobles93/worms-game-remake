@@ -26,7 +26,7 @@
 #include "inventory.h"
 
 #define TIE_GAME_CODE 0
-#define CONSTANT_WAIT 100/60
+#define CONSTANT_WAIT 100/6
 #define MAX_QUEUE_MODELS 256
 #define MAP_RECEIVED_NAME "map.tar.gz"
 #define MAP_YML_NAME "map.yml"
@@ -279,7 +279,7 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 			timeLostSleeping = 0;
 		} else {
 			SDL_Delay(to_sleep);
-			timeLostSleeping = SDL_GetTicks() - (tf - to_sleep);
+			timeLostSleeping = SDL_GetTicks() - (tf + to_sleep);
 		}
 	}
 
