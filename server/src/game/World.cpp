@@ -227,7 +227,7 @@ void World::executeAction(Event & event, size_t id) {
             this->worms[id]->backJump();
             break;
         case a_shoot : {
-            if (this->weapons.size() == 0) {
+            if (this->weapons.size() == 0 && !this->worms[id]->didShootInTurn()) {
                 this->shootWeapon(event, id);
             } else {
                 std::cout << "Se ignora disparo porque hay un projectil vivo." << std::endl;
