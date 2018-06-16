@@ -41,6 +41,7 @@ void Snapshot::updateTeams(std::map<int, Team*> & teams) {
             snapshot << YAML::Key << "walking" << YAML::Value << (int) worm->isWalking();
             snapshot << YAML::Key << "inclination" << YAML::Value << (int) worm->getInclination();
             snapshot << YAML::Key << "affected_by_explosion" << YAML::Value << (int) worm->isAffectedByExplosion();
+            snapshot << YAML::Key << "angle_direction" << YAML::Value <<    worm->getDirectionAngle();
             snapshot << YAML::EndMap;
             snapshot << YAML::EndMap;
         }

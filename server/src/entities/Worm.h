@@ -35,6 +35,7 @@ class Worm : public Entity {
         int numFootContacts;
         float normalX;
         float normalY;
+        int direction_angle;
         std::string name;
         b2World& world;
         b2Body* body;
@@ -77,6 +78,7 @@ class Worm : public Entity {
         void setPosition(float posX, float posY);
         void setNormal(b2Vec2 normal);
         worm_inclination_t getInclination();
+        int getDirectionAngle();
 };
 
 #endif
