@@ -3,6 +3,7 @@
 
 #define OFFSET_NEAR 25
 #define MOVE_PER_FRAME 10
+#define MAX_MANUAL_QUIET_MS 1500
 
 View::Camera::Camera(int camW, int camH, int levelW, int levelH) :
   width(camW), height(camH), levelWidth(levelW), levelHeight(levelH) {
@@ -18,6 +19,7 @@ View::Camera::Camera(int camW, int camH, int levelW, int levelH) :
     this->movingRight = false;
     this->movingUp = false;
     this->movingDown = false;
+    this->mode = CAMERA_AUTOMATIC;
 }
 
 View::Camera::~Camera() {}
@@ -69,22 +71,47 @@ void View::Camera::setXY(int x, int y) {
 }
 
 void View::Camera::focus(const Drawable & d) {
-  this->setX(d.getX() - this->width / 2);
-  this->setY(d.getY() - this->height / 2);
+  if (this->mode == CAMERA_MANUAL) {
+    if (this->timer.getTicks() > MAX_MANUAL_QUIET_MS) {
+      this->mode = CAMERA_AUTOMATIC;
+      this->timer.stop();
+    }
+  }
+  
+  if (this->mode == CAMERA_AUTOMATIC) {
+    this->setX(d.getX() - this->width / 2);
+    this->setY(d.getY() - this->height / 2);
+  }
+}
+
+void View::Camera::setManualMode(void) {
+  this->mode = CAMERA_MANUAL;
+  this->restartTimer();
+}
+
+void View::Camera::restartTimer(void) {
+  this->timer.stop();
+  this->timer.start();
 }
 
 void View::Camera::handleEvent(SDL_Event & e) {
-  if (e.key.keysym.sym == SDLK_LEFT) {
-    this->setX(this->camera.x - 25);
-  }
-  if (e.key.keysym.sym == SDLK_RIGHT) {
-    this->setX(this->camera.x + 25);
-  }
-  if (e.key.keysym.sym == SDLK_UP) {
-    this->setY(this->camera.y - 25);
-  }
-  if (e.key.keysym.sym == SDLK_DOWN) {
-    this->setY(this->camera.y + 25);
+  if (e.type == SDL_KEYDOWN) {
+    if (e.key.keysym.sym == SDLK_LEFT) {
+      this->setX(this->camera.x - 25);
+      this->setManualMode();
+    }
+    if (e.key.keysym.sym == SDLK_RIGHT) {
+      this->setX(this->camera.x + 25);
+      this->setManualMode();
+    }
+    if (e.key.keysym.sym == SDLK_UP) {
+      this->setY(this->camera.y - 25);
+      this->setManualMode();
+    }
+    if (e.key.keysym.sym == SDLK_DOWN) {
+      this->setY(this->camera.y + 25);
+      this->setManualMode();
+    }
   }
 }
 
@@ -106,18 +133,22 @@ void View::Camera::updateCameraPosition(void) {
     if (mouseX < 0 + OFFSET_NEAR || this->movingLeft) {
       this->setX(this->camera.x - MOVE_PER_FRAME);
       this->movingLeft = true;
+      this->setManualMode();
     }
     if (mouseX > this->width - OFFSET_NEAR || this->movingRight) {
       this->setX(this->camera.x + MOVE_PER_FRAME);
       this->movingRight = true;
+      this->setManualMode();
     }
     if (mouseY < 0 + OFFSET_NEAR || this->movingUp) {
       this->setY(this->camera.y - MOVE_PER_FRAME);
       this->movingUp = true;
+      this->setManualMode();
     }
     if (mouseY > this->height -OFFSET_NEAR || this->movingDown) {
       this->setY(this->camera.y + MOVE_PER_FRAME);
       this->movingDown = true;
+      this->setManualMode();
     }
     return;
   }

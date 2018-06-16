@@ -7,6 +7,7 @@
 #include "worm_state.h"
 #include "worm.h"
 #include "types.h"
+#include "sound_effect.h"
 
 namespace View {
   class Worm;
@@ -15,6 +16,7 @@ namespace View {
     private:
       std::map<worm_inclination_t, View::Texture> textures;
       std::map<worm_inclination_t, View::SpriteAnimation> sprites;
+      SoundEffect walkingSound;
 
     public:
       Walking(View::Worm * context, SDL_Renderer * r);

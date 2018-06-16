@@ -74,6 +74,11 @@ typedef enum {
     DOWN
 } worm_inclination_t;
 
+typedef enum {
+    CAMERA_AUTOMATIC,
+    CAMERA_MANUAL
+} camera_mode_t;
+
 typedef unsigned char uchar;
 
 #endif

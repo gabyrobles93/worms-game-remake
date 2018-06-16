@@ -3,11 +3,15 @@
 
 #include <SDL2/SDL.h>
 #include "drawable.h"
+#include "sdl_timer.h"
+#include "types.h"
 
 namespace View {
   class Camera {
     private:
       SDL_Rect camera;
+      camera_mode_t mode;
+      Timer timer;
 
       // Dimensiones de la camara
       int width;
@@ -21,6 +25,9 @@ namespace View {
       bool movingRight;
       bool movingUp;
       bool movingDown;
+
+      void setManualMode(void);
+      void restartTimer(void);
 
     public:
       Camera(int camW, int camH, int levelW, int levelH);
