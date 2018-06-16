@@ -124,7 +124,11 @@ void Worm::shoot(/* entity_t weapon */) {
 }
 
 void Worm::hurt(int damage) {
-    this->health -= damage;
+    if (this->health - damage < 0) {
+        this->health = 0;
+    } else {
+        this->health -=damage;
+    }
     this->hurtInTurn = true;
 }
 
@@ -209,7 +213,7 @@ void Worm::update() {
 
     int ang = atan(mov_speed.x/mov_speed.y) * gConfiguration.RADTODEG;
 
-    // Primer cuadrante
+    // Primer cuad rante
     if (mov_speed.y < 0 && mov_speed.x > 0) {
         this->direction_angle = -ang;
     }

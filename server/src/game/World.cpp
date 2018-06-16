@@ -171,13 +171,6 @@ void World::updateBodies() {
         if (!worm->isDead())
             worm->update();
     }
-
-    for (std::map<int, Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
-        Girder* girder = it->second;
-        girder->update();
-    }
-
-    this->water->update();
 }
 
 void World::run() {
