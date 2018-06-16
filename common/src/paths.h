@@ -40,6 +40,9 @@ class Paths {
     std::string PATH_WORM_ROLL;
     std::string PATH_WORM_FALL_DN;
     std::string PATH_WORM_JUMP;
+    std::string PATH_WORM_FLYING_1;
+    std::string PATH_WORM_FLYING_2;
+    std::string PATH_WORM_FLYING_3;
     /* ----------------------------------- */
 
     /* WATER PATHS */
@@ -105,6 +108,15 @@ class Paths {
       std::string PATH_SOUND_LAUGH;
       std::string PATH_SOUND_FATALITY;
       std::string PATH_SOUND_HURRY;
+
+        // Worms hit
+        std::string PATH_SOUND_NOOO;
+        std::string PATH_SOUND_OOFF_1;
+        std::string PATH_SOUND_OOFF_2;
+        std::string PATH_SOUND_OOFF_3;
+        std::string PATH_SOUND_OW_1;
+        std::string PATH_SOUND_OW_2;
+        std::string PATH_SOUND_OW_3;
         // About to explosions
         std::string PATH_SOUND_WHAT_THE;
         std::string PATH_SOUND_UH_OH;

@@ -93,6 +93,7 @@ add_executable(	client
 		${VIEW_WORM_STATE_DIR}/breathing.cpp
 		${VIEW_WORM_STATE_DIR}/walking.cpp
 		${VIEW_WORM_STATE_DIR}/falling.cpp
+		${VIEW_WORM_STATE_DIR}/flying.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.h
 		${PROJECT_SOURCE_DIR}/src/model_receiver.h
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.h
@@ -146,6 +147,7 @@ add_executable(	client
 		${VIEW_WORM_STATE_DIR}/breathing.h
 		${VIEW_WORM_STATE_DIR}/walking.h
 		${VIEW_WORM_STATE_DIR}/falling.h
+		${VIEW_WORM_STATE_DIR}/flying.h
 		)
 
 target_link_libraries(client Qt5::Widgets Qt5::DBus)

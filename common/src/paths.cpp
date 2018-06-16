@@ -43,6 +43,9 @@ Paths::Paths(const char * r) {
   this->PATH_WORM_ROLL = root + "resources/graphics/Worms/wroll.png";
   this->PATH_WORM_FALL_DN = root + "resources/graphics/Worms/wfall.png";
   this->PATH_WORM_JUMP = root + "resources/graphics/Worms/wjump.jpg";
+  this->PATH_WORM_FLYING_1 = root + "resources/graphics/Worms/wfly1.png";
+  this->PATH_WORM_FLYING_2 = root + "resources/graphics/Worms/wfly2.png";
+  this->PATH_WORM_FLYING_3 = root + "resources/graphics/Worms/wfly3.png";
   /* ----------------------------------- */
 
   /* WATER PATHS */
@@ -107,6 +110,14 @@ Paths::Paths(const char * r) {
     this->PATH_SOUND_LAUGH = root + "resources/sounds/Voices/Spanish/LAUGH.WAV";
     this->PATH_SOUND_FATALITY = root + "resources/sounds/Voices/Spanish/FATALITY.WAV";
     this->PATH_SOUND_HURRY = root + "resources/sounds/Voices/Spanish/HURRY.WAV";
+    // Worms hit
+    this->PATH_SOUND_NOOO = root + "resources/sounds/Voices/Spanish/NOOO.WAV";
+    this->PATH_SOUND_OOFF_1 = root + "resources/sounds/Voices/Spanish/OOFF1.WAV";
+    this->PATH_SOUND_OOFF_2 = root + "resources/sounds/Voices/Spanish/OOFF2.WAV";
+    this->PATH_SOUND_OOFF_3 = root + "resources/sounds/Voices/Spanish/OOFF3.WAV";
+    this->PATH_SOUND_OW_1 = root + "resources/sounds/Voices/Spanish/OW1.WAV";
+    this->PATH_SOUND_OW_2 = root + "resources/sounds/Voices/Spanish/OW2.WAV";
+    this->PATH_SOUND_OW_3 = root + "resources/sounds/Voices/Spanish/OW3.WAV";
     // About to explode
     this->PATH_SOUND_WHAT_THE = root + "resources/sounds/Voices/Spanish/WHATTHE.WAV";
     this->PATH_SOUND_UH_OH = root + "resources/sounds/Voices/Spanish/UH-OH.WAV";

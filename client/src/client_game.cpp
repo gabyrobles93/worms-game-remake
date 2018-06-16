@@ -180,18 +180,7 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 					this->events.push(event);
 				}
 
-				if (e.key.keysym.sym == SDLK_LEFT) {
-					camera.handleEvent(e);
-				}
-				if (e.key.keysym.sym == SDLK_RIGHT) {
-					camera.handleEvent(e);
-				}
-				if (e.key.keysym.sym == SDLK_UP) {
-					camera.handleEvent(e);
-				}
-				if (e.key.keysym.sym == SDLK_DOWN) {
-					camera.handleEvent(e);
-				}
+				camera.handleEvent(e);
 			}
 		}
 

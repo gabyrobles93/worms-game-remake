@@ -65,7 +65,8 @@ typedef enum {
 typedef enum {
     WS_BREATHING,
     WS_WALKING,
-    WS_FALLING
+    WS_FALLING,
+    WS_FLYING
 } view_worm_state_t;
 
 typedef enum {

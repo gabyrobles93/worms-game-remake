@@ -10,6 +10,7 @@
 #include "breathing.h"
 #include "walking.h"
 #include "falling.h"
+#include "flying.h"
 
 #include "texture.h"
 #include "drawable.h"

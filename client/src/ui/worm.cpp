@@ -111,15 +111,23 @@ void View::Worm::setState(WormState * newState) {
 }
 
 void View::Worm::updateState(const YAML::Node & status) {
-  // std::cout << status << std::endl << std::endl;
+  std::cout << status << std::endl << std::endl;
   this->mirrored = status["mirrored"].as<int>();
   this->inclination = (worm_inclination_t)status["inclination"].as<int>();
   bool walking = status["walking"].as<int>();
   bool falling = status["falling"].as<int>();
   bool grounded = status["grounded"].as<int>();
-  
+  bool affectedByExplosion = status["affected_by_explosion"].as<int>();
 
-  if (grounded && !walking) {
+  if (affectedByExplosion) {
+    if (this->stateName != WS_FLYING) {
+      this->stateName = WS_FLYING;
+      this->setState(new View::Flying(this, this->renderer));
+      return;
+    }
+  }  
+
+  if (grounded && !walking && !affectedByExplosion) {
     if (this->stateName != WS_BREATHING) {
       this->stateName = WS_BREATHING;
       this->setState(new View::Breathing(this, this->renderer));
@@ -127,7 +135,7 @@ void View::Worm::updateState(const YAML::Node & status) {
     }
   }
 
-  if (walking) {
+  if (walking && !affectedByExplosion) {
     if (this->stateName != WS_WALKING) {
       this->stateName = WS_WALKING;
       this->setState(new View::Walking(this, this->renderer));
@@ -135,7 +143,7 @@ void View::Worm::updateState(const YAML::Node & status) {
     }
   }
 
-  if (falling) {
+  if (falling && !affectedByExplosion) {
     if (this->stateName != WS_FALLING) {
       this->stateName = WS_FALLING;
       this->setState(new View::Falling(this, this->renderer));
