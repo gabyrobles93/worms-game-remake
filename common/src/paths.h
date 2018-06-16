@@ -43,6 +43,7 @@ class Paths {
     std::string PATH_WORM_FLYING_1;
     std::string PATH_WORM_FLYING_2;
     std::string PATH_WORM_FLYING_3;
+    std::string PATH_WORM_DIE;
     /* ----------------------------------- */
 
     /* WATER PATHS */
@@ -84,6 +85,13 @@ class Paths {
     std::string PATH_DEFAULT_SIGHT;
     std::string PATH_WIND_LEFT;
     std::string PATH_WIND_RIGHT;
+    std::string PATH_GRAVE_1;
+    std::string PATH_GRAVE_2;
+    std::string PATH_GRAVE_3;
+    std::string PATH_GRAVE_4;
+    std::string PATH_GRAVE_5;
+    std::string PATH_GRAVE_6;
+
     /* ---------------------------- */
 
     /* FONTS */
@@ -108,6 +116,8 @@ class Paths {
       std::string PATH_SOUND_LAUGH;
       std::string PATH_SOUND_FATALITY;
       std::string PATH_SOUND_HURRY;
+      std::string PATH_SOUND_BYE;
+      std::string PATH_SOUND_DIE;
 
         // Worms hit
         std::string PATH_SOUND_NOOO;

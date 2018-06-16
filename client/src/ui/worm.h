@@ -11,6 +11,7 @@
 #include "walking.h"
 #include "falling.h"
 #include "flying.h"
+#include "dead.h"
 
 #include "texture.h"
 #include "drawable.h"

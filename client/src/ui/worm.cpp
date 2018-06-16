@@ -111,6 +111,10 @@ void View::Worm::setState(WormState * newState) {
 }
 
 void View::Worm::updateState(const YAML::Node & status) {
+  if (this->stateName == WS_DEAD) {
+    return;
+  }
+
   std::cout << status << std::endl << std::endl;
   this->mirrored = status["mirrored"].as<int>();
   this->inclination = (worm_inclination_t)status["inclination"].as<int>();
@@ -167,7 +171,10 @@ void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
 }
 
 void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
-
+  if (this->stateName == WS_DEAD) {
+    return;
+  }
+  
   if (this->dataConfiguration != NO_DATA) {
     this->healthTxt.setText(r, std::to_string(this->health));
     this->healthTxt.render(r, camX, camY);
@@ -179,9 +186,12 @@ void View::Worm::renderWormData(SDL_Renderer * r, int camX, int camY) {
 }
 
 void View::Worm::setHealth(int newHealth) {
-  this->health = newHealth;
-  if (this->health <= 0) {
-    this->alive = false;
+  if (this->stateName != WS_DEAD) {
+    this->health = newHealth;
+    if (this->health <= 0) {
+      this->stateName = WS_DEAD;
+      this->setState(new View::Dead(this, this->renderer));
+    }
   }
 }
 

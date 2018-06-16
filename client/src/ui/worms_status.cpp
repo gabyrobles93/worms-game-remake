@@ -23,9 +23,7 @@ void View::WormsStatus::render(SDL_Renderer * renderer, View::Camera & camera) {
 	std::map<size_t, View::Worm *>::iterator it;
 
 	for (it = this->worms.begin(); it != this->worms.end(); it++) {
-		if (it->second->isAlive()) {
-			it->second->render(renderer, camera.getX(), camera.getY());
-		}
+		it->second->render(renderer, camera.getX(), camera.getY());
 	}
 }
 
