@@ -243,12 +243,14 @@ void World::shootWeapon(Event & event, size_t id) {
     weapon_t weapon_shooted = (weapon_t) nodeEvent["event"]["weapon"].as<int>();
     Weapon * newWeapon = NULL;
 
-    //if (!this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) {
-    //    std::cout << "Sin municiones, accion ignorada." << std::endl;
-    //    return;
-    //}
+    if (!this->teams[this->worms[id]->getTeam()]->hasSupplies(weapon_shooted)) {
+        std::cout << "Disparo ignorado, no quedan supplies." << std::endl;
+        return;
+    }
 
     std::cout << "Quedan municiones entonces dispara." << std::endl;
+
+    this->teams[this->worms[id]->getTeam()]->reduceSupplie(weapon_shooted);
 
     if (weapon_shooted == w_dynamite) {
         newWeapon = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());            
@@ -333,5 +335,5 @@ void World::shootWeapon(Event & event, size_t id) {
         //this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
         
     }
-    this->worms[id]->shoot();  
+    this->worms[id]->shoot();
 }

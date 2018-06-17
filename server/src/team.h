@@ -27,6 +27,8 @@ class Team {
         bool haveAliveMember(void);
         int getTotalLife(void);
         void killAll(void);
+        bool hasSupplies(weapon_t);
+        void reduceSupplie(weapon_t);
 };
 
 #endif

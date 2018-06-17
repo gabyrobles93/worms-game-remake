@@ -86,3 +86,11 @@ void Team::killAll(void) {
         it->second->kill();
     }
 }
+
+bool Team::hasSupplies(weapon_t weapon_id) {
+    return this->inventory[weapon_id] > 0;
+}
+
+void Team::reduceSupplie(weapon_t weapon_id) {
+    this->inventory[weapon_id] -= 1;
+}
