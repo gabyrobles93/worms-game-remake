@@ -6,6 +6,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(COMMON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../common)
 set(CLIENT_RESOURCES ${PROJECT_SOURCE_DIR}/../client/src/ui)
+set(CLIENT_SRC ${PROJECT_SOURCE_DIR}/../client/src)
+set(VIEW_WORM_STATE_DIR ${PROJECT_SOURCE_DIR}/../client/src/ui/worm_state)
 
 find_package(SDL2 REQUIRED)
 find_package(Qt5 COMPONENTS Widgets DBus REQUIRED)
@@ -23,6 +25,8 @@ include_directories(${COMMON_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${COMMON_SOURCE_DIR}/src)
 include_directories(${CLIENT_RESOURCES})
+include_directories(${VIEW_WORM_STATE_DIR})
+include_directories(${CLIENT_SRC})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include)
 include_directories(${COMMON_SOURCE_DIR}/include/yaml-cpp)
@@ -45,7 +49,10 @@ add_executable(	editor
 		${COMMON_SOURCE_DIR}/src/thread.cpp
 		${COMMON_SOURCE_DIR}/src/paths.cpp
 		${COMMON_SOURCE_DIR}/src/sound_effect.cpp
+		${COMMON_SOURCE_DIR}/src/sdl_timer.cpp
 		${CLIENT_RESOURCES}/camera.cpp
+		${CLIENT_RESOURCES}/rectangle_text.cpp
+		${CLIENT_RESOURCES}/explosion.cpp
 		${CLIENT_RESOURCES}/sight.cpp
 		${CLIENT_RESOURCES}/girder.cpp
 		${CLIENT_RESOURCES}/girder_long.cpp
@@ -60,14 +67,22 @@ add_executable(	editor
 		${CLIENT_RESOURCES}/water.cpp
 		${CLIENT_RESOURCES}/window_game.cpp
 		${CLIENT_RESOURCES}/worm.cpp
+		${VIEW_WORM_STATE_DIR}/breathing.cpp
+		${VIEW_WORM_STATE_DIR}/walking.cpp
+		${VIEW_WORM_STATE_DIR}/falling.cpp
+		${VIEW_WORM_STATE_DIR}/flying.cpp
+		${VIEW_WORM_STATE_DIR}/dead.cpp
 		${PROJECT_SOURCE_DIR}/src/map_game.h
 		${COMMON_SOURCE_DIR}/src/paths.h
 		${COMMON_SOURCE_DIR}/src/thread.h
 		${COMMON_SOURCE_DIR}/src/types.h
 		${COMMON_SOURCE_DIR}/src/sound_effect.h
+		${COMMON_SOURCE_DIR}/src/sdl_timer.h
 		${PROJECT_SOURCE_DIR}/src/editor_launcher.h
 		${PROJECT_SOURCE_DIR}/src/editor.h
 		${CLIENT_RESOURCES}/camera.h
+		${CLIENT_RESOURCES}/rectangle_text.h
+		${CLIENT_RESOURCES}/explosion.h
 		${CLIENT_RESOURCES}/sight.h
 		${CLIENT_RESOURCES}/drawable.h
 		${CLIENT_RESOURCES}/girder.h
@@ -86,6 +101,12 @@ add_executable(	editor
 		${CLIENT_RESOURCES}/worm.h
 		${UIS_HEADERS}
 		${UI_RESOURCES_RCC}
+		${VIEW_WORM_STATE_DIR}/worm_state.h
+		${VIEW_WORM_STATE_DIR}/breathing.h
+		${VIEW_WORM_STATE_DIR}/walking.h
+		${VIEW_WORM_STATE_DIR}/falling.h
+		${VIEW_WORM_STATE_DIR}/flying.h
+		${VIEW_WORM_STATE_DIR}/dead.h
 		)
 
 target_link_libraries(editor Qt5::Widgets Qt5::DBus)
