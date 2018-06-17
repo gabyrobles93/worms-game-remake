@@ -31,24 +31,20 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
       //std::cout << "Nodo que voy a usar para updatear" << std::endl;
       //std::cout << projNode << std::endl;
     }
-
-    // Vemos si ya existe el proyectil
-    if (this->projectiles.find(projId) != this->projectiles.end()) {
-      Projectil * viewProjectile = this->projectiles[projId];
-      viewProjectile->setX(proj["x"].as<int>());
-      viewProjectile->setY(proj["y"].as<int>());
-      viewProjectile->setCountdown(proj["countdown"].as<int>());
-      viewProjectile->setExplode((bool)proj["exploded"].as<int>());
-      if (proj["angle_direction"]) {
-        viewProjectile->setAngleDirection(proj["angle_direction"].as<int>());
-      }
-    } else {
-      //std::cout << "No existe el proyectil, lo creare\n";
+    if (this->projectiles.find(projId) == this->projectiles.end()) {
       this->createProjectil(
-        r, 
-        projId, 
+        r,
+        projId,
         proj
       );
+    }
+    Projectil * viewProjectile = this->projectiles[projId];
+    viewProjectile->setX(proj["x"].as<int>());
+    viewProjectile->setY(proj["y"].as<int>());
+    viewProjectile->setCountdown(proj["countdown"].as<int>());
+    viewProjectile->setExplode((bool)proj["exploded"].as<int>());
+    if (proj["angle_direction"]) {
+      viewProjectile->setAngleDirection(proj["angle_direction"].as<int>());
     }
   }
 

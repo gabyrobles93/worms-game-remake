@@ -179,7 +179,7 @@ void World::run() {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         step_counter++;
-        if (this->worldPhysic.aliveBodies() || step_counter == 60) {
+        if (this->worldPhysic.aliveBodies() || step_counter == 60 || this->weapons.size() > 0) {
             Snapshot* snapshot = new Snapshot();            
             snapshot->updateTeams(this->teams);
             snapshot->updateProjectiles(this->weapons);
