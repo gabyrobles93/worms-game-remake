@@ -2,6 +2,7 @@
 #include <map>
 #include "team.h"
 #include "Worm.h"
+#include "types.h"
 
 Team::Team(int id) {
     this->team_id = id;
@@ -28,12 +29,11 @@ void Team::print(void) const {
 }
 
 void Team::initializeInventory(YAML::Node inventory_node) {
-    std::string item_name;
-    int supplies;
-    for (int i = 0; i < 9; ++i) {
-        item_name = inventory_node[i]["item_name"].as<std::string>();
-        supplies = inventory_node[i]["supplies"].as<int>();
-        this->inventory.insert(std::pair<std::string,int>(item_name, supplies));
+    YAML::Node::const_iterator it;
+    for (it = inventory_node.begin(); it != inventory_node.end(); it++) {
+        weapon_t weapon_id = (weapon_t) it->first.as<int>();
+        int supplies = it->second["supplies"].as<int>();
+        this->inventory.insert(std::pair<weapon_t,int>(weapon_id, supplies));
     }
 }
 
@@ -76,7 +76,7 @@ std::map<int, Worm*> & Team::getWorms() {
     return this->worms;
 }
 
-std::map<std::string, int> & Team::getInventory() {
+std::map<weapon_t, int> & Team::getInventory() {
     return this->inventory;
 }
 

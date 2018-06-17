@@ -47,20 +47,17 @@ void Snapshot::updateTeams(std::map<int, Team*> & teams) {
         }
         snapshot << YAML::EndSeq;
 
-        std::map<std::string, int> inventory = teamss_it->second->getInventory();
-        std::map<std::string, int>::const_iterator inventory_it;
+        std::map<weapon_t, int> inventory = teamss_it->second->getInventory();
+        std::map<weapon_t, int>::const_iterator inventory_it;
 
         snapshot << YAML::Key << "inventory";
         snapshot << YAML::Value << YAML::BeginMap;
 
-    int weapon_type = 1;
     for (inventory_it = inventory.begin(); inventory_it != inventory.end(); ++inventory_it) {
-        snapshot << YAML::Key << weapon_type;
+        snapshot << YAML::Key << inventory_it->first;
         snapshot << YAML::Value <<YAML::BeginMap;
-        snapshot << YAML::Key << "item_name" << YAML::Value << inventory_it->first;
         snapshot << YAML::Key << "supplies" << YAML::Value << inventory_it->second;
         snapshot << YAML::EndMap;
-        weapon_type++;
     }
     snapshot << YAML::EndMap;
     snapshot << YAML::EndMap;
