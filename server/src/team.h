@@ -5,13 +5,14 @@
 #include <vector>
 #include "Worm.h"
 #include "yaml.h"
+#include "types.h"
 
 class Team {
     private:
         int team_id;
         int member_qty;
         std::map<int, Worm*> worms;
-        std::map<std::string, int> inventory;
+        std::map<weapon_t, int> inventory;
 
     public:
         Team(int);
@@ -19,13 +20,15 @@ class Team {
         std::map<int, Worm*>  & getWorms();
         void addMember(Worm *);
         void initializeInventory(YAML::Node inventory_node);
-        std::map<std::string, int> & getInventory();
+        std::map<weapon_t, int> & getInventory();
         std::vector<int> getWormsID(void);
         void print(void) const;
         int getTeamId(void);
         bool haveAliveMember(void);
         int getTotalLife(void);
         void killAll(void);
+        bool hasSupplies(weapon_t);
+        void reduceSupplie(weapon_t);
 };
 
 #endif

@@ -224,7 +224,7 @@ bool Match::extraTime() {
 
 void Match::removePlayer(size_t tid) {
     this->teams[(int)tid]->killAll();
-    if (getTeamTurn() == tid) {
+    if (getTeamTurn() == (int) tid) {
         if (nextTurn() < 0) {
             std::cout << "No se pudo cambiar de turno, la partida finalizó." << std::endl;
             this->match_finished = true;

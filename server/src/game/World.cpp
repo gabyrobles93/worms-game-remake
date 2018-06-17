@@ -171,13 +171,6 @@ void World::updateBodies() {
         if (!worm->isDead())
             worm->update();
     }
-
-    for (std::map<int, Girder*>::iterator it = this->girders.begin(); it != this->girders.end(); ++it) {
-        Girder* girder = it->second;
-        girder->update();
-    }
-
-    this->water->update();
 }
 
 void World::run() {
@@ -186,7 +179,7 @@ void World::run() {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         step_counter++;
-        if (this->worldPhysic.aliveBodies() || step_counter == 60) {
+        if (this->worldPhysic.aliveBodies() || step_counter == 60 || this->weapons.size() > 0) {
             Snapshot* snapshot = new Snapshot();            
             snapshot->updateTeams(this->teams);
             snapshot->updateProjectiles(this->weapons);
@@ -234,7 +227,7 @@ void World::executeAction(Event & event, size_t id) {
             this->worms[id]->backJump();
             break;
         case a_shoot : {
-            if (this->weapons.size() == 0) {
+            if (this->weapons.size() == 0 && !this->worms[id]->didShootInTurn()) {
                 this->shootWeapon(event, id);
             } else {
                 std::cout << "Se ignora disparo porque hay un projectil vivo." << std::endl;
@@ -250,12 +243,14 @@ void World::shootWeapon(Event & event, size_t id) {
     weapon_t weapon_shooted = (weapon_t) nodeEvent["event"]["weapon"].as<int>();
     Weapon * newWeapon = NULL;
 
-    //if (!this->game_snapshot.hasWeaponSupplies(this->worms[id]->getTeam(), weapon_shooted)) {
-    //    std::cout << "Sin municiones, accion ignorada." << std::endl;
-    //    return;
-    //}
+    if (!this->teams[this->worms[id]->getTeam()]->hasSupplies(weapon_shooted)) {
+        std::cout << "Disparo ignorado, no quedan supplies." << std::endl;
+        return;
+    }
 
     std::cout << "Quedan municiones entonces dispara." << std::endl;
+
+    this->teams[this->worms[id]->getTeam()]->reduceSupplie(weapon_shooted);
 
     if (weapon_shooted == w_dynamite) {
         newWeapon = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());            
@@ -340,5 +335,5 @@ void World::shootWeapon(Event & event, size_t id) {
         //this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
         
     }
-    this->worms[id]->shoot();  
+    this->worms[id]->shoot();
 }
