@@ -32,8 +32,8 @@ namespace View {
     private:
       Font font;
       Texture suppliesTexture;
-      std::map<std::string, weapon_t> weapons;
       std::map<weapon_t, std::string> iconPaths;
+      std::map<weapon_t, ItemIcon *> itemsMap;
 
       // Handlea el click izquierdo del mouse
       virtual void handleClick(void);
@@ -65,6 +65,9 @@ namespace View {
 
       // Updatea el inventario con el nodo que envia el server
       void update(const YAML::Node &);
+
+      // Pickea la siguiente arma
+      virtual void pickNextItem(void);
   };
 }
 

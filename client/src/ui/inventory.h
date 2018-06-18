@@ -43,7 +43,7 @@ namespace View {
       void toggleOpen(void);
 
       // Marca como seleccionada el item siguiente
-      void pickNextItem(void);
+      virtual void pickNextItem(void) = 0;
 
       virtual void render(SDL_Renderer *) = 0;
   };

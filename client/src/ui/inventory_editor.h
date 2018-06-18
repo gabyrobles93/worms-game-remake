@@ -79,6 +79,8 @@ namespace View {
       // Este metodo lo utiliza el map game dependiendo de cuantos
       // gusanos hay en el mapa en el estado actual
       void updateWormsTeamSupplies(const YAML::Node &);
+
+      virtual void pickNextItem(void);
   };
 }
 

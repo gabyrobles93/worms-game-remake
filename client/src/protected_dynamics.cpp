@@ -47,10 +47,8 @@ YAML::Node ProtectedDynamics::getGameStatus(void) {
     return game_status;
 }
 
-YAML::Node ProtectedDynamics::getTeamInventory(void) {
-    // FIXME: cuando tengamos el team id devolvemos el inventory correspondiente
-    const YAML::Node & game_status = this->dynamics["game_status"];
-    return game_status;
+YAML::Node ProtectedDynamics::getTeamInventory(size_t teamId) {
+    return this->dynamics["worms_teams"][std::to_string(teamId)]["inventory"];
 }
 
 int ProtectedDynamics::getTurnTimeLeft(void) {

@@ -236,7 +236,7 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 		renderCount++;
 		
 		if (pdynamics.hasGameStatus()) {
-			cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory());
+			cfg.update(pdynamics.getGameStatus(), pdynamics.getTeamInventory(this->team_id));
 			worms.updateWormsClientConfiguration(cfg);
 			if (!defeated_msg_showed && pdynamics.teamDefeated(this->team_id)) {
 				QMessageBox msgBox;

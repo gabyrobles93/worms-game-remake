@@ -224,6 +224,7 @@ weapon_t ClientConfiguration::getSelectedWeapon(void) {
 
 void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node & inventory) {
   //std::cout << gameStatus << std::endl << std::endl;
+  //std::cout << "INVENTORY\n\n" << inventory << std::endl << std::endl;
   int newTime = gameStatus["turn_timeleft"].as<int>();
   int windForce = gameStatus["wind_force"].as<int>();
   this->wormProtagonicId = gameStatus["protagonic_worm"].as<int>();
@@ -238,6 +239,7 @@ void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node
   this->clock.setTime(newTime);
   this->wind.setWindPower(windForce);
   this->teamsHealth.update(teamsHealthNode);
+  this->inventory.update(inventory);
 }
 
 int ClientConfiguration::getSightAngle(void) {
