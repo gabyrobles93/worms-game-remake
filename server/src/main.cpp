@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <fstream>
 #include <map>
 #include <unistd.h>
 #include "yaml.h"
@@ -20,21 +21,31 @@
 #include "server.h"
 #include "server_error.h"
 
-#define SRV_ARGS_QTY 3
-#define SRV_CONFIG_FILE_POS 1
-#define SRV_PORT_POS 2
+#define MIN_SRV_ARGS_QTY 2
+#define MAX_SRV_ARGS_QTY 3
+#define SRV_CONFIG_FILE_POS 2
+#define SRV_PORT_POS 1
 
 Configuration gConfiguration;
 
 int main(int argc, char *argv[]) try {
-     if (argc < SRV_ARGS_QTY) {
+     if (argc < MIN_SRV_ARGS_QTY || argc > MAX_SRV_ARGS_QTY) {
         std::cout << "Servidor mal invocado." << std::endl;
-        std::cout << "Forma de uso: './server <config_file_path> <port>" << std::endl;
+        std::cout << "Forma de uso: './server <port> [config-file-path]" << std::endl;
         return 0;
+    } else if (argc == MAX_SRV_ARGS_QTY) {
+        try {
+            YAML::Node config_node = YAML::LoadFile(argv[SRV_CONFIG_FILE_POS]);
+            gConfiguration.loadConfigFile(config_node);
+        } catch (const YAML::Exception & err) {
+            std::cout << "No se pudo abrir el archivo de configuración espcificado. Se usarán valores de configuración por defecto: " << err.what() << std::endl;
+        }
+    } else {
+        std::cout << "No se cargó archivo de configuración, se utilizarán valores por defecto." << std::endl;
     }
-    std::string config_file_path(argv[SRV_CONFIG_FILE_POS]);
+
     std::string port(argv[SRV_PORT_POS]);
-    Server server(config_file_path, port);
+    Server server(port);
 
     server.start();
 

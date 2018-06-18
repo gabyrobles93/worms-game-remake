@@ -1,0 +1,61 @@
+world_physics:
+  scaling_factor_pixels_meters: 0.0416
+  scaling_degree_radian: 0.0174533
+  scaling_radian_degree: 57.2958
+  world_velocity_iterations: 6
+  world_position_iterations: 2
+  min_wind_force: -6
+  max_wind_force: 6
+
+match:
+  turn_duration_sec: 50
+
+worms:
+  worms_speed: 2
+  worm_jump_impulse: 4
+  worm_max_fall_distance: 4
+
+weapons:
+  physics:
+    grenade_restitution: 0.6
+  bazooka:
+    radious: 2
+    damage: 50
+  mortar:
+    radious: 2
+    damage: 50
+    fragments_qty: 6
+    fragments_radious: 2
+    fragments_damage: 10
+  red_grenade:
+    radious: 2
+    damage: 30
+    fragments_qty: 10
+    fragments_radious: 2
+    fragments_damage:  10
+  banana:
+    radious: 4
+    damage: 70
+  holy_grenade:
+    radious: 8
+    damage: 110
+  air_strike:
+    radious: 2
+    damage: 40
+    qty: 6
+  bat:
+    damage: 10
+    length: 1
+    impulse: 10
+  dynamite:
+    radious: 4
+    damage: 50
+  green_grenade:
+    radious: 2
+    damage: 30
+
+
+
+
+
+

@@ -23,13 +23,12 @@ class Server : public Thread {
 
         bool isRunning(void) const;
         size_t getId(void) const;
-        void loadConfigFile(std::string &);
         std::string findFreeName(std::string &);
         void cleanLobby(void);
         void cleanQuitedClients(void);
     public:
         void stop(void);
-        Server(std::string & cfile, std::string & port);
+        Server(std::string & port);
         virtual void run(void);
         ~Server(void);
 };

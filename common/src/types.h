@@ -36,16 +36,16 @@ typedef enum {
 } action_t;
 
 typedef enum {
-    w_bazooka,
-    w_mortar,
-    w_cluster,
-    w_green_grenade,
-    w_banana,
-    w_holy_grenade,
-    w_air_strike,
-    w_dynamite,
-    w_bat,
-    w_teleport,
+    w_bazooka = 0,
+    w_mortar = 1,
+    w_cluster = 2,
+    w_banana = 4,
+    w_green_grenade = 3,
+    w_holy_grenade = 5,
+    w_dynamite = 7,
+    w_air_strike = 6, 
+    w_bat = 8,
+    w_teleport = 9,
     w_null = -1
 } weapon_t;
 

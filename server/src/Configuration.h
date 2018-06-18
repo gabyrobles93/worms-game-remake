@@ -1,9 +1,12 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
+#include "yaml.h"
+
 class Configuration {
 public:
     Configuration();
+    void loadConfigFile(YAML::Node &);
     //TURN
     float TURN_DURATION;
     
