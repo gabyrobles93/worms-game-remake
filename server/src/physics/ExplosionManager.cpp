@@ -20,11 +20,15 @@ void ExplosionManager::manageExplosion(b2Vec2 center, float radius, float power)
         b2Vec2 bodyCom = body->GetWorldCenter();
         if ((bodyCom - center).Length() > radius)
             continue;
-        this->applyBlastImpulse(body, center, bodyCom, power);
+        this->applyBlastImpulse(body, center, bodyCom, power, radius);
     }
 }
 
-void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower) {
+int ExplosionManager::calculateDamage(float blastPower, float radius, float distance) {
+    return blastPower * ((-distance/radius) + 1);
+}
+
+void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower, float radius) {
 	b2Vec2 blastDir = applyPoint - blastCenter;
 	float distance = blastDir.Normalize();
     if (blastDir.y > 0) 
@@ -34,9 +38,11 @@ void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec
 	float impulseMag = (blastPower/REDUCE_FACTOR) * invDistance;
     entity_t entity_type = static_cast<Entity*>(body->GetUserData())->getEntityType();
     if (entity_type == WORM) {
-        float damage = blastPower * invDistance;
+        int damage = this->calculateDamage(blastPower, radius, distance);
         body->ApplyLinearImpulse(impulseMag * blastDir, applyPoint, true);
         static_cast<Worm*>(body->GetUserData())->hurt(damage);
         static_cast<Worm*>(body->GetUserData())->setAffectedByExplosion();
     }
 }
+
+
