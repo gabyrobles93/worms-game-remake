@@ -9,9 +9,8 @@
 #include "client.h"
 #include "lobby_attendant.h"
 
-Server::Server(std::string & config_file_path, std::string & port) :
+Server::Server(std::string & port) :
 skt(port) {
-    loadConfigFile(config_file_path);
     this->keep_running = true;
 }
 
@@ -75,18 +74,6 @@ void Server::cleanQuitedClients(void) {
             ++it;
         }
     }
-}
-
-void Server::loadConfigFile(std::string & config_file_path) {
-    std::fstream cfg_file(config_file_path, std::ios::in);
-    if (!cfg_file.is_open()) {
-        std::stringstream msg;
-        msg << MSG_CANT_OPEN_CFG_FILE << " " << config_file_path;
-        throw ServerError(msg.str());
-    }
-    std::string line;
-    std::getline(cfg_file, line);
-    std::cout << line << std::endl;
 }
 
  bool Server::isRunning(void) const {

@@ -25,6 +25,7 @@ class Worm : public Entity {
         float angle;
         float fallenDistance;
         worm_inclination_t inclination;
+        weapon_t weapon;
 
         bool affectedByExplosion;
         bool falled;        
@@ -79,6 +80,7 @@ class Worm : public Entity {
         void setNormal(b2Vec2 normal);
         worm_inclination_t getInclination();
         int getDirectionAngle();
+        void equipWeapon(weapon_t weapon);
 };
 
 #endif

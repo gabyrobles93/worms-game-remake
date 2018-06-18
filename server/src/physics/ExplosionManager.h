@@ -12,7 +12,8 @@
 class ExplosionManager {
 private:
     b2World& world;
-    void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower);
+    void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower, float radius);
+    int calculateDamage(float blastPower, float radius, float distance);    
 public:
     ExplosionManager(b2World& world);
     void manageExplosion(b2Vec2 center, float radius, float power);

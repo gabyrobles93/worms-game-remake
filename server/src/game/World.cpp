@@ -23,6 +23,9 @@ World::~World() {
     for (std::map<int, Worm*>::iterator it = this->worms.begin(); it != this->worms.end(); ++it) {
         delete it->second;
     }
+
+    delete this->weaponManager;
+    delete this->wind;
 }
 
 size_t World::getId(void) const {
@@ -53,7 +56,7 @@ bool World::hasWormGotHurt(size_t worm_id) {
 }
 
 bool World::hasAliveProjectiles() {
-    return this->weapons.size();
+    return this->weaponManager->hasAliveWeapons();
 }
 
 bool World::hasWormsAffectedByExplosion() {
@@ -149,23 +152,11 @@ void World::initializeWorld() {
         this->teams.insert(std::pair<int, Team*>(tid, new_team));
     }
 
-    //this->game_snapshot.updateTeams(this->teams);
+    this->weaponManager = new WeaponManager(this->worms, this->teams, this->worldPhysic);
 }
 
 void World::updateBodies() {
-    std::map<int, Weapon*>::iterator it;
-    for(it=this->weapons.begin();it != this->weapons.end();) {
-        if ((it)->second->hasExploded()) {
-            int q_added = it->second->addProjectiles(this->weapons);
-            this->weapon_counter = this->weapon_counter + q_added;
-            delete (it->second);
-            it = this->weapons.erase(it);
-        } else {
-            (it)->second->update(getTimeSeconds(), wind->getWindForce());
-            it++;
-        }
-    }
-
+    this->weaponManager->updateWeapons(getTimeSeconds(), wind->getWindForce());
     for (std::map<int,Worm*>::iterator it=this->worms.begin(); it != this->worms.end(); ++it) {
         Worm* worm = it->second;
         if (!worm->isDead())
@@ -179,10 +170,10 @@ void World::run() {
         this->worldPhysic.step();
         this->worldPhysic.clearForces();
         step_counter++;
-        if (this->worldPhysic.aliveBodies() || step_counter == 60 || this->weapons.size() > 0) {
+        if (this->worldPhysic.aliveBodies() || step_counter == 60 /*|| this->weapons.size() > 0*/) {
             Snapshot* snapshot = new Snapshot();            
             snapshot->updateTeams(this->teams);
-            snapshot->updateProjectiles(this->weapons);
+            snapshot->updateProjectiles(this->weaponManager->getWeapons());
             this->snapshots.push(snapshot);
         }
         updateBodies();
@@ -196,7 +187,7 @@ void World::run() {
     for (int i = 0; i < 2; i++) {
         Snapshot* snapshot = new Snapshot();            
         snapshot->updateTeams(this->teams);
-        snapshot->updateProjectiles(this->weapons);
+        snapshot->updateProjectiles(this->weaponManager->getWeapons());
         this->snapshots.push(snapshot);
     }
 
@@ -227,113 +218,9 @@ void World::executeAction(Event & event, size_t id) {
             this->worms[id]->backJump();
             break;
         case a_shoot : {
-            if (this->weapons.size() == 0 && !this->worms[id]->didShootInTurn()) {
-                this->shootWeapon(event, id);
-            } else {
-                std::cout << "Se ignora disparo porque hay un projectil vivo." << std::endl;
-            }
+            this->weaponManager->manageShoot(event, id, getTimeSeconds());
             break;
         }
         default: break;
     }
-}
-
-void World::shootWeapon(Event & event, size_t id) {
-    const YAML::Node & nodeEvent = event.getNode();
-    weapon_t weapon_shooted = (weapon_t) nodeEvent["event"]["weapon"].as<int>();
-    Weapon * newWeapon = NULL;
-
-    if (!this->teams[this->worms[id]->getTeam()]->hasSupplies(weapon_shooted)) {
-        std::cout << "Disparo ignorado, no quedan supplies." << std::endl;
-        return;
-    }
-
-    std::cout << "Quedan municiones entonces dispara." << std::endl;
-
-    this->teams[this->worms[id]->getTeam()]->reduceSupplie(weapon_shooted);
-
-    if (weapon_shooted == w_dynamite) {
-        newWeapon = new Dynamite(this->weapon_counter, this->worldPhysic.getWorld(), this->worms[id]->getPosX(), this->worms[id]->getPosY(), 5, getTimeSeconds());            
-    } else if (weapon_shooted == w_green_grenade || weapon_shooted == w_holy_grenade || weapon_shooted == w_banana) {
-        newWeapon = new Grenade(
-        this->weapon_counter, 
-        this->worldPhysic.getWorld(), 
-        this->worms[id]->getPosX(), 
-        this->worms[id]->getPosY(), 
-        this->worms[id]->isMirrored() , 
-        nodeEvent["event"]["sight_angle"].as<int>() , 
-        nodeEvent["event"]["power"].as<int>(), 
-        nodeEvent["event"]["countdown"].as<int>(), 
-        getTimeSeconds(), 
-        weapon_shooted
-        );
-    } else if (weapon_shooted == w_bazooka) {
-        newWeapon = new Bazooka(this->weapon_counter, 
-        this->worldPhysic.getWorld(), 
-        this->worms[id]->getPosX(), 
-        this->worms[id]->getPosY(),
-        this->worms[id]->isMirrored(),
-        nodeEvent["event"]["sight_angle"].as<int>(),
-        nodeEvent["event"]["power"].as<int>(),
-        weapon_shooted
-        );
-    } else if (weapon_shooted == w_air_strike) {
-        AirStrike air_strike(this->weapon_counter,
-        this->worldPhysic.getWorld(),
-        nodeEvent["event"]["remote_control_x"].as<int>() * gConfiguration.SCALING_FACTOR,
-        nodeEvent["event"]["remote_control_y"].as<int>() * gConfiguration.SCALING_FACTOR
-        );
-
-        std::vector<Missil*> missils = air_strike.getMissils();
-        for (std::vector<Missil*>::iterator it = missils.begin(); it != missils.end(); ++it) {
-            //this->game_snapshot.addProjectile((*it));
-            this->weapons.insert(std::pair<int, Weapon*>((*it)->getId(), (*it)));
-            this->weapon_counter++;
-        //    this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
-            this->worms[id]->shoot();
-        }
-    } else if (weapon_shooted == w_cluster) {
-        newWeapon = new RedGrenade(this->weapon_counter,
-        this->worldPhysic.getWorld(),
-        this->worms[id]->getPosX(),
-        this->worms[id]->getPosY(),
-        this->worms[id]->isMirrored(),
-        nodeEvent["event"]["sight_angle"].as<int>(),
-        nodeEvent["event"]["power"].as<int>(),
-        nodeEvent["event"]["countdown"].as<int>(), 
-        getTimeSeconds(), 
-        weapon_shooted
-        );
-    } else if (weapon_shooted == w_mortar) {
-        newWeapon = new Mortar(this->weapon_counter,
-        this->worldPhysic.getWorld(),
-        this->worms[id]->getPosX(),
-        this->worms[id]->getPosY(),
-        this->worms[id]->isMirrored(),
-        nodeEvent["event"]["sight_angle"].as<int>(),
-        nodeEvent["event"]["power"].as<int>(), 
-        weapon_shooted
-        );
-    } else if (weapon_shooted == w_bat) {
-        std::cout << "ANGULO DE MIRA" << nodeEvent["event"]["sight_angle"];
-        Bat bat(this->worldPhysic.getWorld(), 
-        this->worms[id]->getPosX(),
-        this->worms[id]->getPosY(),
-        this->worms[id]->isMirrored(),
-        nodeEvent["event"]["sight_angle"].as<int>());
-    } else if (weapon_shooted == w_teleport) {
-        std::cout << "TELEPORT" << "x " << nodeEvent["event"]["remote_control_x"].as<int>() << "y " << nodeEvent["event"]["remote_control_y"].as<int>()<< std::endl;
-        Teleportation teleportation(this->worms[id],
-        (float) nodeEvent["event"]["remote_control_x"].as<int>() * gConfiguration.SCALING_FACTOR,
-        (float) nodeEvent["event"]["remote_control_y"].as<int>() * gConfiguration.SCALING_FACTOR);
-        teleportation.teleport();
-    }
-
-    if (newWeapon) {
-        this->weapons.insert(std::pair<int, Weapon*>(this->weapon_counter, newWeapon));
-        this->weapon_counter++;
-        //this->game_snapshot.reduceWeaponSupply(this->worms[id]->getTeam(), weapon_shooted);
-        
-    }
-    this->worms[id]->shoot();
 }
