@@ -41,6 +41,7 @@ world(world) {
     this->hurtInTurn = false;
     this->affectedByExplosion = false;
     this->shootedInTurn = false;
+    this->weapon = w_null;
 }
 
 Worm::~Worm(void) {
@@ -119,8 +120,9 @@ void Worm::deleteFootContact(void) {
     this->numFootContacts--;
 }
 
-void Worm::shoot(/* entity_t weapon */) {
+void Worm::shoot() {
     this->shootedInTurn = true;
+    this->weapon = w_null;
 }
 
 void Worm::hurt(int damage) {
@@ -295,4 +297,8 @@ worm_inclination_t Worm::getInclination() {
 
 int Worm::getDirectionAngle() {
     return this->direction_angle;
+}
+
+void Worm::equipWeapon(weapon_t weapon) {
+    this->weapon = weapon;
 }
