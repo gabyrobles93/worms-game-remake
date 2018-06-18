@@ -74,6 +74,8 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/entities/structures/Wall.h
 		${PROJECT_SOURCE_DIR}/src/game/World.cpp
 		${PROJECT_SOURCE_DIR}/src/game/World.h
+		${PROJECT_SOURCE_DIR}/src/game/WeaponManager.cpp
+		${PROJECT_SOURCE_DIR}/src/game/WeaponManager.h
 		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.h
 		${PROJECT_SOURCE_DIR}/src/client_handler.cpp
