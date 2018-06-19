@@ -35,6 +35,9 @@ private:
     unsigned int time_sec;
     std::string & map_path;
     Wind* wind;
+    Wall* ceiling;
+    Wall* leftWall;
+    Wall* rightWall;
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;
     void updateSnapshot();

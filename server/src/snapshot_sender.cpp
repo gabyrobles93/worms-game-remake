@@ -22,6 +22,7 @@ void SnapshotSender::run() {
         if (keep_running && snapshot) {
             sendSnapshot(snapshot);
         }
+    //std::cout << snapshot->getSnapshot() << std::endl;
     }
     std::cout << "Sacando la ultima foto con partida finished." << std::endl;
     Snapshot* snapshot = this->snapshots.pop();

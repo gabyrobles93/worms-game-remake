@@ -11,7 +11,7 @@ private:
     b2Body* body;
 public:
     Wall(b2World& world, float posX, float posY, float width, float height);
-    ~Wall();
+    virtual ~Wall();
     entity_t getEntityType() {return WALL;}
     void update(void);
     float getPosX(void);

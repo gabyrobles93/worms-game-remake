@@ -190,6 +190,7 @@ void View::Worm::setHealth(int newHealth) {
     this->health = newHealth;
     if (this->health <= 0) {
       this->stateName = WS_DEAD;
+      this->affectedByExplosion = false;
       this->setState(new View::Dead(this, this->renderer));
     }
   }

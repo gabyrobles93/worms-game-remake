@@ -8,6 +8,7 @@ world(world) {
     wallDef.allowSleep = true;
     b2Body* body = world.CreateBody(&wallDef);
     body->SetAwake(false);
+    body->SetUserData(this);
 
     b2PolygonShape wallShape;
     wallShape.SetAsBox(width/2, height/2);
@@ -16,6 +17,8 @@ world(world) {
     wallFixture.shape = &wallShape;
     wallFixture.density = 1;
     wallFixture.friction = 0.3;
+    wallFixture.filter.categoryBits = STRUCTURE_PHYSIC;
+    wallFixture.filter.maskBits = WORM_PHYSIC;
 
     body->CreateFixture(&wallFixture);
     this->body = body;

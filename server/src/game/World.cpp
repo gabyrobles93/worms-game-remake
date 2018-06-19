@@ -31,6 +31,9 @@ World::~World() {
     delete this->water;
     delete this->weaponManager;
     delete this->wind;
+    delete this->ceiling;
+    delete this->leftWall;
+    delete this->rightWall;
 }
 
 size_t World::getId(void) const {
@@ -91,18 +94,18 @@ void World::initializeWorld() {
 
 
     float ceiling_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
-    float ceiling_posY = 0 * gConfiguration.SCALING_FACTOR;
-    float ceiling_height = 3;
+    float ceiling_posY = 0;
+    float ceiling_height = 3; 
     float ceiling_width = MAP_WIDTH * gConfiguration.SCALING_FACTOR;
-    float wall_height = (MAP_HEIGTH / 2) * gConfiguration.SCALING_FACTOR;
+    float wall_height = MAP_HEIGTH * gConfiguration.SCALING_FACTOR;
     float wall_width = 3;
     float left_wall_posX = 0;
     float right_wall_posX = MAP_WIDTH * gConfiguration.SCALING_FACTOR;
     float wall_posY = (MAP_HEIGTH / 2) * gConfiguration.SCALING_FACTOR;
 
-    Wall ceiling(this->worldPhysic.getWorld(), ceiling_posX, ceiling_posY, ceiling_width, ceiling_height);
-    Wall left_wall(this->worldPhysic.getWorld(), left_wall_posX, wall_posY, wall_width, wall_height);
-    Wall right_wall(this->worldPhysic.getWorld(), right_wall_posX, wall_posY, wall_height, wall_width);
+    this->ceiling = new Wall(this->worldPhysic.getWorld(), ceiling_posX, ceiling_posY, ceiling_width, ceiling_height);
+    this->leftWall = new Wall(this->worldPhysic.getWorld(), left_wall_posX, wall_posY, wall_width, wall_height);
+    this->rightWall = new Wall(this->worldPhysic.getWorld(), right_wall_posX, wall_posY, wall_width, wall_height);
 
     const YAML::Node & static_node = this->map_node["static"];
     const YAML::Node & dynamic_node = this->map_node["dynamic"];
