@@ -109,6 +109,7 @@ namespace View {
       void setHealth(int);
       void setFalling(bool);
       void setGrounded(bool);
+      void setAffectedByExplosion(bool);
       void setSightAngle(int);
       void setDataConfiguration(worm_data_cfg_t);
       int getHealth(void);

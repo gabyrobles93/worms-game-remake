@@ -230,6 +230,10 @@ void View::Worm::setSightAngle(int angle) {
   this->sight.setAngle(angle);
 }
 
+void View::Worm::setAffectedByExplosion(bool af) {
+  this->affectedByExplosion = af;
+}
+
 void View::Worm::setDataConfiguration(worm_data_cfg_t config) {
   this->dataConfiguration = config;
 }

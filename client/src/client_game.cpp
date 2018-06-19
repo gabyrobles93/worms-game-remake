@@ -87,7 +87,7 @@ void ClientGame::startGame(void) {
 	ModelReceiver model_receiver(this->protocol, pdynamics);
 
 	// Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(staticMap, 800, 600);
+	View::WindowGame mainWindow(staticMap);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());

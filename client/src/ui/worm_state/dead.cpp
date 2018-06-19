@@ -70,6 +70,7 @@ void View::Dead::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t
     this->explosion.setY(this->context->getY());
     this->explosion.render(r, camX, camY);
   } else {
+    this->context->setAffectedByExplosion(false);
     SDL_Rect clip = this->spriteGrave.getNextClip();
     this->textureGrave.render(
       r,
