@@ -7,7 +7,7 @@
 #include "Configuration.h"
 
 #define GIRDER_DENSITY 1
-#define GIRDER_FRICTION 5
+#define GIRDER_FRICTION 1
 #define SLIPPERY_GIRDER 0
 
 class Girder : public Entity {

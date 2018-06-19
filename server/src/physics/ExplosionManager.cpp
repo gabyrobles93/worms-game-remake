@@ -31,15 +31,13 @@ int ExplosionManager::calculateDamage(float blastPower, float radius, float dist
 void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower, float radius) {
 	b2Vec2 blastDir = applyPoint - blastCenter;
 	float distance = blastDir.Normalize();
-    if (blastDir.y > 0) 
-        blastDir.y = -blastDir.y;
-	if (distance <= 1) 
-        distance = 1;
+    int damage = this->calculateDamage(blastPower, radius, distance);
+    if (blastDir.y > 0) blastDir.y = -blastDir.y;
+	if (distance <= 1) distance = 1;
 	float invDistance = 1/distance;
 	float impulseMag = (blastPower/REDUCE_FACTOR) * invDistance;
     entity_t entity_type = static_cast<Entity*>(body->GetUserData())->getEntityType();
     if (entity_type == WORM) {
-        int damage = this->calculateDamage(blastPower, radius, distance);
         body->ApplyLinearImpulse(impulseMag * blastDir, applyPoint, true);
         static_cast<Worm*>(body->GetUserData())->hurt(damage);
         static_cast<Worm*>(body->GetUserData())->setAffectedByExplosion();
