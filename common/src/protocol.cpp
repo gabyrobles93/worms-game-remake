@@ -95,7 +95,7 @@ void Protocol::rcvGameMap(YAML::Node & mapNode) {
     skt.getBuffer(buffer, node_size);
     buffer[node_size] = '\0';
     std::string text_node((char*) buffer);
-    delete buffer;
+    delete[] buffer;
     mapNode = YAML::Load(text_node);
 }
 
