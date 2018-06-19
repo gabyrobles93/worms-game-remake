@@ -121,7 +121,7 @@ void View::Worm::updateState(const YAML::Node & status) {
   bool walking = status["walking"].as<int>();
   bool falling = status["falling"].as<int>();
   bool grounded = status["grounded"].as<int>();
-  bool affectedByExplosion = status["affected_by_explosion"].as<int>();
+  this->affectedByExplosion = status["affected_by_explosion"].as<int>();
 
   if (affectedByExplosion) {
     if (this->stateName != WS_FLYING) {
@@ -229,4 +229,8 @@ void View::Worm::setSightAngle(int angle) {
 
 void View::Worm::setDataConfiguration(worm_data_cfg_t config) {
   this->dataConfiguration = config;
+}
+
+bool View::Worm::isAffectedByExplosion() {
+  return this->affectedByExplosion;
 }

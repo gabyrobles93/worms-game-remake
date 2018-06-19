@@ -27,6 +27,8 @@ class View::WormsStatus {
         // del worm con el id pasado por parametro
         // en caso de no existir devuelve NULL
         const View::Worm * getWormView(size_t id);
+        const View::Worm * getWormAffectedByExplosion();
+        
 };
 
 #endif

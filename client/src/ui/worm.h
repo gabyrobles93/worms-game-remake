@@ -63,6 +63,7 @@ namespace View {
       bool falling;
       bool alive;
       bool protagonic;
+      bool affectedByExplosion;
 
       worm_inclination_t inclination;
 
@@ -111,6 +112,7 @@ namespace View {
       void setDataConfiguration(worm_data_cfg_t);
       int getHealth(void);
       bool isAlive(void);
+      bool isAffectedByExplosion(void);
   };
 }
 

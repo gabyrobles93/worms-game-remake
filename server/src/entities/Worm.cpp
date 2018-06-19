@@ -45,7 +45,9 @@ world(world) {
 }
 
 Worm::~Worm(void) {
-    this->world.DestroyBody(this->body);
+    if (this->body) {
+        this->world.DestroyBody(this->body);            
+    }
 }
 
 void Worm::frontJump(void) {
@@ -127,7 +129,7 @@ void Worm::shoot() {
 
 void Worm::hurt(int damage) {
     if (this->health - damage < 0) {
-        this->health = 0;
+        kill();
     } else {
         this->health -=damage;
     }
@@ -187,7 +189,7 @@ void Worm::update() {
         this->affectedByExplosion = false;
     }
 
-        b2Vec2 mov_speed = this->body->GetLinearVelocity();
+    b2Vec2 mov_speed = this->body->GetLinearVelocity();
 
     if (round(mov_speed.x) == 0) {
         if (mov_speed.y > 0) {

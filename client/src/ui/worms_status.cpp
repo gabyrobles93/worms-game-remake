@@ -76,3 +76,13 @@ const View::Worm * View::WormsStatus::getWormView(size_t id) {
 		return nullptr;
 	}
 }
+
+const View::Worm * View::WormsStatus::getWormAffectedByExplosion() {
+	std::map<size_t, View::Worm *>::iterator it;
+	for (it = this->worms.begin(); it != this->worms.end(); it++) {
+		if (it->second->isAffectedByExplosion()) {
+			return this->getWormView(it->first);
+		}
+	}
+	return nullptr;
+}

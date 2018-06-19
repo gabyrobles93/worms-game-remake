@@ -188,7 +188,10 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 		
 		const View::Projectil * projectilProtagonic = projectiles.getProjectilProtagonic();
 		const View::Worm * protagonicWorm = worms.getWormView(cfg.getWormProtagonicId());
-		if (projectilProtagonic) {
+		const View::Worm * wormAffectedByExplosion = worms.getWormAffectedByExplosion();
+		if (wormAffectedByExplosion) {
+			camera.focus(*wormAffectedByExplosion);
+		}else if (projectilProtagonic) {
 			camera.focus(*projectilProtagonic);
 		} else if (protagonicWorm) {
 			camera.focus(*protagonicWorm);

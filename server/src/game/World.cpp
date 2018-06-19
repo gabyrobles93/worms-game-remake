@@ -159,7 +159,7 @@ void World::updateBodies() {
     this->weaponManager->updateWeapons(getTimeSeconds(), wind->getWindForce());
     for (std::map<int,Worm*>::iterator it=this->worms.begin(); it != this->worms.end(); ++it) {
         Worm* worm = it->second;
-        if (!worm->isDead())
+        //if (!worm->isDead())
             worm->update();
     }
 }
