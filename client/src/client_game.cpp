@@ -163,11 +163,11 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 					Event event(a_pointDown, this->team_id);
 					this->events.push(event);
 				}
-				if (e.key.keysym.sym == SDLK_a) {
+				if (e.key.keysym.sym == SDLK_a && e.key.repeat == 0) {
 					Event event(a_moveLeft, this->team_id);
 					this->events.push(event);
 				}
-				if (e.key.keysym.sym == SDLK_d) {
+				if (e.key.keysym.sym == SDLK_d && e.key.repeat == 0) {
 					Event event(a_moveRight, this->team_id);
 					this->events.push(event);
 				}
