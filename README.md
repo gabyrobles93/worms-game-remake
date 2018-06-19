@@ -1,5 +1,14 @@
-
-
+# Cambios con respecto a la preentrega-1:
+- Se implemento la camara, sigue automaticamente al gusanos protagonico del turno, un proyectil o un gusano afectado por una explosion.
+- Se implemento el inventario, al momento de disparar se descuenta en 1 la cantidad de armas disponibles dependiendo del arma disparada, en caso de quedarse sin algun arma para disparar esta desaparece del inventario.
+- El air-strike ahora es creado en el cielo,
+- El servidor se inicializa con un archivo yaml de configuracion.
+- Los gusanos al morir muestran una animacion y reproducen un sonido.
+- Se mejoro la animacion de los gusanos al caminar sobre vigas inclinadas, ahora los mismos se inclinan segun su normal de contacto con la viga.
+- Se creo la vista del mortero.
+- Los gusanos solo pueden utilizar el teleport una vez por turno.
+- Los gusano que salen volando por una explosion ahora muestran una animacion dependiendo de la direccion de su velocidad.
+- Se mejoro la UI del lobby.
 
 ==========
 
@@ -50,7 +59,7 @@ https://trello.com/b/opoeIXXF/worms-tp-final
  $ cd build
  $ cmake ..
  $ make
- $ ./server ../server.cfg <port>
+ $ ./server <port> <ruta-de-archivo-de-config>
 ```
  Nota sobre modificación de parámetros: En esta preentrega el archivo server.cfg no tiene niguna utilidad. Las configuraciones de parámetros del servidor se pueden realizar modificando los archivos fuente configuration.cpp ubicado en tp-final-taller/server/src.
  
