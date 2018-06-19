@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>666</width>
-    <height>367</height>
+    <height>365</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>666</width>
+    <height>365</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>666</width>
+    <height>365</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>ClientLobby</string>
@@ -24,17 +36,20 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page_connection">
      <widget class="QGroupBox" name="box_connection">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>40</y>
+        <x>240</x>
+        <y>50</y>
         <width>291</width>
         <height>191</height>
        </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
       </property>
       <property name="title">
        <string>Connect To Server</string>
@@ -121,8 +136,8 @@
      <widget class="QPushButton" name="button_connect">
       <property name="geometry">
        <rect>
-        <x>380</x>
-        <y>240</y>
+        <x>420</x>
+        <y>250</y>
         <width>89</width>
         <height>25</height>
        </rect>
@@ -134,16 +149,66 @@
      <widget class="QPushButton" name="button_clean">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>240</y>
+        <x>310</x>
+        <y>250</y>
         <width>89</width>
         <height>25</height>
        </rect>
       </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>Clean</string>
       </property>
+      <property name="icon">
+       <iconset theme="130">
+        <normaloff>.</normaloff>.</iconset>
+      </property>
      </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>-70</y>
+        <width>211</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/worms_logo.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="background_5">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>801</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/lobby_background.jpg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>background_5</zorder>
+     <zorder>box_connection</zorder>
+     <zorder>button_connect</zorder>
+     <zorder>label_11</zorder>
+     <zorder>button_clean</zorder>
     </widget>
     <widget class="QWidget" name="page_lobby">
      <widget class="QLabel" name="background">
@@ -151,39 +216,19 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>661</width>
-        <height>341</height>
+        <width>801</width>
+        <height>391</height>
        </rect>
       </property>
       <property name="text">
        <string/>
       </property>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_4">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>220</y>
-        <width>201</width>
-        <height>31</height>
-       </rect>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/lobby_background.jpg</pixmap>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>BIENVENIDO</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="playerName">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QPushButton" name="button_create">
       <property name="geometry">
@@ -227,8 +272,8 @@
      <widget class="QPushButton" name="button_refresh">
       <property name="geometry">
        <rect>
-        <x>340</x>
-        <y>220</y>
+        <x>420</x>
+        <y>250</y>
         <width>89</width>
         <height>25</height>
        </rect>
@@ -241,10 +286,22 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>40</y>
+        <y>70</y>
         <width>511</width>
         <height>171</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>511</width>
+        <height>171</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>511</width>
+        <height>171</height>
+       </size>
       </property>
       <property name="tabKeyNavigation">
        <bool>false</bool>
@@ -282,6 +339,59 @@
        </property>
       </column>
      </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>40</y>
+        <width>201</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Bienvenido </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="playerName">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>0</y>
+        <width>231</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/cooltext290412065827968.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>background</zorder>
+     <zorder>button_create</zorder>
+     <zorder>button_join</zorder>
+     <zorder>button_exit_lobby</zorder>
+     <zorder>button_refresh</zorder>
+     <zorder>horizontalLayoutWidget_4</zorder>
+     <zorder>label_12</zorder>
+     <zorder>table_matchs</zorder>
     </widget>
     <widget class="QWidget" name="page_create_match">
      <widget class="QPushButton" name="button_start">
@@ -310,99 +420,160 @@
        <string>Back Lobby</string>
       </property>
      </widget>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>110</y>
-        <width>401</width>
-        <height>42</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Current Map:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="text_current_map_path">
-         <property name="text">
-          <string>Not selected. Please, choose a map!</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_6">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>30</y>
-        <width>288</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <item>
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Game name:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="text_game_name"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_5">
+     <widget class="QGroupBox" name="groupBox_3">
       <property name="geometry">
        <rect>
         <x>20</x>
         <y>70</y>
-        <width>191</width>
-        <height>41</height>
+        <width>411</width>
+        <height>171</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Map:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_changue_maps_folder">
-         <property name="text">
-          <string>Choose Map</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="title">
+       <string>Match settings</string>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>251</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Game name:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="text_game_name"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>191</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Map:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_changue_maps_folder">
+          <property name="text">
+           <string>Choose Map</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+       <zorder>button_changue_maps_folder</zorder>
+       <zorder>label_5</zorder>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>401</width>
+         <height>42</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Current Map:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="text_current_map_path">
+          <property name="text">
+           <string>Not selected. Please, choose a map!</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>271</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/cooltext290412106171973.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="background_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>801</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/lobby_background.jpg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>background_2</zorder>
+     <zorder>button_start</zorder>
+     <zorder>button_back_lobby</zorder>
+     <zorder>groupBox_3</zorder>
+     <zorder>label_14</zorder>
     </widget>
     <widget class="QWidget" name="page_waiting_match">
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>10</y>
-        <width>521</width>
-        <height>301</height>
+        <x>50</x>
+        <y>60</y>
+        <width>321</width>
+        <height>201</height>
        </rect>
       </property>
       <property name="title">
-       <string>Waiting for Players</string>
+       <string>Waiting players list</string>
       </property>
       <widget class="QPushButton" name="button_start_waiting_match">
        <property name="geometry">
         <rect>
-         <x>398</x>
-         <y>260</y>
+         <x>210</x>
+         <y>60</y>
          <width>101</width>
          <height>25</height>
         </rect>
@@ -411,47 +582,21 @@
         <string>Start Match!</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_cancel_waiting_match">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>260</y>
-         <width>89</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
       <widget class="QListWidget" name="list_waiting_players">
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>61</y>
-         <width>256</width>
-         <height>171</height>
+         <y>30</y>
+         <width>171</width>
+         <height>111</height>
         </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_8">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>40</y>
-         <width>121</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Waiting Players:</string>
        </property>
       </widget>
       <widget class="QPushButton" name="button_refresh_waiting_players">
        <property name="geometry">
         <rect>
-         <x>30</x>
-         <y>240</y>
+         <x>210</x>
+         <y>100</y>
          <width>89</width>
          <height>25</height>
         </rect>
@@ -461,6 +606,61 @@
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="background_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>801</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/lobby_background.jpg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>0</y>
+        <width>371</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/cooltext290413843260424.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_cancel_waiting_match">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>270</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+     <zorder>background_3</zorder>
+     <zorder>groupBox</zorder>
+     <zorder>label_8</zorder>
+     <zorder>button_cancel_waiting_match</zorder>
     </widget>
     <widget class="QWidget" name="page_joined_waiting_match">
      <widget class="QGroupBox" name="groupBox_2">
@@ -528,6 +728,27 @@
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="background_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>801</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="client_lobby_resources.qrc">:/resources/graphics/Lobby/lobby_background.jpg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>background_4</zorder>
+     <zorder>groupBox_2</zorder>
     </widget>
    </widget>
   </widget>
@@ -542,6 +763,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="client_lobby_resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
