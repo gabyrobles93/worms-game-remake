@@ -59,7 +59,7 @@ void WeaponManager::manageShoot(Event & event, size_t id, unsigned int currentTi
         AirStrike air_strike(this->weaponCounter,
         this->world.getWorld(),
         nodeEvent["event"]["remote_control_x"].as<int>() * gConfiguration.SCALING_FACTOR,
-        nodeEvent["event"]["remote_control_y"].as<int>() * gConfiguration.SCALING_FACTOR
+        1
         );
 
         std::vector<Missil*> missils = air_strike.getMissils();

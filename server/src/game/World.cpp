@@ -86,7 +86,7 @@ void World::initializeWorld() {
 
 
     float ceiling_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
-    float ceiling_posY = (MAP_HEIGTH) * gConfiguration.SCALING_FACTOR;
+    float ceiling_posY = 0 * gConfiguration.SCALING_FACTOR;
     float ceiling_height = 3;
     float ceiling_width = MAP_WIDTH * gConfiguration.SCALING_FACTOR;
     float wall_height = (MAP_HEIGTH / 2) * gConfiguration.SCALING_FACTOR;

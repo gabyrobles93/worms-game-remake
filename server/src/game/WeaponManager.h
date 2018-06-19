@@ -27,7 +27,7 @@ private:
 
     int weaponCounter;
 public: 
-    WeaponManager(std::map<int, Worm*> & , std::map<int, Team*> &, WorldPhysic & );
+    WeaponManager(std::map<int, Worm*> & , std::map<int, Team*> &, WorldPhysic &);
     void manageShoot(Event & event, size_t id, unsigned int currentTime);
     void updateWeapons(unsigned int currentTime, int windForce);
     std::map<int, Weapon*> & getWeapons();
