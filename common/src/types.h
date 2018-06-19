@@ -36,6 +36,7 @@ typedef enum {
 } action_t;
 
 typedef enum {
+    w_null = -1,
     w_bazooka = 0,
     w_mortar = 1,
     w_cluster = 2,
@@ -45,8 +46,7 @@ typedef enum {
     w_dynamite = 7,
     w_air_strike = 6, 
     w_bat = 8,
-    w_teleport = 9,
-    w_null = -1
+    w_teleport = 9
 } weapon_t;
 
 typedef enum {

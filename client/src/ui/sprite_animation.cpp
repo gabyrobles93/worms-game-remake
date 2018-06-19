@@ -127,6 +127,11 @@ SDL_Rect View::SpriteAnimation::getNextClipInfiniteGoing(void) {
 
 SDL_Rect View::SpriteAnimation::getNextClipDependentOnGrades(int grades, int maxGrades) {
   int numClip = (grades * this->numClips) / maxGrades;
+  
+  if (numClip == this->numClips) {
+    numClip--;
+  }
+
   SDL_Rect currentClip = {
     0,
     0 + numClip * this->clipHeight,
