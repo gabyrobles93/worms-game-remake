@@ -4,6 +4,9 @@
 #include <string>
 
 class Paths {
+  private:
+    std::string root;
+    
   public:
     /* GIRDERS PATHS */
     // Long
@@ -44,6 +47,105 @@ class Paths {
     std::string PATH_WORM_FLYING_2;
     std::string PATH_WORM_FLYING_3;
     std::string PATH_WORM_DIE;
+
+      // Pick weapons
+      std::string PATH_WORM_PICK_BAZOOKA;
+      std::string PATH_WORM_PICK_BAZOOKA_UP;
+      std::string PATH_WORM_PICK_BAZOOKA_DOWN;
+      std::string PATH_WORM_PICK_MORTAR;
+      std::string PATH_WORM_PICK_MORTAR_UP;
+      std::string PATH_WORM_PICK_MORTAR_DOWN;
+      std::string PATH_WORM_PICK_GREEN_GRENADE;
+      std::string PATH_WORM_PICK_GREEN_GRENADE_UP;
+      std::string PATH_WORM_PICK_GREEN_GRENADE_DOWN;
+      std::string PATH_WORM_PICK_CLUSTER;
+      std::string PATH_WORM_PICK_CLUSTER_UP;
+      std::string PATH_WORM_PICK_CLUSTER_DOWN;
+      std::string PATH_WORM_PICK_BANANA;
+      std::string PATH_WORM_PICK_BANANA_UP;
+      std::string PATH_WORM_PICK_BANANA_DOWN;
+      std::string PATH_WORM_PICK_HOLY_GRENADE;
+      std::string PATH_WORM_PICK_HOLY_GRENADE_UP;
+      std::string PATH_WORM_PICK_HOLY_GRENADE_DOWN;
+      std::string PATH_WORM_PICK_DYNAMITE;
+      std::string PATH_WORM_PICK_DYNAMITE_UP;
+      std::string PATH_WORM_PICK_DYNAMITE_DOWN;
+      std::string PATH_WORM_PICK_AIR_STRIKE;
+      std::string PATH_WORM_PICK_AIR_STRIKE_UP;
+      std::string PATH_WORM_PICK_AIR_STRIKE_DOWN;
+      std::string PATH_WORM_PICK_BASEBALL;
+      std::string PATH_WORM_PICK_BASEBALL_UP;
+      std::string PATH_WORM_PICK_BASEBALL_DOWN;
+      std::string PATH_WORM_PICK_TELEPORT;
+      std::string PATH_WORM_PICK_TELEPORT_UP;
+      std::string PATH_WORM_PICK_TELEPORT_DOWN;
+
+      // Hide weapons
+      std::string PATH_WORM_HIDE_BAZOOKA;
+      std::string PATH_WORM_HIDE_BAZOOKA_UP;
+      std::string PATH_WORM_HIDE_BAZOOKA_DOWN;
+      std::string PATH_WORM_HIDE_MORTAR;
+      std::string PATH_WORM_HIDE_MORTAR_UP;
+      std::string PATH_WORM_HIDE_MORTAR_DOWN;
+      std::string PATH_WORM_HIDE_GREEN_GRENADE;
+      std::string PATH_WORM_HIDE_GREEN_GRENADE_UP;
+      std::string PATH_WORM_HIDE_GREEN_GRENADE_DOWN;
+      std::string PATH_WORM_HIDE_CLUSTER;
+      std::string PATH_WORM_HIDE_CLUSTER_UP;
+      std::string PATH_WORM_HIDE_CLUSTER_DOWN;
+      std::string PATH_WORM_HIDE_BANANA;
+      std::string PATH_WORM_HIDE_BANANA_UP;
+      std::string PATH_WORM_HIDE_BANANA_DOWN;
+      std::string PATH_WORM_HIDE_HOLY_GRENADE;
+      std::string PATH_WORM_HIDE_HOLY_GRENADE_UP;
+      std::string PATH_WORM_HIDE_HOLY_GRENADE_DOWN;
+      std::string PATH_WORM_HIDE_DYNAMITE;
+      std::string PATH_WORM_HIDE_DYNAMITE_UP;
+      std::string PATH_WORM_HIDE_DYNAMITE_DOWN;
+      std::string PATH_WORM_HIDE_AIR_STRIKE;
+      std::string PATH_WORM_HIDE_AIR_STRIKE_UP;
+      std::string PATH_WORM_HIDE_AIR_STRIKE_DOWN;
+      std::string PATH_WORM_HIDE_BASEBALL;
+      std::string PATH_WORM_HIDE_BASEBALL_UP;
+      std::string PATH_WORM_HIDE_BASEBALL_DOWN;
+      std::string PATH_WORM_HIDE_BASEBALL_SHOOTED;
+      std::string PATH_WORM_HIDE_BASEBALL_SHOOTED_UP;
+      std::string PATH_WORM_HIDE_BASEBALL_SHOOTED_DOWN;
+      std::string PATH_WORM_HIDE_TELEPORT;
+      std::string PATH_WORM_HIDE_TELEPORT_UP;
+      std::string PATH_WORM_HIDE_TELEPORT_DOWN;
+
+      // Pointing
+      std::string PATH_WORM_POINTING_BAZOOKA;
+      std::string PATH_WORM_POINTING_BAZOOKA_UP;
+      std::string PATH_WORM_POINTING_BAZOOKA_DOWN;
+      std::string PATH_WORM_POINTING_MORTAR;
+      std::string PATH_WORM_POINTING_MORTAR_UP;
+      std::string PATH_WORM_POINTING_MORTAR_DOWN;
+      std::string PATH_WORM_POINTING_GREEN_GRENADE;
+      std::string PATH_WORM_POINTING_GREEN_GRENADE_UP;
+      std::string PATH_WORM_POINTING_GREEN_GRENADE_DOWN;
+      std::string PATH_WORM_POINTING_CLUSTER;
+      std::string PATH_WORM_POINTING_CLUSTER_UP;
+      std::string PATH_WORM_POINTING_CLUSTER_DOWN;
+      std::string PATH_WORM_POINTING_BANANA;
+      std::string PATH_WORM_POINTING_BANANA_UP;
+      std::string PATH_WORM_POINTING_BANANA_DOWN;
+      std::string PATH_WORM_POINTING_HOLY_GRENADE;
+      std::string PATH_WORM_POINTING_HOLY_GRENADE_UP;
+      std::string PATH_WORM_POINTING_HOLY_GRENADE_DOWN;
+      std::string PATH_WORM_POINTING_BASEBALL;
+      std::string PATH_WORM_POINTING_BASEBALL_UP;
+      std::string PATH_WORM_POINTING_BASEBALL_DOWN;
+
+      // Shooting
+      std::string PATH_WORM_SHOOTING_AIR_STRIKE;
+      std::string PATH_WORM_SHOOTING_AIR_STRIKE_UP;
+      std::string PATH_WORM_SHOOTING_AIR_STRIKE_DOWN;
+      std::string PATH_WORM_SHOOTING_BASEBALL;
+      std::string PATH_WORM_SHOOTING_BASEBALL_UP;
+      std::string PATH_WORM_SHOOTING_BASEBALL_DOWN;
+      
     /* ----------------------------------- */
 
     /* WATER PATHS */

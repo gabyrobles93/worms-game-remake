@@ -69,6 +69,7 @@ typedef enum {
     WS_WALKING,
     WS_FALLING,
     WS_FLYING,
+    WS_PICK_WEAPON,
     WS_DEAD
 } view_worm_state_t;
 

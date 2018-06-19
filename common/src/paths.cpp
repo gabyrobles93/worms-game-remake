@@ -1,11 +1,10 @@
 #include "paths.h"
 
 Paths::Paths(const char * r) {
-  std::string root;
   if (r) {
-    root = r;
+    this->root = r;
   } else {
-    root = "../../";
+    this->root = "../../";
   }
 
   /* GIRDERS PATHS */
@@ -31,23 +30,6 @@ Paths::Paths(const char * r) {
   this->PATH_GIRDER_SHORT_NEGATIVE_60 = root + "resources/graphics/Weapons/grds7.png";
   this->PATH_GIRDER_SHORT_NEGATIVE_90 = root + "resources/graphics/Weapons/grds8.png";
   /* ------------------------------ */
-
-  /* WORM PATHS */
-  this->PATH_PLAIN_WORM = root + "resources/graphics/Worms/plain_worm.png";
-  this->PATH_WORM_BREATH_1 = root + "resources/graphics/Worms/wbrth1.png";
-  this->PATH_WORM_BREATH_1_UP = root + "resources/graphics/Worms/wbrth1u.png";
-  this->PATH_WORM_BREATH_1_DOWN = root + "resources/graphics/Worms/wbrth1d.png";
-  this->PATH_WORM_WALK = root + "resources/graphics/Worms/wwalk.png";
-  this->PATH_WORM_WALK_UP = root + "resources/graphics/Worms/wwalku.png";
-  this->PATH_WORM_WALK_DOWN = root + "resources/graphics/Worms/wwalkd.png";
-  this->PATH_WORM_ROLL = root + "resources/graphics/Worms/wroll.png";
-  this->PATH_WORM_FALL_DN = root + "resources/graphics/Worms/wfall.png";
-  this->PATH_WORM_JUMP = root + "resources/graphics/Worms/wjump.jpg";
-  this->PATH_WORM_FLYING_1 = root + "resources/graphics/Worms/wfly1.png";
-  this->PATH_WORM_FLYING_2 = root + "resources/graphics/Worms/wfly2.png";
-  this->PATH_WORM_FLYING_3 = root + "resources/graphics/Worms/wfly3.png";
-  this->PATH_WORM_DIE = root + "resources/graphics/Worms/wdie.png";
-  /* ----------------------------------- */
 
   /* WATER PATHS */
   this->PATH_WATER_DEFAULT = root + "resources/graphics/water_gif.gif";
@@ -81,7 +63,123 @@ Paths::Paths(const char * r) {
   this->PATH_AIR_STRIKE = root + "resources/graphics/Weapons/airmisil.png";
   this->PATH_CLUSTER = root + "resources/graphics/Weapons/cluster.png";
   this->PATH_MORTAR = root + "resources/graphics/Weapons/mortar.png";
-  /* ------------- */
+  /* ----------------------------------- */
+
+  /* WORM PATHS */
+  this->PATH_PLAIN_WORM = root + "resources/graphics/Worms/plain_worm.png";
+  this->PATH_WORM_BREATH_1 = root + "resources/graphics/Worms/wbrth1.png";
+  this->PATH_WORM_BREATH_1_UP = root + "resources/graphics/Worms/wbrth1u.png";
+  this->PATH_WORM_BREATH_1_DOWN = root + "resources/graphics/Worms/wbrth1d.png";
+  this->PATH_WORM_WALK = root + "resources/graphics/Worms/wwalk.png";
+  this->PATH_WORM_WALK_UP = root + "resources/graphics/Worms/wwalku.png";
+  this->PATH_WORM_WALK_DOWN = root + "resources/graphics/Worms/wwalkd.png";
+  this->PATH_WORM_ROLL = root + "resources/graphics/Worms/wroll.png";
+  this->PATH_WORM_FALL_DN = root + "resources/graphics/Worms/wfall.png";
+  this->PATH_WORM_JUMP = root + "resources/graphics/Worms/wjump.jpg";
+  this->PATH_WORM_FLYING_1 = root + "resources/graphics/Worms/wfly1.png";
+  this->PATH_WORM_FLYING_2 = root + "resources/graphics/Worms/wfly2.png";
+  this->PATH_WORM_FLYING_3 = root + "resources/graphics/Worms/wfly3.png";
+  this->PATH_WORM_DIE = root + "resources/graphics/Worms/wdie.png";
+
+    // Pick weapons
+    this->PATH_WORM_PICK_BAZOOKA = root + "resources/graphics/Worms/wbazlnk.png";
+    this->PATH_WORM_PICK_BAZOOKA_UP = root + "resources/graphics/Worms/wbazlnku.png";
+    this->PATH_WORM_PICK_BAZOOKA_DOWN = root + "resources/graphics/Worms/wbazlnkd.png";
+    this->PATH_WORM_PICK_MORTAR = root + "resources/graphics/Worms/wbz2lnk.png";;
+    this->PATH_WORM_PICK_MORTAR_UP = root + "resources/graphics/Worms/wbz2lnku.png";;
+    this->PATH_WORM_PICK_MORTAR_DOWN = root + "resources/graphics/Worms/wbz2lnkd.png";;
+    this->PATH_WORM_PICK_GREEN_GRENADE = root + "resources/graphics/Worms/wgrnlnk.png";
+    this->PATH_WORM_PICK_GREEN_GRENADE_UP = root + "resources/graphics/Worms/wgrnlnku.png";
+    this->PATH_WORM_PICK_GREEN_GRENADE_DOWN = root + "resources/graphics/Worms/wgrnlnkd.png";
+    this->PATH_WORM_PICK_CLUSTER = root + "resources/graphics/Worms/wclslnk.png";
+    this->PATH_WORM_PICK_CLUSTER_UP = root + "resources/graphics/Worms/wclslnku.png";
+    this->PATH_WORM_PICK_CLUSTER_DOWN = root + "resources/graphics/Worms/wclslnkd.png";
+    this->PATH_WORM_PICK_BANANA = root + "resources/graphics/Worms/wbanlnk.png";
+    this->PATH_WORM_PICK_BANANA_UP = root + "resources/graphics/Worms/wbanlnku.png";
+    this->PATH_WORM_PICK_BANANA_DOWN = root + "resources/graphics/Worms/wbanlnkd.png";
+    this->PATH_WORM_PICK_HOLY_GRENADE = root + "resources/graphics/Worms/whgrlnk.png";
+    this->PATH_WORM_PICK_HOLY_GRENADE_UP = root + "resources/graphics/Worms/whgrlnku.png";
+    this->PATH_WORM_PICK_HOLY_GRENADE_DOWN = root + "resources/graphics/Worms/whgrlnkd.png";
+    this->PATH_WORM_PICK_AIR_STRIKE = root + "resources/graphics/Worms/wairlnk.png";
+    this->PATH_WORM_PICK_AIR_STRIKE_UP = root + "resources/graphics/Worms/wairbaku.png";
+    this->PATH_WORM_PICK_AIR_STRIKE_DOWN = root + "resources/graphics/Worms/wairbakd.png";
+    this->PATH_WORM_PICK_DYNAMITE = root + "resources/graphics/Worms/wdynlnk.png";
+    this->PATH_WORM_PICK_DYNAMITE_UP = root + "resources/graphics/Worms/wdynlnku.png";
+    this->PATH_WORM_PICK_DYNAMITE_DOWN = root + "resources/graphics/Worms/wdynlnkd.png";
+    this->PATH_WORM_PICK_BASEBALL = root + "resources/graphics/Worms/wbsblnk.png";
+    this->PATH_WORM_PICK_BASEBALL_UP = root + "resources/graphics/Worms/wbsblnku.png";
+    this->PATH_WORM_PICK_BASEBALL_DOWN = root + "resources/graphics/Worms/wbsblnkd.png";
+    this->PATH_WORM_PICK_TELEPORT = root + "resources/graphics/Worms/wtellnk.png";
+    this->PATH_WORM_PICK_TELEPORT_UP = root + "resources/graphics/Worms/wtellnku.png";
+    this->PATH_WORM_PICK_TELEPORT_DOWN = root + "resources/graphics/Worms/wtellnkd.png";
+
+    // Hide weapons
+    this->PATH_WORM_HIDE_BAZOOKA = root + "resources/graphics/Worms/wbazbak.png";
+    this->PATH_WORM_HIDE_BAZOOKA_UP = root + "resources/graphics/Worms/wbazbaku.png";
+    this->PATH_WORM_HIDE_BAZOOKA_DOWN = root + "resources/graphics/Worms/wbazbakd.png";
+    this->PATH_WORM_HIDE_MORTAR = root + "resources/graphics/Worms/wbz2bak.png";
+    this->PATH_WORM_HIDE_MORTAR_UP = root + "resources/graphics/Worms/wbz2baku.png";
+    this->PATH_WORM_HIDE_MORTAR_DOWN = root + "resources/graphics/Worms/wbz2bakd.png";
+    this->PATH_WORM_HIDE_GREEN_GRENADE = root + "resources/graphics/Worms/wgrnbak.png";
+    this->PATH_WORM_HIDE_GREEN_GRENADE_UP = root + "resources/graphics/Worms/wgrnbaku.png";
+    this->PATH_WORM_HIDE_GREEN_GRENADE_DOWN = root + "resources/graphics/Worms/wgrnbakd.png";
+    this->PATH_WORM_HIDE_CLUSTER = root + "resources/graphics/Worms/wclsbak.png";
+    this->PATH_WORM_HIDE_CLUSTER_UP = root + "resources/graphics/Worms/wclsbaku.png";
+    this->PATH_WORM_HIDE_CLUSTER_DOWN = root + "resources/graphics/Worms/wclsbakd.png";
+    this->PATH_WORM_HIDE_BANANA = root + "resources/graphics/Worms/wbanbak.png";
+    this->PATH_WORM_HIDE_BANANA_UP = root + "resources/graphics/Worms/wbanbaku.png";
+    this->PATH_WORM_HIDE_BANANA_DOWN = root + "resources/graphics/Worms/wbanbakd.png";
+    this->PATH_WORM_HIDE_HOLY_GRENADE = root + "resources/graphics/Worms/whgrbak.png";
+    this->PATH_WORM_HIDE_HOLY_GRENADE_UP = root + "resources/graphics/Worms/whgrbaku.png";
+    this->PATH_WORM_HIDE_HOLY_GRENADE_DOWN = root + "resources/graphics/Worms/whgrbakd.png";
+    this->PATH_WORM_HIDE_DYNAMITE = root + "resources/graphics/Worms/wdynbak.png";
+    this->PATH_WORM_HIDE_DYNAMITE_UP = root + "resources/graphics/Worms/wdynbaku.png";
+    this->PATH_WORM_HIDE_DYNAMITE_DOWN = root + "resources/graphics/Worms/wdynbakd.png";
+    this->PATH_WORM_HIDE_AIR_STRIKE = root + "resources/graphics/Worms/wairbak.png";
+    this->PATH_WORM_HIDE_AIR_STRIKE_UP = root + "resources/graphics/Worms/wairbaku.png";
+    this->PATH_WORM_HIDE_AIR_STRIKE_DOWN = root + "resources/graphics/Worms/wairbakd.png";
+    this->PATH_WORM_HIDE_BASEBALL = root + "resources/graphics/Worms/wbsbbak.png";
+    this->PATH_WORM_HIDE_BASEBALL_UP = root + "resources/graphics/Worms/wbsbbaku.png";
+    this->PATH_WORM_HIDE_BASEBALL_DOWN = root + "resources/graphics/Worms/wbsbbakd.png";
+    this->PATH_WORM_HIDE_BASEBALL_SHOOTED = root + "resources/graphics/Worms/wbsbbk2.png";
+    this->PATH_WORM_HIDE_BASEBALL_SHOOTED_UP = root + "resources/graphics/Worms/wbsbbk2u.png";
+    this->PATH_WORM_HIDE_BASEBALL_SHOOTED_DOWN = root + "resources/graphics/Worms/wbsbbk2d.png";
+    this->PATH_WORM_HIDE_TELEPORT = root + "resources/graphics/Worms/wtelbak.png";
+    this->PATH_WORM_HIDE_TELEPORT_UP = root + "resources/graphics/Worms/wtelbaku.png";
+    this->PATH_WORM_HIDE_TELEPORT_DOWN = root + "resources/graphics/Worms/wtelbakd.png";
+
+    // Pointing
+    this->PATH_WORM_POINTING_BAZOOKA = root + "resources/graphics/Worms/wbaz.png";
+    this->PATH_WORM_POINTING_BAZOOKA_UP = root + "resources/graphics/Worms/wbazu.png";
+    this->PATH_WORM_POINTING_BAZOOKA_DOWN = root + "resources/graphics/Worms/wbazd.png";
+    this->PATH_WORM_POINTING_MORTAR = root + "resources/graphics/Worms/wbaz2.png";
+    this->PATH_WORM_POINTING_MORTAR_UP = root + "resources/graphics/Worms/wbaz2u.png";
+    this->PATH_WORM_POINTING_MORTAR_DOWN = root + "resources/graphics/Worms/wbaz2d.png";    
+    this->PATH_WORM_POINTING_GREEN_GRENADE = root + "resources/graphics/Worms/wthrgrn.png";
+    this->PATH_WORM_POINTING_GREEN_GRENADE_UP = root + "resources/graphics/Worms/wthrgrnu.png";
+    this->PATH_WORM_POINTING_GREEN_GRENADE_DOWN = root + "resources/graphics/Worms/wthrgrnd.png";
+    this->PATH_WORM_POINTING_CLUSTER = root + "resources/graphics/Worms/wthrcls.png";
+    this->PATH_WORM_POINTING_CLUSTER_UP = root + "resources/graphics/Worms/wthrclsu.png";
+    this->PATH_WORM_POINTING_CLUSTER_DOWN = root + "resources/graphics/Worms/wthrclsd.png";
+    this->PATH_WORM_POINTING_BANANA = root + "resources/graphics/Worms/wthrban.png";
+    this->PATH_WORM_POINTING_BANANA_UP = root + "resources/graphics/Worms/wthrbanu.png";
+    this->PATH_WORM_POINTING_BANANA_DOWN = root + "resources/graphics/Worms/wthrband.png";
+    this->PATH_WORM_POINTING_HOLY_GRENADE = root + "resources/graphics/Worms/wthrhgr.png";
+    this->PATH_WORM_POINTING_HOLY_GRENADE_UP = root + "resources/graphics/Worms/wthrhgr.png";
+    this->PATH_WORM_POINTING_HOLY_GRENADE_DOWN = root + "resources/graphics/Worms/wthrhgr.png";
+    this->PATH_WORM_POINTING_BASEBALL = root + "resources/graphics/Worms/wbsbaim.png";
+    this->PATH_WORM_POINTING_BASEBALL_UP = root + "resources/graphics/Worms/wbsbaimu.png";
+    this->PATH_WORM_POINTING_BASEBALL_DOWN = root + "resources/graphics/Worms/wbsbaimd.png";
+
+    // Shooting
+    this->PATH_WORM_SHOOTING_AIR_STRIKE = root + "resources/graphics/Worms/wairtlk.png";
+    this->PATH_WORM_SHOOTING_AIR_STRIKE_UP = root + "resources/graphics/Worms/wairtlku.png";
+    this->PATH_WORM_SHOOTING_AIR_STRIKE_DOWN = root + "resources/graphics/Worms/wairtlkd.png";
+    this->PATH_WORM_SHOOTING_BASEBALL = root + "resources/graphics/Worms/wbsbswn.png";
+    this->PATH_WORM_SHOOTING_BASEBALL_UP = root + "resources/graphics/Worms/wbsbswnu.png";
+    this->PATH_WORM_SHOOTING_BASEBALL_DOWN = root + "resources/graphics/Worms/wbsbswnd.png";
+    
+  /* ----------------------------------- */
 
   /* EFFECTS */
   this->PATH_EXPLOSION_EFFECT = root + "resources/graphics/Effects/firehit.png";
