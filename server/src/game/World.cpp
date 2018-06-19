@@ -24,6 +24,11 @@ World::~World() {
         delete it->second;
     }
 
+    for (std::map<int, Team*>::iterator it = this->teams.begin(); it != this->teams.end(); ++it) {
+        delete it->second;
+    }
+
+    delete this->water;
     delete this->weaponManager;
     delete this->wind;
 }

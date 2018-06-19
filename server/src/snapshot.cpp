@@ -85,13 +85,6 @@ void Snapshot::updateProjectiles(std::map<int, Weapon*> & weapons) {
         snapshot << YAML::EndMap;
     }
     snapshot << YAML::EndSeq;
-
-
-
-    YAML::Node projectile_node = YAML::Load(this->snapshot.c_str());
-    std::stringstream projeciltes;
-    projeciltes << projectile_node["projectiles"];
-    std::cout << projeciltes.str() << std::endl;
 }
 
 void Snapshot::updateGameStatus(Match & match) {

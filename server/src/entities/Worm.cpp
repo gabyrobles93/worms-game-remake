@@ -42,6 +42,9 @@ world(world) {
     this->affectedByExplosion = false;
     this->shootedInTurn = false;
     this->weapon = w_null;
+    this->direction_angle = 0;
+    this->fallenDistance = 0;
+    this->falled = false;
 }
 
 Worm::~Worm(void) {
@@ -286,9 +289,6 @@ void Worm::setPosition(float posX, float posY) {
 }
 
 void Worm::setNormal(b2Vec2 normal) {
-    std::cout << "NORMAL EN X " << normal.x << "NORMAL EN Y " << normal.y << std::endl;
-    
-
     this->normalX = normal.x;
     this->normalY = normal.y;
 }

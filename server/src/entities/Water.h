@@ -12,7 +12,7 @@ private:
 
 public:
     Water(b2World& world, float posX, float posY, float width, float height);
-    ~Water();
+    virtual ~Water();
     entity_t getEntityType() {return WATER;}
     void update(void);
     float getPosX();
