@@ -80,7 +80,7 @@ class Worm : public Entity {
         void setNormal(b2Vec2 normal);
         worm_inclination_t getInclination();
         int getDirectionAngle();
-        void equipWeapon(weapon_t weapon);
+        void pickWeapon(weapon_t weapon);
 };
 
 #endif

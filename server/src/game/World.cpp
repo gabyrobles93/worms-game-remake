@@ -229,6 +229,8 @@ void World::executeAction(Event & event, size_t id) {
             this->weaponManager->manageShoot(event, id, getTimeSeconds());
             break;
         }
+        case a_pickWeapon:
+            this->worms[id]->pickWeapon((weapon_t) eventNode["event"]["weapon"].as<int>());
         default: break;
     }
 }

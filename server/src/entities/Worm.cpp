@@ -301,6 +301,6 @@ int Worm::getDirectionAngle() {
     return this->direction_angle;
 }
 
-void Worm::equipWeapon(weapon_t weapon) {
+void Worm::pickWeapon(weapon_t weapon) {
     this->weapon = weapon;
 }

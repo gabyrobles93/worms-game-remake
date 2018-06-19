@@ -20,6 +20,7 @@ typedef enum {
     a_stopMoving,
     a_pointUp,
     a_pointDown,
+    a_pickWeapon,
     a_shoot,
     a_frontJump,
     a_backJump,
