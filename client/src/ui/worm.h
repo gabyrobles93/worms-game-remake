@@ -64,6 +64,7 @@ namespace View {
       bool alive;
       bool protagonic;
       bool affectedByExplosion;
+      int angleDirection;
 
       worm_inclination_t inclination;
 

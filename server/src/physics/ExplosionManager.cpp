@@ -33,7 +33,8 @@ void ExplosionManager::applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec
 	float distance = blastDir.Normalize();
     if (blastDir.y > 0) 
         blastDir.y = -blastDir.y;
-	if (distance <= 1) distance = 1;
+	if (distance <= 1) 
+        distance = 1;
 	float invDistance = 1/distance;
 	float impulseMag = (blastPower/REDUCE_FACTOR) * invDistance;
     entity_t entity_type = static_cast<Entity*>(body->GetUserData())->getEntityType();

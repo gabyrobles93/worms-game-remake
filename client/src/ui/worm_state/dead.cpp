@@ -39,7 +39,7 @@ View::Dead::~Dead() {
 
 }
 
-void View::Dead::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored) {
+void View::Dead::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored, int angle) {
   if (this->dying) {
     if (!this->spriteDying.finished()) {
       SDL_Rect clip = this->spriteDying.getNextClip();

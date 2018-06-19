@@ -12,7 +12,7 @@ View::Falling::~Falling() {
 
 }
 
-void View::Falling::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored) {
+void View::Falling::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored, int angle) {
   SDL_Rect clip = this->sprite.getNextClip();
   View::Texture & current = this->texture;
   if (mirrored) {

@@ -22,7 +22,7 @@ namespace View {
     public:
       Flying(View::Worm * context, SDL_Renderer * r);
       ~Flying();
-      virtual void render(SDL_Renderer *, int, int, worm_inclination_t, bool);
+      virtual void render(SDL_Renderer *, int, int, worm_inclination_t, bool, int);
   };
 }
 

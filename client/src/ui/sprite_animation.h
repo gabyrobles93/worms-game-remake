@@ -30,14 +30,14 @@ namespace View {
       SDL_Rect getNextClipInfiniteRoundTrip(void);
       SDL_Rect getNextClipOnlyGoing(void);
       SDL_Rect getNextClipInfiniteGoing(void);
-      SDL_Rect getNextClipDependentOnGrades(int grades);
+      SDL_Rect getNextClipDependentOnGrades(int grades, int maxGrades = 360);
 
     public:
       SpriteAnimation(size_t fpc = DEFAULT_FPC, sprite_type_t type = INFINITE_GOING_AND_BACK);
       ~SpriteAnimation();
       void setSpriteSheet(Texture *);
 
-      SDL_Rect getNextClip(int grades = -1);
+      SDL_Rect getNextClip(int grades = -1, int maxGrades = 360);
 
       // Verifica si el recorrido del spritesheet
       // finalizo (para ONLY_GOING sprites)

@@ -15,7 +15,7 @@ namespace View {
 
     public:
       virtual ~WormState() {};
-      virtual void render(SDL_Renderer *, int, int, worm_inclination_t, bool) = 0;
+      virtual void render(SDL_Renderer *, int, int, worm_inclination_t, bool, int a = -1) = 0;
       view_worm_state_t getState(void) {
         return this->state;
       }

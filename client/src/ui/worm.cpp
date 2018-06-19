@@ -51,6 +51,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->x = 0;
   this->y = 0;
   this->inclination = NONE;
+  this->angleDirection = 0;
 
   this->walkingSound.setSound(gPath.PATH_SOUND_WORM_WALKING);
 
@@ -115,13 +116,14 @@ void View::Worm::updateState(const YAML::Node & status) {
     return;
   }
 
-  //std::cout << status << std::endl << std::endl;
+  // std::cout << status << std::endl << std::endl;
   this->mirrored = status["mirrored"].as<int>();
   this->inclination = (worm_inclination_t)status["inclination"].as<int>();
   bool walking = status["walking"].as<int>();
   bool falling = status["falling"].as<int>();
   bool grounded = status["grounded"].as<int>();
   this->affectedByExplosion = status["affected_by_explosion"].as<int>();
+  this->angleDirection = status["angle_direction"].as<int>();
 
   if (affectedByExplosion) {
     if (this->stateName != WS_FLYING) {
@@ -157,7 +159,7 @@ void View::Worm::updateState(const YAML::Node & status) {
 }
 
 void View::Worm::render(SDL_Renderer * r, int camX, int camY) {
-  this->state->render(r, camX, camY, this->inclination, this->mirrored);
+  this->state->render(r, camX, camY, this->inclination, this->mirrored, this->angleDirection);
   
   // Display de la data
   this->renderWormData(r, camX, camY);

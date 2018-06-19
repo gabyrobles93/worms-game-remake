@@ -19,17 +19,17 @@ View::Flying::Flying(View::Worm * worm, SDL_Renderer * r) {
   this->index = 0;
   this->textures[this->index].loadFromFile(gPath.PATH_WORM_FLYING_1, r);
   this->sprites[this->index].setSpriteSheet(&this->textures[this->index]);
-  this->sprites[this->index].changeSpriteType(INFINITE_GOING);
+  this->sprites[this->index].changeSpriteType(DEPENDENT_ON_GRADES);
 
   this->index = 1;
   this->textures[this->index].loadFromFile(gPath.PATH_WORM_FLYING_2, r);
   this->sprites[this->index].setSpriteSheet(&this->textures[this->index]);
-  this->sprites[this->index].changeSpriteType(INFINITE_GOING);
+  this->sprites[this->index].changeSpriteType(DEPENDENT_ON_GRADES);
 
   this->index = 2;
   this->textures[this->index].loadFromFile(gPath.PATH_WORM_FLYING_3, r);
   this->sprites[this->index].setSpriteSheet(&this->textures[this->index]);
-  this->sprites[this->index].changeSpriteType(INFINITE_GOING);
+  this->sprites[this->index].changeSpriteType(DEPENDENT_ON_GRADES);
 
   this->index = 0;
 }
@@ -38,7 +38,7 @@ View::Flying::~Flying() {
 
 }
 
-void View::Flying::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored) {
+void View::Flying::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored, int angle) {
   if (!(this->index < MAX_FLYING_TEXTURES)) {
     this->index = 0;
   }
@@ -46,9 +46,15 @@ void View::Flying::render(SDL_Renderer * r, int camX, int camY, worm_inclination
   View::SpriteAnimation & currentAnimation = this->sprites[this->index];
   View::Texture & current = this->textures[this->index];
   this->index++;
-  SDL_Rect clip = currentAnimation.getNextClip();
 
-  if (mirrored) {
+  int angleAdapted = angle;
+
+  if (angle > 180) {
+    angleAdapted = 360 - angle;
+  }
+  SDL_Rect clip = currentAnimation.getNextClip(angleAdapted, 180);
+
+  if (angle <= 180) {
     current.render(
       r, 
       this->context->getX() - current.getWidth() / 2 - camX, 

@@ -16,7 +16,7 @@ View::Walking::~Walking() {
   this->walkingSound.stopSound();
 }
 
-void View::Walking::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored) {
+void View::Walking::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored, int angle) {
   this->walkingSound.playSound(0);
   SDL_Rect clip = this->sprites[incl].getNextClip();
   View::Texture & current = this->textures[incl];
