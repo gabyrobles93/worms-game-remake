@@ -219,9 +219,6 @@ void World::executeAction(Event & event, size_t id) {
         case a_moveRight:
             this->worms[id]->moveRight();
             break;
-        case a_stopMoving:
-            this->worms[id]->stopMoving();
-            break;
         case a_frontJump:
             this->worms[id]->frontJump();
             break;

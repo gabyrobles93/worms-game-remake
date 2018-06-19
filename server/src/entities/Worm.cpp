@@ -89,12 +89,6 @@ void Worm::moveLeft(void) {
     }
 }
 
-void Worm::stopMoving(void) {
-    if (isGrounded() && !affectedByExplosion) {
-        this->body->SetLinearVelocity(b2Vec2(0,0));
-    }
-}
-
 bool Worm::isMirrored(void) {
     return this->mirrored;
 }

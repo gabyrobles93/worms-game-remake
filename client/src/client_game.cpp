@@ -163,11 +163,11 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 					Event event(a_pointDown, this->team_id);
 					this->events.push(event);
 				}
-				if (e.key.keysym.sym == SDLK_a && e.key.repeat == 0) {
+				if (e.key.keysym.sym == SDLK_a) {
 					Event event(a_moveLeft, this->team_id);
 					this->events.push(event);
 				}
-				if (e.key.keysym.sym == SDLK_d && e.key.repeat == 0) {
+				if (e.key.keysym.sym == SDLK_d) {
 					Event event(a_moveRight, this->team_id);
 					this->events.push(event);
 				}
@@ -181,17 +181,6 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 				}
 
 				camera.handleEvent(e);
-			}
-
-			if (e.type == SDL_KEYUP) {
-				if (e.key.keysym.sym == SDLK_a) {
-					Event event(a_stopMoving, this->team_id);
-					this->events.push(event);
-				}
-				if (e.key.keysym.sym == SDLK_d) {
-					Event event(a_stopMoving, this->team_id);
-					this->events.push(event);
-				}
 			}
 		}
 

@@ -49,7 +49,6 @@ class Worm : public Entity {
         void backJump(void);
         void moveLeft(void);
         void moveRight(void);
-        void stopMoving(void);
         void pointHigher(void);
         void pointMoreDown(void);
         float getPosY(void);
