@@ -26,8 +26,7 @@ void View::Girder::rotateCounterClockwise(void) {
 }
 
 void View::Girder::render(SDL_Renderer * renderer, int camX, int camY) {
-  Texture & current = this->currentTexture;
-  current.render(renderer, this->x - camX, this->y - camY);
+  this->currentTexture.render(renderer, this->x - camX, this->y - camY);
 }
 
 degrees_t View::Girder::getCurrentDegrees(void) {

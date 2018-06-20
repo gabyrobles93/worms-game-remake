@@ -12,6 +12,7 @@
 #include "girder.h"
 #include "worm.h"
 #include "yaml.h"
+#include "map_state.h"
 
 #define MAPS_SERVER_DIR "../../server/maps/"
 #define MAPS_EDITOR_DIR " ../maps/"
@@ -21,23 +22,24 @@ namespace View {
 
   class MapGame {
     private:
-      // Vector de estados de mapas
-      // sirve tener los distintos estados
-      // para agregar las funcionalidades de
-      // deshacer y rehacer
-      std::vector<YAML::Node *> mapStates;
 
-      std::vector<View::GirderShort*> shortCollection;
-	    std::vector<View::GirderLong*> longCollection;
-	    std::map<std::size_t, std::vector<View::Worm*>> wormsCollection;
+      size_t statIndex;
 
-      size_t stateIndex;
-
+      std::vector<MapState*> mapStates;
+      unsigned int stateIndex;
+      SDL_Renderer * renderer;
+      YAML::Node & map;
+      unsigned int index;
+    
       // Obtiene el id del proximo
       // worm a agregar
       int getNextWormId(void);
-      void addInventoryToTeams(YAML::Node & map);
-
+      void addInventoryToTeams();
+      void addLongGirdersToMap();
+      void addShortGirdersToMap();
+      void addWormsToMap();
+      void updateIndex();
+      
     public:
       // Constructor, recibe el nodo YAML
       // donde guardara toda la informacion del mapa
@@ -67,9 +69,6 @@ namespace View {
       // Imprime el estado actual
       void printCurrentState(void);
 
-      // Actualiza el indice y libera los estados basura
-      void updateIndex(void);
-
       // Guarda el mapa en la carpeta de mapas del servidor
       // bajo el nombre indicado
       void saveAs(std::string, std::string);
@@ -78,6 +77,8 @@ namespace View {
       // tiene todos los gusanos
       // posibles dibujados
       bool hasAllTheWorms(int, int);
+
+      void setRenderer(SDL_Renderer * renderer);
   };
 }
 

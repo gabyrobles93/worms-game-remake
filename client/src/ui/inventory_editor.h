@@ -40,6 +40,10 @@ namespace View {
       SoundEffect girderClick;
       SoundEffect wormClick;
 
+      View::GirderShort girderShort;
+      View::GirderLong girderLong;
+      View::Worm worm;
+
       // Devuelve el indice del item seleccionado
       int getIndexSelected(void);
 
@@ -52,6 +56,8 @@ namespace View {
       // Checkea si el mouse esta en las
       // dimensiones del dibujo del inventario
       virtual bool isMouseOnInventoryRanges(int, int);
+
+      bool newGirderDeegres;
 
     public:
       // Constructor por default con todas las armas
@@ -78,7 +84,7 @@ namespace View {
       // Actualiza la cantidad de worms que se pueden poner
       // Este metodo lo utiliza el map game dependiendo de cuantos
       // gusanos hay en el mapa en el estado actual
-      void updateWormsTeamSupplies(const YAML::Node &);
+      void updateWormsTeamSupplies(const std::map<size_t, std::vector<View::Worm*>> & worms);
 
       virtual void pickNextItem(void);
   };

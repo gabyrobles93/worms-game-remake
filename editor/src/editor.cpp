@@ -29,6 +29,7 @@ editorInventory(renderer,
 	this->teamsAmount = mapNode["static"]["teams_amount"].as<int>();
 	this->wormsHealth = mapNode["static"]["worms_health"].as<int>();
     this->editorInventory.toggleOpen();
+	this->mapGame.setRenderer(this->renderer);	
 }
 
 int Editor::start(void) {
@@ -87,7 +88,7 @@ int Editor::start(void) {
 		editorInventory.render(renderer);
 		
 		SDL_RenderPresent(renderer);
-		SDL_Delay(10); // Para no usar al mango el CPU
+		SDL_Delay(50); // Para no usar al mango el CPU
 	}
 
 	if (validMap) {

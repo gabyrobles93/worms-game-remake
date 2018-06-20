@@ -45,6 +45,8 @@ add_executable(	editor
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/editor_launcher.cpp
 		${PROJECT_SOURCE_DIR}/src/editor.cpp
+		${PROJECT_SOURCE_DIR}/src/map_state.cpp
+		${PROJECT_SOURCE_DIR}/src/map_state.h
 		${PROJECT_SOURCE_DIR}/src/map_game.cpp
 		${COMMON_SOURCE_DIR}/src/thread.cpp
 		${COMMON_SOURCE_DIR}/src/paths.cpp
