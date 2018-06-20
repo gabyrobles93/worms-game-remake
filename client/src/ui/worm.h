@@ -45,6 +45,7 @@ namespace View {
       bool affectedByExplosion;
       int angleDirection;
       worm_inclination_t inclination;
+      std::string name;
 
       
       

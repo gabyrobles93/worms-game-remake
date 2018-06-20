@@ -32,6 +32,7 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->y = 0;
   this->inclination = NONE;
   this->angleDirection = 0;
+  this->name = name;
 
   this->nameText.loadFromRenderedText(r, this->font, name, colors[this->team]);
   this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
@@ -58,10 +59,6 @@ View::Worm::~Worm() {
   std::map<view_worm_state_t, WormState *>::iterator it = this->states.begin();
   for (; it != this->states.end() ; it++) {
     delete it->second;
-  }
-
-  if (this->state) {
-    delete this->state;
   }
 }
 
