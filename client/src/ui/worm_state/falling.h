@@ -20,6 +20,7 @@ namespace View {
       Falling(View::Worm * context, SDL_Renderer * r);
       ~Falling();
       virtual void render(SDL_Renderer *, int, int, worm_inclination_t, bool, int);
+      virtual void resetAnimation(void);
   };
 }
 

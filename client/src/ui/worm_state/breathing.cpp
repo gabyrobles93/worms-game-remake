@@ -36,5 +36,11 @@ void View::Breathing::render(SDL_Renderer * r, int camX, int camY, worm_inclinat
       &clip
     );
   }
-  
+}
+
+void View::Breathing::resetAnimation(void) {
+  std::map<worm_inclination_t, SpriteAnimation>::iterator it = this->sprites.begin();
+  for (; it != this->sprites.end() ; it++) {
+    it->second.reset();
+  }
 }

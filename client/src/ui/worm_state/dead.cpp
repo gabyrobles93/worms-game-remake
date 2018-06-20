@@ -80,3 +80,8 @@ void View::Dead::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t
     );
   }
 }
+
+void View::Dead::resetAnimation(void) {
+  this->spriteDying.reset();
+  this->spriteGrave.reset();
+}

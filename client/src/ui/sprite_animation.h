@@ -45,6 +45,9 @@ namespace View {
 
       // Cambia el tipo de sprite sheet
       void changeSpriteType(sprite_type_t);
+
+      // Resetea la animacion y empieza desde el principio
+      void reset(void);
   };
 }
 

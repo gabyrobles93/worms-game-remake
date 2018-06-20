@@ -24,35 +24,14 @@
 #include "sight.h"
 #include "yaml.h"
 
-
-typedef enum {
-  PLAIN_WORM,
-
-  BREATH_1,
-  BREATH_1_UP,
-  BREATH_1_DOWN,
-
-  WALK,
-  WALK_UP,
-  WALK_DOWN,
-
-  ROLL,
-
-  FALLDN
-} worm_animation_t;
-
-
-
 namespace View {
   class WormState;
 
   class Worm: public Drawable {
     private:
-      SDL_Renderer * renderer;
       // Animation
-      View::SpriteAnimation sprite;
-      worm_animation_t currentAnimation;
-      std::map<worm_animation_t, Texture> textures;
+      std::map<view_worm_state_t, WormState *> states;
+      
       View::WormState * state;
       view_worm_state_t stateName;
       
@@ -65,31 +44,27 @@ namespace View {
       bool protagonic;
       bool affectedByExplosion;
       int angleDirection;
-
       worm_inclination_t inclination;
 
+      
+      
       Sight sight;
 
 
       // Worm data
-      std::string name;
       size_t team;
       int health;
-
-      // Sound
-      SoundEffect walkingSound;
 
       // Worm data UI
       worm_data_cfg_t dataConfiguration;
       Font font;
       Texture nameText;
       Texture healthText;
-
       RectangleText healthTxt;
       RectangleText nameTxt;
 
       // Setea el nuevo state del worm
-      void setState(WormState *);
+      void setState(view_worm_state_t);
 
     public:
       Worm(SDL_Renderer *, std::string, size_t, int);

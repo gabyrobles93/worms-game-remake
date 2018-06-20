@@ -72,5 +72,11 @@ void View::Flying::render(SDL_Renderer * r, int camX, int camY, worm_inclination
       &clip
     );
   }
-  
+}
+
+void View::Flying::resetAnimation(void) {
+  std::map<size_t, SpriteAnimation>::iterator it = this->sprites.begin();
+  for (; it != this->sprites.end() ; it++) {
+    it->second.reset();
+  }
 }

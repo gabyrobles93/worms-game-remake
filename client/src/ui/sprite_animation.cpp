@@ -38,6 +38,7 @@ void View::SpriteAnimation::setSpriteSheet(Texture * newTexture) {
   this->clipHeight = clipWidth;
   this->numClips = this->currentSpriteSheet->getHeight() / clipWidth;
   this->reverse = false;
+  this->finish = false;
   this->counter = 0;
 }
 
@@ -148,4 +149,10 @@ bool View::SpriteAnimation::finished(void) {
 
 void View::SpriteAnimation::changeSpriteType(sprite_type_t newType) {
   this->type = newType;
+}
+
+void View::SpriteAnimation::reset(void) {
+  this->finish = false;
+  this->reverse = false;
+  this->counter = 0;
 }

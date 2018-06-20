@@ -30,6 +30,7 @@ namespace View {
       Dead(View::Worm * context, SDL_Renderer * r);
       ~Dead();
       virtual void render(SDL_Renderer *, int, int, worm_inclination_t, bool, int angle);
+      virtual void resetAnimation(void);
   };
 }
 
