@@ -12,6 +12,7 @@
 #include "girder.h"
 #include "worm.h"
 #include "yaml.h"
+#include "map_state.h"
 
 #define MAPS_SERVER_DIR "../../server/maps/"
 #define MAPS_EDITOR_DIR " ../maps/"
@@ -22,14 +23,14 @@ namespace View {
   class MapGame {
     private:
 
-      std::map<int, View::GirderShort*> shortGirders;
-      std::map<int, View::GirderLong*> longGirders;
-	    std::map<std::size_t, std::vector<View::Worm*>> worms;
+      size_t statIndex;
 
+      std::vector<MapState*> mapStates;
+      unsigned int stateIndex;
       SDL_Renderer * renderer;
       YAML::Node & map;
       unsigned int index;
-
+    
       // Obtiene el id del proximo
       // worm a agregar
       int getNextWormId(void);
@@ -37,6 +38,7 @@ namespace View {
       void addLongGirdersToMap();
       void addShortGirdersToMap();
       void addWormsToMap();
+      void updateIndex();
       
     public:
       // Constructor, recibe el nodo YAML

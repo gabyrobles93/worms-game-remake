@@ -3,28 +3,13 @@
 View::MapGame::MapGame(YAML::Node & map) :
 map(map) {
   this->index = 0;
+  this->mapStates.push_back(new MapState());
+  this->stateIndex = 0;
 }
 
 View::MapGame::~MapGame() {
-  for (std::map<int, View::GirderShort*>::iterator it = this->shortGirders.begin(); 
-  it != this->shortGirders.end();
-  ++it) {
-    delete it->second;
-  }
-
-  for (std::map<int, View::GirderLong*>::iterator it = this->longGirders.begin();
-  it != this->longGirders.end();
-  ++it) {
-    delete it->second;
-  }
-
-  for (std::map<std::size_t, std::vector<View::Worm*>>::iterator it = this->worms.begin();
-  it != this->worms.end();
-  ++it) {
-    std::vector<View::Worm*>::iterator vector_it = it->second.begin();
-    for (;vector_it != it->second.end(); vector_it++) {
-      delete *vector_it;
-    }
+  for(int i = 0; i < this->mapStates.size(); ++i) {
+    delete this->mapStates[i];
   }
 }
 
@@ -33,72 +18,62 @@ void View::MapGame::setRenderer(SDL_Renderer * renderer) {
 }
 
 void View::MapGame::render(SDL_Renderer * renderer, int camX, int camY) {
-  // Render short girders
-  std::map<int, View::GirderShort*>::iterator shortGirder;
-  for (shortGirder = this->shortGirders.begin(); shortGirder != this->shortGirders.end(); ++shortGirder) {
-    shortGirder->second->render(renderer, camX, camY);
-  }
-
-  // Render long girders
-  std::map<int, View::GirderLong*>::iterator longGirder;
-  for (longGirder = this->longGirders.begin(); longGirder != this->longGirders.end(); ++longGirder) {
-    longGirder->second->render(renderer, camX, camY);
-  }
-
-  // Render worms
-  std::map<std::size_t, std::vector<View::Worm*>>::iterator worm;
-  for (worm = worms.begin(); worm != worms.end(); ++worm) {
-    std::vector<View::Worm*>::iterator worm_it;
-    for (worm_it = worm->second.begin(); worm_it != worm->second.end(); worm_it++) {
-      (*worm_it)->render(renderer, camX, camY);
-    }
+    if (this->mapStates.size() != 0) {
+    this->mapStates[stateIndex]->render(renderer, camX, camY);  
   }
 }
 /* Add methods */
 void View::MapGame::addShortGirder(degrees_t degrees, int x, int y) {
-  this->index++;
-  View::GirderShort * newShortGirder = new GirderShort(renderer, degrees);
-  newShortGirder->setX(x);
-  newShortGirder->setY(y);
-
-  this->shortGirders.insert(std::pair<int, View::GirderShort*>(this->index, 
-    newShortGirder));
+  this->updateIndex();
+  MapState* previousState = this->mapStates.back();
+  MapState* newState = new MapState();
+  newState->operator=(previousState);
+  newState->addShortGirder(renderer, degrees, x, y);
+  this->mapStates.push_back(newState);
 }
 
 void View::MapGame::addLongGirder(degrees_t degrees, int x, int y) {
-  this->index++;
-  View::GirderLong * newLongGirder = new GirderLong(renderer, degrees);
-  newLongGirder->setX(x);
-  newLongGirder->setY(y);
-  
-  this->longGirders.insert(std::pair<int, View::GirderLong*>(this->index,
-  newLongGirder));
+  this->updateIndex();
+  MapState* previousState = this->mapStates.back();
+  MapState* newState = new MapState();
+  newState->operator=(previousState);
+  newState->addLongGirder(renderer, degrees, x, y);
+  this->mapStates.push_back(newState);
 }
 
 void View::MapGame::addWormInTeam(int teamId, std::string & name, int health, int x, int y) {
-  View::Worm * newWorm = new Worm(renderer, name, teamId, health);
-  newWorm->setX(x);
-  newWorm->setY(y);
-
-  this->worms[teamId].push_back(newWorm);
+  this->updateIndex();
+  MapState* previousState = this->mapStates.back();
+  MapState* newState = new MapState();
+  newState->operator=(previousState);
+  newState->addWorm(renderer, teamId, name, health, x, y);
+  this->mapStates.push_back(newState);
 }
 
 void View::MapGame::setPreviousState(View::EditorInventory & inv) {
-  // if (this->stateIndex) {
-  //   this->stateIndex--;
-  //   YAML::Node * currentState = this->mapStates[this->stateIndex];
-  //   const YAML::Node & wormsTeams = (*currentState)["dynamic"]["worms_teams"];
-  //   inv.updateWormsTeamSupplies(wormsTeams);
-  // }
+  if (this->stateIndex) {
+    this->stateIndex--;
+    inv.updateWormsTeamSupplies(this->mapStates[this->stateIndex]->getWorms());
+  }
 }
 
 void View::MapGame::setNextState(View::EditorInventory & inv) {
-  // if (this->stateIndex != this->mapStates.size() - 1) {
-  //   this->stateIndex++;
-  //   YAML::Node * currentState = this->mapStates[this->stateIndex];
-  //   const YAML::Node & wormsTeams = (*currentState)["dynamic"]["worms_teams"];
-  //   inv.updateWormsTeamSupplies(wormsTeams);
-  // }
+  if (this->stateIndex != this->mapStates.size() - 1) {
+    this->stateIndex++;
+    inv.updateWormsTeamSupplies(this->mapStates[this->stateIndex]->getWorms());
+  }
+}
+
+void View::MapGame::updateIndex(void) {
+  this->stateIndex++;
+
+  if (this->stateIndex != this->mapStates.size()) {
+    std::vector<MapState*>::iterator it = this->mapStates.begin() + this->stateIndex;
+    for (; it != this->mapStates.end();) {
+      delete *it;
+      it = this->mapStates.erase(it);
+    }
+  }
 }
 
 void View::MapGame::printCurrentState(void) {
@@ -131,9 +106,10 @@ void View::MapGame::saveAs(std::string mapName, std::string bgName) {
 }
 
 void View::MapGame::addLongGirdersToMap() {
+  std::map<int, View::GirderLong*> longGirders = this->mapStates[this->stateIndex]->getLongGirders();
   int longGirderCounter = 1;
   std::map<int, View::GirderLong*>::iterator longGirder;
-  for (longGirder = this->longGirders.begin(); longGirder != this->longGirders.end(); ++longGirder) {
+  for (longGirder = longGirders.begin(); longGirder != longGirders.end(); ++longGirder) {
     YAML::Node newGirderNode;
     newGirderNode["id"] = longGirderCounter;
     newGirderNode["x"] = longGirder->second->getX();
@@ -145,9 +121,10 @@ void View::MapGame::addLongGirdersToMap() {
 }
 
 void View::MapGame::addShortGirdersToMap() {
+  std::map<int, View::GirderShort*> shortGirders = this->mapStates[this->stateIndex]->getShortGirders();
   int shortGirderCounter = 1;
   std::map<int, View::GirderShort*>::iterator shortGirder;
-  for (shortGirder = this->shortGirders.begin(); shortGirder != this->shortGirders.end(); ++shortGirder) {
+  for (shortGirder = shortGirders.begin(); shortGirder != shortGirders.end(); ++shortGirder) {
     YAML::Node newGirderNode;
     newGirderNode["id"] = shortGirderCounter;
     newGirderNode["x"] = shortGirder->second->getX();
@@ -159,6 +136,7 @@ void View::MapGame::addShortGirdersToMap() {
 }
 
 void View::MapGame::addWormsToMap() {
+  std::map<size_t, std::vector<View::Worm*>> worms = this->mapStates[this->stateIndex]->getWorms();
   int wormCounter = 1;
   std::map<std::size_t, std::vector<View::Worm*>>::iterator worm;
   for (worm = worms.begin(); worm != worms.end(); ++worm) {
@@ -190,13 +168,14 @@ void View::MapGame::addInventoryToTeams() {
 }
 
 bool View::MapGame::hasAllTheWorms(int teamsAmount, int amountWormsPerTeam) {
-  if (this->worms.size() != (size_t) teamsAmount) {
+  std::map<size_t, std::vector<View::Worm*>> worms = this->mapStates[this->stateIndex]->getWorms();
+  if (worms.size() != (size_t) teamsAmount) {
     return false;
   }
 
   std::map<size_t, std::vector<View::Worm*>>::iterator it;
 
-  for (it = this->worms.begin(); it != this->worms.end(); ++it ) {
+  for (it = worms.begin(); it != worms.end(); ++it ) {
     if(it->second.size() != amountWormsPerTeam) {
       return false;
     }

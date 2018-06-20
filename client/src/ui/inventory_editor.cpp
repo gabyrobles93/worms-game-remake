@@ -330,13 +330,17 @@ int View::EditorInventory::getIndexSelected(void) {
   return -1;
 }
 
-void View::EditorInventory::updateWormsTeamSupplies(const YAML::Node & teams) {
-  for (size_t i = 1 ; i <= this->amountTeams ; i++) {
-    ItemIcon * wormTeam = this->items[i - 1 + POS_FIRST_WORMS_TEAM];
-    if (teams[i]) {
-      wormTeam->supplies = AMOUNT_WORMS_PER_TEAM - teams[i]["worms"].size();
-    } else {
-      wormTeam->supplies = AMOUNT_WORMS_PER_TEAM;
+void View::EditorInventory::updateWormsTeamSupplies(const std::map<size_t, std::vector<View::Worm*>> & worms) {
+  std::map<std::size_t, std::vector<View::Worm*>>::const_iterator team_it;
+  for (team_it = worms.begin(); team_it != worms.end(); ++team_it) {
+    std::vector<View::Worm*>::iterator worm_it;
+    ItemIcon * wormTeam = this->items[team_it->first -1 + POS_FIRST_WORMS_TEAM];
+    wormTeam->supplies = AMOUNT_WORMS_PER_TEAM - team_it->second.size();
+  }
+
+  for (size_t i = 1; i <= amountTeams; ++i) {
+    if (worms.find(i) == worms.end()) {
+      this->items[i -1 + POS_FIRST_WORMS_TEAM]->supplies = AMOUNT_WORMS_PER_TEAM;
     }
   }
 }

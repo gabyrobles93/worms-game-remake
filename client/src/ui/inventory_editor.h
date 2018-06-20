@@ -84,7 +84,7 @@ namespace View {
       // Actualiza la cantidad de worms que se pueden poner
       // Este metodo lo utiliza el map game dependiendo de cuantos
       // gusanos hay en el mapa en el estado actual
-      void updateWormsTeamSupplies(const YAML::Node &);
+      void updateWormsTeamSupplies(const std::map<size_t, std::vector<View::Worm*>> & worms);
 
       virtual void pickNextItem(void);
   };
