@@ -1,0 +1,60 @@
+TODOS ENTREGA FINAL ORDENADO POR ORDEN DE PRIORIDAD:
+
+Editor:
+	- Agregarle funcionalidad.
+	- Permitirle al usuario elegir donde guardar el mapa (boton "Guardar Como").
+	- Tener la opcion de poder abrir un mapa ya creado y seguir modificandolo.
+	- Optimizar el uso de cpu.
+	- Agregar la opcion de poder poner mas gusanos.
+
+Documentacion:
+	
+	- Manual de desarrollo (3 a 4 hojas):
+		- Explicar como trabajamos.
+		- Comos nos organizamos.
+		- Herramientas utilizadas.
+		- Problemas que hayan surgido durante el desarrollo.
+	
+	- Manual de usuario (mas marketinero, para el cliente):
+		- Explicar las librerias que usamos y como instalarlas.
+		- Mostrar como se usa el juego, con muchos screenshots mostrando y explicando.
+		- Manual de instalacion.
+		- Explicar todo lo referido al uso del juego.
+
+	- Manual tecnico:
+		- Diagrama de clases y de secuencia.
+		- Explicar a alto nivel como esta hecho el tp.
+		- Mostrar partes claviculas como los hilos que manejan todo el juego, client_game, moodel receiver, snapshot_sender, etc.
+
+Instalador:
+	
+	- Hay que crear un instalador que compile el programa y mueva los vinarios a /usr/bin 
+	  de esta manera se podra correr los programas desde consola sin necesidad de estar parados en la carpeta build.
+	- Los resources utilizados por los programas deben ser guardados en /var/worms
+	- La configuracion del server debe ser guardada en /etc o /home, indicandole al usuario donde se encuentra,
+	  el servidor solo debe ser inicializado con el puerto y buscar el archivo de config en /etc o /home, tambien estaria bueno
+	  darle la posibilidad al usuario de cargar su propio archivo de configuracion indicando la ruta al momento de inicializar el server.
+	- Aparte del instalador se puede hacer un archivo ./configure que instale todas las dependencias necesarias para correr el juego.
+
+
+Pedido de Martin para facilitarle probar el juego:
+	
+	- Darle la opcion de poder modificar el tamaño de la pantalla de los clientes o explicarle que valor modificar puede ser una macro.
+
+
+Problemas encontrados en el codigo:
+	
+	- La clase socket.cpp esta mal identada y tienes nombres de metodos inconsistentes.
+	- En muchas clases encontro private, protected y public cuando quizas la clase ni usa metodos privados.
+	- Encontro muchos prints, habria que eliminarlos o pasarlos a un log.
+	- Encontro un buffer overflow en la clase protocol metodo getPlayerName().
+	- El server no finaliza con la letra Q.
+	- Hay metodos muy grandes.
+
+Features faltantes:
+	
+	- Musica de ambiente.
+	- Animacion bat y teleport.
+	- (lujardini) weapon pick.
+	- Mejorar las pantallas de victoria y derrota.
+	
