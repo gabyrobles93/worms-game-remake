@@ -38,5 +38,11 @@ void View::Walking::render(SDL_Renderer * r, int camX, int camY, worm_inclinatio
       &clip
     );
   }
-  
+}
+
+void View::Walking::resetAnimation(void) {
+  std::map<worm_inclination_t, SpriteAnimation>::iterator it = this->sprites.begin();
+  for (; it != this->sprites.end() ; it++) {
+    it->second.reset();
+  }
 }

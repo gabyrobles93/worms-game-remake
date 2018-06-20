@@ -8,10 +8,7 @@
 #define FPC 2
 
 View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
-  renderer(r),
-  sprite(FPC),
   sight(r),
-  name(name),
   team(team),
   health(health),
   font(gPath.PATH_FONT_ARIAL_BOLD, 20),
@@ -24,23 +21,6 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
     {0, 255, 0, 0},
     {0, 0, 255, 0}
   };
-
-  this->textures[PLAIN_WORM].loadFromFile(gPath.PATH_PLAIN_WORM, r);
-
-  this->textures[BREATH_1].loadFromFile(gPath.PATH_WORM_BREATH_1, r);
-  this->textures[BREATH_1_UP].loadFromFile(gPath.PATH_WORM_BREATH_1_UP, r);
-  this->textures[BREATH_1_DOWN].loadFromFile(gPath.PATH_WORM_BREATH_1_DOWN, r);
-
-  this->textures[WALK].loadFromFile(gPath.PATH_WORM_WALK, r);
-  this->textures[WALK_UP].loadFromFile(gPath.PATH_WORM_WALK_UP, r);
-  this->textures[WALK_DOWN].loadFromFile(gPath.PATH_WORM_WALK_DOWN, r);
-
-  this->textures[ROLL].loadFromFile(gPath.PATH_WORM_ROLL, r);
-
-  this->textures[FALLDN].loadFromFile(gPath.PATH_WORM_FALL_DN, r);
-
-  this->currentAnimation = BREATH_1;
-  this->sprite.setSpriteSheet(&this->textures[this->currentAnimation]);
   
   this->mirrored = false;
   this->walking = false;
@@ -53,37 +33,44 @@ View::Worm::Worm(SDL_Renderer * r, std::string name, size_t team, int health) :
   this->inclination = NONE;
   this->angleDirection = 0;
 
-  this->walkingSound.setSound(gPath.PATH_SOUND_WORM_WALKING);
-
-  this->nameText.loadFromRenderedText(r, this->font, this->name, colors[this->team]);
+  this->nameText.loadFromRenderedText(r, this->font, name, colors[this->team]);
   this->healthText.loadFromRenderedText(r, this->font, std::to_string(this->health), colors[this->team]);
 
   this->healthTxt.setTextColor(colors[this->team]);
   this->nameTxt.setTextColor(colors[this->team]);
 
   this->healthTxt.setText(r, std::to_string(this->health));
-  this->nameTxt.setText(r, this->name);
+  this->nameTxt.setText(r, name);
 
   this->dataConfiguration = ALL;
 
-  this->state = new View::Breathing(this, this->renderer);
+  this->states[WS_BREATHING] = new View::Breathing(this, r);
+  this->states[WS_WALKING] = new View::Walking(this, r);
+  this->states[WS_FALLING] = new View::Falling(this, r);
+  this->states[WS_FLYING] = new View::Flying(this, r);
+  this->states[WS_DEAD] = new View::Dead(this, r);
+
+  this->state = this->states[WS_BREATHING];
   this->stateName = WS_BREATHING;
 }
 
 View::Worm::~Worm() {
+  std::map<view_worm_state_t, WormState *>::iterator it = this->states.begin();
+  for (; it != this->states.end() ; it++) {
+    delete it->second;
+  }
+
   if (this->state) {
     delete this->state;
   }
 }
 
 int View::Worm::getWidth(void) const {
-  std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);
-  return it->second.getWidth();
+  return 60;
 }
 
 int View::Worm::getHeight(void) const {
-  std::map<worm_animation_t, Texture>::const_iterator it = this->textures.find(this->currentAnimation);
-  return it->second.getHeight();
+  return 60;
 }
 
 int View::Worm::getX(void) const {
@@ -106,9 +93,10 @@ void View::Worm::setY(int y) {
   this->y = y;
 }
 
-void View::Worm::setState(WormState * newState) {
-  delete this->state;
-  this->state = newState;
+void View::Worm::setState(view_worm_state_t newState) {
+  this->state->resetAnimation();
+  this->stateName = newState;
+  this->state = this->states[newState];
 }
 
 void View::Worm::updateState(const YAML::Node & status) {
@@ -127,32 +115,28 @@ void View::Worm::updateState(const YAML::Node & status) {
 
   if (affectedByExplosion) {
     if (this->stateName != WS_FLYING) {
-      this->stateName = WS_FLYING;
-      this->setState(new View::Flying(this, this->renderer));
+      this->setState(WS_FLYING);
       return;
     }
   }  
 
   if (grounded && !walking && !affectedByExplosion) {
     if (this->stateName != WS_BREATHING) {
-      this->stateName = WS_BREATHING;
-      this->setState(new View::Breathing(this, this->renderer));
+      this->setState(WS_BREATHING);
       return;
     }
   }
 
   if (walking && !affectedByExplosion) {
     if (this->stateName != WS_WALKING) {
-      this->stateName = WS_WALKING;
-      this->setState(new View::Walking(this, this->renderer));
+      this->setState(WS_WALKING);
       return;
     }
   }
 
   if (falling && !affectedByExplosion) {
     if (this->stateName != WS_FALLING) {
-      this->stateName = WS_FALLING;
-      this->setState(new View::Falling(this, this->renderer));
+      this->setState(WS_FALLING);
       return;
     }
   }
@@ -191,9 +175,7 @@ void View::Worm::setHealth(int newHealth) {
   if (this->stateName != WS_DEAD) {
     this->health = newHealth;
     if (this->health <= 0) {
-      this->stateName = WS_DEAD;
-      this->affectedByExplosion = false;
-      this->setState(new View::Dead(this, this->renderer));
+      this->setState(WS_DEAD);
     }
   }
 }

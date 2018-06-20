@@ -33,5 +33,8 @@ void View::Falling::render(SDL_Renderer * r, int camX, int camY, worm_inclinatio
       &clip
     );
   }
-  
+}
+
+void View::Falling::resetAnimation(void) {
+  this->sprite.reset();
 }
