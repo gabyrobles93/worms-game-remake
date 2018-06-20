@@ -1,28 +1,18 @@
 #include "map_state.h"
 
 MapState::MapState() {
+  this->newLongGirder = nullptr;
+  this->newWorm = nullptr;
+  this->newShortGirder = nullptr;
 }
 
 MapState::~MapState() {
-  for (std::map<int, View::GirderShort*>::iterator it = this->shortGirders.begin(); 
-  it != this->shortGirders.end();
-  ++it) {
-    delete it->second;
-  }
-
-  for (std::map<int, View::GirderLong*>::iterator it = this->longGirders.begin();
-  it != this->longGirders.end();
-  ++it) {
-    delete it->second;
-  }
-
-  for (std::map<std::size_t, std::vector<View::Worm*>>::iterator it = this->worms.begin();
-  it != this->worms.end();
-  ++it) {
-    std::vector<View::Worm*>::iterator vector_it = it->second.begin();
-    for (;vector_it != it->second.end(); vector_it++) {
-      delete *vector_it;
-    }
+  if (newShortGirder) {
+    delete newShortGirder;
+  } else if (newWorm) {
+     delete newWorm;
+  } else if (newLongGirder) {
+    delete newLongGirder;
   }
 }
 
@@ -45,7 +35,7 @@ void MapState::operator=(MapState* mapState) {
 }
 
 void MapState::addShortGirder(SDL_Renderer* renderer, degrees_t degrees, int x, int y) {
-  View::GirderShort * newShortGirder = new View::GirderShort(renderer, degrees);
+  this->newShortGirder = new View::GirderShort(renderer, degrees);
   newShortGirder->setX(x);
   newShortGirder->setY(y);
   this->shortGirders.insert(std::pair<int, View::GirderShort*>(this->shortGirders.size() + 1, 
@@ -53,7 +43,7 @@ void MapState::addShortGirder(SDL_Renderer* renderer, degrees_t degrees, int x, 
 }
 
 void MapState::addLongGirder(SDL_Renderer* renderer, degrees_t degrees, int x, int y) {
-  View::GirderLong * newLongGirder = new View::GirderLong(renderer, degrees);
+  this->newLongGirder = new View::GirderLong(renderer, degrees);
   newLongGirder->setX(x);
   newLongGirder->setY(y);
   
@@ -62,7 +52,7 @@ void MapState::addLongGirder(SDL_Renderer* renderer, degrees_t degrees, int x, i
 }
 
 void MapState::addWorm(SDL_Renderer* renderer, int teamId, std::string & name, int health, int x, int y) {
-  View::Worm * newWorm = new View::Worm(renderer, name, teamId, health);
+  this->newWorm = new View::Worm(renderer, name, teamId, health);
   newWorm->setX(x);
   newWorm->setY(y);
   this->worms[teamId].push_back(newWorm);
