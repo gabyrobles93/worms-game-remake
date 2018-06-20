@@ -12,6 +12,7 @@ private:
     std::map<int, View::GirderShort*> shortGirders;
     std::map<int, View::GirderLong*> longGirders;
 	std::map<std::size_t, std::vector<View::Worm*>> worms;
+    
     View::GirderShort* newShortGirder;
     View::GirderLong* newLongGirder;
     View::Worm* newWorm;

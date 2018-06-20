@@ -7,12 +7,12 @@ MapState::MapState() {
 }
 
 MapState::~MapState() {
-  if (newShortGirder) {
-    delete newShortGirder;
-  } else if (newWorm) {
-     delete newWorm;
-  } else if (newLongGirder) {
-    delete newLongGirder;
+  if (this->newShortGirder) {
+    delete this->newShortGirder;
+  } else if (this->newWorm) {
+     delete this->newWorm;
+  } else if (this->newLongGirder) {
+    delete this->newLongGirder;
   }
 }
 
@@ -39,7 +39,7 @@ void MapState::addShortGirder(SDL_Renderer* renderer, degrees_t degrees, int x, 
   newShortGirder->setX(x);
   newShortGirder->setY(y);
   this->shortGirders.insert(std::pair<int, View::GirderShort*>(this->shortGirders.size() + 1, 
-    newShortGirder));
+    this->newShortGirder));
 }
 
 void MapState::addLongGirder(SDL_Renderer* renderer, degrees_t degrees, int x, int y) {
@@ -48,14 +48,14 @@ void MapState::addLongGirder(SDL_Renderer* renderer, degrees_t degrees, int x, i
   newLongGirder->setY(y);
   
   this->longGirders.insert(std::pair<int, View::GirderLong*>(this->longGirders.size() + 1,
-  newLongGirder));
+  this->newLongGirder));
 }
 
 void MapState::addWorm(SDL_Renderer* renderer, int teamId, std::string & name, int health, int x, int y) {
   this->newWorm = new View::Worm(renderer, name, teamId, health);
   newWorm->setX(x);
   newWorm->setY(y);
-  this->worms[teamId].push_back(newWorm);
+  this->worms[teamId].push_back(this->newWorm);
 }
 
 
