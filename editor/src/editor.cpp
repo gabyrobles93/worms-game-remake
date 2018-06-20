@@ -29,6 +29,7 @@ editorInventory(renderer,
 	this->teamsAmount = mapNode["static"]["teams_amount"].as<int>();
 	this->wormsHealth = mapNode["static"]["worms_health"].as<int>();
     this->editorInventory.toggleOpen();
+	this->mapGame.setRenderer(this->renderer);	
 }
 
 int Editor::start(void) {

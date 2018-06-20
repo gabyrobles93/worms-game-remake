@@ -27,11 +27,13 @@ namespace View {
       // deshacer y rehacer
       std::vector<YAML::Node *> mapStates;
 
-      std::vector<View::GirderShort*> shortCollection;
-	    std::vector<View::GirderLong*> longCollection;
-	    std::map<std::size_t, std::vector<View::Worm*>> wormsCollection;
+      std::map<int, View::GirderShort*> shortGirders;
+      std::map<int, View::GirderLong*> longGirders;
+	    std::map<std::size_t, std::vector<View::Worm*>> worms;
 
+      SDL_Renderer * renderer;
       size_t stateIndex;
+      unsigned int index;
 
       // Obtiene el id del proximo
       // worm a agregar
@@ -78,6 +80,8 @@ namespace View {
       // tiene todos los gusanos
       // posibles dibujados
       bool hasAllTheWorms(int, int);
+
+      void setRenderer(SDL_Renderer * renderer);
   };
 }
 

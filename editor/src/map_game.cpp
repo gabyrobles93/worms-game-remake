@@ -5,6 +5,7 @@ View::MapGame::MapGame(YAML::Node & map) {
   (*this->mapStates.back()) = map;
 
   this->stateIndex = this->mapStates.size() - 1;
+  this->index = 0;
 }
 
 View::MapGame::~MapGame() {
@@ -12,156 +13,199 @@ View::MapGame::~MapGame() {
     delete this->mapStates[i];
   }
 
-  for (size_t i = 0 ; i < this->shortCollection.size() ; i++) {
-		delete this->shortCollection[i];
-	}
+  // for (size_t i = 0 ; i < this->shortCollection.size() ; i++) {
+	// 	delete this->shortCollection[i];
+	// }
 
-  for (size_t i = 0 ; i < this->longCollection.size() ; i++) {
-		delete this->longCollection[i];
-	}
+  // for (size_t i = 0 ; i < this->longCollection.size() ; i++) {
+	// 	delete this->longCollection[i];
+	// }
 
-  std::map<std::size_t, std::vector<View::Worm*>>::iterator itMap = this->wormsCollection.begin();
-	for (; itMap != this->wormsCollection.end() ; itMap++) {
-		std::vector<View::Worm*>::iterator it = itMap->second.begin();
-		for (; it != itMap->second.end() ; it++) {
-			delete *it;
-		}
-	}
+  // std::map<std::size_t, std::vector<View::Worm*>>::iterator itMap = this->wormsCollection.begin();
+	// for (; itMap != this->wormsCollection.end() ; itMap++) {
+	// 	std::vector<View::Worm*>::iterator it = itMap->second.begin();
+	// 	for (; it != itMap->second.end() ; it++) {
+	// 		delete *it;
+	// 	}
+	// }
+}
+
+void View::MapGame::setRenderer(SDL_Renderer * renderer) {
+  this->renderer = renderer;
 }
 
 void View::MapGame::render(SDL_Renderer * renderer, int camX, int camY) {
   YAML::Node * state = this->mapStates[this->stateIndex];
 
   // Render short girders
-  const YAML::Node & gs = (*state)["static"]["short_girders"];
-  YAML::const_iterator it = gs.begin();
-  for (; it != gs.end() ; it++) {
-    const YAML::Node & eachGirder = *it;
-    View::GirderShort g(renderer, eachGirder["angle"].as<int>());
-    g.setX(eachGirder["x"].as<int>());
-    g.setY(eachGirder["y"].as<int>());
-    g.render(renderer, camX, camY);
+  std::map<int, View::GirderShort*>::iterator shortGirder;
+  for (shortGirder = this->shortGirders.begin(); shortGirder != this->shortGirders.end(); ++shortGirder) {
+    shortGirder->second->render(renderer, camX, camY);
   }
+  
+  // const YAML::Node & gs = (*state)["static"]["short_girders"];
+  // YAML::const_iterator it = gs.begin();
+  // for (; it != gs.end() ; it++) {
+  //   const YAML::Node & eachGirder = *it;
+  //   View::GirderShort g(renderer, eachGirder["angle"].as<int>());
+  //   g.setX(eachGirder["x"].as<int>());
+  //   g.setY(eachGirder["y"].as<int>());
+  //   g.render(renderer, camX, camY);
+  // }
 
   // Render long girders
-  const YAML::Node & gl = (*state)["static"]["long_girders"];
-  it = gl.begin();
-  for (; it != gl.end() ; it++) {
-    const YAML::Node & eachGirder = *it;
-    View::GirderLong g(renderer, eachGirder["angle"].as<int>());
-    g.setX(eachGirder["x"].as<int>());
-    g.setY(eachGirder["y"].as<int>());
-    g.render(renderer, camX, camY);
+  std::map<int, View::GirderLong*>::iterator longGirder;
+  for (longGirder = this->longGirders.begin(); longGirder != this->longGirders.end(); ++longGirder) {
+    longGirder->second->render(renderer, camX, camY);
   }
+  // const YAML::Node & gl = (*state)["static"]["long_girders"];
+  // it = gl.begin();
+  // for (; it != gl.end() ; it++) {
+  //   const YAML::Node & eachGirder = *it;
+  //   View::GirderLong g(renderer, eachGirder["angle"].as<int>());
+  //   g.setX(eachGirder["x"].as<int>());
+  //   g.setY(eachGirder["y"].as<int>());
+  //   g.render(renderer, camX, camY);
+  // }
 
   // Render worms
-  const YAML::Node & teams = (*state)["dynamic"]["worms_teams"];
-  it = teams.begin();
-  for (; it != teams.end() ; it++) {
-    int teamId = it->first.as<int>();
 
-    YAML::const_iterator itTeam = (it->second)["worms"].begin();
-    for (; itTeam != (it->second)["worms"].end() ; itTeam++) {
-      const YAML::Node & eachWorm = *itTeam;
-      View::Worm worm(
-        renderer,
-        eachWorm["name"].as<std::string>(),
-        teamId,
-        eachWorm["health"].as<int>()
-      );
-      worm.setX(eachWorm["x"].as<int>());
-      worm.setY(eachWorm["y"].as<int>());
-      worm.render(renderer, camX, camY);
+  std::map<std::size_t, std::vector<View::Worm*>>::iterator worm;
+
+  for (worm = worms.begin(); worm != worms.end(); ++worm) {
+    std::vector<View::Worm*>::iterator worm_it;
+    for (worm_it = worm->second.begin(); worm_it != worm->second.end(); worm_it++) {
+      (*worm_it)->render(renderer, camX, camY);
     }
   }
+
+  // const YAML::Node & teams = (*state)["dynamic"]["worms_teams"];
+  // it = teams.begin();
+  // for (; it != teams.end() ; it++) {
+  //   int teamId = it->first.as<int>();
+
+  //   YAML::const_iterator itTeam = (it->second)["worms"].begin();
+  //   for (; itTeam != (it->second)["worms"].end() ; itTeam++) {
+  //     const YAML::Node & eachWorm = *itTeam;
+  //     View::Worm worm(
+  //       renderer,
+  //       eachWorm["name"].as<std::string>(),
+  //       teamId,
+  //       eachWorm["health"].as<int>()
+  //     );
+  //     worm.setX(eachWorm["x"].as<int>());
+  //     worm.setY(eachWorm["y"].as<int>());
+  //     worm.render(renderer, camX, camY);
+  //   }
+  // }
 }
 
 
 /* Add methods */
 void View::MapGame::addShortGirder(degrees_t degrees, int x, int y) {
   // Actualizamos el indice
-  this->updateIndex();
-  
+  // this->updateIndex();
+  this->index++;
+  View::GirderShort * newShortGirder = new GirderShort(renderer, degrees);
+  newShortGirder->setX(x);
+  newShortGirder->setY(y);
+
+  this->shortGirders.insert(std::pair<int, View::GirderShort*>(this->index, 
+    newShortGirder));
+
   // Referencia al ultimo estado del mapa
-  YAML::Node * lastState = this->mapStates.back();
+  //YAML::Node * lastState = this->mapStates.back();
 
   // Creamos un nuevo estado
-  this->mapStates.push_back(new YAML::Node);
-  YAML::Node * newState = this->mapStates.back();
+  //this->mapStates.push_back(new YAML::Node);
+  //YAML::Node * newState = this->mapStates.back();
 
   // Copiamos el ultimo estado en el nuevo estado
-  (*newState) = YAML::Clone(*lastState);
+  //(*newState) = YAML::Clone(*lastState);
 
   // Creamos el nuevo nodo correspondiente
   // a la nueva viga
-  YAML::Node newNode;
-  newNode["id"] = (*newState)["static"]["short_girders"].size() + 1;
-  newNode["x"] = x;
-  newNode["y"] = y;
-  newNode["angle"] = (int)degrees;
+  //YAML::Node newNode;
+  //newNode["id"] = (*newState)["static"]["short_girders"].size() + 1;
+  //newNode["x"] = x;
+  //newNode["y"] = y;
+  //newNode["angle"] = (int)degrees;
 
   // Agregamos el nuevo nodo 
-  (*newState)["static"]["short_girders"].push_back(newNode);
+  //(*newState)["static"]["short_girders"].push_back(newNode);
 }
 
 void View::MapGame::addLongGirder(degrees_t degrees, int x, int y) {
-  // Actualizamos el indice
-  this->updateIndex();
+  this->index++;
+  View::GirderLong * newLongGirder = new GirderLong(renderer, degrees);
+  newLongGirder->setX(x);
+  newLongGirder->setY(y);
+  
+  this->longGirders.insert(std::pair<int, View::GirderLong*>(this->index,
+  newLongGirder));
+  // // Actualizamos el indice
+  // this->updateIndex();
 
-  // Referencia al ultimo estado del mapa
-  YAML::Node * lastState = this->mapStates.back();
+  // // Referencia al ultimo estado del mapa
+  // YAML::Node * lastState = this->mapStates.back();
 
-  // Creamos un nuevo estado
-  this->mapStates.push_back(new YAML::Node);
-  YAML::Node * newState = this->mapStates.back();
+  // // Creamos un nuevo estado
+  // this->mapStates.push_back(new YAML::Node);
+  // YAML::Node * newState = this->mapStates.back();
 
-  // Copiamos el ultimo estado en el nuevo estado
-  (*newState) = YAML::Clone(*lastState);
+  // // Copiamos el ultimo estado en el nuevo estado
+  // (*newState) = YAML::Clone(*lastState);
 
-  // Creamos el nuevo nodo correspondiente
-  // a la nueva viga
-  YAML::Node newNode;
-  newNode["id"] = (*newState)["static"]["long_girders"].size() + 1;
-  newNode["x"] = x;
-  newNode["y"] = y;
-  newNode["angle"] = (int)degrees;
+  // // Creamos el nuevo nodo correspondiente
+  // // a la nueva viga
+  // YAML::Node newNode;
+  // newNode["id"] = (*newState)["static"]["long_girders"].size() + 1;
+  // newNode["x"] = x;
+  // newNode["y"] = y;
+  // newNode["angle"] = (int)degrees;
 
-  // Agregamos el nuevo nodo
-  (*newState)["static"]["long_girders"].push_back(newNode);
+  // // Agregamos el nuevo nodo
+  // (*newState)["static"]["long_girders"].push_back(newNode);
 }
 
 void View::MapGame::addWormInTeam(int teamId, std::string & name, int health, int x, int y) {
   // Actualizamos el indice
-  this->updateIndex();
+  //this->updateIndex();
 
-  // Referencia al ultimo estado del mapa
-  YAML::Node * lastState = this->mapStates.back();
+  View::Worm * newWorm = new Worm(renderer, name, teamId, health);
+  newWorm->setX(x);
+  newWorm->setY(y);
 
-  // Creamos un nuevo estado
-  this->mapStates.push_back(new YAML::Node);
-  YAML::Node * newState = this->mapStates.back();
+  this->worms[teamId].push_back(newWorm);
 
-  // Copiamos el ultimo estado en el nuevo estado
-  (*newState) = YAML::Clone(*lastState);
+  // // Referencia al ultimo estado del mapa
+  // YAML::Node * lastState = this->mapStates.back();
 
-  // Creamos el nuevo nodo correspondiente
-  // al nuevo gusano
-  YAML::Node newNode;
-  newNode["id"] = this->getNextWormId();
-  newNode["name"] = name;
-  newNode["health"] = health;
-  newNode["x"] = x;
-  newNode["y"] = y;
-  newNode["sight_angle"] = 0;
-  // Configuramos el status del gusano por default
-  newNode["status"]["grounded"] = (int)false;
-  newNode["status"]["falling"] = (int)true;
-  newNode["status"]["mirrored"] = (int)false;
-  newNode["status"]["walking"] = (int)false;
+  // // Creamos un nuevo estado
+  // this->mapStates.push_back(new YAML::Node);
+  // YAML::Node * newState = this->mapStates.back();
+
+  // // Copiamos el ultimo estado en el nuevo estado
+  // (*newState) = YAML::Clone(*lastState);
+
+  // // Creamos el nuevo nodo correspondiente
+  // // al nuevo gusano
+  // YAML::Node newNode;
+  // newNode["id"] = this->getNextWormId();
+  // newNode["name"] = name;
+  // newNode["health"] = health;
+  // newNode["x"] = x;
+  // newNode["y"] = y;
+  // newNode["sight_angle"] = 0;
+  // // Configuramos el status del gusano por default
+  // newNode["status"]["grounded"] = (int)false;
+  // newNode["status"]["falling"] = (int)true;
+  // newNode["status"]["mirrored"] = (int)false;
+  // newNode["status"]["walking"] = (int)false;
 
 
-  // Agregamos el nuevo nodo
-  (*newState)["dynamic"]["worms_teams"][teamId]["worms"].push_back(newNode);
+  // // Agregamos el nuevo nodo
+  // (*newState)["dynamic"]["worms_teams"][teamId]["worms"].push_back(newNode);
 }
 
 void View::MapGame::setPreviousState(View::EditorInventory & inv) {
