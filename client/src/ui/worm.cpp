@@ -241,3 +241,7 @@ void View::Worm::setDataConfiguration(worm_data_cfg_t config) {
 bool View::Worm::isAffectedByExplosion() {
   return this->affectedByExplosion;
 }
+
+std::string View::Worm::getName() const {
+  return this->name;
+}

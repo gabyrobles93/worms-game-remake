@@ -98,6 +98,7 @@ namespace View {
       virtual int getHeight(void) const;
       virtual int getX(void) const;
       virtual int getY(void) const;
+      std::string getName(void) const;
       virtual void setX(int);
       virtual void setY(int);
       virtual void render(SDL_Renderer *, int, int);

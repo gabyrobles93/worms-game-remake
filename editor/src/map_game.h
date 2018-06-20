@@ -21,25 +21,23 @@ namespace View {
 
   class MapGame {
     private:
-      // Vector de estados de mapas
-      // sirve tener los distintos estados
-      // para agregar las funcionalidades de
-      // deshacer y rehacer
-      std::vector<YAML::Node *> mapStates;
 
       std::map<int, View::GirderShort*> shortGirders;
       std::map<int, View::GirderLong*> longGirders;
 	    std::map<std::size_t, std::vector<View::Worm*>> worms;
 
       SDL_Renderer * renderer;
-      size_t stateIndex;
+      YAML::Node & map;
       unsigned int index;
 
       // Obtiene el id del proximo
       // worm a agregar
       int getNextWormId(void);
-      void addInventoryToTeams(YAML::Node & map);
-
+      void addInventoryToTeams();
+      void addLongGirdersToMap();
+      void addShortGirdersToMap();
+      void addWormsToMap();
+      
     public:
       // Constructor, recibe el nodo YAML
       // donde guardara toda la informacion del mapa
@@ -68,9 +66,6 @@ namespace View {
 
       // Imprime el estado actual
       void printCurrentState(void);
-
-      // Actualiza el indice y libera los estados basura
-      void updateIndex(void);
 
       // Guarda el mapa en la carpeta de mapas del servidor
       // bajo el nombre indicado

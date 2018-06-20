@@ -88,7 +88,7 @@ int Editor::start(void) {
 		editorInventory.render(renderer);
 		
 		SDL_RenderPresent(renderer);
-		SDL_Delay(10); // Para no usar al mango el CPU
+		SDL_Delay(50); // Para no usar al mango el CPU
 	}
 
 	if (validMap) {
