@@ -167,6 +167,7 @@ void View::MapGame::addWormsToMap() {
       YAML::Node newWorm;
       newWorm["id"] = wormCounter;
       newWorm["name"] = (*worm_it)->getName();
+      newWorm["health"] = (*worm_it)->getHealth();
       newWorm["x"] = (*worm_it)->getX();
       newWorm["y"] = (*worm_it)->getY();
       newWorm["sight_angle"] = 0;
