@@ -16,13 +16,14 @@ Protocol::Protocol(SocketReadWrite socket) : skt(std::move(socket)) {
 
 void Protocol::getPlayerName(std::string & name) {
     uint32_t length;
-    uchar playername[PLAYER_NAME_LENGTH_LIMIT];
 
     this->skt.getBuffer((uchar*)&length, 4);
     length = ntohl(length);
 
-    this->skt.getBuffer(playername, length);
-    std::string ret_name((char*) playername, (int)length);
+    uchar * buffer = new uchar[length+1];
+
+    this->skt.getBuffer(buffer, length);
+    std::string ret_name((char*)buffer, (int)length);
     name = ret_name;    
 }
 
