@@ -14,7 +14,7 @@ View::Flying::Flying(View::Worm * worm, SDL_Renderer * r) {
     gPath.PATH_SOUND_OW_3.c_str()
   };
   this->sound.setSound(sounds[rand() % 6]);
-  this->sound.playSound(0);
+  this->soundPlayed = false;
 
   this->index = 0;
   this->textures[this->index].loadFromFile(gPath.PATH_WORM_FLYING_1, r);
@@ -41,6 +41,11 @@ View::Flying::~Flying() {
 void View::Flying::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored, int angle) {
   if (!(this->index < MAX_FLYING_TEXTURES)) {
     this->index = 0;
+  }
+
+  if (!this->soundPlayed) {
+    this->sound.playSound(0);
+    this->soundPlayed = true;
   }
   
   View::SpriteAnimation & currentAnimation = this->sprites[this->index];

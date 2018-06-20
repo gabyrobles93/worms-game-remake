@@ -30,7 +30,7 @@ View::Dead::Dead(View::Worm * worm, SDL_Renderer * r) :
   this->spriteGrave.changeSpriteType(INFINITE_GOING_AND_BACK);
 
   this->sound.setSound(sounds[rand() % 2]);
-  this->sound.playSound(0);
+  this->soundPlayed = false;
 
   this->dying = true;
 }
@@ -40,6 +40,11 @@ View::Dead::~Dead() {
 }
 
 void View::Dead::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored, int angle) {
+  if (!this->soundPlayed) {
+    this->soundPlayed = true;
+    this->sound.playSound(0);
+  }
+  
   if (this->dying) {
     if (!this->spriteDying.finished()) {
       SDL_Rect clip = this->spriteDying.getNextClip();

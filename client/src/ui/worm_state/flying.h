@@ -18,6 +18,7 @@ namespace View {
       std::map<size_t, SpriteAnimation> sprites;
       size_t index;
       SoundEffect sound;
+      bool soundPlayed;
 
     public:
       Flying(View::Worm * context, SDL_Renderer * r);

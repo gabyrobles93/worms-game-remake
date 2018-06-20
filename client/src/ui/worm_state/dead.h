@@ -23,6 +23,7 @@ namespace View {
       SpriteAnimation spriteGrave;
 
       SoundEffect sound;
+      bool soundPlayed;
 
       bool dying;
 
