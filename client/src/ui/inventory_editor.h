@@ -40,6 +40,10 @@ namespace View {
       SoundEffect girderClick;
       SoundEffect wormClick;
 
+      View::GirderShort girderShort;
+      View::GirderLong girderLong;
+      View::Worm worm;
+
       // Devuelve el indice del item seleccionado
       int getIndexSelected(void);
 
@@ -52,6 +56,8 @@ namespace View {
       // Checkea si el mouse esta en las
       // dimensiones del dibujo del inventario
       virtual bool isMouseOnInventoryRanges(int, int);
+
+      bool newGirderDeegres;
 
     public:
       // Constructor por default con todas las armas

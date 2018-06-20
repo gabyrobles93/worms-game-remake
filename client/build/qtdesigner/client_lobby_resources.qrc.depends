@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../../resources/graphics/Lobby/worms_logo.png</file>
+        <file>../../resources/graphics/Lobby/text_box.png</file>
+        <file>../../resources/graphics/Lobby/lobby_background.jpg</file>
+        <file>../../resources/graphics/Lobby/connector_bg.jpg</file>
+        <file>../../resources/graphics/Lobby/client_connector_background.png</file>
+        <file>../../resources/graphics/Lobby/applogo2.png</file>
+        <file>../../resources/graphics/Lobby/applogo.ico</file>
+        <file>../../resources/graphics/Lobby/games.png</file>
+        <file>../../resources/graphics/Lobby/cooltext290412106171973.png</file>
+        <file>../../resources/graphics/Lobby/cooltext290412065827968.png</file>
+        <file>../../resources/graphics/Lobby/cooltext290413843260424.png</file>
+    </qresource>
+</RCC>
