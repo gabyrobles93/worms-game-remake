@@ -42,8 +42,7 @@ void Server::run(void) {
             new_lobby_attendant->start();
             this->clients_in_lobby.insert(std::pair<std::string, LobbyAttendant*>(player_name, new_lobby_attendant));
         } catch(const SocketError & e) {
-            std::cout << "Server acceptor se detiene por cierre del socket listener. " <<
-            e.what() << std::endl;
+            std::cout << "Server acceptor se detiene por cierre del socket listener." << std::endl;
             break;
         }
     }
@@ -93,9 +92,9 @@ size_t  Server::getId(void) const{
 }
 
 void Server::stop(void) {
-    // Stopear servidor.
-    // Seguramente haya que cerrar los sockets ordenadamente. 
     this->keep_running = false;
+    // Destraba el accept del metodo run()
+    this->skt.stopListening();
 }
 
 std::string Server::findFreeName(std::string & old_name) {

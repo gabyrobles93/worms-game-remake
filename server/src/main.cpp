@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) try {
         c = getchar();
     } while (c != 'q');
 
+    std::cout << "Servidor detenido." << std::endl;
     server.stop();
     server.join();
 
