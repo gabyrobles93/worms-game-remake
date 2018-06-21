@@ -78,8 +78,6 @@ add_executable(	server
 		${PROJECT_SOURCE_DIR}/src/game/WeaponManager.h
 		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.cpp
 		${PROJECT_SOURCE_DIR}/src/physics/world/WorldPhysic.h
-		${PROJECT_SOURCE_DIR}/src/client_handler.cpp
-		${PROJECT_SOURCE_DIR}/src/client_handler.h
 		${PROJECT_SOURCE_DIR}/src/snapshot_sender.cpp
 		${PROJECT_SOURCE_DIR}/src/snapshot_sender.h
 		${PROJECT_SOURCE_DIR}/src/snapshot.cpp
