@@ -682,7 +682,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_map">
    <property name="text">
-    <string>New map</string>
+    <string>Clear Configuration</string>
    </property>
   </action>
   <action name="actionLoad_and_Edit">

@@ -159,7 +159,7 @@ void EditorLauncher::loadAndEdit(void) {
 void EditorLauncher::createNewMap(void) {
     QMessageBox msgBox;
     msgBox.setWindowTitle("Crear nuevo mapa");
-    msgBox.setText("Perderá los cambios actuales. ¿Está seguro que desea crear un nuevo mapa?");
+    msgBox.setText("Perderá los cambios actuales. ¿Está seguro que desea reiniciar la configuración actual?");
     msgBox.setStandardButtons(QMessageBox::Yes);
     msgBox.addButton(QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
