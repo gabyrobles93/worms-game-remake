@@ -2,6 +2,7 @@
 #include <fstream>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QMessageBox>
 #include <sstream>
 #include <QLineEdit>
 #include "editor_launcher.h"
@@ -9,6 +10,11 @@
 #include "ui_editor_launcher.h"
 #include "yaml.h"
 #include "editor.h"
+
+#define DEFAULT_AMMO_QTY 10
+#define DEFAULT_WORMS_HEALTH 200
+#define DEFAULT_TEAMS_AMOUNT 2
+#define DEFAULT_WATER_LEVEL 300
 
 #define SAVED_MAPS_PATH "../maps/"
 #define MAPS_EXT ".yml"
@@ -37,6 +43,12 @@ void EditorLauncher::connectEvents(void) {
     QPushButton* go_create = findChild<QPushButton*>("go_create");
     QObject::connect(go_create, &QPushButton::clicked,
                      this, &EditorLauncher::goCreate);
+
+    QAction* load_and_edit = findChild<QAction*>("actionLoad_and_Edit");
+    QObject::connect(load_and_edit, &QAction::triggered, this, &EditorLauncher::loadAndEdit);
+
+    QAction* create_new_map = findChild<QAction*>("actionNew_map");
+    QObject::connect(create_new_map, &QAction::triggered, this, &EditorLauncher::createNewMap);
 }
 
 void EditorLauncher::chooseBackground(void) {
@@ -138,4 +150,46 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
         std::system(cmd_rmv_temp.c_str());
     }
     this->close();
+}
+
+void EditorLauncher::loadAndEdit(void) {
+    std::cout << "Se carga un mapa existente para editarlo." << std::endl;
+}
+
+void EditorLauncher::createNewMap(void) {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Crear nuevo mapa");
+    msgBox.setText("Perderá los cambios actuales. ¿Está seguro que desea crear un nuevo mapa?");
+    msgBox.setStandardButtons(QMessageBox::Yes);
+    msgBox.addButton(QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    if(msgBox.exec() == QMessageBox::No) {
+        return;
+    }
+    findChild<QLineEdit*>("map_name")->clear();
+    findChild<QLabel*>("label_background_path")->clear();
+    findChild<QComboBox*>("background_options")->setCurrentIndex(0);
+    findChild<QSpinBox*>("water_level")->setValue(DEFAULT_WATER_LEVEL);
+    findChild<QSpinBox*>("teams_amount")->setValue(DEFAULT_TEAMS_AMOUNT);
+    findChild<QSpinBox*>("worms_health")->setValue(DEFAULT_WORMS_HEALTH);
+
+    findChild<QSpinBox*>("mortar_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("red_bomb_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("banana_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("green_bomb_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("holy_bomb_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("dynamite_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("fly_bombs_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("teleport_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("bat_ammo")->setValue(DEFAULT_AMMO_QTY);
+    findChild<QSpinBox*>("bazooka_ammo")->setValue(DEFAULT_AMMO_QTY);
+
+    this->background_path.clear();
+    this->background_name.clear();
+    this->background_choosed = false;
+    this->background_mode.clear();
+    this->water_level = DEFAULT_WATER_LEVEL;
+    this->teams_amount = DEFAULT_TEAMS_AMOUNT;
+    this->worms_health = DEFAULT_WORMS_HEALTH;
+
 }

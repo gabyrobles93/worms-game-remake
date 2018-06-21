@@ -41,6 +41,8 @@ private:
     void chooseBackground(void);
     void goCreate(void);
     void launchEditor(YAML::Node, std::string &);
+    void loadAndEdit(void);
+    void createNewMap(void);
 };
 
 #endif // EDITOR_LAUNCHER_H
