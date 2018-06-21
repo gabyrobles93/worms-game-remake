@@ -9,10 +9,14 @@ MapState::MapState() {
 MapState::~MapState() {
   if (this->newShortGirder) {
     delete this->newShortGirder;
-  } else if (this->newWorm) {
-     delete this->newWorm;
-  } else if (this->newLongGirder) {
+    this->newShortGirder = nullptr;
+  }
+  // } else if (this->newWorm) {
+  //    delete this->newWorm;
+  //    this->newWorm = nullptr;
+   else if (this->newLongGirder) {
     delete this->newLongGirder;
+    this->newLongGirder = nullptr;
   }
 }
 

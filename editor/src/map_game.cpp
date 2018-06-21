@@ -8,8 +8,9 @@ map(map) {
 }
 
 View::MapGame::~MapGame() {
-  for(int i = 0; i < this->mapStates.size(); ++i) {
+  for(int i = this->mapStates.size() - 1; i >= 0; --i) {
     delete this->mapStates[i];
+    this->mapStates[i] = nullptr;
   }
 }
 
@@ -71,6 +72,7 @@ void View::MapGame::updateIndex(void) {
     std::vector<MapState*>::iterator it = this->mapStates.begin() + this->stateIndex;
     for (; it != this->mapStates.end();) {
       delete *it;
+      *it = nullptr;
       it = this->mapStates.erase(it);
     }
   }
@@ -108,7 +110,7 @@ void View::MapGame::saveAs(std::string mapName, std::string bgName) {
 void View::MapGame::addLongGirdersToMap() {
   std::map<int, View::GirderLong*> longGirders = this->mapStates[this->stateIndex]->getLongGirders();
   int longGirderCounter = 1;
-  std::map<int, View::GirderLong*>::iterator longGirder;
+  std::map<int, View::GirderLong*>::const_iterator longGirder;
   for (longGirder = longGirders.begin(); longGirder != longGirders.end(); ++longGirder) {
     YAML::Node newGirderNode;
     newGirderNode["id"] = longGirderCounter;
@@ -123,7 +125,7 @@ void View::MapGame::addLongGirdersToMap() {
 void View::MapGame::addShortGirdersToMap() {
   std::map<int, View::GirderShort*> shortGirders = this->mapStates[this->stateIndex]->getShortGirders();
   int shortGirderCounter = 1;
-  std::map<int, View::GirderShort*>::iterator shortGirder;
+  std::map<int, View::GirderShort*>::const_iterator shortGirder;
   for (shortGirder = shortGirders.begin(); shortGirder != shortGirders.end(); ++shortGirder) {
     YAML::Node newGirderNode;
     newGirderNode["id"] = shortGirderCounter;
@@ -138,9 +140,9 @@ void View::MapGame::addShortGirdersToMap() {
 void View::MapGame::addWormsToMap() {
   std::map<size_t, std::vector<View::Worm*>> worms = this->mapStates[this->stateIndex]->getWorms();
   int wormCounter = 1;
-  std::map<std::size_t, std::vector<View::Worm*>>::iterator worm;
+  std::map<std::size_t, std::vector<View::Worm*>>::const_iterator worm;
   for (worm = worms.begin(); worm != worms.end(); ++worm) {
-    std::vector<View::Worm*>::iterator worm_it;
+    std::vector<View::Worm*>::const_iterator worm_it;
     for (worm_it = worm->second.begin(); worm_it != worm->second.end(); worm_it++) {
       YAML::Node newWorm;
       newWorm["id"] = wormCounter;
