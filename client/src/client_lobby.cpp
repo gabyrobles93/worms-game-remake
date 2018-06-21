@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <QtGui/QCloseEvent>
 #include <qt5/QtWidgets/QMessageBox>
 #include <QFileDialog>
 #include <QTableWidget>
@@ -31,11 +32,16 @@ ClientLobby::ClientLobby(QWidget *parent) :
     connectEvents();
     this->pages = findChild<QStackedWidget*>(WIDGET_PAGES);
     this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
+    this->protocol = nullptr;
+    this->waiting_match = nullptr;
 }
 
 ClientLobby::~ClientLobby()
 {
     cleanLobby();
+    if (this->protocol != nullptr) {
+        delete this->protocol;
+    }
     delete ui;
 }
 
@@ -156,6 +162,7 @@ void ClientLobby::exitLobby(void) {
     Event new_event(a_quitLobby, 1);
     this->protocol->sendEvent(new_event);
     delete this->protocol;
+    this->protocol = nullptr;
 }
 
 void ClientLobby::joinMatch(void) {
@@ -383,5 +390,16 @@ void ClientLobby::exitWaitingMatch(void) {
     this->waiting_match->stop();
     this->waiting_match->join();
     delete this->waiting_match;
+    this->waiting_match = nullptr;
     backLobby();
+}
+
+void ClientLobby::closeEvent(QCloseEvent * event) {
+    if (this->waiting_match) {
+        exitWaitingMatch();
+    }
+    if (this->protocol) {
+        exitLobby();
+    }
+    std::cout << "Cerrando cliente." << std::endl;
 }

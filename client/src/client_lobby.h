@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include <QtGui/QCloseEvent>
 #include "QStackedWidget"
 #include "protocol.h"
 #include "waiting_match.h"
@@ -77,6 +78,7 @@ private:
     void startWaitingMatch(void);
     void cancelWaitingMatch(void);
     void exitWaitingMatch(void);
+    void closeEvent(QCloseEvent *);
 };
 
 #endif

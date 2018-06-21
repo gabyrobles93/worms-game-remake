@@ -24,7 +24,8 @@ void Protocol::getPlayerName(std::string & name) {
 
     this->skt.getBuffer(buffer, length);
     std::string ret_name((char*)buffer, (int)length);
-    name = ret_name;    
+    name = ret_name;
+    delete buffer; 
 }
 
 void Protocol::sendName(std::string const & name) const {
