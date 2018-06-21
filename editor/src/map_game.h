@@ -73,10 +73,7 @@ namespace View {
       // bajo el nombre indicado
       void saveAs(std::string, std::string);
 
-      // Verifica si el mapa
-      // tiene todos los gusanos
-      // posibles dibujados
-      bool hasAllTheWorms(int, int);
+      bool hasWorms();
 
       void setRenderer(SDL_Renderer * renderer);
   };
