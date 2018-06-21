@@ -42,11 +42,11 @@ int Editor::start(void) {
 			if (e.type == SDL_QUIT) {
 				quit = true;
 				editorWindow.hide();
-				validMap = mapGame.hasAllTheWorms(teamsAmount, AMOUNT_WORMS_PER_TEAM);
+				validMap = mapGame.hasWorms();
 				if (!validMap) {
                     QMessageBox msgBox;
-                    msgBox.setWindowTitle("Mapa inválido");
-                    msgBox.setText("¿Desea continuar editando el mapa?");
+                    msgBox.setWindowTitle("Mapa inválido.");
+                    msgBox.setText("El mapa debe tener al menos un worm de cada team." "¿Desea continuar editando el mapa?");
                     msgBox.setStandardButtons(QMessageBox::Yes);
                     msgBox.addButton(QMessageBox::No);
                     msgBox.setDefaultButton(QMessageBox::Yes);
