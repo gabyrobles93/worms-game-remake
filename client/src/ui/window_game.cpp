@@ -77,7 +77,7 @@ void View::WindowGame::init(void) {
 		
 		// Si se inicio con los argumentos en 0 se inicializa con 
 		// el tamano de la pantalla
-		if (!this->screen_width && !this->screen_height) {
+		if (this->full_screen) {
 			this->screen_width = this->getWidthResolution();
 			this->screen_height = this->getHeightResolution();
 		}
