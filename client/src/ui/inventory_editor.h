@@ -16,7 +16,7 @@
 #define WEAPON_NAME_SHORT_GIRDER "Short girder"
 #define WEAPON_NAME_LONG_GIRDER "Long girder"
 
-#define AMOUNT_WORMS_PER_TEAM 3
+#define AMOUNT_WORMS_PER_TEAM 99
 #define PADDING 5
 
 #define POS_GIRDER_SHORT 0

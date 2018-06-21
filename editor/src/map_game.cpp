@@ -170,18 +170,18 @@ void View::MapGame::addInventoryToTeams() {
 }
 
 bool View::MapGame::hasAllTheWorms(int teamsAmount, int amountWormsPerTeam) {
-  std::map<size_t, std::vector<View::Worm*>> worms = this->mapStates[this->stateIndex]->getWorms();
-  if (worms.size() != (size_t) teamsAmount) {
-    return false;
-  }
+  // std::map<size_t, std::vector<View::Worm*>> worms = this->mapStates[this->stateIndex]->getWorms();
+  // if (worms.size() != (size_t) teamsAmount) {
+  //   return false;
+  // }
 
-  std::map<size_t, std::vector<View::Worm*>>::iterator it;
+  // std::map<size_t, std::vector<View::Worm*>>::iterator it;
 
-  for (it = worms.begin(); it != worms.end(); ++it ) {
-    if(it->second.size() != amountWormsPerTeam) {
-      return false;
-    }
-  }
+  // for (it = worms.begin(); it != worms.end(); ++it ) {
+  //   if(it->second.size() != amountWormsPerTeam) {
+  //     return false;
+  //   }
+  // }
 
   return true;
 }
