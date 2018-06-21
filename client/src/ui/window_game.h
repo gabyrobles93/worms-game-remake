@@ -25,6 +25,7 @@ class View::WindowGame {
     std::vector<View::GirderShort *> shortGirders;
     int screen_width;
     int screen_height;
+    bool full_screen;
     
     YAML::Node & staticMap;
     Water water;
@@ -42,7 +43,7 @@ class View::WindowGame {
 
   public:
     // Constructor para el cliente
-    WindowGame(YAML::Node &, int w = 0, int h = 0);
+    WindowGame(YAML::Node &, int w = 0, int h = 0, bool fs = false);
     
     // Constructor para el editor de mapas
     WindowGame(std::string pathToBg, int waterLevel);

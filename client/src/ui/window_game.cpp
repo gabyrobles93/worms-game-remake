@@ -9,9 +9,10 @@
 #define MAP_WIDTH 2500
 #define MAP_HEIGHT 1500
 
-View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h) : staticMap(staticNode) {
+View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h, bool fs) : staticMap(staticNode) {
 	this->screen_width = w;
 	this->screen_height = h;
+	this->full_screen = fs;
 	this->init();
 	this->background.loadFromFile(this->staticMap["background"]["file"].as<std::string>(), renderer);
 	this->backgroundDisplayMode = this->staticMap["background"]["display"].as<std::string>();
@@ -88,8 +89,7 @@ void View::WindowGame::init(void) {
             SDL_WINDOWPOS_UNDEFINED, 
             this->screen_width, 
             this->screen_height, 
-            SDL_WINDOW_SHOWN
-			//			SDL_WINDOW_FULLSCREEN
+            this->full_screen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_SHOWN
         );
 
 		if (this->window == NULL) {

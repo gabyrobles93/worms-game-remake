@@ -13,12 +13,15 @@
 #include "types.h"
 #include "waiting_match.h"
 #include "client_game.h"
+#include "client_settings.h"
 
 #define PAGE_CONNECTION_INDEX 0
 #define PAGE_LOBBY_INDEX 1
 #define PAGE_MATCH_CREATE 2
 #define PAGE_WAITING_MATCH_INDEX 3
 #define PAGE_JOINED_WAITING_MATCH_INDEX 4
+
+extern ClientSettings gClientSettings;
 
 ClientLobby::ClientLobby(QWidget *parent) :
     QMainWindow(parent),

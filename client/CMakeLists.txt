@@ -51,6 +51,8 @@ add_executable(	client
 		${PROJECT_SOURCE_DIR}/src/model_receiver.cpp
 		${PROJECT_SOURCE_DIR}/src/protected_dynamics.cpp
 		${PROJECT_SOURCE_DIR}/src/client_configuration.cpp
+		${PROJECT_SOURCE_DIR}/src/client_settings.cpp
+		${PROJECT_SOURCE_DIR}/src/client_settings.h
 		${COMMON_SOURCE_DIR}/src/paths.cpp
 		${COMMON_SOURCE_DIR}/src/event.cpp
 		${COMMON_SOURCE_DIR}/src/socket.cpp

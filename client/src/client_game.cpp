@@ -24,6 +24,7 @@
 #include "worms_status.h"
 #include "projectiles.h"
 #include "inventory.h"
+#include "client_settings.h"
 
 #define TIE_GAME_CODE 0
 #define CONSTANT_WAIT 100/6
@@ -31,6 +32,8 @@
 #define MAP_RECEIVED_NAME "map.tar.gz"
 #define MAP_YML_NAME "map.yml"
 #define BACKGROUND_NAME "background.png"
+
+extern ClientSettings gClientSettings;
 
 ClientGame::ClientGame(Protocol * prt, size_t tid) :
 protocol(prt),
@@ -87,7 +90,8 @@ void ClientGame::startGame(void) {
 	ModelReceiver model_receiver(this->protocol, pdynamics);
 
 	// Creo la pantalla con dichas cosas estáticas.
-	View::WindowGame mainWindow(staticMap);
+	View::WindowGame mainWindow(staticMap, gClientSettings.RESOLUTION_WIDTH, 
+	gClientSettings.RESOLUTION_HIGH, gClientSettings.FULL_SCREEN);
 	SDL_Renderer * renderer = mainWindow.getRenderer();
 	View::Camera camera(mainWindow.getScreenWidth(), mainWindow.getScreenHeight(),
 						mainWindow.getBgWidth(), mainWindow.getBgHeight());
