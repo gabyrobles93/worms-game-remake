@@ -39,7 +39,7 @@ SET(UI_RESOURCES
 
 QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
 
-add_executable(	client
+add_executable(worms-client
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/event_sender.cpp
 		${PROJECT_SOURCE_DIR}/src/client_lobby.cpp
@@ -154,6 +154,6 @@ add_executable(	client
 		${VIEW_WORM_STATE_DIR}/dead.h
 		)
 
-target_link_libraries(client Qt5::Widgets Qt5::DBus)
-target_link_libraries(client ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
-target_link_libraries(client ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
+target_link_libraries(worms-client Qt5::Widgets Qt5::DBus)
+target_link_libraries(worms-client ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
+target_link_libraries(worms-client ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

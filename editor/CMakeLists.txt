@@ -41,7 +41,7 @@ SET(UI_RESOURCES
 
 QT5_ADD_RESOURCES(UI_RESOURCES_RCC ${UI_RESOURCES})
 
-add_executable(	editor
+add_executable(worms-editor
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/editor_launcher.cpp
 		${PROJECT_SOURCE_DIR}/src/editor.cpp
@@ -111,6 +111,6 @@ add_executable(	editor
 		${VIEW_WORM_STATE_DIR}/dead.h
 		)
 
-target_link_libraries(editor Qt5::Widgets Qt5::DBus)
-target_link_libraries(editor ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
-target_link_libraries(editor ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
+target_link_libraries(worms-editor Qt5::Widgets Qt5::DBus)
+target_link_libraries(worms-editor ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
+target_link_libraries(worms-editor ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)

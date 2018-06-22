@@ -30,7 +30,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/physics/weapons)
 
 
 
-add_executable(	server
+add_executable(worms-server
 		${PROJECT_SOURCE_DIR}/src/main.cpp
 		${PROJECT_SOURCE_DIR}/src/client.cpp
 		${PROJECT_SOURCE_DIR}/src/client.h
@@ -123,5 +123,5 @@ add_executable(	server
 
 		)
 
-target_link_libraries(server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
-target_link_libraries(server ${PROJECT_SOURCE_DIR}/libs/libBox2D.a)
+target_link_libraries(worms-server ${COMMON_SOURCE_DIR}/libs/libyaml-cpp.a)
+target_link_libraries(worms-server ${PROJECT_SOURCE_DIR}/libs/libBox2D.a)
