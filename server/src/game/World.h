@@ -40,9 +40,7 @@ private:
     Wall* rightWall;
     virtual bool isRunning(void) const;
     virtual size_t getId(void) const;
-    void updateSnapshot();
     void updateBodies();
-    void shootWeapon(Event &, size_t);
     YAML::Node map_node;
     WeaponManager* weaponManager;
 
