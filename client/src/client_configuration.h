@@ -33,6 +33,8 @@ class ClientConfiguration {
     View::Wind wind;
     View::TeamsHealth teamsHealth;
 
+    SoundEffect music;
+
   public:
     ClientConfiguration(SDL_Renderer *, int, int, const YAML::Node &);
     ~ClientConfiguration();

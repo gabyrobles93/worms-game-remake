@@ -203,6 +203,7 @@ class Paths {
     std::string PATH_FONT_ARIAL_BOLD;
 
     /* SOUND EFFECTS */
+    std::string PATH_MUSIC_DEFAULT;
     std::string PATH_SOUND_DYNAMITE;
     std::string PATH_SOUND_GIRDER;
     std::string PATH_SOUND_TELEPORT;

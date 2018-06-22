@@ -83,6 +83,9 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
   this->remoteControlY = 0;
 
   this->wormProtagonicId = 1;
+
+  this->music.setMusic(gPath.PATH_MUSIC_DEFAULT);
+  this->music.playMusic();
 }
 
 ClientConfiguration::~ClientConfiguration() {
@@ -103,27 +106,36 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
   }
 
   if (e.type == SDL_KEYDOWN) {
-		if (e.key.keysym.sym == SDLK_1) {
+    SDL_Keycode code = e.key.keysym.sym;
+    if (code == SDLK_PLUS || code == SDLK_KP_PLUS) {
+      this->music.increaseMusicVolume();
+    }
+
+    if (code == SDLK_MINUS || code == SDLK_KP_MINUS) {
+      this->music.decreaseMusicVolume();
+    }
+
+		if (code == SDLK_1) {
 			this->weaponsCountdown = 1;
 		}
 
-		if (e.key.keysym.sym == SDLK_2) {
+		if (code == SDLK_2) {
 			this->weaponsCountdown = 2;
 		}
 
-		if (e.key.keysym.sym == SDLK_3) {
+		if (code == SDLK_3) {
 			this->weaponsCountdown = 3;
 		}
 
-		if (e.key.keysym.sym == SDLK_4) {
+		if (code == SDLK_4) {
 			this->weaponsCountdown = 4;
 		}
 
-		if (e.key.keysym.sym == SDLK_5) {
+		if (code == SDLK_5) {
 			this->weaponsCountdown = 5;
 		}
 
-    if (e.key.keysym.sym == SDLK_w) {
+    if (code == SDLK_w) {
       if (this->sightAngle + CHOP_ANGLE > MAX_SIGHT_ANGLE) {
         this->sightAngle = MAX_SIGHT_ANGLE;
       } else {
@@ -131,7 +143,7 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
       }
     }
 
-    if (e.key.keysym.sym == SDLK_s) {
+    if (code == SDLK_s) {
       if (this->sightAngle - CHOP_ANGLE < MIN_SIGHT_ANGLE) {
         this->sightAngle = MIN_SIGHT_ANGLE;
       } else {
@@ -139,7 +151,7 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
       }
 	  }
 
-    if (e.key.keysym.sym == SDLK_DELETE) {
+    if (code == SDLK_DELETE) {
       if (this->wormDataConfig == ALL) {
         this->wormDataConfig = ONLY_HEALTH;
         return;
@@ -156,11 +168,11 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
       }
     }
 
-    if (e.key.keysym.sym == SDLK_h) {
+    if (code == SDLK_h) {
       this->teamsHealth.toggleHide();
     }
 
-    if (e.key.keysym.sym == SDLK_SPACE && weapon != w_air_strike && weapon != w_teleport) {
+    if (code == SDLK_SPACE && weapon != w_air_strike && weapon != w_teleport) {
       if (!this->shootingTimer.isStarted()) {
         this->shootingSound.playSound(0);
         this->shootingTimer.start();
@@ -180,7 +192,8 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
   }
 
   if (e.type == SDL_KEYUP) {
-    if (e.key.keysym.sym == SDLK_SPACE && this->shooting) {
+    SDL_Keycode code = e.key.keysym.sym;
+    if (code == SDLK_SPACE && this->shooting) {
       this->shootingSound.stopSound();
       this->shooting = false;
       this->shooted = true;

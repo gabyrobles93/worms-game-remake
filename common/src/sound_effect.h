@@ -17,6 +17,7 @@ class SoundEffect {
     bool playingMusic;
 
     int channel;
+    int musicVolume;
 
     // Libera la memoria del sonido
     void freeSound(void);
@@ -41,6 +42,17 @@ class SoundEffect {
     // veces. -1: reproduce eternamente
     // hasta que se lo detenga.
     void playSound(int loops = -1);
+
+    // Reproduce la musica loops+1 
+    // veces. -1: reproduce eternamente
+    // hasta que se lo detenga.
+    void playMusic(int loops = -1);
+
+    // Aumenta el volumen de la musica
+    void increaseMusicVolume(int inc = 10);
+  
+    // Disminuye el volumen de la musica
+    void decreaseMusicVolume(int dec = 10);
 
     // Para el sonido
     void stopSound(void);
