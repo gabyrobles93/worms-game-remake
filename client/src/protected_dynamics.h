@@ -1,13 +1,11 @@
 #ifndef __PROTECTED_DYNAMIC_MAP_H__
 #define __PROTECTED_DYNAMIC_MAP_H__
 
-#include <mutex>
 #include "yaml.h"
 #include <queue>
 
 class ProtectedDynamics {
     private:
-        std::mutex mutex;
         std::queue<YAML::Node> models;
         YAML::Node dynamics;
     public:

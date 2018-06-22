@@ -1,4 +1,3 @@
-#include <mutex>
 #include <sstream>
 #include <iostream>
 #include "protected_dynamics.h"
