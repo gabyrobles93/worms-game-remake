@@ -2,6 +2,7 @@
 #define __PATHS_H__
 
 #include <string>
+#include <sys/stat.h>
 
 class Paths {
   private:

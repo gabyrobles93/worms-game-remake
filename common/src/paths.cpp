@@ -4,7 +4,13 @@ Paths::Paths(const char * r) {
   if (r) {
     this->root = r;
   } else {
-    this->root = "../../";
+    struct stat sb;
+    if (stat("/usr/var/worms/", &sb) == 0 && S_ISDIR(sb.st_mode)) {
+      // Entonces el worms esta instalado
+      this->root = "/usr/var/worms/";
+    } else {
+      this->root = "../../";
+    }
   }
 
   /* GIRDERS PATHS */
