@@ -71,3 +71,27 @@ void SoundEffect::playSound(int loops) {
 void SoundEffect::stopSound(void) {
   Mix_HaltChannel(this->channel);
 }
+
+void SoundEffect::playMusic(int loops) {
+  if (!Mix_PlayingMusic()) {
+    this->playingMusic = false;
+    if (this->music) {
+      Mix_PlayMusic(this->music, loops);
+      this->playingMusic = true;
+    }
+  }
+
+  if (Mix_PausedMusic()) {
+    Mix_ResumeMusic();
+  }  
+}
+
+void SoundEffect::increaseMusicVolume(int inc) {
+  this->musicVolume = Mix_VolumeMusic(-1);
+  this->musicVolume + inc > MIX_MAX_VOLUME ? Mix_VolumeMusic(MIX_MAX_VOLUME) : Mix_VolumeMusic(this->musicVolume + inc);
+}
+
+void SoundEffect::decreaseMusicVolume(int dec) {
+  this->musicVolume = Mix_VolumeMusic(-1);
+  this->musicVolume - dec < 0 ? Mix_VolumeMusic(0) : Mix_VolumeMusic(this->musicVolume - dec);
+}
