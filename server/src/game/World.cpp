@@ -95,10 +95,10 @@ void World::initializeWorld() {
 
     float ceiling_posX = (MAP_WIDTH / 2) * gConfiguration.SCALING_FACTOR;
     float ceiling_posY = 0;
-    float ceiling_height = 3; 
+    float ceiling_height = 1; 
     float ceiling_width = MAP_WIDTH * gConfiguration.SCALING_FACTOR;
     float wall_height = MAP_HEIGTH * gConfiguration.SCALING_FACTOR;
-    float wall_width = 3;
+    float wall_width = 1;
     float left_wall_posX = 0;
     float right_wall_posX = MAP_WIDTH * gConfiguration.SCALING_FACTOR;
     float wall_posY = (MAP_HEIGTH / 2) * gConfiguration.SCALING_FACTOR;
@@ -141,15 +141,28 @@ void World::initializeWorld() {
     float x;
     float y;
     std::string name;
+    int aux = 0;
+    int wormsHealth = this->map_node["static"]["worms_health"].as<int>();
+    int maxTeamHealtlh = 0;
+
+    for (YAML::const_iterator it = worms_teams_node.begin(); it != worms_teams_node.end(); it++) {
+        aux = it->second["worms"].size() * wormsHealth;
+        if (aux > maxTeamHealtlh) {
+            maxTeamHealtlh = aux;
+        }
+    }
+
+
     for (YAML::const_iterator it = worms_teams_node.begin(); it != worms_teams_node.end(); it++) {
         tid = it->first.as<int>();
         Team* new_team = new Team(tid);
         const YAML::Node& worms_node = it->second["worms"];
+        int wormsQuantity = it->second["worms"].size();
         for (YAML::const_iterator worms_it = worms_node.begin(); worms_it != worms_node.end(); worms_it++) {
             const YAML::Node& worm = *worms_it;
             name = worm["name"].as<std::string>();
             id = worm["id"].as<int>();
-            health = worm["health"].as<int>();
+            health = maxTeamHealtlh / wormsQuantity;
             x = (float) worm["x"].as<int>() * gConfiguration.SCALING_FACTOR;
             y = (float) worm["y"].as<int>() * gConfiguration.SCALING_FACTOR;
             Worm * new_worm = new Worm(name, id, tid, health, this->worldPhysic.getWorld(), x, y);
