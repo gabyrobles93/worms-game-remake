@@ -1,0 +1,7 @@
+version: "3"
+services:
+   worms-client:
+      image: worms-taller-party:0.2
+      volumes:
+         - /tmp/.X11-unix:/tmp/.X11-unix
+      command: 'worms-client'
