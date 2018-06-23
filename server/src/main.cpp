@@ -20,6 +20,7 @@
 #include "snapshot.h"
 #include "server.h"
 #include "server_error.h"
+#include <sys/stat.h>
 
 #define MIN_SRV_ARGS_QTY 2
 #define MAX_SRV_ARGS_QTY 3
@@ -28,6 +29,7 @@
 
 Configuration gConfiguration;
 
+
 int main(int argc, char *argv[]) try {
      if (argc < MIN_SRV_ARGS_QTY || argc > MAX_SRV_ARGS_QTY) {
         std::cout << "Servidor mal invocado." << std::endl;
@@ -35,13 +37,19 @@ int main(int argc, char *argv[]) try {
         return 0;
     } else if (argc == MAX_SRV_ARGS_QTY) {
         try {
+            std::cout << "Cargando archivo de configuración desde " << argv[SRV_CONFIG_FILE_POS] << std::endl;
             YAML::Node config_node = YAML::LoadFile(argv[SRV_CONFIG_FILE_POS]);
             gConfiguration.loadConfigFile(config_node);
         } catch (const YAML::Exception & err) {
             std::cout << "No se pudo abrir el archivo de configuración espcificado. Se usarán valores de configuración por defecto: " << err.what() << std::endl;
         }
     } else {
-        std::cout << "No se cargó archivo de configuración, se utilizarán valores por defecto." << std::endl;
+        struct stat info;
+        if (stat("/usr/etc/worms", &info) == 0) {
+            std::cout << "Cargando archivo de configuración en /usr/etc/worms" << std::endl;
+            YAML::Node config_node = YAML::LoadFile("/usr/etc/worms/server_config.yml");
+            gConfiguration.loadConfigFile(config_node);
+        }
     }
 
     std::string port(argv[SRV_PORT_POS]);
