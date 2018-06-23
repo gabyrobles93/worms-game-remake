@@ -14,9 +14,6 @@
 #include "yaml.h"
 #include "map_state.h"
 
-#define MAPS_SERVER_DIR "../../server/maps/"
-#define MAPS_EDITOR_DIR " ../maps/"
-
 namespace View {
   class EditorInventory;
 

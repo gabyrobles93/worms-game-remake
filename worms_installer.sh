@@ -50,6 +50,8 @@ fi
 
 if [ ! -d /usr/etc/worms ]; then
 	sudo mkdir -p /usr/etc/worms 
+	sudo mkdir /usr/etc/worms/maps
+	sudo chmod -R 777 /usr/etc/worms/maps
 fi
 
 sudo cp ../server/server_config.yml /usr/etc/worms
