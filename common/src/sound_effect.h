@@ -56,6 +56,9 @@ class SoundEffect {
 
     // Para el sonido
     void stopSound(void);
+
+    // Checkea si esta playing
+    bool isPlaying(void);
 };
 
 #endif

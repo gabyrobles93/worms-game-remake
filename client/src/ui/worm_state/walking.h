@@ -17,6 +17,8 @@ namespace View {
       std::map<worm_inclination_t, View::Texture> textures;
       std::map<worm_inclination_t, View::SpriteAnimation> sprites;
       SoundEffect walkingSound;
+      SoundEffect walkingExpandSound;
+      bool playedExpand;
 
     public:
       Walking(View::Worm * context, SDL_Renderer * r);

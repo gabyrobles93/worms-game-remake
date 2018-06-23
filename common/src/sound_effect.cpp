@@ -95,3 +95,7 @@ void SoundEffect::decreaseMusicVolume(int dec) {
   this->musicVolume = Mix_VolumeMusic(-1);
   this->musicVolume - dec < 0 ? Mix_VolumeMusic(0) : Mix_VolumeMusic(this->musicVolume - dec);
 }
+
+bool SoundEffect::isPlaying(void) {
+  return Mix_Playing(this->channel) != 0;
+}
