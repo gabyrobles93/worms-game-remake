@@ -295,7 +295,7 @@ void ClientLobby::feedLobby(void) {
 
 void ClientLobby::chooseMap(void) {
     QString map_path;
-    map_path = QFileDialog::getOpenFileName(this, tr("Choose a map"), "/home", tr("Tar gzipped (*.tar.gz)"));
+    map_path = QFileDialog::getOpenFileName(this, tr("Choose a map"), "/usr/etc/worms/maps", tr("Tar gzipped (*.tar.gz)"));
     if (map_path.length() > 0) {
         this->map_game_path = map_path.toUtf8().constData();
         /* std::cout << "El mapa elegido es " << this->map_game_path << std::endl; */
