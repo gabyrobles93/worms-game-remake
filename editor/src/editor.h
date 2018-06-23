@@ -8,6 +8,7 @@
 #include "yaml.h"
 #include "inventory.h"
 #include "inventory_editor.h"
+#include "texture.h"
 
 class Editor {
     private:
@@ -20,6 +21,7 @@ class Editor {
         View::Camera camera;
         SDL_Renderer * renderer;
         View::EditorInventory editorInventory;
+        View::Texture saveTexture;
         int teamsAmount;
         int wormsHealth;
         bool validMap;

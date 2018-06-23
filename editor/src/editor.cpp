@@ -11,13 +11,16 @@
 #include "inventory.h"
 #include "inventory_editor.h"
 
+#define SAVE_PADDING 10
+#define SAVE_ICON_SIDE 60
+
 Editor::Editor(YAML::Node map, std::string mn, std::string bgn) :
 bg_name(bgn),
 map_name(mn),
 mapNode(YAML::Clone(map)),
 staticNode(mapNode["static"]),
 mapGame(mapNode),
-editorWindow(staticNode),
+editorWindow(staticNode, 0, 0, true),
 camera(editorWindow.getScreenWidth(),
         editorWindow.getScreenHeight(),
         editorWindow.getBgWidth(),
@@ -28,13 +31,17 @@ editorInventory(renderer,
              mapNode["static"]["worms_health"].as<int>()) {
 	this->teamsAmount = mapNode["static"]["teams_amount"].as<int>();
 	this->wormsHealth = mapNode["static"]["worms_health"].as<int>();
-    this->editorInventory.toggleOpen();
-	this->mapGame.setRenderer(this->renderer);	
+  this->editorInventory.toggleOpen();
+	this->mapGame.setRenderer(this->renderer);
+	this->saveTexture.loadFromFile(gPath.PATH_SAVE_ICON, this->renderer);
+	this->saveTexture.setX(this->editorWindow.getScreenWidth() - SAVE_PADDING - SAVE_ICON_SIDE);
+	this->saveTexture.setY(SAVE_PADDING); 
 }
 
 int Editor::start(void) {
     bool quit = false;
 	SDL_Event e;
+	int countclicks = 1;
 	while (!quit) {
 		int camX = camera.getX(), camY = camera.getY();
 		
@@ -69,7 +76,23 @@ int Editor::start(void) {
 				
 			}
 
-			editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
+			if (e.type == SDL_MOUSEBUTTONDOWN) {
+				int mouseX, mouseY;
+  			SDL_GetMouseState(&mouseX, &mouseY);
+				if (e.button.button == SDL_BUTTON_LEFT) {
+					if (mouseX > this->saveTexture.getX() && mouseX < this->saveTexture.getX() + SAVE_ICON_SIDE) {
+						if (mouseY > this->saveTexture.getY() && mouseY < this->saveTexture.getY() + SAVE_ICON_SIDE) {
+							this->editorWindow.hide();
+							std::cout << "You click save button " << countclicks++ << " times !!!" << std::endl;
+							this->editorWindow.show();
+						}
+					} else {
+						editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
+					}
+				}
+			} else {
+				editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
+			}
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -86,6 +109,8 @@ int Editor::start(void) {
 		editorWindow.renderWater(camera);
 
 		editorInventory.render(renderer);
+
+		this->saveTexture.render(this->renderer, this->saveTexture.getX(), this->saveTexture.getY(), SAVE_ICON_SIDE, SAVE_ICON_SIDE);
 		
 		SDL_RenderPresent(renderer);
 		SDL_Delay(50); // Para no usar al mango el CPU
