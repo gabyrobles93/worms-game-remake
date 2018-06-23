@@ -4,9 +4,8 @@
 #define WHITE_TICKNESS_PERCENT 10
 #define SIZE_TEXT_PERCENT 25
 #define BARS_PERCENT 75
-#define WORMS_PER_TEAM 3
 
-View::TeamsHealth::TeamsHealth(SDL_Renderer * r, int width, int height, int teamsAmount, int wormsHealth) : 
+View::TeamsHealth::TeamsHealth(SDL_Renderer * r, int width, int height, int teamsAmount, int wormsHealth, int maxWormsTeams) : 
   text(height / (100 / SIZE_TEXT_PERCENT), 2, gPath.PATH_FONT_ARIAL_BOLD) {
   this->width = width;
   this->height = height;
@@ -15,7 +14,7 @@ View::TeamsHealth::TeamsHealth(SDL_Renderer * r, int width, int height, int team
   this->padding = this->height / (100 / PADDING_PERCENT);
   this->heightHealthRect = (height / (100 / BARS_PERCENT) / teamsAmount) - (this->padding * 2);
   this->whiteTickness = this->heightHealthRect / (100 / WHITE_TICKNESS_PERCENT);
-  this->maxTeamHealth = WORMS_PER_TEAM * this->wormsHealth;
+  this->maxTeamHealth = maxWormsTeams * this->wormsHealth;
   this->hide = false;
 
   SDL_Color black = {0,0,0,0};

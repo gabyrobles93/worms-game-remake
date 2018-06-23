@@ -96,6 +96,7 @@ int View::MapGame::getNextWormId(void) {
 }
 
 void View::MapGame::saveAs(std::string mapName, std::string bgName) {
+  addMaxWormsAmount();
   addShortGirdersToMap();  
   addLongGirdersToMap();
   addWormsToMap();
@@ -104,6 +105,8 @@ void View::MapGame::saveAs(std::string mapName, std::string bgName) {
   this->map["static"]["background"]["file"] = bg_name;
   addInventoryToTeams();
   fout << this->map;
+  /* std::cout << "This map" << std::endl;
+  std::cout << this->map << std::endl; */
   fout.close();
 }
 
@@ -159,6 +162,18 @@ void View::MapGame::addWormsToMap() {
       wormCounter++;
     }
   }
+}
+
+void View::MapGame::addMaxWormsAmount(void) {
+  size_t max = 0;
+  std::map<std::size_t, std::vector<View::Worm*>>::const_iterator it;
+  std::map<size_t, std::vector<View::Worm*>> worms = this->mapStates[this->stateIndex]->getWorms();
+  for (it = worms.begin(); it != worms.end(); ++it) {
+    if (it->second.size() > max) {
+      max = it->second.size();
+    }
+  }
+  this->map["static"]["max_worms"] = max;
 }
 
 void View::MapGame::addInventoryToTeams() {

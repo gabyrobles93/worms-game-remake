@@ -46,7 +46,8 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
     screenW / (100 / SCREEN_PERCENT_TEAMS_HEALTH_WIDTH), 
     screenH / (100 / SCREEN_PERCENT_TEAMS_HEALTH_HEIGHT),
     staticMap["teams_amount"].as<int>(),
-    staticMap["worms_health"].as<int>()
+    staticMap["worms_health"].as<int>(),
+    staticMap["max_worms"].as<int>()
   ) {
 
   int clockX = SCREEN_PADDING + this->clock.getWidth() / 2;

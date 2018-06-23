@@ -38,6 +38,7 @@ namespace View {
       void addLongGirdersToMap();
       void addShortGirdersToMap();
       void addWormsToMap();
+      void addMaxWormsAmount(void);
       void updateIndex();
       
     public:
