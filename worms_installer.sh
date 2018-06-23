@@ -43,11 +43,6 @@ fi
 
 sudo cp -ar ../resources /usr/var/worms
 
-if [ -d /usr/etc/worms ]; then
-	echo "Detectada anterior instalación de worms en /usr/etc/worms. Se borrara dicho directorio y se volvera a instalar."
-	sudo rm -fr /usr/etc/worms
-fi
-
 if [ ! -d /usr/etc/worms ]; then
 	sudo mkdir -p /usr/etc/worms 
 	sudo mkdir /usr/etc/worms/maps
