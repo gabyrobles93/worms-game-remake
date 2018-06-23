@@ -100,7 +100,7 @@ void View::MapGame::saveAs(std::string mapName, std::string bgName) {
   addShortGirdersToMap();  
   addLongGirdersToMap();
   addWormsToMap();
-  std::ofstream fout("../maps/map.yml", std::ofstream::trunc);
+  std::ofstream fout("/usr/etc/worms/maps/map.yml", std::ofstream::trunc);
   std::string bg_name = "background.png";
   this->map["static"]["background"]["file"] = bg_name;
   addInventoryToTeams();

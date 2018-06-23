@@ -16,7 +16,7 @@
 #define DEFAULT_TEAMS_AMOUNT 2
 #define DEFAULT_WATER_LEVEL 300
 
-#define SAVED_MAPS_PATH "../maps/"
+#define DEFAULT_SAVED_MAPS_PATH "/usr/etc/worms/maps/"
 #define MAPS_EXT ".yml"
 
 EditorLauncher::EditorLauncher(QWidget *parent) :
@@ -127,7 +127,7 @@ void EditorLauncher::goCreate(void) {
     mapNode["static"]["init_inventory"][std::to_string(w_bat)]["item_name"] = "Bat";
     mapNode["static"]["init_inventory"][std::to_string(w_bat)]["supplies"] = findChild<QSpinBox*>("bat_ammo")->value();
 
-    std::string map_path = SAVED_MAPS_PATH + map_name + MAPS_EXT;
+    std::string map_path = DEFAULT_SAVED_MAPS_PATH + map_name + MAPS_EXT;
 
 /*     std::stringstream ss;
     ss << mapNode;
@@ -144,11 +144,12 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
     int err_code;
     err_code = the_editor.start();
     if (err_code == 0) {
-        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" ../maps/background.png";
+        std::string maps_path(DEFAULT_SAVED_MAPS_PATH);
+        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" " + maps_path + "background.png";
         std::system(cmd_cp_background.c_str());
-        std::string cmd_tar_gz = "tar -zcf \"../maps/" + map_name + ".tar.gz\" --directory=../maps map.yml background.png";
+        std::string cmd_tar_gz = "tar -zcf \"" + maps_path + map_name + ".tar.gz\" --directory=" + maps_path + " map.yml background.png";
         std::system(cmd_tar_gz.c_str());
-        std::string cmd_rmv_temp = "rm ../maps/background.png ../maps/map.yml";
+        std::string cmd_rmv_temp = "rm " + maps_path + "background.png " + maps_path + "map.yml";
         std::system(cmd_rmv_temp.c_str());
     }
     this->close();
