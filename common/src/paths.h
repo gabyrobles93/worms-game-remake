@@ -194,6 +194,7 @@ class Paths {
     std::string PATH_GRAVE_4;
     std::string PATH_GRAVE_5;
     std::string PATH_GRAVE_6;
+    std::string PATH_SAVE_ICON;
 
     /* ---------------------------- */
 

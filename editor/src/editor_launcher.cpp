@@ -137,7 +137,9 @@ void EditorLauncher::goCreate(void) {
 }
 
 void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
+    std::cout << "About to construct the_editor" << std::endl;
     Editor the_editor(mapNode, map_name, this->background_name);
+    std::cout << "Finish constructing the_editor" << std::endl;
     this->hide();
     int err_code;
     err_code = the_editor.start();

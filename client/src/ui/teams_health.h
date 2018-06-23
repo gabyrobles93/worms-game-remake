@@ -24,7 +24,7 @@ namespace View {
       bool hide;
 
     public:
-      TeamsHealth(SDL_Renderer *, int, int, int, int);
+      TeamsHealth(SDL_Renderer *, int, int, int, int, int);
       ~TeamsHealth();
       virtual int getWidth(void) const;
       virtual int getHeight(void) const;
