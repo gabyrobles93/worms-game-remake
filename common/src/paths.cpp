@@ -5,6 +5,7 @@ Paths::Paths(const char * r) {
     this->root = r;
   } else {
     struct stat sb;
+    // Checkeamos si existe el directorio del instalador
     if (stat("/usr/var/worms/", &sb) == 0 && S_ISDIR(sb.st_mode)) {
       // Entonces el worms esta instalado
       this->root = "/usr/var/worms/";
