@@ -10,6 +10,8 @@ View::Walking::Walking(View::Worm * worm, SDL_Renderer * r) {
   this->sprites[UP].setSpriteSheet(&this->textures[UP]);
   this->sprites[DOWN].setSpriteSheet(&this->textures[DOWN]);
   this->walkingSound.setSound(gPath.PATH_SOUND_WORM_WALKING);
+  this->walkingExpandSound.setSound(gPath.PATH_SOUND_WORM_WALKING_EXPAND);
+  this->playedExpand = true;
 }
 
 View::Walking::~Walking() {
@@ -17,7 +19,16 @@ View::Walking::~Walking() {
 }
 
 void View::Walking::render(SDL_Renderer * r, int camX, int camY, worm_inclination_t incl, bool mirrored, int angle) {
-  this->walkingSound.playSound(0);
+  if (!this->walkingExpandSound.isPlaying() && !this->walkingSound.isPlaying()) {
+    if (this->playedExpand) {
+      this->walkingSound.playSound(0);
+      this->playedExpand = false;
+    } else {
+      this->walkingExpandSound.playSound(0);
+      this->playedExpand = true;
+    }
+  }
+  
   SDL_Rect clip = this->sprites[incl].getNextClip();
   View::Texture & current = this->textures[incl];
   if (mirrored) {

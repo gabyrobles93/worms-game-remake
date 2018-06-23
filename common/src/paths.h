@@ -213,6 +213,7 @@ class Paths {
     std::string PATH_SOUND_HOLY;
     std::string PATH_SOUND_THROW_POWER_UP;
     std::string PATH_SOUND_WORM_WALKING;
+    std::string PATH_SOUND_WORM_WALKING_EXPAND;
     std::string PATH_SOUND_AIR_STRIKE;
 
     std::string PATH_SOUND_TIME_TRICK;

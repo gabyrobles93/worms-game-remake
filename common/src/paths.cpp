@@ -218,6 +218,7 @@ Paths::Paths(const char * r) {
   this->PATH_SOUND_TIME_TRICK = root + "resources/sounds/Effects/TIMERTICK.WAV";
   this->PATH_SOUND_THROW_POWER_UP = root + "resources/sounds/Effects/THROWPOWERUP.WAV";
   this->PATH_SOUND_WORM_WALKING = root + "resources/sounds/Effects/Walk-Expand.wav";
+  this->PATH_SOUND_WORM_WALKING_EXPAND = root + "resources/sounds/Effects/Walk-Compress.wav";
   this->PATH_SOUND_AIR_STRIKE = root + "resources/sounds/Effects/Airstrike.wav";
 
     // Worms voices
