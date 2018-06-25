@@ -26,6 +26,7 @@ namespace View {
       unsigned int stateIndex;
       SDL_Renderer * renderer;
       YAML::Node & map;
+      YAML::Node mapToSave;
       unsigned int index;
     
       // Obtiene el id del proximo
@@ -74,6 +75,8 @@ namespace View {
       bool hasWorms();
 
       void setRenderer(SDL_Renderer * renderer);
+      void initializeStates();
+      void createMapToSave();
   };
 }
 

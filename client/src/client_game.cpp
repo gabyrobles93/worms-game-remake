@@ -40,7 +40,7 @@ protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
 	std::string map_received_name(MAP_RECEIVED_NAME);
-	std::fstream file_map(map_received_name, std::fstream::out | std::fstream::binary | std::fstream::trunc);
+	std::fstream file_map("tmp/temp_map_folder " + map_received_name, std::fstream::out | std::fstream::binary | std::fstream::trunc);
 	std::cout << "Esperando mapa del sevidor." << std::endl;
     this->protocol->rcvFile(file_map);
 	std::cout << "Mapa recibido del servidor." << std::endl;
@@ -76,7 +76,7 @@ team_id(tid) {
 
 void ClientGame::removePreviousTempFiles(void) {
 	std::string map_received_name(MAP_RECEIVED_NAME);
-	std::string cmd_rm_map_yml = "rm map.yml background.png " + map_received_name;
+	std::string cmd_rm_map_yml = "rm tmp/temp_map_folder/map.yml tmp/temp_map_folder/background.png " + map_received_name;
 	std::system(cmd_rm_map_yml.c_str());
 }
 

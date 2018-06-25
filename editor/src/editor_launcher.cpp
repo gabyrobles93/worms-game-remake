@@ -156,7 +156,10 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
 }
 
 void EditorLauncher::loadAndEdit(void) {
-    std::cout << "Se carga un mapa existente para editarlo." << std::endl;
+    //YAML::Node mapNode;
+    //mapNode = YAML::Load();
+    //launchEditor(mapNode, map_name);
+    //std::cout << "Se carga un mapa existente para editarlo." << std::endl;
 }
 
 void EditorLauncher::createNewMap(void) {

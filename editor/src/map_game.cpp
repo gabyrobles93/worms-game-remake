@@ -3,8 +3,9 @@
 View::MapGame::MapGame(YAML::Node & map) :
 map(map) {
   this->index = 0;
-  this->mapStates.push_back(new MapState());
   this->stateIndex = 0;
+  initializeStates();
+  createMapToSave();
 }
 
 View::MapGame::~MapGame() {
@@ -12,6 +13,90 @@ View::MapGame::~MapGame() {
     delete this->mapStates[i];
     this->mapStates[i] = nullptr;
   }
+}
+
+void View::MapGame::initializeStates() {
+  if (!this->map["dynamic"]) {
+    this->mapStates.push_back(new MapState());
+    return;
+  }
+
+  const YAML::Node& shortGirders = this->map["dynamic"]["short_girders"];
+  const YAML::Node& longGirders = this->map["dynamic"]["long_girders"];
+  const YAML::Node& wormsTeams = this->map["dynamic"]["worms_teams"];
+
+  int x = 0;
+  int y = 0;
+  for (YAML::const_iterator it = shortGirders.begin(); it != shortGirders.end(); ++it) {
+    const YAML::Node & shortGirder = *it;
+    x = shortGirder["x"].as<int>();
+    y = shortGirder["y"].as<int>();
+    degrees_t degrees = (degrees_t) shortGirder["angle"].as<int>();
+    addShortGirder(degrees, x , y);
+  }
+
+  for (YAML::const_iterator it = longGirders.begin(); it != longGirders.end(); ++it) {
+    const YAML::Node & longGirder = *it;
+    x = longGirder["x"].as<int>();
+    y = longGirder["y"].as<int>();
+    degrees_t degrees = (degrees_t) longGirder["angle"].as<int>();
+    addLongGirder(degrees, x, y);
+  }
+
+  int tid = 0;
+  std::string name;
+  int health = 0;
+
+  for (YAML::const_iterator it = wormsTeams.begin(); it != wormsTeams.end(); ++it) {
+    tid = it->first.as<int>();
+    const YAML::Node& wormsNode = it->second["worms"];
+    for (YAML::const_iterator worms = wormsNode.begin(); worms != wormsNode.end(); worms++) {
+      const YAML::Node& worm = *worms;
+      name = worm["name"].as<std::string>();
+      health = worm["health"].as<int>();
+      x = worm["x"].as<int>();
+      y = worm["y"].as<int>();
+      addWormInTeam(tid, name, health, x, y);
+    }
+  }
+}
+
+void View::MapGame::createMapToSave() {
+    mapToSave["static"]["background"]["file"] = map["static"]["background"]["file"];
+    mapToSave["static"]["background"]["display"] = map["static"]["background"]["display"];
+    mapToSave["static"]["water_level"] = map["static"]["water_level"];
+    mapToSave["static"]["teams_amount"] = map["static"]["teams_amount"];
+    mapToSave["static"]["worms_health"] = map["static"]["worms_health"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_bazooka)]["item_name"] = "Bazooka";
+    mapToSave["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_mortar)]["item_name"] = "Mortar";
+    mapToSave["static"]["init_inventory"][std::to_string(w_mortar)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_mortar)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_cluster)]["item_name"] = "Cluster";
+    mapToSave["static"]["init_inventory"][std::to_string(w_cluster)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_cluster)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_banana)]["item_name"] = "Banana";
+    mapToSave["static"]["init_inventory"][std::to_string(w_banana)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_banana)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_green_grenade)]["item_name"] = "Grenade";
+    mapToSave["static"]["init_inventory"][std::to_string(w_green_grenade)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_green_grenade)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_holy_grenade)]["item_name"] = "Holy bomb";
+    mapToSave["static"]["init_inventory"][std::to_string(w_holy_grenade)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_holy_grenade)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_dynamite)]["item_name"] = "Dynamite";
+    mapToSave["static"]["init_inventory"][std::to_string(w_dynamite)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_dynamite)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_air_strike)]["item_name"] = "Air Strike";
+    mapToSave["static"]["init_inventory"][std::to_string(w_air_strike)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_air_strike)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_teleport)]["item_name"] = "Teleport";
+    mapToSave["static"]["init_inventory"][std::to_string(w_teleport)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_teleport)]["supplies"];
+
+    mapToSave["static"]["init_inventory"][std::to_string(w_bat)]["item_name"] = "Bat";
+    mapToSave["static"]["init_inventory"][std::to_string(w_bat)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_bat)]["supplies"];
 }
 
 void View::MapGame::setRenderer(SDL_Renderer * renderer) {
@@ -102,9 +187,9 @@ void View::MapGame::saveAs(std::string mapName, std::string bgName) {
   addWormsToMap();
   std::ofstream fout("/usr/etc/worms/maps/map.yml", std::ofstream::trunc);
   std::string bg_name = "background.png";
-  this->map["static"]["background"]["file"] = bg_name;
+  this->mapToSave["static"]["background"]["file"] = bg_name;
   addInventoryToTeams();
-  fout << this->map;
+  fout << mapToSave;
   /* std::cout << "This map" << std::endl;
   std::cout << this->map << std::endl; */
   fout.close();
@@ -120,7 +205,7 @@ void View::MapGame::addLongGirdersToMap() {
     newGirderNode["x"] = longGirder->second->getX();
     newGirderNode["y"] = longGirder->second->getY();
     newGirderNode["angle"] = (int) longGirder->second->getCurrentDegrees();
-    this->map["static"]["long_girders"].push_back(newGirderNode);
+    this->mapToSave["static"]["long_girders"].push_back(newGirderNode);
     longGirderCounter++;
   }
 }
@@ -135,7 +220,8 @@ void View::MapGame::addShortGirdersToMap() {
     newGirderNode["x"] = shortGirder->second->getX();
     newGirderNode["y"] = shortGirder->second->getY();
     newGirderNode["angle"] = (int) shortGirder->second->getCurrentDegrees();
-    this->map["static"]["short_girders"].push_back(newGirderNode);
+    if (this->mapToSave["static"]["short_girders"][shortGirderCounter])
+    this->mapToSave["static"]["short_girders"].push_back(newGirderNode);
     shortGirderCounter++;
   }
 }
@@ -158,7 +244,7 @@ void View::MapGame::addWormsToMap() {
       newWorm["status"]["falling"] = 1;
       newWorm["status"]["mirrored"] = 0;
       newWorm["status"]["walking"] = 0;
-      this->map["dynamic"]["worms_teams"][worm->first]["worms"].push_back(newWorm);
+      this->mapToSave["dynamic"]["worms_teams"][worm->first]["worms"].push_back(newWorm);
       wormCounter++;
     }
   }
@@ -173,14 +259,14 @@ void View::MapGame::addMaxWormsAmount(void) {
       max = it->second.size();
     }
   }
-  this->map["static"]["max_worms"] = max;
+  this->mapToSave["static"]["max_worms"] = max;
 }
 
 void View::MapGame::addInventoryToTeams() {
-  YAML::iterator it = map["dynamic"]["worms_teams"].begin();
+  YAML::iterator it = mapToSave["dynamic"]["worms_teams"].begin();
   
-  for (; it != map["dynamic"]["worms_teams"].end() ; it++) {
-      it->second["inventory"] = YAML::Clone(this->map["static"]["init_inventory"]);
+  for (; it != mapToSave["dynamic"]["worms_teams"].end() ; it++) {
+      it->second["inventory"] = YAML::Clone(this->mapToSave["static"]["init_inventory"]);
   }
 }
 
