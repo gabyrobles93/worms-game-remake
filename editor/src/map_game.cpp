@@ -62,41 +62,43 @@ void View::MapGame::initializeStates() {
 }
 
 void View::MapGame::createMapToSave() {
-    mapToSave["static"]["background"]["file"] = map["static"]["background"]["file"];
-    mapToSave["static"]["background"]["display"] = map["static"]["background"]["display"];
+    mapToSave["static"]["background"] = YAML::Clone(map["static"]["background"]);
+    //mapToSave["static"]["background"]["file"] = map["static"]["background"]["file"];
+    //mapToSave["static"]["background"]["display"] = map["static"]["background"]["display"];
     mapToSave["static"]["water_level"] = map["static"]["water_level"];
     mapToSave["static"]["teams_amount"] = map["static"]["teams_amount"];
     mapToSave["static"]["worms_health"] = map["static"]["worms_health"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_bazooka)]["item_name"] = "Bazooka";
-    mapToSave["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"];
+    mapToSave["static"]["init_inventory"] = YAML::Clone(map["static"]["init_inventory"]);
+    // mapToSave["static"]["init_inventory"][std::to_string(w_bazooka)]["item_name"] = "Bazooka";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_bazooka)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_mortar)]["item_name"] = "Mortar";
-    mapToSave["static"]["init_inventory"][std::to_string(w_mortar)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_mortar)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_mortar)]["item_name"] = "Mortar";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_mortar)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_mortar)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_cluster)]["item_name"] = "Cluster";
-    mapToSave["static"]["init_inventory"][std::to_string(w_cluster)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_cluster)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_cluster)]["item_name"] = "Cluster";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_cluster)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_cluster)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_banana)]["item_name"] = "Banana";
-    mapToSave["static"]["init_inventory"][std::to_string(w_banana)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_banana)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_banana)]["item_name"] = "Banana";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_banana)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_banana)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_green_grenade)]["item_name"] = "Grenade";
-    mapToSave["static"]["init_inventory"][std::to_string(w_green_grenade)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_green_grenade)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_green_grenade)]["item_name"] = "Grenade";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_green_grenade)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_green_grenade)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_holy_grenade)]["item_name"] = "Holy bomb";
-    mapToSave["static"]["init_inventory"][std::to_string(w_holy_grenade)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_holy_grenade)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_holy_grenade)]["item_name"] = "Holy bomb";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_holy_grenade)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_holy_grenade)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_dynamite)]["item_name"] = "Dynamite";
-    mapToSave["static"]["init_inventory"][std::to_string(w_dynamite)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_dynamite)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_dynamite)]["item_name"] = "Dynamite";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_dynamite)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_dynamite)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_air_strike)]["item_name"] = "Air Strike";
-    mapToSave["static"]["init_inventory"][std::to_string(w_air_strike)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_air_strike)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_air_strike)]["item_name"] = "Air Strike";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_air_strike)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_air_strike)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_teleport)]["item_name"] = "Teleport";
-    mapToSave["static"]["init_inventory"][std::to_string(w_teleport)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_teleport)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_teleport)]["item_name"] = "Teleport";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_teleport)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_teleport)]["supplies"];
 
-    mapToSave["static"]["init_inventory"][std::to_string(w_bat)]["item_name"] = "Bat";
-    mapToSave["static"]["init_inventory"][std::to_string(w_bat)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_bat)]["supplies"];
+    // mapToSave["static"]["init_inventory"][std::to_string(w_bat)]["item_name"] = "Bat";
+    // mapToSave["static"]["init_inventory"][std::to_string(w_bat)]["supplies"] = map["static"]["init_inventory"][std::to_string(w_bat)]["supplies"];
 }
 
 void View::MapGame::setRenderer(SDL_Renderer * renderer) {
