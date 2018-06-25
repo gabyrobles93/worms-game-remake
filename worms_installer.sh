@@ -1,18 +1,20 @@
 if [ $(dpkg-query -W -f='${Status}' cmake 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
- echo "cmake es necesario para seguir con la instalacion desea isntalarlo? (y/n) \c"
- read
- if "$REPLY" = "y"; then
-	sudo apt-get install cmake
+ read -p "cmake es necesario para seguir con la instalacion desea instalarlo? (y/n): " -n 1 -r
+ echo
+ if [[ $REPLY =~ ^[Y|y]$ ]]
+ then
+    sudo apt-get install cmake
  else exit 1
  fi
 fi
 
 if [ $(dpkg-query -W -f='${Status}' libsdl2-dev 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
- echo "sdl2 es necesario para seguir con la instalacion desea isntalarlo? (y/n) \c"
- read
- if "$REPLY" = "y"; then
+ read -p "sdl2 es necesario para seguir con la instalacion desea instalarlo? (y/n): " -n 1 -r
+ echo
+ if [[ $REPLY =~ ^[Y|y]$ ]]
+ then
 	sudo apt-get install libsdl2-dev
  else exit 1
  fi
@@ -20,9 +22,10 @@ fi
 
 if [ $(dpkg-query -W -f='${Status}' libsdl2-image-dev 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
- echo "sdl2-image-dev es necesario para seguir con la instalacion desea isntalarlo? (y/n) \c"
- read
- if "$REPLY" = "y"; then
+ read -p "sdl2-image-dev es necesario para seguir con la instalacion desea instalarlo? (y/n): " -n 1 -r
+ echo
+ if [[ $REPLY =~ ^[Y|y]$ ]]
+ then
 	sudo apt-get install libsdl2-image-dev
  else exit 1
  fi
@@ -30,9 +33,10 @@ fi
 
 if [ $(dpkg-query -W -f='${Status}' libsdl2-ttf-dev 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
- echo "sdl2-ttf-dev es necesario para seguir con la instalacion desea isntalarlo? (y/n) \c"
- read
- if "$REPLY" = "y"; then
+ read -p "sdl2-ttf-dev es necesario para seguir con la instalacion desea instalarlo? (y/n): " -n 1 -r
+ echo
+ if [[ $REPLY =~ ^[Y|y]$ ]]
+ then
 	sudo apt-get install libsdl2-ttf-dev
  else exit 1
  fi
@@ -40,9 +44,10 @@ fi
 
 if [ $(dpkg-query -W -f='${Status}' libsdl2-mixer-dev 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
- echo "libsdl2-mixer-dev es necesario para seguir con la instalacion desea isntalarlo? (y/n) \c"
- read
- if "$REPLY" = "y"; then
+ read -p "libsdl2-mixer-dev es necesario para seguir con la instalacion desea instalarlo? (y/n): " -n 1 -r
+ echo
+ if [[ $REPLY =~ ^[Y|y]$ ]]
+ then
 	sudo apt-get install libsdl2-mixer-dev
  else exit 1
  fi
@@ -50,9 +55,10 @@ fi
 
 if [ $(dpkg-query -W -f='${Status}' qt5-default 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
- echo "qt5-default es necesario para seguir con la instalacion desea isntalarlo? (y/n) \c"
- read
- if "$REPLY" = "y"; then
+ read -p "qt5-default es necesario para seguir con la instalacion desea instalarlo? (y/n): " -n 1 -r
+ echo
+ if [[ $REPLY =~ ^[Y|y]$ ]]
+ then
 	sudo apt-get install qt5-default
  else exit 1
  fi
