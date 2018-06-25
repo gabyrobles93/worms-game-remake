@@ -1,5 +1,7 @@
 #include "map_game.h"
 
+#define DEFAULT_SAVED_MAPS_PATH "/usr/etc/worms/maps/"
+
 View::MapGame::MapGame(YAML::Node & map) :
 map(map) {
   this->index = 0;
@@ -95,7 +97,7 @@ int View::MapGame::getNextWormId(void) {
   // return newId;
 }
 
-void View::MapGame::saveAs(std::string mapName, std::string bgName) {
+void View::MapGame::saveAs(std::string mapName, std::string bgName, std::string bgPath) {
   addMaxWormsAmount();
   addShortGirdersToMap();  
   addLongGirdersToMap();
@@ -108,6 +110,25 @@ void View::MapGame::saveAs(std::string mapName, std::string bgName) {
   /* std::cout << "This map" << std::endl;
   std::cout << this->map << std::endl; */
   fout.close();
+
+  std::string maps_path(DEFAULT_SAVED_MAPS_PATH);
+  std::string cmd_cp_background = "cp  \"" + bgPath + "\" " + maps_path + "background.png";
+  std::system(cmd_cp_background.c_str());
+
+  struct stat buffer;
+  std::string map_path = maps_path + mapName + ".tar.gz";
+  std::cout << "Chequeando si existe el archivo " << map_path << std::endl;
+  if (stat(map_path.c_str(), &buffer) == 0) {
+    std::string cmd_rm_previous_map = "rm " + map_path;
+    std::system(cmd_rm_previous_map.c_str());
+    std::cout << "Mapa previo removido." << std::endl;
+  }
+
+  std::string cmd_tar_gz = "tar -zcf \"" + maps_path + mapName + ".tar.gz\" --directory=" + maps_path + " map.yml background.png";
+  std::system(cmd_tar_gz.c_str());
+  std::string cmd_rmv_temp = "rm " + maps_path + "background.png " + maps_path + "map.yml";
+  std::system(cmd_rmv_temp.c_str());
+  std::cout << "Mapa guardado!" << std::endl;
 }
 
 void View::MapGame::addLongGirdersToMap() {

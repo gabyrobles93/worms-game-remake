@@ -14,8 +14,9 @@
 #define SAVE_PADDING 10
 #define SAVE_ICON_SIDE 60
 
-Editor::Editor(YAML::Node map, std::string mn, std::string bgn) :
+Editor::Editor(YAML::Node map, std::string mn, std::string bgn, std::string bgp) :
 bg_name(bgn),
+bg_path(bgp),
 map_name(mn),
 mapNode(YAML::Clone(map)),
 staticNode(mapNode["static"]),
@@ -82,9 +83,7 @@ int Editor::start(void) {
 				if (e.button.button == SDL_BUTTON_LEFT) {
 					if (mouseX > this->saveTexture.getX() && mouseX < this->saveTexture.getX() + SAVE_ICON_SIDE) {
 						if (mouseY > this->saveTexture.getY() && mouseY < this->saveTexture.getY() + SAVE_ICON_SIDE) {
-							this->editorWindow.hide();
-							std::cout << "You click save button " << countclicks++ << " times !!!" << std::endl;
-							this->editorWindow.show();
+							mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
 						}
 					} else {
 						editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
@@ -124,7 +123,7 @@ int Editor::start(void) {
 		msgBox.addButton(QMessageBox::No);
 		msgBox.setDefaultButton(QMessageBox::Yes);
 		if(msgBox.exec() == QMessageBox::Yes) {
-			mapGame.saveAs(this->map_name, this->bg_name);
+			mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
 			return 0;
 		}
 	}
