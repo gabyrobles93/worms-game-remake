@@ -99,8 +99,14 @@ sudo cp -ar ../resources /usr/var/worms
 
 if [ ! -d /usr/etc/worms ]; then
 	sudo mkdir -p /usr/etc/worms 
-	sudo mkdir /usr/etc/worms/maps
+fi
+
+if [ ! -d /usr/etc/worms/temp ]; then
 	sudo mkdir /usr/etc/worms/temp
+fi
+
+if [ ! -d /usr/etc/worms/maps ]; then
+	sudo mkdir /usr/etc/worms/maps
 fi
 
 sudo cp ../server/server_config.yml /usr/etc/worms
