@@ -63,11 +63,11 @@ void ContactListener::BeginContact(b2Contact* contact) {
         }
 
         //MISSIL STRUCTURE/WATER CONTACT
-        if (entityA_type == MISSIL && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER)) {
+        if (entityA_type == MISSIL && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER || entityB_type == WALL)) {
             static_cast<Missil*>(bodyAUserData)->explode();
         }
         
-        if (entityB_type == MISSIL && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER)) {
+        if (entityB_type == MISSIL && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER || entityB_type == WALL)) {
             static_cast<Missil*>(bodyBUserData)->explode();
         }
 
@@ -92,13 +92,19 @@ void ContactListener::EndContact(b2Contact* contact) {
 
         //WORM FOOT CONTACT
         if (entityA_type == WORM && entityB_type == STRUCTURE) {
-            static_cast<Worm*>(bodyAUserData)->deleteFootContact();
-            static_cast<Worm*>(bodyAUserData)->setNormal(b2Vec2(0,0));
+            float angle = static_cast<Girder*>(bodyBUserData)->getAngle();
+            if (angle <= 0.8 && angle >= -0.8) {
+                static_cast<Worm*>(bodyAUserData)->deleteFootContact();
+                static_cast<Worm*>(bodyAUserData)->setNormal(b2Vec2(0,0));                    
+            }
         }
 
         if (entityB_type == WORM && entityA_type == STRUCTURE) {
-            static_cast<Worm*>(bodyBUserData)->setNormal(b2Vec2(0,0));
-            static_cast<Worm*>(bodyBUserData)->deleteFootContact();
+            float angle = static_cast<Girder*>(bodyAUserData)->getAngle();
+            if (angle <= 0.8 && angle >= -0.8) {
+                static_cast<Worm*>(bodyBUserData)->deleteFootContact();
+                static_cast<Worm*>(bodyBUserData)->setNormal(b2Vec2(0,0));                    
+            }
         }
     }
 }
