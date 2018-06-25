@@ -24,7 +24,9 @@ class ClientConfiguration {
     int remoteControlY;
     bool shooting;
     bool shooted;
+    bool beginTurnPlayed;
     size_t wormProtagonicId;
+    size_t teamId;
     Timer shootingTimer;
     SoundEffect shootingSound;
     View::ShootPower shootPower;
@@ -33,10 +35,11 @@ class ClientConfiguration {
     View::Wind wind;
     View::TeamsHealth teamsHealth;
 
+    SoundEffect beginTurn;
     SoundEffect music;
 
   public:
-    ClientConfiguration(SDL_Renderer *, int, int, const YAML::Node &);
+    ClientConfiguration(SDL_Renderer *, int, int, const YAML::Node &, size_t);
     ~ClientConfiguration();
 
     void handleEvent(SDL_Event &);

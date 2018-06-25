@@ -96,7 +96,8 @@ void ClientGame::startGame(void) {
 		renderer, 
 		mainWindow.getScreenWidth(), 
 		mainWindow.getScreenHeight(),
-		staticMap
+		staticMap, 
+		this->team_id
 	);
 
     View::WormsStatus worms(wormsNode, renderer);
