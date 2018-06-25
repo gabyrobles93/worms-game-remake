@@ -4,8 +4,6 @@ View::MapGame::MapGame(YAML::Node & map) :
 map(map) {
   this->index = 0;
   this->stateIndex = 0;
-  initializeStates();
-  createMapToSave();
 }
 
 View::MapGame::~MapGame() {
@@ -16,23 +14,38 @@ View::MapGame::~MapGame() {
 }
 
 void View::MapGame::initializeStates() {
+  this->mapStates.push_back(new MapState());
+
   if (!this->map["dynamic"]) {
-    this->mapStates.push_back(new MapState());
     return;
   }
 
-  const YAML::Node& shortGirders = this->map["dynamic"]["short_girders"];
-  const YAML::Node& longGirders = this->map["dynamic"]["long_girders"];
-  const YAML::Node& wormsTeams = this->map["dynamic"]["worms_teams"];
+  std::cout << "EXISTE DYNAMIC" << std::endl;
 
+  const YAML::Node& shortGirders = this->map["static"]["short_girders"];
+  const YAML::Node& longGirders = this->map["static"]["long_girders"];
+  const YAML::Node& wormsTeams = this->map["dynamic"]["worms_teams"];
+ 
+  std::cout << "NODOS CREADO" << std::endl;
   int x = 0;
   int y = 0;
+
+  std::stringstream ss;
+  ss << this->map;
+  //std::cout << ss.str().c_str() << std::endl;
+
   for (YAML::const_iterator it = shortGirders.begin(); it != shortGirders.end(); ++it) {
+    std::cout << "ITERANDO SOBRE SHORT GIRDERS" << std::endl;
     const YAML::Node & shortGirder = *it;
+
+    std::cout << "TOMANDO DATOS DE SHORT GIRDER" << std::endl;
     x = shortGirder["x"].as<int>();
     y = shortGirder["y"].as<int>();
+    std::cout << x << " " << y << std::endl;
     degrees_t degrees = (degrees_t) shortGirder["angle"].as<int>();
+    std::cout << "DEGREES " << degrees << std::endl;
     addShortGirder(degrees, x , y);
+    std::cout << "SHORT GIRDER AGREGADA" << std::endl;
   }
 
   for (YAML::const_iterator it = longGirders.begin(); it != longGirders.end(); ++it) {
@@ -59,6 +72,7 @@ void View::MapGame::initializeStates() {
       addWormInTeam(tid, name, health, x, y);
     }
   }
+
 }
 
 void View::MapGame::createMapToSave() {
@@ -113,6 +127,7 @@ void View::MapGame::render(SDL_Renderer * renderer, int camX, int camY) {
 /* Add methods */
 void View::MapGame::addShortGirder(degrees_t degrees, int x, int y) {
   this->updateIndex();
+  std::cout << "INDEX UPDATED" << std::endl;
   MapState* previousState = this->mapStates.back();
   MapState* newState = new MapState();
   newState->operator=(previousState);
@@ -282,4 +297,9 @@ bool View::MapGame::hasWorms() {
     }
   }
   return true;
+}
+
+int View::MapGame::amountWormsTeam(int teamId) {
+  std::map<size_t, std::vector<View::Worm*>> worms = this->mapStates[this->stateIndex]->getWorms();
+  return worms[teamId].size();
 }

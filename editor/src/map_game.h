@@ -77,6 +77,7 @@ namespace View {
       void setRenderer(SDL_Renderer * renderer);
       void initializeStates();
       void createMapToSave();
+      int amountWormsTeam(int);
   };
 }
 

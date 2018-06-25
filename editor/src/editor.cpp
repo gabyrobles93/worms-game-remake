@@ -20,7 +20,7 @@ map_name(mn),
 mapNode(YAML::Clone(map)),
 staticNode(mapNode["static"]),
 mapGame(mapNode),
-editorWindow(staticNode, 0, 0, true),
+editorWindow(staticNode, 0, 0, true, true),
 camera(editorWindow.getScreenWidth(),
         editorWindow.getScreenHeight(),
         editorWindow.getBgWidth(),
@@ -31,8 +31,10 @@ editorInventory(renderer,
              mapNode["static"]["worms_health"].as<int>()) {
 	this->teamsAmount = mapNode["static"]["teams_amount"].as<int>();
 	this->wormsHealth = mapNode["static"]["worms_health"].as<int>();
-  this->editorInventory.toggleOpen();
+  	this->editorInventory.toggleOpen();
 	this->mapGame.setRenderer(this->renderer);
+	this->mapGame.initializeStates();
+  	this->mapGame.createMapToSave();
 	this->saveTexture.loadFromFile(gPath.PATH_SAVE_ICON, this->renderer);
 	this->saveTexture.setX(this->editorWindow.getScreenWidth() - SAVE_PADDING - SAVE_ICON_SIDE);
 	this->saveTexture.setY(SAVE_PADDING); 

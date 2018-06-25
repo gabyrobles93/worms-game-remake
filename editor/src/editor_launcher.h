@@ -43,6 +43,8 @@ private:
     void launchEditor(YAML::Node, std::string &);
     void loadAndEdit(void);
     void createNewMap(void);
+    bool validateChoosedMap(std::string &);
+    void removeTempFiles(void);
 };
 
 #endif // EDITOR_LAUNCHER_H

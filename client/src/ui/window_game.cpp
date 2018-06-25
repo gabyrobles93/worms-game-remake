@@ -8,13 +8,19 @@
 
 #define MAP_WIDTH 2500
 #define MAP_HEIGHT 1500
+#define BACKGROUND_PATH "/usr/etc/worms/temp/background.png"
 
-View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h, bool fs) : staticMap(staticNode) {
+View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h, bool fs, bool ed_mode) : staticMap(staticNode) {
 	this->screen_width = w;
 	this->screen_height = h;
 	this->full_screen = fs;
+	this->edition_mode = ed_mode;
 	this->init();
-	this->background.loadFromFile(this->staticMap["background"]["file"].as<std::string>(), renderer);
+	if (this->edition_mode) {
+		this->background.loadFromFile(this->staticMap["background"]["file"].as<std::string>(), renderer);
+	} else {
+		this->background.loadFromFile(BACKGROUND_PATH, renderer);
+	}
 	this->backgroundDisplayMode = this->staticMap["background"]["display"].as<std::string>();
 	this->loadStaticObjects();
 	this->water.init(

@@ -275,7 +275,7 @@ void View::EditorInventory::handleEvent(
         if (this->items.at(index)->supplies) {
           this->wormClick.playSound(0);
           int teamId = std::stoi(this->items.at(index)->itemName);
-          std::string name("Worm " + std::to_string(AMOUNT_WORMS_PER_TEAM - this->items.at(index)->supplies + 1));
+          std::string name("Worm " + std::to_string(map.amountWormsTeam(teamId) + 1));
           map.addWormInTeam(teamId, name, this->wormsHealth, camX + mouseX, camY + mouseY);
           this->items.at(index)->supplies--;
         }
