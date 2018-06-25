@@ -49,6 +49,11 @@ if [ ! -d /usr/etc/worms ]; then
 	sudo chmod -R 777 /usr/etc/worms/maps
 fi
 
+if [ ! -d /tmp ]; then
+	sudo mkdir -p /tmp
+	sudo chmod -R 777 /tmp
+fi
+
 sudo cp ../server/server_config.yml /usr/etc/worms
 sudo cp -a ../editor/maps/. /usr/etc/worms/maps
 

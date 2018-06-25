@@ -8,7 +8,7 @@
 
 #define MAP_WIDTH 2500
 #define MAP_HEIGHT 1500
-#define BACKGROUND_PATH "/tmp/worms/background.png"
+#define BACKGROUND_PATH "/tmp/background.png"
 
 View::WindowGame::WindowGame(YAML::Node & staticNode, int w, int h, bool fs, bool ed_mode) : staticMap(staticNode) {
 	this->screen_width = w;
