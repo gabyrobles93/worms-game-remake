@@ -195,6 +195,7 @@ class Paths {
     std::string PATH_GRAVE_5;
     std::string PATH_GRAVE_6;
     std::string PATH_SAVE_ICON;
+    std::string PATH_EXIT_ICON;
 
     /* ---------------------------- */
 
@@ -224,6 +225,7 @@ class Paths {
       std::string PATH_SOUND_HURRY;
       std::string PATH_SOUND_BYE;
       std::string PATH_SOUND_DIE;
+      std::string PATH_SOUND_BEGIN_TURN;
 
         // Worms hit
         std::string PATH_SOUND_NOOO;

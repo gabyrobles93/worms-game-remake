@@ -22,7 +22,8 @@
 #define SCREEN_PERCENT_TEAMS_HEALTH_HEIGHT 10
 #define SCREEN_PERCENT_TEAMS_HEALTH_WIDTH 20
 
-ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int screenH, const YAML::Node & staticMap) :
+ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int screenH, const YAML::Node & staticMap, size_t teamId) :
+  teamId(teamId),
   shootPower(
     screenW / (100 / SCREEN_PERCENT_SHOOT_POWER_WIDTH), 
     screenH / (100 / SCREEN_PERCENT_SHOOT_POWER_HEIGHT), 
@@ -84,6 +85,9 @@ ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int scre
   this->remoteControlY = 0;
 
   this->wormProtagonicId = 1;
+
+  this->beginTurn.setSound(gPath.PATH_SOUND_BEGIN_TURN);
+  this->beginTurnPlayed = false;
 
   this->music.setMusic(gPath.PATH_MUSIC_DEFAULT);
   this->music.playMusic();
@@ -239,6 +243,16 @@ weapon_t ClientConfiguration::getSelectedWeapon(void) {
 void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node & inventory) {
   //std::cout << gameStatus << std::endl << std::endl;
   //std::cout << "INVENTORY\n\n" << inventory << std::endl << std::endl;
+  size_t teamWithTurn = gameStatus["team_turn"].as<size_t>();
+  if (this->teamId == teamWithTurn && !this->beginTurnPlayed) {
+    this->beginTurn.playSound(0);
+    this->beginTurnPlayed = true;
+  }
+
+  if (this->teamId != teamWithTurn && this->beginTurnPlayed) {
+    this->beginTurnPlayed = false;
+  }
+
   int newTime = gameStatus["turn_timeleft"].as<int>();
   int windForce = gameStatus["wind_force"].as<int>();
   this->wormProtagonicId = gameStatus["protagonic_worm"].as<int>();

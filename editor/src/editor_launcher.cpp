@@ -154,19 +154,13 @@ void EditorLauncher::goCreate(void) {
 
 void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
     std::cout << "About to construct the_editor" << std::endl;
-    Editor the_editor(mapNode, map_name, this->background_name);
+    Editor the_editor(mapNode, map_name, this->background_name, this->background_path);
     std::cout << "Finish constructing the_editor" << std::endl;
     this->hide();
     int err_code;
     err_code = the_editor.start();
     if (err_code == 0) {
-        std::string maps_path(DEFAULT_SAVED_MAPS_PATH);
-        std::string cmd_cp_background = "cp  \"" + this->background_path + "\" " + maps_path + "background.png";
-        std::system(cmd_cp_background.c_str());
-        std::string cmd_tar_gz = "tar -zcf \"" + maps_path + map_name + ".tar.gz\" --directory=" + maps_path + " map.yml background.png";
-        std::system(cmd_tar_gz.c_str());
-        std::string cmd_rmv_temp = "rm " + maps_path + "background.png " + maps_path + "map.yml";
-        std::system(cmd_rmv_temp.c_str());
+
     }
     this->close();
 }

@@ -11,11 +11,14 @@
 #include "inventory.h"
 #include "inventory_editor.h"
 
+#define EXIT_PADDING 5
+#define EXIT_ICON_SIDE 20
 #define SAVE_PADDING 10
 #define SAVE_ICON_SIDE 60
 
-Editor::Editor(YAML::Node map, std::string mn, std::string bgn) :
+Editor::Editor(YAML::Node map, std::string mn, std::string bgn, std::string bgp) :
 bg_name(bgn),
+bg_path(bgp),
 map_name(mn),
 mapNode(YAML::Clone(map)),
 staticNode(mapNode["static"]),
@@ -35,15 +38,17 @@ editorInventory(renderer,
 	this->mapGame.setRenderer(this->renderer);
 	this->mapGame.initializeStates();
   	this->mapGame.createMapToSave();
+	this->exitTexture.loadFromFile(gPath.PATH_EXIT_ICON, this->renderer);
+	this->exitTexture.setX(this->editorWindow.getScreenWidth() - EXIT_PADDING - EXIT_ICON_SIDE);
+	this->exitTexture.setY(EXIT_PADDING);
 	this->saveTexture.loadFromFile(gPath.PATH_SAVE_ICON, this->renderer);
 	this->saveTexture.setX(this->editorWindow.getScreenWidth() - SAVE_PADDING - SAVE_ICON_SIDE);
-	this->saveTexture.setY(SAVE_PADDING); 
+	this->saveTexture.setY(EXIT_PADDING + EXIT_ICON_SIDE + SAVE_PADDING);
 }
 
 int Editor::start(void) {
-    bool quit = false;
+  bool quit = false;
 	SDL_Event e;
-	int countclicks = 1;
 	while (!quit) {
 		int camX = camera.getX(), camY = camera.getY();
 		
@@ -82,12 +87,33 @@ int Editor::start(void) {
 				int mouseX, mouseY;
   			SDL_GetMouseState(&mouseX, &mouseY);
 				if (e.button.button == SDL_BUTTON_LEFT) {
-					if (mouseX > this->saveTexture.getX() && mouseX < this->saveTexture.getX() + SAVE_ICON_SIDE) {
-						if (mouseY > this->saveTexture.getY() && mouseY < this->saveTexture.getY() + SAVE_ICON_SIDE) {
-							this->editorWindow.hide();
-							std::cout << "You click save button " << countclicks++ << " times !!!" << std::endl;
-							this->editorWindow.show();
-						}
+					if (
+						mouseX > this->saveTexture.getX() && 
+						mouseX < this->saveTexture.getX() + SAVE_ICON_SIDE && 
+						mouseY > this->saveTexture.getY() &&
+						mouseY < this->saveTexture.getY() + SAVE_ICON_SIDE
+					) {
+						mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
+					} else if (
+						mouseX > this->exitTexture.getX() && 
+						mouseX < this->exitTexture.getX() + EXIT_ICON_SIDE &&
+						mouseY > this->exitTexture.getY() &&
+						mouseY < this->exitTexture.getY() + EXIT_ICON_SIDE) {
+							quit = true;
+							editorWindow.hide();
+							validMap = mapGame.hasWorms();
+							if (!validMap) {
+													QMessageBox msgBox;
+													msgBox.setWindowTitle("Mapa inválido.");
+													msgBox.setText("El mapa debe tener al menos un worm de cada team." "¿Desea continuar editando el mapa?");
+													msgBox.setStandardButtons(QMessageBox::Yes);
+													msgBox.addButton(QMessageBox::No);
+													msgBox.setDefaultButton(QMessageBox::Yes);
+													if(msgBox.exec() == QMessageBox::Yes) {
+															editorWindow.show();
+									quit = false;
+													}
+							}
 					} else {
 						editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
 					}
@@ -113,6 +139,7 @@ int Editor::start(void) {
 		editorInventory.render(renderer);
 
 		this->saveTexture.render(this->renderer, this->saveTexture.getX(), this->saveTexture.getY(), SAVE_ICON_SIDE, SAVE_ICON_SIDE);
+		this->exitTexture.render(this->renderer, this->exitTexture.getX(), this->exitTexture.getY(), EXIT_ICON_SIDE, EXIT_ICON_SIDE);
 		
 		SDL_RenderPresent(renderer);
 		SDL_Delay(50); // Para no usar al mango el CPU
@@ -126,7 +153,7 @@ int Editor::start(void) {
 		msgBox.addButton(QMessageBox::No);
 		msgBox.setDefaultButton(QMessageBox::Yes);
 		if(msgBox.exec() == QMessageBox::Yes) {
-			mapGame.saveAs(this->map_name, this->bg_name);
+			mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
 			return 0;
 		}
 	}

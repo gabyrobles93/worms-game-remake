@@ -199,7 +199,8 @@ Paths::Paths(const char * r) {
   this->PATH_GRAVE_4 = root + "resources/graphics/Misc/grave4.png";
   this->PATH_GRAVE_5 = root + "resources/graphics/Misc/grave5.png";
   this->PATH_GRAVE_6 = root + "resources/graphics/Misc/grave6.png";
-  this->PATH_SAVE_ICON = root + "resources/graphics/Misc/save_icon.png"; 
+  this->PATH_SAVE_ICON = root + "resources/graphics/Misc/save_icon.png";
+  this->PATH_EXIT_ICON = root + "resources/graphics/Misc/exit_icon.png"; 
   /* ---------------------------- */
 
   /* FONTS */
@@ -227,6 +228,7 @@ Paths::Paths(const char * r) {
     this->PATH_SOUND_HURRY = root + "resources/sounds/Voices/Spanish/HURRY.WAV";
     this->PATH_SOUND_BYE = root + "resources/sounds/Voices/Spanish/BYEBYE.WAV";
     this->PATH_SOUND_DIE = root + "resources/sounds/Voices/Spanish/OHDEAR.WAV";
+    this->PATH_SOUND_BEGIN_TURN = root + "resources/sounds/Voices/Spanish/YESSIR.WAV";
 
     // Worms hit
     this->PATH_SOUND_NOOO = root + "resources/sounds/Voices/Spanish/NOOO.WAV";

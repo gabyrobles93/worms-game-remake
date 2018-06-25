@@ -70,7 +70,7 @@ namespace View {
 
       // Guarda el mapa en la carpeta de mapas del servidor
       // bajo el nombre indicado
-      void saveAs(std::string, std::string);
+      void saveAs(std::string, std::string, std::string);
 
       bool hasWorms();
 
