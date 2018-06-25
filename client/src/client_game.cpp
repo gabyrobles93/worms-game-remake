@@ -29,8 +29,8 @@
 #define TIE_GAME_CODE 0
 #define CONSTANT_WAIT 100/6
 #define MAX_QUEUE_MODELS 256
-#define MAP_RECEIVED_NAME "/tmp/map.tar.gz"
-#define MAP_YML_PATH "/tmp/map.yml"
+#define MAP_RECEIVED_NAME "/usr/etc/worms/temp/map.tar.gz"
+#define MAP_YML_PATH "/usr/etc/worms/temp/map.yml"
 
 extern ClientSettings gClientSettings;
 
@@ -44,7 +44,7 @@ team_id(tid) {
     this->protocol->rcvFile(file_map);
 	std::cout << "Mapa recibido del servidor." << std::endl;
 	file_map.close();
-	std::string cmd_unzip_tar_gz = "tar -xf " + map_received_name + " -C /tmp";
+	std::string cmd_unzip_tar_gz = "tar -xf " + map_received_name + " -C /usr/etc/worms/temp";
 	std::system(cmd_unzip_tar_gz.c_str());
 	this->mapNode = YAML::LoadFile(MAP_YML_PATH);
 	this->creator = false;
@@ -59,7 +59,7 @@ protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
 	std::cout << "La ruta del mapa es " << mp << std::endl;
-	std::string cmd_unzip_tar_gz = "tar -xf " + mp + " -C /tmp";
+	std::string cmd_unzip_tar_gz = "tar -xf " + mp + " -C /usr/etc/worms/temp";
 	std::system(cmd_unzip_tar_gz.c_str());
 	this->mapNode = YAML::LoadFile(MAP_YML_PATH);
 	this->creator = true;
@@ -68,10 +68,10 @@ team_id(tid) {
 void ClientGame::removeTempFiles(void) {
 	if (!this->creator) {
 		std::string map_received_name(MAP_RECEIVED_NAME);
-		std::string cmd_rm_map_yml = "rm /tmp/map.yml /tmp/background.png " + map_received_name;
+		std::string cmd_rm_map_yml = "rm /usr/etc/worms/temp/map.yml /usr/etc/worms/temp/background.png " + map_received_name;
 		std::system(cmd_rm_map_yml.c_str());
 	} else {
-		std::string cmd_rm_map_yml = "rm /tmp/map.yml /tmp/background.png";
+		std::string cmd_rm_map_yml = "rm /usr/etc/worms/temp/map.yml /usr/etc/worms/temp/background.png";
 		std::system(cmd_rm_map_yml.c_str());		
 	}
 }
