@@ -30,7 +30,23 @@ EditorLauncher::EditorLauncher(QWidget *parent) :
 
 EditorLauncher::~EditorLauncher()
 {
+    removeTempFiles();
     delete ui;
+}
+
+void EditorLauncher::removeTempFiles(void) {
+    struct stat buffer1;
+    struct stat buffer2;
+    std::string path_map_yml = "/usr/etc/worms/temp/map.yml";
+    std::string path_map_bg = "/usr/etc/worms/temp/background.png";
+    if (stat (path_map_yml.c_str(), &buffer1) == 0) {
+        std::string cmd_rm_map = "rm " + path_map_yml;
+        std::system(cmd_rm_map.c_str());
+    }
+    if (stat (path_map_bg.c_str(), &buffer2) == 0) {
+        std::string cmd_rm_bg = "rm " + path_map_bg;
+        std::system(cmd_rm_bg.c_str());
+    }
 }
 
 void EditorLauncher::connectEvents(void) {
@@ -157,6 +173,57 @@ void EditorLauncher::launchEditor(YAML::Node mapNode, std::string & map_name) {
 
 void EditorLauncher::loadAndEdit(void) {
     std::cout << "Se carga un mapa existente para editarlo." << std::endl;
+    QString map_path;
+    map_path = QFileDialog::getOpenFileName(this, tr("Choose Map"), "/usr/etc/worms/maps", tr("Tar gzipped (*.tar.gz)"));
+    
+    std::string str_map_path = map_path.toUtf8().constData();
+    QFile f(map_path);
+    QFileInfo file_info(f.fileName());
+    QString file_name(file_info.fileName());
+    std::string str_file_name = file_name.toUtf8().constData();
+    size_t lastindex = str_file_name.find_first_of("."); 
+    std::string file_raw_name = str_file_name.substr(0, lastindex); 
+
+
+    std::cout << "El nombre del mapa es " << file_raw_name << std::endl;
+
+    bool valid_map = validateChoosedMap(str_map_path);
+    if (!valid_map) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Mapa inválido.");
+        std::string msg_response = "El mapa elegido para edición no es válido.";
+        msgBox.setText(msg_response.c_str());
+        msgBox.exec();
+        return;
+    }
+
+    YAML::Node map_node = YAML::LoadFile("/usr/etc/worms/temp/map.yml");
+    launchEditor(map_node, file_raw_name);
+}
+
+bool EditorLauncher::validateChoosedMap(std::string & map_path) {
+    std::string cmd_untar_map = "tar -xf " + map_path + " -C /usr/etc/worms/temp";
+    if (std::system(cmd_untar_map.c_str()) < 0) {
+        std::cout << "No se pudo descomprimir el mapa elegido para editar." << std::endl;
+        return false;
+    }
+
+    struct stat buffer1;
+    struct stat buffer2;
+    std::string path_map_yml = "/usr/etc/worms/temp/map.yml";
+    std::string path_map_bg = "/usr/etc/worms/temp/background.png";
+    if (stat (path_map_yml.c_str(), &buffer1) != 0) {
+        std::cout << "No se encontro el map.yml dentro del mapa elegido." << std::endl;
+        return false;
+    }
+    if (stat (path_map_bg.c_str(), &buffer2) != 0) {
+        std::cout << "No se encontró el background.png dentro del mapa elegido." << std::endl;
+        std::string cmd_clean = "rm /usr/etc/worms/temp/map.yml";
+        std::system(cmd_clean.c_str());
+        return false;
+    }
+    
+    return true;
 }
 
 void EditorLauncher::createNewMap(void) {
