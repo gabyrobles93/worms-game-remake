@@ -50,5 +50,6 @@ if [ ! -d /usr/etc/worms ]; then
 fi
 
 sudo cp ../server/server_config.yml /usr/etc/worms
+sudo cp -a ../editor/maps/. /usr/etc/worms/maps
 
 echo "Juego instalado!"

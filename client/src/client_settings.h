@@ -4,7 +4,7 @@
 #define RESOLUTION_HIGH_DEFAULT 760
 #define RESOLUTION_WIDTH_DEFAULT 1024
 #define SOUND_FX_DEFAULT 1
-#define FULL_SCREEN_DEFAULT 1
+#define FULL_SCREEN_DEFAULT 0
 
 class ClientSettings {
     public:
