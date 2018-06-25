@@ -200,6 +200,7 @@ int View::MapGame::getNextWormId(void) {
 }
 
 void View::MapGame::saveAs(std::string mapName, std::string bgName, std::string bgPath) {
+  this->map.reset();
   addMaxWormsAmount();
   addShortGirdersToMap();  
   addLongGirdersToMap();
