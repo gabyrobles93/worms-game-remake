@@ -57,16 +57,18 @@ void Worm::frontJump(void) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * gConfiguration.WORM_JUMP_IMPULSE;
-    this->body->ApplyLinearImpulse(b2Vec2(impulse * factor,-impulse), this->body->GetWorldCenter(), true);
+    float x_impulse = this->body->GetMass() * gConfiguration.WORM_FRONT_JUMP_X_IMPULSE;
+    float y_impulse = this->body->GetMass() * gConfiguration.WORM_FRONT_JUMP_Y_IMPULSE;
+    this->body->ApplyLinearImpulse(b2Vec2(x_impulse * factor,-y_impulse), this->body->GetWorldCenter(), true);
 }
 
 void Worm::backJump(void) {
     if (this->numFootContacts <= 0) return;
     float factor;
     mirrored == true ? factor = 1.0 : factor = -1.0;
-    float impulse = this->body->GetMass() * gConfiguration.WORM_JUMP_IMPULSE;
-    this->body->ApplyLinearImpulse(b2Vec2(-impulse * factor, -impulse), this->body->GetWorldCenter(), true);
+    float x_impulse = this->body->GetMass() * gConfiguration.WORM_BACK_JUMP_X_IMPULSE;
+    float y_impulse = this->body->GetMass() * gConfiguration.WORM_BACK_JUMP_Y_IMPULSE;
+    this->body->ApplyLinearImpulse(b2Vec2(-x_impulse * factor, -y_impulse), this->body->GetWorldCenter(), true);
 }
 
 void Worm::moveRight(void) {
