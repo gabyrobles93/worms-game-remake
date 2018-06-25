@@ -28,6 +28,7 @@ namespace View {
       YAML::Node & map;
       YAML::Node mapToSave;
       unsigned int index;
+      bool unsaved_changes;
     
       // Obtiene el id del proximo
       // worm a agregar
