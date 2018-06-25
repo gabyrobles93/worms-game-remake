@@ -13,6 +13,7 @@
 class Editor {
     private:
         std::string bg_name;
+        std::string bg_path;
         std::string map_name;
         YAML::Node mapNode;
         YAML::Node staticNode;
@@ -27,7 +28,7 @@ class Editor {
         bool validMap;
 
     public:
-        Editor(YAML::Node, std::string, std::string);
+        Editor(YAML::Node, std::string, std::string, std::string);
         int start(void);
 };
 
