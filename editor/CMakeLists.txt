@@ -69,6 +69,7 @@ add_executable(worms-editor
 		${CLIENT_RESOURCES}/water.cpp
 		${CLIENT_RESOURCES}/window_game.cpp
 		${CLIENT_RESOURCES}/worm.cpp
+		${CLIENT_RESOURCES}/flash_notice.cpp
 		${VIEW_WORM_STATE_DIR}/breathing.cpp
 		${VIEW_WORM_STATE_DIR}/walking.cpp
 		${VIEW_WORM_STATE_DIR}/falling.cpp
@@ -101,6 +102,7 @@ add_executable(worms-editor
 		${CLIENT_RESOURCES}/water.h
 		${CLIENT_RESOURCES}/window_game.h
 		${CLIENT_RESOURCES}/worm.h
+		${CLIENT_RESOURCES}/flash_notice.h
 		${UIS_HEADERS}
 		${UI_RESOURCES_RCC}
 		${VIEW_WORM_STATE_DIR}/worm_state.h

@@ -3,6 +3,10 @@
 #define FLASH_NOTICE_PADDING 5
 #define MAX_TIME_DISPLAYING 1500
 
+FlashNotice::FlashNotice(void) : 
+  notice(20) {
+}
+
 FlashNotice::FlashNotice(int sw, int sh, int percentWindow) :
   notice(sh / (100 / percentWindow)) {
   this->screenWidth = sw;
@@ -31,4 +35,12 @@ void FlashNotice::render(SDL_Renderer * r) {
       this->timer.stop();
     }
   }
+}
+
+void FlashNotice::setScreenWidth(int w) {
+  this->screenWidth = w;
+}
+
+void FlashNotice::setScreenHeight(int h) {
+  this->screenHeight = h;
 }

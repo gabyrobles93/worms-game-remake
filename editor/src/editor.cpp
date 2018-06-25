@@ -34,16 +34,18 @@ editorInventory(renderer,
              mapNode["static"]["worms_health"].as<int>()) {
 	this->teamsAmount = mapNode["static"]["teams_amount"].as<int>();
 	this->wormsHealth = mapNode["static"]["worms_health"].as<int>();
-  	this->editorInventory.toggleOpen();
+  this->editorInventory.toggleOpen();
 	this->mapGame.setRenderer(this->renderer);
 	this->mapGame.initializeStates();
-  	this->mapGame.createMapToSave();
+  this->mapGame.createMapToSave();
 	this->exitTexture.loadFromFile(gPath.PATH_EXIT_ICON, this->renderer);
 	this->exitTexture.setX(this->editorWindow.getScreenWidth() - EXIT_PADDING - EXIT_ICON_SIDE);
 	this->exitTexture.setY(EXIT_PADDING);
 	this->saveTexture.loadFromFile(gPath.PATH_SAVE_ICON, this->renderer);
 	this->saveTexture.setX(this->editorWindow.getScreenWidth() - SAVE_PADDING - SAVE_ICON_SIDE);
 	this->saveTexture.setY(EXIT_PADDING + EXIT_ICON_SIDE + SAVE_PADDING);
+	this->notice.setScreenWidth(this->editorWindow.getScreenWidth());
+	this->notice.setScreenHeight(this->editorWindow.getScreenHeight());
 }
 
 int Editor::start(void) {
@@ -94,6 +96,7 @@ int Editor::start(void) {
 						mouseY < this->saveTexture.getY() + SAVE_ICON_SIDE
 					) {
 						mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
+						this->notice.showFlashNotice(this->renderer, "Mapa guardado exitosamente");
 					} else if (
 						mouseX > this->exitTexture.getX() && 
 						mouseX < this->exitTexture.getX() + EXIT_ICON_SIDE &&
@@ -125,6 +128,8 @@ int Editor::start(void) {
 
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);
+
+		notice.render(renderer);
 
 		camera.updateCameraPosition();
 
