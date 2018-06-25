@@ -12,7 +12,10 @@ match:
 
 worms:
   worms_speed: 2
-  worm_jump_impulse: 4
+  worm_front_jump_x_impulse: 4
+  worm_front_jump_y_impulse: 4
+  worm_back_jump_x_impulse: 4
+  worm_back_jump_y_impulse: 4
   worm_max_fall_distance: 4
 
 weapons:

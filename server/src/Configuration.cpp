@@ -17,7 +17,10 @@ Configuration::Configuration() {
 
     //WORM
     this->WORM_SPEED = 2;   //
-    this->WORM_JUMP_IMPULSE = 4; //
+    this->WORM_FRONT_JUMP_X_IMPULSE = 4; //
+    this->WORM_FRONT_JUMP_Y_IMPULSE = 4; //
+    this->WORM_BACK_JUMP_X_IMPULSE = 4;
+    this->WORM_BACK_JUMP_Y_IMPULSE = 4;
     this->WORM_MAX_FALL_DISTANCE = 4; //
 
     //BAZOOKA
@@ -130,8 +133,24 @@ void Configuration::loadConfigFile(YAML::Node & configNode) {
         counter++;
     }
 
-    if (configNode["worms"]["worm_jump_impulse"]) {
-        this->WORM_JUMP_IMPULSE = configNode["worms"]["worm_jump_impulse"].as<float>(); //
+    if (configNode["worms"]["worm_front_jump_x_impulse"]) {
+        this->WORM_FRONT_JUMP_X_IMPULSE = configNode["worms"]["worm_front_jump_x_impulse"].as<float>(); //
+        counter++;
+    }
+
+
+    if (configNode["worms"]["worm_front_jump_y_impulse"]) {
+        this->WORM_FRONT_JUMP_Y_IMPULSE = configNode["worms"]["worm_front_jump_y_impulse"].as<float>(); //
+        counter++;
+    }
+
+    if (configNode["worms"]["worm_back_jump_x_impulse"]) {
+        this->WORM_BACK_JUMP_X_IMPULSE = configNode["worms"]["worm_back_jump_x_impulse"].as<float>(); //
+        counter++;
+    }
+
+    if (configNode["worms"]["worm_back_jump_y_impulse"]) {
+        this->WORM_BACK_JUMP_Y_IMPULSE = configNode["worms"]["worm_back_jump_y_impulse"].as<float>(); //
         counter++;
     }
 
