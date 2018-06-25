@@ -301,11 +301,11 @@ void ClientLobby::chooseMap(void) {
         /* std::cout << "El mapa elegido es " << this->map_game_path << std::endl; */
         QLabel* currentMapPath = findChild<QLabel*>(WIDGET_TEXT_CHOOSED_MAP);
         currentMapPath->setText(this->map_game_path.c_str());
-        std::string cmd_mkdir = "mkdir /tmp/temp_map_folder";
-        std::string cmd_unzip = "tar -xvf \"" +  this->map_game_path + "\" -C ./tmp/temp_map_folder/";
+        std::string cmd_mkdir = "mkdir temp_map_folder";
+        std::string cmd_unzip = "tar -xvf \"" +  this->map_game_path + "\" -C ./temp_map_folder/";
         std::system(cmd_mkdir.c_str());
         std::system(cmd_unzip.c_str());
-        YAML::Node mapNode = YAML::LoadFile("/tmp/temp_map_folder/map.yml");
+        YAML::Node mapNode = YAML::LoadFile("temp_map_folder/map.yml");
         this->map_players_qty = mapNode["dynamic"]["worms_teams"].size();
         std::string cmd_rm_temp_dir = "rm -fr ./temp_map_folder";
         std::system(cmd_rm_temp_dir.c_str());

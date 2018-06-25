@@ -1,3 +1,4 @@
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -39,7 +40,7 @@ protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
 	std::string map_received_name(MAP_RECEIVED_NAME);
-	std::fstream file_map("tmp/temp_map_folder " + map_received_name, std::fstream::out | std::fstream::binary | std::fstream::trunc);
+	std::fstream file_map(map_received_name, std::fstream::out | std::fstream::binary | std::fstream::trunc);
 	std::cout << "Esperando mapa del sevidor." << std::endl;
     this->protocol->rcvFile(file_map);
 	std::cout << "Mapa recibido del servidor." << std::endl;
