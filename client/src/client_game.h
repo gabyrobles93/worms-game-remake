@@ -20,8 +20,9 @@ class ClientGame {
         Queue<Event> events;
         size_t team_id;
         YAML::Node mapNode;
+        bool creator;
 
-        void removePreviousTempFiles(void);
+        void removeTempFiles(void);
 
     public:
         ClientGame(Protocol *, size_t, std::string &);
