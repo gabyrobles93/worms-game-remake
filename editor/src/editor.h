@@ -23,6 +23,7 @@ class Editor {
         SDL_Renderer * renderer;
         View::EditorInventory editorInventory;
         View::Texture saveTexture;
+        View::Texture exitTexture;
         int teamsAmount;
         int wormsHealth;
         bool validMap;
