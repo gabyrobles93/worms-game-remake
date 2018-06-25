@@ -13,6 +13,7 @@
 #include "teams_health.h"
 #include "wind.h"
 #include "yaml.h"
+#include "flash_notice.h"
 
 class ClientConfiguration {
   private:
@@ -34,6 +35,8 @@ class ClientConfiguration {
     View::WeaponsInventory inventory;
     View::Wind wind;
     View::TeamsHealth teamsHealth;
+    SDL_Renderer * renderer;
+    FlashNotice notice;
 
     SoundEffect beginTurn;
     SoundEffect music;

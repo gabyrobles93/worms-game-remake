@@ -92,6 +92,7 @@ add_executable(worms-client
 		${UI_SOURCE_DIR}/cluster.cpp
 		${UI_SOURCE_DIR}/wind.cpp
 		${UI_SOURCE_DIR}/teams_health.cpp
+		${UI_SOURCE_DIR}/flash_notice.cpp
 		${VIEW_WORM_STATE_DIR}/breathing.cpp
 		${VIEW_WORM_STATE_DIR}/walking.cpp
 		${VIEW_WORM_STATE_DIR}/falling.cpp
@@ -141,6 +142,7 @@ add_executable(worms-client
 		${UI_SOURCE_DIR}/banana.h
 		${UI_SOURCE_DIR}/bazooka.h
 		${UI_SOURCE_DIR}/air_strike.h
+		${UI_SOURCE_DIR}/flash_notice.h
 		${UIS_HEADERS}
 		${UI_RESOURCES_RCC}
 		${UI_SOURCE_DIR}/cluster.h

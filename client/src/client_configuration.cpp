@@ -23,6 +23,8 @@
 #define SCREEN_PERCENT_TEAMS_HEALTH_WIDTH 20
 
 ClientConfiguration::ClientConfiguration(SDL_Renderer * r, int screenW, int screenH, const YAML::Node & staticMap, size_t teamId) :
+  notice(screenW, screenH),
+  renderer(r),
   teamId(teamId),
   shootPower(
     screenW / (100 / SCREEN_PERCENT_SHOOT_POWER_WIDTH), 
@@ -122,22 +124,27 @@ void ClientConfiguration::handleEvent(SDL_Event & e) {
 
 		if (code == SDLK_1) {
 			this->weaponsCountdown = 1;
+      this->notice.showFlashNotice(this->renderer, "Countdown set to 1 second");
 		}
 
 		if (code == SDLK_2) {
 			this->weaponsCountdown = 2;
+      this->notice.showFlashNotice(this->renderer, "Countdown set to 2 seconds");
 		}
 
 		if (code == SDLK_3) {
 			this->weaponsCountdown = 3;
+      this->notice.showFlashNotice(this->renderer, "Countdown set to 3 seconds");
 		}
 
 		if (code == SDLK_4) {
 			this->weaponsCountdown = 4;
+      this->notice.showFlashNotice(this->renderer, "Countdown set to 4 seconds");
 		}
 
 		if (code == SDLK_5) {
 			this->weaponsCountdown = 5;
+      this->notice.showFlashNotice(this->renderer, "Countdown set to 5 seconds");
 		}
 
     if (code == SDLK_w) {
@@ -227,6 +234,8 @@ void ClientConfiguration::render(SDL_Renderer * r) {
   if (this->shooting) {
     this->shootPower.render(r, this->shootingTimer.getTicks());
   }
+
+  this->notice.render(r);
 
   this->wind.render(r, 0, 0);
 
