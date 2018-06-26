@@ -1,0 +1,5427 @@
+%!PS-Adobe-3.0
+%%Title: blocking_queue.h, event.cpp, event.h, paths.cpp, paths.h, protocol.cpp, protocol_error.cpp, protocol_error.h, protocol.h, sdl_timer.cpp
+%%For: Gabriel Robles
+%%Creator: a2ps version 4.14
+%%CreationDate: Tue Jun 26 12:50:45 2018
+%%BoundingBox: 24 24 571 818
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 20
+%%PageOrder: Ascend
+%%DocumentMedia: A4 595 842 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      % <vector> <key> <val>
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def % -
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Get the underline position and thickness if they're defined.
+    % Use 1 if they are not defined.
+    currentdict /FontInfo 2 copy known
+    { get
+      /UnderlinePosition 2 copy % <FontInfo> /UP <FontInfo> /UP
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+
+      /UnderlineThickness 2 copy % <FontInfo> /UT <FontInfo> /UT
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+      pop % -
+    }{ pop pop
+    } ifelse
+
+    currentdict
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed strings
+% Version 1.2 1/31/1990
+% Original Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 595 def
+/sw 842 def
+/llx 24 def
+/urx 818 def
+/ury 571 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 8.005733 def
+/cw 4.803440 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 81.400000 mul
+def
+/ph
+   501.959430 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 0 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1,1) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __BLOCKING_QUEUE_H__) p n
+(#define) K
+( __BLOCKING_QUEUE_H__) p n
+() N
+(#include) K
+( <mutex>) p n
+(#include) K
+( <condition_variable>) p n
+(#include) K
+( <queue>) p n
+() N
+(template <typename T>) N
+(class Queue {) N
+(    private:) N
+(        std::queue<T> q;) N
+() S 8 T (    ) S
+(const) K
+( ) p
+(unsigned) k
+( ) p
+(int) k
+( max_size;) p n
+(        std::mutex mtx;) N
+(        std::condition_variable is_not_full;) N
+(        std::condition_variable is_not_empty;) N
+() N
+(        Queue\() S
+(const) K
+( Queue&\) = delete;) p n
+(        Queue& operator=\() S
+(const) K
+( Queue&\) = delete;) p n
+() N
+(    public:) N
+(        Queue\() S
+(const) K
+( ) p
+(unsigned) k
+( ) p
+(int) k
+( ms\) : max_size\(ms\) {};) p n
+() N
+(        ) S
+(void) k
+( push\() p
+(const) K
+( T & val\) {) p n
+(            std::unique_lock<std::mutex> lck\(mtx\);) N
+(            ) S
+(if) K
+( \(q.empty\(\)\) {) p n
+(                is_not_empty.notify_all\(\);) N
+(            }) N
+() N
+(            ) S
+(while) K
+( \(q.size\(\) >= this->max_size\) {) p n
+(                is_not_full.wait\(lck\);) N
+(            }) N
+() N
+(            q.push\(val\);           ) N
+(        }) N
+() N
+(        T pop\() S
+(void) k
+(\) {) p n
+(            std::unique_lock<std::mutex> lck\(mtx\);) N
+() N
+(            ) S
+(while) K
+( \(q.empty\(\)\) {) p n
+(                is_not_empty.wait\(lck\);) N
+(            }) N
+() N
+(            ) S
+(const) K
+( T val = q.front\(\);) p n
+(            q.pop\(\);) N
+(            is_not_full.notify_all\(\);) N
+() N
+(            ) S
+(return) K
+( val;            ) p n
+(        }) N
+() N
+(        size_t size\() S
+(void) k
+(\) {) p n
+(            ) S
+(return) K
+( this->q.size\(\);) p n
+(        }) N
+(};) N
+() N
+(#endif) K
+(blocking_queue.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(event.h) str
+(") p n
+(#include) K
+( <iostream>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( <sstream>) p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( ") p
+(types.h) str
+(") p n
+() N
+(Event::Event\(action_t a, size_t tid\) {) N
+(    ) S
+(this) K
+(->action = a;) p n
+(    ) S
+(this) K
+(->team_id = tid;) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(team_id) str
+("] = std::to_string\(tid\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(action) str
+("] = std::to_string\(a\);) p n
+(}) N
+() N
+(Event::Event\(action_t a, std::string & mn, size_t map_players_qty\) {) N
+(    ) S
+(this) K
+(->action = a;) p n
+(    ) S
+(this) K
+(->team_id = 0;) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(action) str
+("] = std::to_string\(a\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(match_name) str
+("] = mn;) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(map_players_qty) str
+("] = std::to_string\(map_players_qty\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(team_id) str
+("] = 0;) p n
+(}) N
+() N
+(Event::Event\(action_t a, std::string & mcn\) {) N
+(    ) S
+(this) K
+(->action = a;) p n
+(    ) S
+(this) K
+(->team_id = 0;) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(action) str
+("] = std::to_string\(a\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(creator_name) str
+("] = mcn;) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(team_id) str
+("] = 0;) p n
+(}) N
+() N
+(Event::Event\(action_t a, weapon_t w, size_t tid, ) S
+(int) k
+( countdown, ) p
+(int) k
+( power, ) p
+(int) k
+( s) p n
+(ight_angle\) {) N
+(    ) S
+(this) K
+(->action = a;) p n
+(    ) S
+(this) K
+(->team_id = tid;) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(team_id) str
+("] = std::to_string\(tid\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(action) str
+("] = std::to_string\(a\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(weapon) str
+("] = std::to_string\(w\);) p n
+(    ) N
+(    ) S
+(if) K
+( \(countdown != -1\) {) p n
+(        ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(countdown) str
+("] = std::to_string\(countdown\);) p n
+(    }) N
+() N
+(    ) S
+(if) K
+( \(power != -1\) {) p n
+(        ) S
+(int) k
+( powerConverted = \(power / 150\) + 10; ) p
+(// Hardcodeado ) c n
+(        ) p
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(power) str
+("] = std::to_string\(powerConverted\);) p n
+(    }) N
+() N
+(    ) S
+(if) K
+( \(sight_angle != -1\) {) p n
+(        ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(sight_angle) str
+("] = std::to_string\(sight_angle\);) p n
+(    } ) N
+(}) N
+() N
+(Event::Event\(action_t a, weapon_t w, size_t tid, ) S
+(int) k
+( remoteX, ) p
+(int) k
+( remoteY\) {) p n
+(    ) S
+(this) K
+(->action = a;) p n
+(    ) S
+(this) K
+(->team_id = tid;) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(team_id) str
+("] = std::to_string\(tid\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(action) str
+("] = std::to_string\(a\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(weapon) str
+("] = std::to_string\(w\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(remote_control_x) str
+("] = std::to_string\(remoteX\);) p n
+(    ) S
+(this) K
+(->eventNode[") p
+(event) str
+("][") p
+(remote_control_y) str
+("] = std::to_string\(remoteY\);) p n
+(}) N
+(event.cpp) (Page 1/2) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(blocking_queue.h, event.cpp) (1/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2,1) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Event::Event\(YAML::Node & event\) {) N
+(    ) S
+(this) K
+(->eventNode = YAML::Clone\(event\);) p n
+(    ) S
+(this) K
+(->action = \(action_t\) event[") p
+(event) str
+("][") p
+(action) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(    ) S
+(this) K
+(->team_id = event[") p
+(event) str
+("][") p
+(team_id) str
+("].as<size_t>\(\);) p n
+(}) N
+() N
+(YAML::Node Event::getNode\() S
+(void) k
+(\) {) p n
+(    ) S
+(return) K
+( ) p
+(this) K
+(->eventNode;) p n
+(}) N
+() N
+(bool) k
+( Event::quit\() p
+(void) k
+(\) {) p n
+(    ) S
+(return) K
+( \() p
+(this) K
+(->action == a_quitGame || ) p
+(this) K
+(->action == a_quitLobby\) ? ) p
+(true) k
+( : ) p
+() k n
+(false) S
+(;) p n
+(}) N
+() N
+(bool) k
+( Event::createMatch\() p
+(void) k
+(\) {) p n
+(    ) S
+(return) K
+( ) p
+(this) K
+(->action == a_createMatch ? ) p
+(true) k
+( : ) p
+(false) k
+(;) p n
+(}) N
+() N
+(size_t Event::getTeamId\() S
+(void) k
+(\) {) p n
+(    ) S
+(return) K
+( ) p
+(this) K
+(->team_id;) p n
+(}) N
+() N
+(bool) k
+( Event::goToMatch\() p
+(void) k
+(\) {) p n
+(    ) S
+(return) K
+( ) p
+(this) K
+(->action == a_goToMatch;) p n
+(}) S
+(event.cpp) (Page 2/2) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __EVENT_H__) p n
+(#define) K
+( __EVENT_H__) p n
+() N
+(#include) K
+( <iostream>) p n
+(#include) K
+( ") p
+(types.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( <string>) p n
+() N
+(class Event {) N
+(    private:) N
+(        YAML::Node eventNode;) N
+(        action_t action;) N
+(        size_t team_id;) N
+(        std::string matchName;) N
+(    public:) N
+(        Event\(action_t action = a_noEvent , size_t team_id = 0\);) N
+(        Event\(action_t, std::string &, size_t map_players_qty\);) N
+(        Event\(action_t, std::string &\);) N
+(        ) S
+(// Las armas que no se pueden configurar ) c n
+(        ) p
+(// el countdown y o la potencia tienen) c n
+(        ) p
+(// como parametro por default -1) c n
+(        Event\(action_t action, weapon_t, size_t, ) p
+(int) k
+( countdown, ) p
+(int) k
+( power, ) p
+(int) k
+( s) p n
+(ight_angle\);) N
+() N
+(        ) S
+(// Para armas teledirigidas) c n
+(        Event\(action_t action, weapon_t, size_t, ) p
+(int) k
+( remoteX, ) p
+(int) k
+( remoteY\);) p n
+(        ) N
+(        Event\(YAML::Node &\);) N
+(        bool quit\() S
+(void) k
+(\);) p n
+(        bool createMatch\() S
+(void) k
+(\);) p n
+(        bool goToMatch\() S
+(void) k
+(\);) p n
+(        YAML::Node getNode\() S
+(void) k
+(\);) p n
+(        size_t getTeamId\() S
+(void) k
+(\);) p n
+(};) N
+() N
+(#endif) K
+(event.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(event.cpp, event.h) (2/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(paths.h) str
+(") p n
+() N
+(Paths::Paths\() S
+(const) K
+( ) p
+(char) k
+( * r\) {) p n
+(  ) S
+(if) K
+( \(r\) {) p n
+(    ) S
+(this) K
+(->root = r;) p n
+(  } ) S
+(else) K
+( {) p n
+(    ) S
+(struct) k
+( stat sb;) p n
+(    ) S
+(// Checkeamos si existe el directorio del instalador) c n
+(    ) p
+(if) K
+( \(stat\(") p
+(/usr/var/worms/) str
+(", &sb\) == 0 && S_ISDIR\(sb.st_mode\)\) {) p n
+(      ) S
+(// Entonces el worms esta instalado) c n
+(      ) p
+(this) K
+(->root = ") p
+(/usr/var/worms/) str
+(";) p n
+(    } ) S
+(else) K
+( {) p n
+(      ) S
+(this) K
+(->root = ") p
+(../../) str
+(";) p n
+(    }) N
+(  }) N
+() N
+(  ) S
+(/* GIRDERS PATHS */) c n
+(  ) p
+(// Long) c n
+(  ) p
+(this) K
+(->PATH_GIRDER_LONG_90 = root + ") p
+(resources/graphics/Weapons/grdl0.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_60 = root + ") p
+(resources/graphics/Weapons/grdl1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_45 = root + ") p
+(resources/graphics/Weapons/grdl2.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_30 = root + ") p
+(resources/graphics/Weapons/grdl3.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_0 = root + ") p
+(resources/graphics/Weapons/grdl4.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_NEGATIVE_30 = root + ") p
+(resources/graphics/Weapons/grdl5.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_NEGATIVE_45 = root + ") p
+(resources/graphics/Weapons/grdl6.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_NEGATIVE_60 = root + ") p
+(resources/graphics/Weapons/grdl7.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_LONG_NEGATIVE_90 = root + ") p
+(resources/graphics/Weapons/grdl8.png) str
+(";) p n
+() N
+(  ) S
+(// Short) c n
+(  ) p
+(this) K
+(->PATH_GIRDER_SHORT_90 = root + ") p
+(resources/graphics/Weapons/grds0.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_60 = root + ") p
+(resources/graphics/Weapons/grds1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_45 = root + ") p
+(resources/graphics/Weapons/grds2.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_30 = root + ") p
+(resources/graphics/Weapons/grds3.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_0 = root + ") p
+(resources/graphics/Weapons/grds4.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_NEGATIVE_30 = root + ") p
+(resources/graphics/Weapons/grds5.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_NEGATIVE_45 = root + ") p
+(resources/graphics/Weapons/grds6.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_NEGATIVE_60 = root + ") p
+(resources/graphics/Weapons/grds7.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GIRDER_SHORT_NEGATIVE_90 = root + ") p
+(resources/graphics/Weapons/grds8.png) str
+(";) p n
+(  ) S
+(/* ------------------------------ */) c n
+() p n
+(  ) S
+(/* WATER PATHS */) c n
+(  ) p
+(this) K
+(->PATH_WATER_DEFAULT = root + ") p
+(resources/graphics/water_gif.gif) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WATER_2 = root + ") p
+(resources/graphics/water_pattern_2.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WATER_3 = root + ") p
+(resources/graphics/water_pattern_3.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_LAVA = root + ") p
+(resources/graphics/lava_pattern.jpg) str
+(";) p n
+(  ) S
+(/* --------------------------- */) c n
+() p n
+() N
+(  ) S
+(/* WEAPON ICONS */) c n
+(  ) p
+(this) K
+(->PATH_ICON_BAZOOKA = root + ") p
+(resources/graphics/Weapon Icons/bazooka.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_MORTAR = root + ") p
+(resources/graphics/Weapon Icons/mortar.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_GREEN_GRENADE = root + ") p
+(resources/graphics/Weapon Icons/grenade.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_RED_GRENADE = root + ") p
+(resources/graphics/Weapon Icons/cluster.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_BANANA = root + ") p
+(resources/graphics/Weapon Icons/banana.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_HOLY_GRENADE = root + ") p
+(resources/graphics/Weapon Icons/hgrenade.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_DYNAMITE = root + ") p
+(resources/graphics/Weapon Icons/dynamite.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_BASEBALL = root + ") p
+(resources/graphics/Weapon Icons/baseball.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_AIR_STRIKE = root + ") p
+(resources/graphics/Weapon Icons/airstrke.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_TELEPORT = root + ") p
+(resources/graphics/Weapon Icons/teleport.1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_SHORT_GIRDER = root + ") p
+(resources/graphics/Weapon Icons/girder.2.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_ICON_LONG_GIRDER = root + ") p
+(resources/graphics/Weapon Icons/girders.1.png) str
+(";) p n
+(  ) S
+(/* ------------- */) c n
+(paths.cpp) (Page 1/5) (jun 26, 18 10:05) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(  ) S
+(/* WEAPONS */) c n
+(  ) p
+(this) K
+(->PATH_DYNAMITE = root + ") p
+(resources/graphics/Weapons/dynamite.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GREEN_GRENADE = root + ") p
+(resources/graphics/Weapons/grenade.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_HOLY_GRENADE = root + ") p
+(resources/graphics/Weapons/hgrenade.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_BANANA = root + ") p
+(resources/graphics/Weapons/banana.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_BAZOOKA = root + ") p
+(resources/graphics/Weapons/missile.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_AIR_STRIKE = root + ") p
+(resources/graphics/Weapons/airmisil.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_CLUSTER = root + ") p
+(resources/graphics/Weapons/cluster.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_MORTAR = root + ") p
+(resources/graphics/Weapons/mortar.png) str
+(";) p n
+(  ) S
+(/* ----------------------------------- */) c n
+() p n
+(  ) S
+(/* WORM PATHS */) c n
+(  ) p
+(this) K
+(->PATH_PLAIN_WORM = root + ") p
+(resources/graphics/Worms/plain_worm.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_BREATH_1 = root + ") p
+(resources/graphics/Worms/wbrth1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_BREATH_1_UP = root + ") p
+(resources/graphics/Worms/wbrth1u.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_BREATH_1_DOWN = root + ") p
+(resources/graphics/Worms/wbrth1d.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_WALK = root + ") p
+(resources/graphics/Worms/wwalk.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_WALK_UP = root + ") p
+(resources/graphics/Worms/wwalku.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_WALK_DOWN = root + ") p
+(resources/graphics/Worms/wwalkd.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_ROLL = root + ") p
+(resources/graphics/Worms/wroll.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_FALL_DN = root + ") p
+(resources/graphics/Worms/wfall.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_JUMP = root + ") p
+(resources/graphics/Worms/wjump.jpg) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_FLYING_1 = root + ") p
+(resources/graphics/Worms/wfly1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_FLYING_2 = root + ") p
+(resources/graphics/Worms/wfly2.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_FLYING_3 = root + ") p
+(resources/graphics/Worms/wfly3.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WORM_DIE = root + ") p
+(resources/graphics/Worms/wdie.png) str
+(";) p n
+() N
+(    ) S
+(// Pick weapons) c n
+(    ) p
+(this) K
+(->PATH_WORM_PICK_BAZOOKA = root + ") p
+(resources/graphics/Worms/wbazlnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BAZOOKA_UP = root + ") p
+(resources/graphics/Worms/wbazlnku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BAZOOKA_DOWN = root + ") p
+(resources/graphics/Worms/wbazlnkd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_MORTAR = root + ") p
+(resources/graphics/Worms/wbz2lnk.png) str
+(";;) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_MORTAR_UP = root + ") p
+(resources/graphics/Worms/wbz2lnku.png) str
+(";;) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_MORTAR_DOWN = root + ") p
+(resources/graphics/Worms/wbz2lnkd.png) str
+(";;) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_GREEN_GRENADE = root + ") p
+(resources/graphics/Worms/wgrnlnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_GREEN_GRENADE_UP = root + ") p
+(resources/graphics/Worms/wgrnlnku.png) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_WORM_PICK_GREEN_GRENADE_DOWN = root + ") p
+(resources/graphics/Worms/wgrnlnkd.p) str n
+(ng) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_CLUSTER = root + ") p
+(resources/graphics/Worms/wclslnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_CLUSTER_UP = root + ") p
+(resources/graphics/Worms/wclslnku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_CLUSTER_DOWN = root + ") p
+(resources/graphics/Worms/wclslnkd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BANANA = root + ") p
+(resources/graphics/Worms/wbanlnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BANANA_UP = root + ") p
+(resources/graphics/Worms/wbanlnku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BANANA_DOWN = root + ") p
+(resources/graphics/Worms/wbanlnkd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_HOLY_GRENADE = root + ") p
+(resources/graphics/Worms/whgrlnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_HOLY_GRENADE_UP = root + ") p
+(resources/graphics/Worms/whgrlnku.png) str
+(") p n
+(;) N
+(    ) S
+(this) K
+(->PATH_WORM_PICK_HOLY_GRENADE_DOWN = root + ") p
+(resources/graphics/Worms/whgrlnkd.pn) str n
+(g) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_AIR_STRIKE = root + ") p
+(resources/graphics/Worms/wairlnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_AIR_STRIKE_UP = root + ") p
+(resources/graphics/Worms/wairbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_AIR_STRIKE_DOWN = root + ") p
+(resources/graphics/Worms/wairbakd.png) str
+(") p n
+(;) N
+(    ) S
+(this) K
+(->PATH_WORM_PICK_DYNAMITE = root + ") p
+(resources/graphics/Worms/wdynlnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_DYNAMITE_UP = root + ") p
+(resources/graphics/Worms/wdynlnku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_DYNAMITE_DOWN = root + ") p
+(resources/graphics/Worms/wdynlnkd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BASEBALL = root + ") p
+(resources/graphics/Worms/wbsblnk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BASEBALL_UP = root + ") p
+(resources/graphics/Worms/wbsblnku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_BASEBALL_DOWN = root + ") p
+(resources/graphics/Worms/wbsblnkd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_TELEPORT = root + ") p
+(resources/graphics/Worms/wtellnk.png) str
+(";) p n
+(paths.cpp) (Page 2/5) (jun 26, 18 10:05) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(paths.cpp) (3/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    ) p
+(this) K
+(->PATH_WORM_PICK_TELEPORT_UP = root + ") p
+(resources/graphics/Worms/wtellnku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_PICK_TELEPORT_DOWN = root + ") p
+(resources/graphics/Worms/wtellnkd.png) str
+(";) p n
+() N
+(    ) S
+(// Hide weapons) c n
+(    ) p
+(this) K
+(->PATH_WORM_HIDE_BAZOOKA = root + ") p
+(resources/graphics/Worms/wbazbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BAZOOKA_UP = root + ") p
+(resources/graphics/Worms/wbazbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BAZOOKA_DOWN = root + ") p
+(resources/graphics/Worms/wbazbakd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_MORTAR = root + ") p
+(resources/graphics/Worms/wbz2bak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_MORTAR_UP = root + ") p
+(resources/graphics/Worms/wbz2baku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_MORTAR_DOWN = root + ") p
+(resources/graphics/Worms/wbz2bakd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_GREEN_GRENADE = root + ") p
+(resources/graphics/Worms/wgrnbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_GREEN_GRENADE_UP = root + ") p
+(resources/graphics/Worms/wgrnbaku.png) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_GREEN_GRENADE_DOWN = root + ") p
+(resources/graphics/Worms/wgrnbakd.) str n
+(png) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_CLUSTER = root + ") p
+(resources/graphics/Worms/wclsbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_CLUSTER_UP = root + ") p
+(resources/graphics/Worms/wclsbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_CLUSTER_DOWN = root + ") p
+(resources/graphics/Worms/wclsbakd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BANANA = root + ") p
+(resources/graphics/Worms/wbanbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BANANA_UP = root + ") p
+(resources/graphics/Worms/wbanbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BANANA_DOWN = root + ") p
+(resources/graphics/Worms/wbanbakd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_HOLY_GRENADE = root + ") p
+(resources/graphics/Worms/whgrbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_HOLY_GRENADE_UP = root + ") p
+(resources/graphics/Worms/whgrbaku.png) str
+(") p n
+(;) N
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_HOLY_GRENADE_DOWN = root + ") p
+(resources/graphics/Worms/whgrbakd.pn) str n
+(g) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_DYNAMITE = root + ") p
+(resources/graphics/Worms/wdynbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_DYNAMITE_UP = root + ") p
+(resources/graphics/Worms/wdynbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_DYNAMITE_DOWN = root + ") p
+(resources/graphics/Worms/wdynbakd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_AIR_STRIKE = root + ") p
+(resources/graphics/Worms/wairbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_AIR_STRIKE_UP = root + ") p
+(resources/graphics/Worms/wairbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_AIR_STRIKE_DOWN = root + ") p
+(resources/graphics/Worms/wairbakd.png) str
+(") p n
+(;) N
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BASEBALL = root + ") p
+(resources/graphics/Worms/wbsbbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BASEBALL_UP = root + ") p
+(resources/graphics/Worms/wbsbbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BASEBALL_DOWN = root + ") p
+(resources/graphics/Worms/wbsbbakd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BASEBALL_SHOOTED = root + ") p
+(resources/graphics/Worms/wbsbbk2.png) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BASEBALL_SHOOTED_UP = root + ") p
+(resources/graphics/Worms/wbsbbk2) str n
+(u.png) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_BASEBALL_SHOOTED_DOWN = root + ") p
+(resources/graphics/Worms/wbsbb) str n
+(k2d.png) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_TELEPORT = root + ") p
+(resources/graphics/Worms/wtelbak.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_TELEPORT_UP = root + ") p
+(resources/graphics/Worms/wtelbaku.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_HIDE_TELEPORT_DOWN = root + ") p
+(resources/graphics/Worms/wtelbakd.png) str
+(";) p n
+() N
+(    ) S
+(// Pointing) c n
+(    ) p
+(this) K
+(->PATH_WORM_POINTING_BAZOOKA = root + ") p
+(resources/graphics/Worms/wbaz.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BAZOOKA_UP = root + ") p
+(resources/graphics/Worms/wbazu.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BAZOOKA_DOWN = root + ") p
+(resources/graphics/Worms/wbazd.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_MORTAR = root + ") p
+(resources/graphics/Worms/wbaz2.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_MORTAR_UP = root + ") p
+(resources/graphics/Worms/wbaz2u.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_MORTAR_DOWN = root + ") p
+(resources/graphics/Worms/wbaz2d.png) str
+(";) p n
+(    ) N
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_GREEN_GRENADE = root + ") p
+(resources/graphics/Worms/wthrgrn.png) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_GREEN_GRENADE_UP = root + ") p
+(resources/graphics/Worms/wthrgrn) str n
+(u.png) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_GREEN_GRENADE_DOWN = root + ") p
+(resources/graphics/Worms/wthr) str n
+(grnd.png) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_CLUSTER = root + ") p
+(resources/graphics/Worms/wthrcls.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_CLUSTER_UP = root + ") p
+(resources/graphics/Worms/wthrclsu.png) str
+(";) p n
+(paths.cpp) (Page 3/5) (jun 26, 18 10:05) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    ) p
+(this) K
+(->PATH_WORM_POINTING_CLUSTER_DOWN = root + ") p
+(resources/graphics/Worms/wthrclsd.png) str
+(") p n
+(;) N
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BANANA = root + ") p
+(resources/graphics/Worms/wthrban.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BANANA_UP = root + ") p
+(resources/graphics/Worms/wthrbanu.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BANANA_DOWN = root + ") p
+(resources/graphics/Worms/wthrband.png) str
+(") p n
+(;) N
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_HOLY_GRENADE = root + ") p
+(resources/graphics/Worms/wthrhgr.png) str
+(") p n
+(;) N
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_HOLY_GRENADE_UP = root + ") p
+(resources/graphics/Worms/wthrhgr.p) str n
+(ng) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_HOLY_GRENADE_DOWN = root + ") p
+(resources/graphics/Worms/wthrhg) str n
+(r.png) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BASEBALL = root + ") p
+(resources/graphics/Worms/wbsbaim.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BASEBALL_UP = root + ") p
+(resources/graphics/Worms/wbsbaimu.png) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_WORM_POINTING_BASEBALL_DOWN = root + ") p
+(resources/graphics/Worms/wbsbaimd.p) str n
+(ng) S
+(";) p n
+() N
+(    ) S
+(// Shooting) c n
+(    ) p
+(this) K
+(->PATH_WORM_SHOOTING_AIR_STRIKE = root + ") p
+(resources/graphics/Worms/wairtlk.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_SHOOTING_AIR_STRIKE_UP = root + ") p
+(resources/graphics/Worms/wairtlku.png) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_WORM_SHOOTING_AIR_STRIKE_DOWN = root + ") p
+(resources/graphics/Worms/wairtlkd.) str n
+(png) S
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_SHOOTING_BASEBALL = root + ") p
+(resources/graphics/Worms/wbsbswn.png) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_WORM_SHOOTING_BASEBALL_UP = root + ") p
+(resources/graphics/Worms/wbsbswnu.png) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_WORM_SHOOTING_BASEBALL_DOWN = root + ") p
+(resources/graphics/Worms/wbsbswnd.p) str n
+(ng) S
+(";) p n
+(    ) N
+(  ) S
+(/* ----------------------------------- */) c n
+() p n
+(  ) S
+(/* EFFECTS */) c n
+(  ) p
+(this) K
+(->PATH_EXPLOSION_EFFECT = root + ") p
+(resources/graphics/Effects/firehit.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_DEFAULT_SIGHT = root + ") p
+(resources/graphics/Misc/crshairr.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WIND_LEFT = root + ") p
+(resources/graphics/Misc/windl.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_WIND_RIGHT = root + ") p
+(resources/graphics/Misc/windr.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GRAVE_1 = root + ") p
+(resources/graphics/Misc/grave1.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GRAVE_2 = root + ") p
+(resources/graphics/Misc/grave2.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GRAVE_3 = root + ") p
+(resources/graphics/Misc/grave3.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GRAVE_4 = root + ") p
+(resources/graphics/Misc/grave4.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GRAVE_5 = root + ") p
+(resources/graphics/Misc/grave5.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_GRAVE_6 = root + ") p
+(resources/graphics/Misc/grave6.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SAVE_ICON = root + ") p
+(resources/graphics/Misc/save_icon.png) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_EXIT_ICON = root + ") p
+(resources/graphics/Misc/exit_icon.png) str
+("; ) p n
+(  ) S
+(/* ---------------------------- */) c n
+() p n
+(  ) S
+(/* FONTS */) c n
+(  ) p
+(this) K
+(->PATH_FONT_WORM_DATA = root + ") p
+(resources/fonts/arial.ttf) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_FONT_GROBOLD = root + ") p
+(resources/fonts/GROBOLD.ttf) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_FONT_VERDANA_BOLD = root + ") p
+(resources/fonts/verdanab.ttf) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_FONT_ARIAL_BOLD = root + ") p
+(resources/fonts/arialb.ttf) str
+(";) p n
+() N
+(  ) S
+(/* SOUND_EFFECTS */) c n
+(  ) p
+(this) K
+(->PATH_MUSIC_DEFAULT = root + ") p
+(resources/sounds/music.mp3) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_DYNAMITE = root + ") p
+(resources/sounds/Effects/FUSE.WAV) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_GIRDER = root + ") p
+(resources/sounds/Effects/GIRDERIMPACT.WAV) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_TELEPORT = root + ") p
+(resources/sounds/Effects/TELEPORT.WAV) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_THROW_PROJECTIL = root + ") p
+(resources/sounds/Effects/THROWRELEASE.WAV) str
+() p n
+(";) N
+(  ) S
+(this) K
+(->PATH_SOUND_HOLY = root + ") p
+(resources/sounds/Effects/HOLYGRENADE.WAV) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_TIME_TRICK = root + ") p
+(resources/sounds/Effects/TIMERTICK.WAV) str
+(";) p n
+(paths.cpp) (Page 4/5) (jun 26, 18 10:05) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(paths.cpp) (4/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5,1) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(  ) p
+(this) K
+(->PATH_SOUND_THROW_POWER_UP = root + ") p
+(resources/sounds/Effects/THROWPOWERUP.WAV) str
+() p n
+(";) N
+(  ) S
+(this) K
+(->PATH_SOUND_WORM_WALKING = root + ") p
+(resources/sounds/Effects/Walk-Expand.wav) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_WORM_WALKING_EXPAND = root + ") p
+(resources/sounds/Effects/Walk-Compress.wa) str n
+(v) S
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_AIR_STRIKE = root + ") p
+(resources/sounds/Effects/Airstrike.wav) str
+(";) p n
+() N
+(    ) S
+(// Worms voices) c n
+(    ) p
+(this) K
+(->PATH_SOUND_LAUGH = root + ") p
+(resources/sounds/Voices/Spanish/LAUGH.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_FATALITY = root + ") p
+(resources/sounds/Voices/Spanish/FATALITY.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_HURRY = root + ") p
+(resources/sounds/Voices/Spanish/HURRY.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_BYE = root + ") p
+(resources/sounds/Voices/Spanish/BYEBYE.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_DIE = root + ") p
+(resources/sounds/Voices/Spanish/OHDEAR.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_BEGIN_TURN = root + ") p
+(resources/sounds/Voices/Spanish/YESSIR.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_JUMP_1 = root + ") p
+(resources/sounds/Voices/Spanish/JUMP1.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_JUMP_2 = root + ") p
+(resources/sounds/Voices/Spanish/JUMP2.WAV) str
+(";) p n
+() N
+(    ) S
+(// Worms hit) c n
+(    ) p
+(this) K
+(->PATH_SOUND_NOOO = root + ") p
+(resources/sounds/Voices/Spanish/NOOO.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_OOFF_1 = root + ") p
+(resources/sounds/Voices/Spanish/OOFF1.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_OOFF_2 = root + ") p
+(resources/sounds/Voices/Spanish/OOFF2.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_OOFF_3 = root + ") p
+(resources/sounds/Voices/Spanish/OOFF3.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_OW_1 = root + ") p
+(resources/sounds/Voices/Spanish/OW1.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_OW_2 = root + ") p
+(resources/sounds/Voices/Spanish/OW2.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_OW_3 = root + ") p
+(resources/sounds/Voices/Spanish/OW3.WAV) str
+(";) p n
+(    ) S
+(// About to explode) c n
+(    ) p
+(this) K
+(->PATH_SOUND_WHAT_THE = root + ") p
+(resources/sounds/Voices/Spanish/WHATTHE.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_UH_OH = root + ") p
+(resources/sounds/Voices/Spanish/UH-OH.WAV) str
+(";) p n
+(    ) S
+(this) K
+(->PATH_SOUND_TAKE_COVER = root + ") p
+(resources/sounds/Voices/Spanish/TAKECOVER.WAV) str
+() p n
+(";) N
+(    ) S
+(this) K
+(->PATH_SOUND_RUN_AWAY = root + ") p
+(resources/sounds/Voices/Spanish/RUNAWAY.WAV) str
+(";) p n
+() N
+(  ) S
+(// Explosions) c n
+(  ) p
+(this) K
+(->PATH_SOUND_EXPLOSION_1 = root + ") p
+(resources/sounds/Effects/Explosion1.wav) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_EXPLOSION_2 = root + ") p
+(resources/sounds/Effects/Explosion2.wav) str
+(";) p n
+(  ) S
+(this) K
+(->PATH_SOUND_EXPLOSION_3 = root + ") p
+(resources/sounds/Effects/Explosion3.WAV) str
+(";) p n
+(  ) S
+(/* -------------- */) c n
+(}) p
+(paths.cpp) (Page 5/5) (jun 26, 18 10:05) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __PATHS_H__) p n
+(#define) K
+( __PATHS_H__) p n
+() N
+(#include) K
+( <string>) p n
+(#include) K
+( <sys/stat.h>) p n
+() N
+(class Paths {) N
+(  private:) N
+(    std::string root;) N
+(    ) N
+(  public:) N
+(    ) S
+(/* GIRDERS PATHS */) c n
+(    ) p
+(// Long) c n
+(    std::string PATH_GIRDER_LONG_90;) p n
+(    std::string PATH_GIRDER_LONG_60;) N
+(    std::string PATH_GIRDER_LONG_45;) N
+(    std::string PATH_GIRDER_LONG_30;) N
+(    std::string PATH_GIRDER_LONG_0;) N
+(    std::string PATH_GIRDER_LONG_NEGATIVE_30;) N
+(    std::string PATH_GIRDER_LONG_NEGATIVE_45;) N
+(    std::string PATH_GIRDER_LONG_NEGATIVE_60;) N
+(    std::string PATH_GIRDER_LONG_NEGATIVE_90;) N
+() N
+(    ) S
+(// Short) c n
+(    std::string PATH_GIRDER_SHORT_90;) p n
+(    std::string PATH_GIRDER_SHORT_60;) N
+(    std::string PATH_GIRDER_SHORT_45;) N
+(    std::string PATH_GIRDER_SHORT_30;) N
+(    std::string PATH_GIRDER_SHORT_0;) N
+(    std::string PATH_GIRDER_SHORT_NEGATIVE_30;) N
+(    std::string PATH_GIRDER_SHORT_NEGATIVE_45;) N
+(    std::string PATH_GIRDER_SHORT_NEGATIVE_60;) N
+(    std::string PATH_GIRDER_SHORT_NEGATIVE_90;) N
+(    ) S
+(/* ------------------------------ */) c n
+() p n
+(    ) S
+(/* WORM PATHS */) c n
+(    std::string PATH_PLAIN_WORM;) p n
+(    std::string PATH_WORM_BREATH_1;) N
+(    std::string PATH_WORM_BREATH_1_UP;) N
+(    std::string PATH_WORM_BREATH_1_DOWN;) N
+(    std::string PATH_WORM_WALK;) N
+(    std::string PATH_WORM_WALK_UP;) N
+(    std::string PATH_WORM_WALK_DOWN;) N
+(    std::string PATH_WORM_ROLL;) N
+(    std::string PATH_WORM_FALL_DN;) N
+(    std::string PATH_WORM_JUMP;) N
+(    std::string PATH_WORM_FLYING_1;) N
+(    std::string PATH_WORM_FLYING_2;) N
+(    std::string PATH_WORM_FLYING_3;) N
+(    std::string PATH_WORM_DIE;) N
+() N
+(      ) S
+(// Pick weapons) c n
+(      std::string PATH_WORM_PICK_BAZOOKA;) p n
+(      std::string PATH_WORM_PICK_BAZOOKA_UP;) N
+(      std::string PATH_WORM_PICK_BAZOOKA_DOWN;) N
+(      std::string PATH_WORM_PICK_MORTAR;) N
+(      std::string PATH_WORM_PICK_MORTAR_UP;) N
+(      std::string PATH_WORM_PICK_MORTAR_DOWN;) N
+(      std::string PATH_WORM_PICK_GREEN_GRENADE;) N
+(      std::string PATH_WORM_PICK_GREEN_GRENADE_UP;) N
+(      std::string PATH_WORM_PICK_GREEN_GRENADE_DOWN;) N
+(      std::string PATH_WORM_PICK_CLUSTER;) N
+(paths.h) (Page 1/5) (jun 26, 18 10:05) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(paths.cpp, paths.h) (5/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2-3) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(      std::string PATH_WORM_PICK_CLUSTER_UP;) p n
+(      std::string PATH_WORM_PICK_CLUSTER_DOWN;) N
+(      std::string PATH_WORM_PICK_BANANA;) N
+(      std::string PATH_WORM_PICK_BANANA_UP;) N
+(      std::string PATH_WORM_PICK_BANANA_DOWN;) N
+(      std::string PATH_WORM_PICK_HOLY_GRENADE;) N
+(      std::string PATH_WORM_PICK_HOLY_GRENADE_UP;) N
+(      std::string PATH_WORM_PICK_HOLY_GRENADE_DOWN;) N
+(      std::string PATH_WORM_PICK_DYNAMITE;) N
+(      std::string PATH_WORM_PICK_DYNAMITE_UP;) N
+(      std::string PATH_WORM_PICK_DYNAMITE_DOWN;) N
+(      std::string PATH_WORM_PICK_AIR_STRIKE;) N
+(      std::string PATH_WORM_PICK_AIR_STRIKE_UP;) N
+(      std::string PATH_WORM_PICK_AIR_STRIKE_DOWN;) N
+(      std::string PATH_WORM_PICK_BASEBALL;) N
+(      std::string PATH_WORM_PICK_BASEBALL_UP;) N
+(      std::string PATH_WORM_PICK_BASEBALL_DOWN;) N
+(      std::string PATH_WORM_PICK_TELEPORT;) N
+(      std::string PATH_WORM_PICK_TELEPORT_UP;) N
+(      std::string PATH_WORM_PICK_TELEPORT_DOWN;) N
+() N
+(      ) S
+(// Hide weapons) c n
+(      std::string PATH_WORM_HIDE_BAZOOKA;) p n
+(      std::string PATH_WORM_HIDE_BAZOOKA_UP;) N
+(      std::string PATH_WORM_HIDE_BAZOOKA_DOWN;) N
+(      std::string PATH_WORM_HIDE_MORTAR;) N
+(      std::string PATH_WORM_HIDE_MORTAR_UP;) N
+(      std::string PATH_WORM_HIDE_MORTAR_DOWN;) N
+(      std::string PATH_WORM_HIDE_GREEN_GRENADE;) N
+(      std::string PATH_WORM_HIDE_GREEN_GRENADE_UP;) N
+(      std::string PATH_WORM_HIDE_GREEN_GRENADE_DOWN;) N
+(      std::string PATH_WORM_HIDE_CLUSTER;) N
+(      std::string PATH_WORM_HIDE_CLUSTER_UP;) N
+(      std::string PATH_WORM_HIDE_CLUSTER_DOWN;) N
+(      std::string PATH_WORM_HIDE_BANANA;) N
+(      std::string PATH_WORM_HIDE_BANANA_UP;) N
+(      std::string PATH_WORM_HIDE_BANANA_DOWN;) N
+(      std::string PATH_WORM_HIDE_HOLY_GRENADE;) N
+(      std::string PATH_WORM_HIDE_HOLY_GRENADE_UP;) N
+(      std::string PATH_WORM_HIDE_HOLY_GRENADE_DOWN;) N
+(      std::string PATH_WORM_HIDE_DYNAMITE;) N
+(      std::string PATH_WORM_HIDE_DYNAMITE_UP;) N
+(      std::string PATH_WORM_HIDE_DYNAMITE_DOWN;) N
+(      std::string PATH_WORM_HIDE_AIR_STRIKE;) N
+(      std::string PATH_WORM_HIDE_AIR_STRIKE_UP;) N
+(      std::string PATH_WORM_HIDE_AIR_STRIKE_DOWN;) N
+(      std::string PATH_WORM_HIDE_BASEBALL;) N
+(      std::string PATH_WORM_HIDE_BASEBALL_UP;) N
+(      std::string PATH_WORM_HIDE_BASEBALL_DOWN;) N
+(      std::string PATH_WORM_HIDE_BASEBALL_SHOOTED;) N
+(      std::string PATH_WORM_HIDE_BASEBALL_SHOOTED_UP;) N
+(      std::string PATH_WORM_HIDE_BASEBALL_SHOOTED_DOWN;) N
+(      std::string PATH_WORM_HIDE_TELEPORT;) N
+(      std::string PATH_WORM_HIDE_TELEPORT_UP;) N
+(      std::string PATH_WORM_HIDE_TELEPORT_DOWN;) N
+() N
+(      ) S
+(// Pointing) c n
+(      std::string PATH_WORM_POINTING_BAZOOKA;) p n
+(      std::string PATH_WORM_POINTING_BAZOOKA_UP;) N
+(      std::string PATH_WORM_POINTING_BAZOOKA_DOWN;) N
+(      std::string PATH_WORM_POINTING_MORTAR;) N
+(      std::string PATH_WORM_POINTING_MORTAR_UP;) N
+(paths.h) (Page 2/5) (jun 26, 18 10:05) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(      std::string PATH_WORM_POINTING_MORTAR_DOWN;) p n
+(      std::string PATH_WORM_POINTING_GREEN_GRENADE;) N
+(      std::string PATH_WORM_POINTING_GREEN_GRENADE_UP;) N
+(      std::string PATH_WORM_POINTING_GREEN_GRENADE_DOWN;) N
+(      std::string PATH_WORM_POINTING_CLUSTER;) N
+(      std::string PATH_WORM_POINTING_CLUSTER_UP;) N
+(      std::string PATH_WORM_POINTING_CLUSTER_DOWN;) N
+(      std::string PATH_WORM_POINTING_BANANA;) N
+(      std::string PATH_WORM_POINTING_BANANA_UP;) N
+(      std::string PATH_WORM_POINTING_BANANA_DOWN;) N
+(      std::string PATH_WORM_POINTING_HOLY_GRENADE;) N
+(      std::string PATH_WORM_POINTING_HOLY_GRENADE_UP;) N
+(      std::string PATH_WORM_POINTING_HOLY_GRENADE_DOWN;) N
+(      std::string PATH_WORM_POINTING_BASEBALL;) N
+(      std::string PATH_WORM_POINTING_BASEBALL_UP;) N
+(      std::string PATH_WORM_POINTING_BASEBALL_DOWN;) N
+() N
+(      ) S
+(// Shooting) c n
+(      std::string PATH_WORM_SHOOTING_AIR_STRIKE;) p n
+(      std::string PATH_WORM_SHOOTING_AIR_STRIKE_UP;) N
+(      std::string PATH_WORM_SHOOTING_AIR_STRIKE_DOWN;) N
+(      std::string PATH_WORM_SHOOTING_BASEBALL;) N
+(      std::string PATH_WORM_SHOOTING_BASEBALL_UP;) N
+(      std::string PATH_WORM_SHOOTING_BASEBALL_DOWN;) N
+(      ) N
+(    ) S
+(/* ----------------------------------- */) c n
+() p n
+(    ) S
+(/* WATER PATHS */) c n
+(    std::string PATH_WATER_DEFAULT;) p n
+(    std::string PATH_WATER_2;) N
+(    std::string PATH_WATER_3;) N
+(    std::string PATH_LAVA;) N
+(    ) S
+(/* --------------------------- */) c n
+() p n
+() N
+(    ) S
+(/* WEAPON ICONS */) c n
+(    std::string PATH_ICON_BAZOOKA;) p n
+(    std::string PATH_ICON_MORTAR;) N
+(    std::string PATH_ICON_GREEN_GRENADE;) N
+(    std::string PATH_ICON_RED_GRENADE;) N
+(    std::string PATH_ICON_BANANA;) N
+(    std::string PATH_ICON_HOLY_GRENADE;) N
+(    std::string PATH_ICON_DYNAMITE;) N
+(    std::string PATH_ICON_BASEBALL;) N
+(    std::string PATH_ICON_AIR_STRIKE;) N
+(    std::string PATH_ICON_TELEPORT;) N
+(    std::string PATH_ICON_SHORT_GIRDER;) N
+(    std::string PATH_ICON_LONG_GIRDER;) N
+(    ) S
+(/* ------------- */) c n
+() p n
+(    ) S
+(/* WEAPONS */) c n
+(    std::string PATH_DYNAMITE;) p n
+(    std::string PATH_GREEN_GRENADE;) N
+(    std::string PATH_HOLY_GRENADE;) N
+(    std::string PATH_BANANA;) N
+(    std::string PATH_BAZOOKA;) N
+(    std::string PATH_AIR_STRIKE;) N
+(    std::string PATH_CLUSTER;) N
+(    std::string PATH_MORTAR;) N
+(    ) S
+(/* ---------------------------- */) c n
+() p n
+(    ) S
+(/* EFFECTS */) c n
+(paths.h) (Page 3/5) (jun 26, 18 10:05) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(paths.h) (6/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (4-5) 7
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    std::string PATH_EXPLOSION_EFFECT;) p n
+(    std::string PATH_DEFAULT_SIGHT;) N
+(    std::string PATH_WIND_LEFT;) N
+(    std::string PATH_WIND_RIGHT;) N
+(    std::string PATH_GRAVE_1;) N
+(    std::string PATH_GRAVE_2;) N
+(    std::string PATH_GRAVE_3;) N
+(    std::string PATH_GRAVE_4;) N
+(    std::string PATH_GRAVE_5;) N
+(    std::string PATH_GRAVE_6;) N
+(    std::string PATH_SAVE_ICON;) N
+(    std::string PATH_EXIT_ICON;) N
+() N
+(    ) S
+(/* ---------------------------- */) c n
+() p n
+(    ) S
+(/* FONTS */) c n
+(    std::string PATH_FONT_WORM_DATA;) p n
+(    std::string PATH_FONT_GROBOLD;) N
+(    std::string PATH_FONT_VERDANA_BOLD;) N
+(    std::string PATH_FONT_ARIAL_BOLD;) N
+() N
+(    ) S
+(/* SOUND EFFECTS */) c n
+(    std::string PATH_MUSIC_DEFAULT;) p n
+(    std::string PATH_SOUND_DYNAMITE;) N
+(    std::string PATH_SOUND_GIRDER;) N
+(    std::string PATH_SOUND_TELEPORT;) N
+(    std::string PATH_SOUND_THROW_PROJECTIL;) N
+(    std::string PATH_SOUND_HOLY;) N
+(    std::string PATH_SOUND_THROW_POWER_UP;) N
+(    std::string PATH_SOUND_WORM_WALKING;) N
+(    std::string PATH_SOUND_WORM_WALKING_EXPAND;) N
+(    std::string PATH_SOUND_AIR_STRIKE;) N
+() N
+(    std::string PATH_SOUND_TIME_TRICK;) N
+() N
+(      ) S
+(// Worms voices) c n
+(      std::string PATH_SOUND_LAUGH;) p n
+(      std::string PATH_SOUND_FATALITY;) N
+(      std::string PATH_SOUND_HURRY;) N
+(      std::string PATH_SOUND_BYE;) N
+(      std::string PATH_SOUND_DIE;) N
+(      std::string PATH_SOUND_BEGIN_TURN;) N
+(      std::string PATH_SOUND_JUMP_1;) N
+(      std::string PATH_SOUND_JUMP_2;) N
+() N
+(        ) S
+(// Worms hit) c n
+(        std::string PATH_SOUND_NOOO;) p n
+(        std::string PATH_SOUND_OOFF_1;) N
+(        std::string PATH_SOUND_OOFF_2;) N
+(        std::string PATH_SOUND_OOFF_3;) N
+(        std::string PATH_SOUND_OW_1;) N
+(        std::string PATH_SOUND_OW_2;) N
+(        std::string PATH_SOUND_OW_3;) N
+(        ) S
+(// About to explosions) c n
+(        std::string PATH_SOUND_WHAT_THE;) p n
+(        std::string PATH_SOUND_UH_OH;) N
+(        std::string PATH_SOUND_TAKE_COVER;) N
+(        std::string PATH_SOUND_RUN_AWAY;) N
+() N
+(    ) S
+(// Explosions) c n
+(    std::string PATH_SOUND_EXPLOSION_1;) p n
+(    std::string PATH_SOUND_EXPLOSION_2;) N
+(paths.h) (Page 4/5) (jun 26, 18 10:05) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    std::string PATH_SOUND_EXPLOSION_3;) p n
+(    ) S
+(/* ----------------------------- */) c n
+() p n
+(    Paths\() S
+(const) K
+( ) p
+(char) k
+( * r = ) p
+(NULL) K
+(\);) p n
+() N
+() N
+(};) N
+() N
+(extern) K
+( Paths gPath;) p n
+() N
+(#endif) K
+(paths.h) (Page 5/5) (jun 26, 18 10:05) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(paths.h) (7/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 8
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( <iostream>) p n
+(#include) K
+( <cstring>) p n
+(#include) K
+( <fstream>) p n
+(#include) K
+( <sstream>) p n
+(#include) K
+( <arpa/inet.h>) p n
+(#include) K
+( ") p
+(protocol.h) str
+(") p n
+(#include) K
+( ") p
+(socket.h) str
+(") p n
+(#include) K
+( ") p
+(socket_error.h) str
+(") p n
+(#include) K
+( ") p
+(protocol_error.h) str
+(") p n
+(#include) K
+( ") p
+(event.h) str
+(") p n
+() N
+(#define) K
+( MSG_PROTOCOL_CLOSE_PEER ") p
+(El servidor cerr\303\263 el socket. ) str
+(") p n
+() N
+(Protocol::Protocol\(SocketReadWrite socket\) : skt\(std::move\(socket\)\) {) N
+(}) N
+() N
+(void) k
+( Protocol::getPlayerName\(std::string & name\) {) p n
+(    uint32_t length;) N
+() N
+(    ) S
+(this) K
+(->skt.getBuffer\(\(uchar*\)&length, 4\);) p n
+(    length = ntohl\(length\);) N
+() N
+(    uchar * buffer = ) S
+(new) K
+( uchar[length+1];) p n
+() N
+(    ) S
+(this) K
+(->skt.getBuffer\(buffer, length\);) p n
+(    std::string ret_name\(\() S
+(char) k
+(*\)buffer, \() p
+(int) k
+(\)length\);) p n
+(    name = ret_name;) N
+(    ) S
+(delete) K
+([] buffer; ) p n
+(}) N
+() N
+(void) k
+( Protocol::sendName\(std::string ) p
+(const) K
+( & name\) ) p
+(const) K
+( {) p n
+(    uint32_t length = name.size\(\);) N
+(    length = htonl\(length\);) N
+(    ) S
+(this) K
+(->skt.sendBuffer\(\() p
+(const) K
+( uchar*\)&length, 4\);) p n
+(    ) S
+(this) K
+(->skt.sendBuffer\(\() p
+(const) K
+( uchar*\)name.c_str\(\), name.size\(\)\);) p n
+(}) N
+() N
+(void) k
+( Protocol::sendFile\(std::fstream & file\) ) p
+(const) K
+( {) p n
+(    uint32_t length;) N
+() N
+(    file.seekg\(0, std::ios::end\);) N
+(    length = file.tellg\(\);) N
+(    file.seekg\(0, std::ios_base::beg\);) N
+(    uint32_t net_length = htonl\(length\);) N
+(    ) S
+(this) K
+(->skt.sendBuffer\(\() p
+(const) K
+( uchar*\)&net_length, 4\);) p n
+() N
+(    ) S
+(int) k
+( remain = length;) p n
+(    ) S
+(int) k
+( readed = 0;) p n
+(    uchar file_chop[FILE_TRANSFER_CHOP_SIZE];) N
+(    ) S
+(while) K
+( \(remain\) {) p n
+(        ) S
+(if) K
+( \(remain < FILE_TRANSFER_CHOP_SIZE\) {) p n
+(            file.read\(\() S
+(char) k
+(*\)file_chop, remain\);) p n
+(            readed = remain;) N
+(        } ) S
+(else) K
+( {) p n
+(            file.read\(\() S
+(char) k
+(*\)file_chop, FILE_TRANSFER_CHOP_SIZE\);) p n
+(            readed = FILE_TRANSFER_CHOP_SIZE;) N
+(        }) N
+(        remain -= readed;) N
+(        ) S
+(this) K
+(->skt.sendBuffer\(file_chop, readed\);) p n
+(    }) N
+(}) N
+() N
+(protocol.cpp) (Page 1/3) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(void) k
+( Protocol::rcvFile\(std::fstream & file\) ) p
+(const) K
+( {) p n
+(    uint32_t length = 0;) N
+(    ) S
+(this) K
+(->skt.getBuffer\(\(uchar*\)&length, 4\);) p n
+(    length = ntohl\(length\);) N
+() N
+(    ) S
+(if) K
+( \(length == 0\) {) p n
+(            std::stringstream msg;) N
+(            msg << MSG_PROTOCOL_CLOSE_PEER << std::strerror\(errno\);) N
+(            ) S
+(throw) K
+( ProtocolError\(msg.str\(\)\);) p n
+(    }) N
+() N
+(    ) S
+(int) k
+( remain = length;) p n
+(    ) S
+(int) k
+( received = 0;) p n
+(    uchar file_chop[FILE_TRANSFER_CHOP_SIZE];) N
+(    ) S
+(while) K
+( \(remain\) {) p n
+(        ) S
+(if) K
+( \(remain < FILE_TRANSFER_CHOP_SIZE\) {) p n
+(            received = ) S
+(this) K
+(->skt.getBuffer\(file_chop, remain\);) p n
+(        } ) S
+(else) K
+( {) p n
+(            received = ) S
+(this) K
+(->skt.getBuffer\(file_chop, FILE_TRANSFER_CHOP_SIZE\);) p n
+(        }) N
+(        remain -= received;) N
+(        file.write\(\() S
+(char) k
+(*\)file_chop, received\);) p n
+(    }) N
+(}) N
+() N
+(void) k
+( Protocol::sendExit\() p
+(void) k
+(\) {) p n
+(    ) S
+(this) K
+(->skt.shutDown\(\);) p n
+(}) N
+() N
+(void) k
+( Protocol::rcvGameMap\(YAML::Node & mapNode\) {) p n
+(    uint32_t node_size = 0;) N
+(    skt.getBuffer\(\(uchar *\) &node_size, 4\);) N
+(    node_size = ntohl\(node_size\);) N
+(    uchar * buffer = ) S
+(new) K
+( uchar[node_size+1];) p n
+(    skt.getBuffer\(buffer, node_size\);) N
+(    buffer[node_size] = ') S
+(\\0) str
+(';) p n
+(    std::string text_node\(\() S
+(char) k
+(*\) buffer\);) p n
+(    ) S
+(delete) K
+([] buffer;) p n
+(    mapNode = YAML::Load\(text_node\);) N
+(}) N
+() N
+(void) k
+( Protocol::sendGameMap\(YAML::Node & mapNode\) {) p n
+(    std::stringstream map_dump;) N
+(    map_dump << mapNode;) N
+(    uint32_t node_size = map_dump.str\(\).length\(\);) N
+(    uint32_t net_node_size = htonl\(node_size\);) N
+(    skt.sendBuffer\(\() S
+(const) K
+( uchar *\) &net_node_size, 4\);) p n
+(    skt.sendBuffer\(\() S
+(const) K
+( uchar *\) map_dump.str\(\).c_str\(\), node_size\);) p n
+(}) N
+() N
+(void) k
+( Protocol::sendGameMapAsString\(std::stringstream & map_dump\) {) p n
+(    uint32_t size = map_dump.str\(\).length\(\);) N
+(    uint32_t net_size = htonl\(size\);) N
+(    skt.sendBuffer\(\() S
+(const) K
+( uchar*\) &net_size, 4\);) p n
+(    skt.sendBuffer\(\() S
+(const) K
+( uchar*\) map_dump.str\(\).c_str\(\), size\);) p n
+(}) N
+() N
+(void) k
+( Protocol::sendEvent\(Event event\) {) p n
+(    YAML::Node nodeEvent = event.getNode\(\);) N
+(    ) S
+(this) K
+(->sendGameMap\(nodeEvent\);) p n
+(}) N
+() N
+(protocol.cpp) (Page 2/3) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(protocol.cpp) (8/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3,1) 9
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(Event Protocol::rcvEvent\() p
+(void) k
+(\) {) p n
+(    YAML::Node eventNode;) N
+(    ) S
+(this) K
+(->rcvGameMap\(eventNode\);) p n
+(    Event event\(eventNode\);) N
+(    ) S
+(return) K
+( event;) p n
+(}) N
+() N
+(void) k
+( Protocol::sendModel\(YAML::Node & modelNode\) {) p n
+(    ) S
+(this) K
+(->sendGameMap\(modelNode\);) p n
+(}) N
+() N
+(void) k
+( Protocol::rcvModel\(YAML::Node & modelNode\) {) p n
+(    ) S
+(this) K
+(->rcvGameMap\(modelNode\);) p n
+(}) N
+() N
+(void) k
+( Protocol::sendGameStatus\(YAML::Node & gameStatusNode\) {) p n
+(    ) S
+(this) K
+(->sendGameMap\(gameStatusNode\);) p n
+(}) N
+() N
+(void) k
+( Protocol::rcvGameStatus\(YAML::Node & gameStatusNode\) {) p n
+(    ) S
+(this) K
+(->rcvGameMap\(gameStatusNode\);) p n
+(}) N
+() N
+(void) k
+( Protocol::rcvMsg\(YAML::Node & msgNode\) {) p n
+(    ) S
+(this) K
+(->rcvGameMap\(msgNode\);) p n
+(}) N
+() N
+(void) k
+( Protocol::sendMsg\(YAML::Node & msgNode\) {) p n
+(    ) S
+(this) K
+(->sendGameMap\(msgNode\);) p n
+(}) S
+(protocol.cpp) (Page 3/3) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(protocol_error.h) str
+(") p n
+(#include) K
+( <string>) p n
+(#include) K
+( <iostream>) p n
+() N
+(ProtocolError::ProtocolError\() S
+(const) K
+( std::string & msg\) {) p n
+(    ) S
+(this) K
+(->msg = msg;) p n
+(}) N
+() N
+(const) K
+( ) p
+(char) k
+( * ProtocolError::what\() p
+(void) k
+(\) ) p
+(const) K
+( noexcept {) p n
+(    ) S
+(return) K
+( ) p
+(this) K
+(->msg.c_str\(\);) p n
+(}) N
+() N
+(ProtocolError::~ProtocolError\() S
+(void) k
+(\) noexcept {) p n
+(}) N
+(protocol_error.cpp) (Page 1/1) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(protocol.cpp, protocol_error.cpp) (9/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1,1) 10
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __PROTOCOL_ERROR_H__) p n
+(#define) K
+( __PROTOCOL_ERROR_H__) p n
+() N
+(#include) K
+( <exception>) p n
+(#include) K
+( <string>) p n
+() N
+(/*) c n
+(Clase para generar excepciones del tipo 'protocol'.) N
+(*/) N
+(class ProtocolError : public std::exception {) p n
+(    private:) N
+(        std::string msg;) N
+(    public:) N
+(        explicit ProtocolError\() S
+(const) K
+( std::string &\);) p n
+(        virtual ) S
+(const) K
+( ) p
+(char) k
+( * what\() p
+(void) k
+(\) ) p
+(const) K
+( noexcept;) p n
+(        virtual ~ProtocolError\() S
+(void) k
+(\) noexcept;) p n
+(};) N
+() N
+(#endif) K n
+(protocol_error.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __PROTOCOL_H__) p n
+(#define) K
+( __PROTOCOL_H__) p n
+() N
+(#include) K
+( <string>) p n
+(#include) K
+( ") p
+(socket.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( ") p
+(types.h) str
+(") p n
+(#include) K
+( ") p
+(event.h) str
+(") p n
+() N
+(#define) K
+( PLAYER_NAME_LENGTH_LIMIT 20) p n
+(#define) K
+( FILENAME_LENGTH_LIMIT 255) p n
+(#define) K
+( FILE_TRANSFER_CHOP_SIZE 255) p n
+() N
+() N
+(class Protocol {) N
+(    private:) N
+(        SocketReadWrite skt;) N
+() N
+(    public:) N
+(        explicit Protocol\(SocketReadWrite\);) N
+(        ) S
+(void) k
+( getPlayerName\(std::string &\);) p n
+(        ) S
+(void) k
+( sendName\(std::string ) p
+(const) K
+( &\) ) p
+(const) K
+(;) p n
+(        ) S
+(void) k
+( rcvFile\(std::fstream & file\) ) p
+(const) K
+(;) p n
+(        ) S
+(void) k
+( sendFile\(std::fstream & file\) ) p
+(const) K
+(;) p n
+(        ) S
+(void) k
+( sendExit\() p
+(void) k
+(\);) p n
+(        ) S
+(void) k
+( rcvGameMap\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( sendGameMap\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( sendEvent\(Event\);) p n
+(        Event rcvEvent\() S
+(void) k
+(\);) p n
+(        ) S
+(void) k
+( sendModel\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( rcvModel\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( sendSnapshot\(std::string ) p
+(const) K
+( &\) ) p
+(const) K
+(;) p n
+(        ) S
+(void) k
+( rcvSnapshot\(std::string &\);) p n
+(        ) S
+(void) k
+( sendGameStatus\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( rcvGameStatus\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( rcvMsg\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( sendMsg\(YAML::Node &\);) p n
+(        ) S
+(void) k
+( sendGameMapAsString\(std::stringstream & map_dump\);) p n
+(};) N
+() N
+(#endif) K
+(protocol.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(protocol_error.h, protocol.h) (10/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 11
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(sdl_timer.h) str
+(") p n
+() N
+(Timer::Timer\(\) {) N
+(  ) S
+(//Initialize the variables) c n
+(  mStartTicks = 0;) p n
+(  mPausedTicks = 0;) N
+() N
+(  mPaused = ) S
+(false) k
+(;) p n
+(  mStarted = ) S
+(false) k
+(;) p n
+(}) N
+() N
+(Timer::~Timer\(\) {}) N
+() N
+(void) k
+( Timer::start\(\) {) p n
+(  ) S
+(//Start the timer) c n
+(  mStarted = ) p
+(true) k
+(;) p n
+() N
+(  ) S
+(//Unpause the timer) c n
+(  mPaused = ) p
+(false) k
+(;) p n
+() N
+(  ) S
+(//Get the current clock time) c n
+(  mStartTicks = SDL_GetTicks\(\);) p n
+() S 8 T (mPausedTicks = 0;) N
+(}) N
+() N
+(void) k
+( Timer::stop\(\) {) p n
+(  ) S
+(//Stop the timer) c n
+(  mStarted = ) p
+(false) k
+(;) p n
+() N
+(  ) S
+(//Unpause the timer) c n
+(  mPaused = ) p
+(false) k
+(;) p n
+() N
+() S 8 T () S
+(//Clear tick variables) c n
+() p 8 T (mStartTicks = 0;) N
+() S 8 T (mPausedTicks = 0;) N
+(}) N
+() N
+(void) k
+( Timer::pause\(\) {) p n
+(  ) S
+(//If the timer is running and isn't already paused) c n
+(  ) p
+(if) K
+( \(mStarted && !mPaused\) {) p n
+(    ) S
+(//Pause the timer) c n
+(    mPaused = ) p
+(true) k
+(;) p n
+() N
+(    ) S
+(//Calculate the paused ticks) c n
+(    mPausedTicks = SDL_GetTicks\(\) - mStartTicks;) p n
+(    mStartTicks = 0;) N
+(  }) N
+(}) N
+() N
+(void) k
+( Timer::unpause\(\) {) p n
+(  ) S
+(//If the timer is running and paused) c n
+(  ) p
+(if) K
+( \(mStarted && mPaused\) {) p n
+(    ) S
+(//Unpause the timer) c n
+(    mPaused = ) p
+(false) k
+(;) p n
+() N
+(    ) S
+(//Reset the starting ticks) c n
+(    mStartTicks = SDL_GetTicks\(\) - mPausedTicks;) p n
+() N
+(    ) S
+(//Reset the paused ticks) c n
+(    mPausedTicks = 0;) p n
+(  }) N
+(}) N
+(sdl_timer.cpp) (Page 1/2) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(size_t Timer::getTicks\(\) {) N
+() S 8 T () S
+(//The actual timer time) c n
+() p 8 T (size_t time = 0;) N
+() N
+(  ) S
+(//If the timer is running) c n
+(  ) p
+(if) K
+( \(mStarted\) {) p n
+(    ) S
+(//If the timer is paused) c n
+(    ) p
+(if) K
+( \(mPaused\) {) p n
+(      ) S
+(//Return the number of ticks when the timer was paused) c n
+(      time = mPausedTicks;) p n
+(    } ) S
+(else) K
+( {) p n
+(      ) S
+(//Return the current time minus the start time) c n
+(      time = SDL_GetTicks\(\) - mStartTicks;) p n
+(    }) N
+(  }) N
+() N
+(  ) S
+(return) K
+( time;) p n
+(}) N
+() N
+(bool) k
+( Timer::isStarted\(\) {) p n
+() S 8 T () S
+(//Timer is running and paused or unpaused) c n
+(  ) p
+(return) K
+( mStarted;) p n
+(}) N
+() N
+(bool) k
+( Timer::isPaused\(\) {) p n
+() S 8 T () S
+(//Timer is running and paused) c n
+(  ) p
+(return) K
+( mPaused && mStarted;) p n
+(}) S
+(sdl_timer.cpp) (Page 2/2) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(sdl_timer.cpp) (11/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1,1) 12
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __SDL_TIMER_H__) p n
+(#define) K
+( __SDL_TIMER_H__) p n
+() N
+(#include) K
+( <SDL2/SDL.h>) p n
+() N
+(// fuente: http://lazyfoo.net/tutorials/SDL/23_advanced_timers/index.php) c n
+() p n
+(class Timer {) N
+(  private:) N
+(    ) S
+(//The clock time when the timer started) c n
+(    ) p
+(int) k
+( mStartTicks;) p n
+() N
+(    ) S
+(//The ticks stored when the timer was paused) c n
+(    ) p
+(int) k
+( mPausedTicks;) p n
+() N
+(    ) S
+(//The timer status) c n
+(    bool mPaused;) p n
+(    bool mStarted;) N
+() N
+(  public:) N
+(    ) S
+(//Initializes variables) c n
+(    Timer\(\);) p n
+(    ~Timer\(\);) N
+() N
+(    ) S
+(//The various clock actions) c n
+(    ) p
+(void) k
+( start\(\);) p n
+(    ) S
+(void) k
+( stop\(\);) p n
+(    ) S
+(void) k
+( pause\(\);) p n
+(    ) S
+(void) k
+( unpause\(\);) p n
+() N
+(    ) S
+(//Gets the timer's time) c n
+(    size_t getTicks\(\);) p n
+() N
+(    ) S
+(//Checks the status of the timer) c n
+(    bool isStarted\(\);) p n
+(    bool isPaused\(\);) N
+(};) N
+() N
+(#endif) K n
+(sdl_timer.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(socket.h) str
+(") p n
+(#include) K
+( ") p
+(socket_error.h) str
+(") p n
+(#include) K
+( ") p
+(types.h) str
+(") p n
+(#include) K
+( <iostream>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( <cstring>) p n
+(#include) K
+( <sstream>) p n
+(#include) K
+( <sys/types.h>) p n
+(#include) K
+( <sys/socket.h>) p n
+(#include) K
+( <netdb.h>) p n
+(#include) K
+( <unistd.h>) p n
+() N
+(SocketBase::SocketBase\() S
+(int) k
+( sockfd\) {) p n
+(    ) S
+(if) K
+( \(sockfd == SOCKET_INVALID_STATE\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_INVALID_CREATE << ") S
+( ) str
+(" << sockfd;) p n
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);) p n
+(    }) N
+(    ) S
+(this) K
+(->sockfd = sockfd;) p n
+(}) N
+() N
+(int) k
+( SocketBase::getSockFd\() p
+(void) k
+(\) ) p
+(const) K
+( {) p n
+(    ) S
+(return) K
+( ) p
+(this) K
+(->sockfd;) p n
+(}) N
+() N
+(void) k
+( SocketBase::SktClose\() p
+(void) k
+(\) {) p n
+(    ::close\() S
+(this) K
+(->sockfd\);) p n
+(    ) S
+(this) K
+(->sockfd = SOCKET_INVALID_STATE;) p n
+(}) N
+() N
+(SocketBase::~SocketBase\() S
+(void) k
+(\) {) p n
+(    ) S
+(if) K
+( \() p
+(this) K
+(->sockfd != SOCKET_INVALID_STATE\) {) p n
+(        ::shutdown\(getSockFd\(\), SHUT_RDWR\);) N
+(        SktClose\(\);) N
+(    }) N
+(}) N
+() N
+(SocketBase::SocketBase\(SocketBase && move\) noexcept :) N
+( sockfd\(SOCKET_INVALID_STATE\) {) N
+(    ) S
+(int) k
+( t = ) p
+(this) K
+(->sockfd;) p n
+(    ) S
+(this) K
+(->sockfd = move.sockfd;) p n
+(    move.sockfd = t;) N
+(}) N
+() N
+(bool) k
+( SocketBase::validState\() p
+(void) k
+(\) ) p
+(const) K
+( {) p n
+(    ) S
+(return) K
+( \() p
+(this) K
+(->sockfd == SOCKET_INVALID_STATE ? ) p
+(false) k
+( : ) p
+(true) k
+(\);) p n
+(}) N
+() N
+(SocketReadWrite::SocketReadWrite\() S
+(int) k
+( sockfd\) : SocketBase\(sockfd\) {) p n
+(}) N
+() N
+(size_t SocketReadWrite::getBuffer\(uchar * buffer, ) S
+(int) k
+( size\) ) p
+(const) K
+( {) p n
+(    ) S
+(if) K
+( \(getSockFd\(\) == SOCKET_INVALID_STATE\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_INVALID_READ << ") S
+( ) str
+(" << getSockFd\(\);) p n
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);        ) p n
+(    }) N
+(    ) S
+(bool) k
+( skt_closed = ) p
+(false) k
+(;) p n
+(    ) S
+(int) k
+( rcv_bytes = 0;) p n
+(    ) S
+(int) k
+( rcv_status, remain;) p n
+(    ) S
+(while) K
+( \(skt_closed == ) p
+(false) k
+( && rcv_bytes < size\) {) p n
+(        remain = size - rcv_bytes;) N
+(socket.cpp) (Page 1/4) (jun 26, 18 12:27) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(sdl_timer.h, socket.cpp) (12/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2-3) 13
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(        rcv_status = ) p n
+(        ::recv\(getSockFd\(\), &buffer[rcv_bytes], remain, MSG_NOSIGNAL\);) N
+(        ) S
+(if) K
+( \(rcv_status > 0\) {) p n
+(            rcv_bytes += rcv_status;) N
+(        } ) S
+(else) K
+( ) p
+(if) K
+( \(rcv_status == 0\) {) p n
+(            skt_closed = ) S
+(true) k
+(;) p n
+(        } ) S
+(else) K
+( ) p
+(if) K
+( \(rcv_status == -1\) {) p n
+(            std::stringstream msg;) N
+(            msg << MSG_SOCKET_ERROR_READ << ") S
+( ) str
+(" << rcv_bytes) p n
+(            << std::strerror\(errno\);) N
+(            ) S
+(throw) K
+( SocketError\(msg.str\(\)\); ) p n
+(        }) N
+(    }) N
+() N
+(    ) S
+(if) K
+( \(rcv_bytes > 0\)) p n
+(        ) S
+(return) K
+( rcv_bytes;) p n
+() N
+(    ) S
+(if) K
+( \(skt_closed\)) p n
+(        ) S
+(return) K
+( 0;) p n
+() N
+(    ) S
+(return) K
+( 0;) p n
+(}) N
+() N
+(void) k
+( SocketReadWrite::sendBuffer\() p
+(const) K
+( uchar * buffer, ) p
+(int) k
+( size\) ) p
+(const) K
+( {) p n
+(    ) S
+(if) K
+( \(getSockFd\(\) == SOCKET_INVALID_STATE\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_INVALID_WRITE << ") S
+( ) str
+(" << getSockFd\(\);) p n
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);        ) p n
+(    }) N
+() N
+(    ) S
+(int) k
+( remain = size;) p n
+(    ) S
+(int) k
+( send_status = 0;) p n
+() N
+(    ) S
+(while) K
+( \(remain\) {) p n
+(        send_status = ) N
+(        ::send\(getSockFd\(\), &buffer[remain-size], remain, MSG_NOSIGNAL\);) N
+(        ) S
+(if) K
+( \(send_status == -1\) {) p n
+(            std::stringstream msg;) N
+(            msg << MSG_SOCKET_ERROR_WRITE << ") S
+( ) str
+(" << size-remain) p n
+(            << std::strerror\(errno\);) N
+(            ) S
+(throw) K
+( SocketError\(msg.str\(\)\); ) p n
+(        } ) S
+(else) K
+( { ) p n
+(            remain -= send_status;) N
+(        }) N
+(    }) N
+(}) N
+() N
+(void) k
+( SocketReadWrite::shutDown\() p
+(void) k
+(\) {) p n
+(    ) S
+(int) k
+( errcode = 0;) p n
+(    errcode = ::shutdown\(getSockFd\(\), SHUT_RDWR\);) N
+(    ) S
+(if) K
+( \(errcode\) {) p n
+(        std::stringstream msg;) N
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);) p n
+(    }) N
+(}) N
+() N
+(int) k
+( SocketConnection::_get_valid_socket) p n
+(\(std::string ) S
+(const) K
+( & host, std::string ) p
+(const) K
+( & port\) {) p n
+(    ) S
+(struct) k
+( ::addrinfo hints;) p n
+(    memset\(&hints, 0, ) S
+(sizeof) K
+(\() p
+(struct) k
+( ::addrinfo\)\);) p n
+(    hints.ai_family = AF_INET;) N
+(    hints.ai_socktype = SOCK_STREAM;) N
+(socket.cpp) (Page 2/4) (jun 26, 18 12:27) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    hints.ai_flags = 0;) p n
+() N
+(    ) S
+(int) k
+( errcode = 0;) p n
+(    errcode = ::getaddrinfo) N
+(    \(host.c_str\(\), port.c_str\(\), &hints, &) S
+(this) K
+(->results\);) p n
+(    ) S
+(if) K
+( \(errcode\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_ADDRINFO << std::strerror\(errno\);) N
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);    ) p n
+(    }) N
+() N
+(    errcode = 0;) N
+(    ) S
+(int) k
+( newsockfd = -1;) p n
+() N
+(    ) S
+(for) K
+( \() p
+(this) K
+(->result = ) p
+(this) K
+(->results; ) p n
+(    ) S
+(this) K
+(->result != ) p
+(NULL) K
+(; ) p n
+(    ) S
+(this) K
+(->result = ) p
+(this) K
+(->result->ai_next\) {) p n
+(        newsockfd = ::socket) N
+(        \() S
+(this) K
+(->result->ai_family, ) p
+(this) K
+(->result->ai_socktype,) p n
+(         ) S
+(this) K
+(->result->ai_protocol\);) p n
+(        ) S
+(if) K
+( \(newsockfd == -1\) {) p n
+(            ) S
+(continue) K
+(;) p n
+(        } ) S
+(else) K
+( {) p n
+(            ) S
+(break) K
+(;) p n
+(        }) N
+(    }) N
+(    ) S
+(return) K
+( newsockfd;) p n
+(}) N
+() N
+(SocketConnection::SocketConnection) N
+(\(std::string ) S
+(const) K
+( & host, std::string ) p
+(const) K
+( & port\)) p n
+( : SocketReadWrite\(_get_valid_socket\(host, port\)\) {) N
+(    ) S
+(int) k
+( errcode = ) p n
+(    ::connect\(getSockFd\(\), ) S
+(this) K
+(->result->ai_addr, ) p
+(this) K
+(->result->ai_addrlen\);) p n
+(    ::freeaddrinfo\() S
+(this) K
+(->results\);) p n
+(    ) S
+(this) K
+(->result = ) p
+(NULL) K
+(;) p n
+(    ) S
+(this) K
+(->results = ) p
+(NULL) K
+(;) p n
+() N
+(    ) S
+(if) K
+( \(errcode == -1\) {) p n
+(        SktClose\(\);) N
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_CONNECT << ") S
+( ) str
+(" << host << ") p
+( ) str
+(" << port;) p n
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);  ) p n
+(    }) N
+(}) N
+() N
+(int) k
+( SocketListener::_get_valid_socket_listener\(std::string ) p
+(const) K
+( & port\) {) p n
+(    ) S
+(struct) k
+( ::addrinfo hints;) p n
+() N
+(    memset\(&hints, 0, ) S
+(sizeof) K
+(\() p
+(struct) k
+( ::addrinfo\)\);) p n
+(    hints.ai_family = AF_INET;) N
+(    hints.ai_socktype = SOCK_STREAM;) N
+(    hints.ai_flags = AI_PASSIVE; ) N
+() N
+(    ) S
+(int) k
+( errcode = 0;) p n
+(    errcode = ::getaddrinfo\() S
+(NULL) K
+(, port.c_str\(\), &hints, &) p
+(this) K
+(->result\);) p n
+(    ) S
+(if) K
+( \(errcode\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_ADDRINFO << std::strerror\(errno\);) N
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);  ) p n
+(    }) N
+() N
+(socket.cpp) (Page 3/4) (jun 26, 18 12:27) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(socket.cpp) (13/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (4,1) 14
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    ) p
+(return) K
+( ::socket\() p
+(this) K
+(->result->ai_family, ) p
+(this) K
+(->result->ai_socktype,) p n
+(    ) S
+(this) K
+(->result->ai_protocol\);) p n
+(}) N
+() N
+(SocketListener::SocketListener\(std::string ) S
+(const) K
+( & port\) :) p n
+(SocketBase\(_get_valid_socket_listener\(port\)\){) N
+(    ) S
+(int) k
+( skopt = 1;) p n
+(    ::setsockopt\(getSockFd\(\), SOL_SOCKET, SO_REUSEADDR, &skopt, ) S
+(sizeof) K
+(\(skopt\)\);) p n
+() N
+(    ) S
+(int) k
+( errcode = ) p n
+(    ::bind\(getSockFd\(\), ) S
+(this) K
+(->result->ai_addr, ) p
+(this) K
+(->result->ai_addrlen\);) p n
+(    ) S
+(if) K
+( \(errcode == -1\) {) p n
+(        SktClose\(\);) N
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_BIND << ") S
+( ) str
+(") p n
+(        << port << ") S
+(. ) str
+(" << std::strerror\(errno\);) p n
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);  ) p n
+(    }) N
+() N
+(    ::freeaddrinfo\() S
+(this) K
+(->result\);) p n
+(    ) S
+(this) K
+(->result = ) p
+(NULL) K
+(;) p n
+() N
+(    errcode = ::listen\(getSockFd\(\), SOCKET_LISTENER_MAX_CONNECTION_WAITING\);) N
+(    ) S
+(if) K
+( \(errcode == -1\) {) p n
+(        SktClose\(\);) N
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_LISTEN << ") S
+( ) str
+(" ) p n
+(        << port << ") S
+(. ) str
+(" << std::strerror\(errno\);) p n
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);  ) p n
+(    }) N
+(}) N
+() N
+(SocketReadWrite SocketListener::accept_connection\() S
+(void) k
+(\) {) p n
+(    ) S
+(if) K
+( \(getSockFd\(\) == SOCKET_INVALID_STATE\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_ACCEPT_INVALID;) N
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);) p n
+(    }) N
+() N
+(    ) S
+(int) k
+( newsockfd = ::accept\(getSockFd\(\), ) p
+(NULL) K
+(, ) p
+(NULL) K
+(\);) p n
+(    ) S
+(if) K
+( \(newsockfd == -1\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_ACCEPT << ") S
+( ) str
+(" << std::strerror\(errno\);) p n
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);    ) p n
+(    }) N
+() N
+(    ) S
+(return) K
+( std::move\(SocketReadWrite\(newsockfd\)\);) p n
+(}) N
+() N
+(void) k
+( SocketListener::stopListening\() p
+(void) k
+(\) {) p n
+(    ) S
+(int) k
+( errcode = 0;) p n
+(    errcode = ::shutdown\(getSockFd\(\), SHUT_RDWR\);) N
+(    ) S
+(if) K
+( \(errcode\) {) p n
+(        std::stringstream msg;) N
+(        msg << MSG_SOCKET_ERROR_SHUTDOWN << std::strerror\(errno\);) N
+(        ) S
+(throw) K
+( SocketError\(msg.str\(\)\);) p n
+(    }) N
+(}) N
+(socket.cpp) (Page 4/4) (jun 26, 18 12:27) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(socket_error.h) str
+(") p n
+(#include) K
+( <string>) p n
+(#include) K
+( <iostream>) p n
+() N
+(SocketError::SocketError\() S
+(const) K
+( std::string & msg\) {) p n
+(    ) S
+(this) K
+(->msg = msg;) p n
+(}) N
+() N
+(const) K
+( ) p
+(char) k
+( * SocketError::what\() p
+(void) k
+(\) ) p
+(const) K
+( noexcept {) p n
+(    ) S
+(return) K
+( ) p
+(this) K
+(->msg.c_str\(\);) p n
+(}) N
+() N
+(SocketError::~SocketError\() S
+(void) k
+(\) noexcept {) p n
+(}) N
+(socket_error.cpp) (Page 1/1) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(socket.cpp, socket_error.cpp) (14/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1,1) 15
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __COMMON_SOCKET_ERROR_H__) p n
+(#define) K
+( __COMMON_SOCKET_ERROR_H__) p n
+() N
+(#include) K
+( <exception>) p n
+(#include) K
+( <string>) p n
+() N
+(/*) c n
+(Clase para generar excepciones del tipo 'socket'.) N
+(*/) N
+(class SocketError : public std::exception {) p n
+(    private:) N
+(        std::string msg;) N
+(    public:) N
+(        explicit SocketError\() S
+(const) K
+( std::string &\);) p n
+(        virtual ) S
+(const) K
+( ) p
+(char) k
+( * what\() p
+(void) k
+(\) ) p
+(const) K
+( noexcept;) p n
+(        virtual ~SocketError\() S
+(void) k
+(\) noexcept;) p n
+(};) N
+() N
+(#endif) K n
+(socket_error.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __COMMON_SOCKET_H__) p n
+(#define) K
+( __COMMON_SOCKET_H__) p n
+() N
+(#include) K
+( <string>) p n
+(#include) K
+( ") p
+(types.h) str
+(") p n
+() N
+(#define) K
+( SOCKET_INVALID_STATE -1) p n
+(#define) K
+( SOCKET_INITIAL_STATE 0) p n
+(#define) K
+( SOCKET_LISTENER_MAX_CONNECTION_WAITING 10) p n
+() N
+(#define) K
+( MSG_SOCKET_ERROR_INVALID_CREATE ") p
+(Se intenta crear un socket invalido.) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_INVALID_READ ") p
+(Se intenta leer un socket invalido.) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_READ ") p
+(-1 en recv\(\) de socket tras recibir \(bytes\):) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_INVALID_WRITE ") p
+(Escritura en un socket invalido.) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_WRITE ") p
+(-1 en send\(\) de socket tras enviar \(bytes\):) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_SHUTDOWN ") p
+(Error en shutdown de socket:) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_ADDRINFO ") p
+(Error en socket getaddrinfo\(\):) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_CONNECT ") p
+(No se pudo conectar socket TCP al ip-port:) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_BIND ") p
+(Error en bind de socket en puerto: ) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_LISTEN ") p
+(Error en listen\(\) de socket en puerto:) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_ACCEPT_INVALID ") p
+(accept\(\) en un socket invalido.) str
+(") p n
+(#define) K
+( MSG_SOCKET_ERROR_ACCEPT ") p
+(Error de socket tras un accept\(\):) str
+(") p n
+() N
+(typedef) K
+( ) p
+(struct) k
+( addrinfo net_addrinfo;) p n
+() N
+(/*) c n
+(Base para cualquier tipo de socket. Contiene el file descriptor y funciones basi) N
+(cas para cualquier socket como) N
+(un constructor \(por parametro y por movimiento\), destructor, cierre y pregunta s) N
+(i esta en estado valido \(fd != -1\).) N
+(No es valido copiar un socket, por lo que dichos metodos estan anulados. Cualqui) N
+(er tipo de socket heredara de este) N
+(socket base.) N
+(*/) N
+(class SocketBase {) p n
+(    private:) N
+(    ) N
+(    protected:) N
+(        explicit SocketBase\() S
+(int) k
+( fd\);) p n
+(        ) S
+(int) k
+( getSockFd\() p
+(void) k
+(\) ) p
+(const) K
+(;) p n
+() N
+(    public:) N
+(        ) S
+(int) k
+( sockfd;) p n
+(        SocketBase\(SocketBase && move\) noexcept;) N
+(        virtual ~SocketBase\() S
+(void) k
+(\);) p n
+(        ) S
+(void) k
+( SktClose\() p
+(void) k
+(\);) p n
+(        bool validState\() S
+(void) k
+(\) ) p
+(const) K
+(;) p n
+(        explicit SocketBase\(SocketBase ) S
+(const) K
+(&\) = delete;) p n
+(        SocketBase& operator=\(SocketBase ) S
+(const) K
+(&\) = delete;) p n
+(};) N
+() N
+(/*) c n
+(Este tipo de socket es un socket que ya esta conectado con un par y tiene los me) N
+(todos para enviar y recibir buffers de informacion.) N
+(Tambien puede hacer shutdown para indicarle al par que termino de operar. Su con) N
+(sturctor llama al constructor base, pasandole un file) N
+(descriptor valido.) N
+(*/) N
+(class SocketReadWrite : public SocketBase {) p n
+(    private:) N
+(    protected:) N
+(    public:) N
+(socket.h) (Page 1/2) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(socket_error.h, socket.h) (15/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2,1) 16
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(        explicit SocketReadWrite\() p
+(int) k
+( sockfd\);) p n
+(        size_t getBuffer\(uchar * buffer, ) S
+(int) k
+( size\) ) p
+(const) K
+(;) p n
+(        ) S
+(void) k
+( sendBuffer\() p
+(const) K
+( uchar * buffer, ) p
+(int) k
+( size\) ) p
+(const) K
+(;) p n
+(        ) S
+(void) k
+( shutDown\() p
+(void) k
+(\);) p n
+(};) N
+() N
+(/*) c n
+(Este tipo de socket se construira exitosamente cuando pueda conectarse al IP-POR) N
+(T que se pasen como parametro. Hereda de) N
+(SocketReadWrite por lo que una vez construido \(y conectado\) puede enviar y recib) N
+(ir informacion con su par.) N
+(Su metodo _get_valid_socket\(\) itera en los addr results buscando una conexion va) N
+(lida, y retorna un file descriptor valido,) N
+(luego SocketConnection invoca al constructor de su padre con dicho file descript) N
+(or valido, y posteriormente se conecta con el par.) N
+(*/) N
+(class SocketConnection : public SocketReadWrite {) p n
+(    private:) N
+(        net_addrinfo * result;) N
+(        net_addrinfo * results;) N
+(        ) S
+(int) k
+( _get_valid_socket\(std::string ) p
+(const) K
+( &, std::string ) p
+(const) K
+( &\);) p n
+(    protected:) N
+(    public:) N
+(        SocketConnection\(std::string ) S
+(const) K
+( &, std::string ) p
+(const) K
+( &\);) p n
+(};) N
+() N
+(/*) c n
+(Este tipo de socket representa un 'socket listener' o 'socket aceptador', propio) N
+( de un servidor. Con la macro SOCKET_LISTENER_MAX_CONNECTION_WAITING) N
+(se definen la cantidad de conexiones en espera que puede tener. Una vez construi) N
+(do este socket, queda escuchando conexiones en <port>. El metodo) N
+(accept_connection\(\) es bloqueante y espera una nueva conexion. Al recibir una co) N
+(nexion, retorna con move semantics un socket del tipo SocketReadWrite,) N
+(que esta listo para enviar y recibir datos con su par.) N
+(*/) N
+(class SocketListener : public SocketBase {) p n
+(    private:) N
+(        net_addrinfo * result;) N
+(        size_t max_connections_waiting = ) N
+(        SOCKET_LISTENER_MAX_CONNECTION_WAITING;) N
+(        ) S
+(int) k
+( _get_valid_socket_listener\(std::string ) p
+(const) K
+( &\);) p n
+(    protected:) N
+(    public:) N
+(        explicit SocketListener\(std::string ) S
+(const) K
+( & port\);) p n
+(        SocketReadWrite accept_connection\() S
+(void) k
+(\);) p n
+(        ) S
+(void) k
+( stopListening\() p
+(void) k
+(\);) p n
+(};) N
+() N
+() N
+(#endif) K n
+(socket.h) (Page 2/2) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(sound_effect.h) str
+(") p n
+(#include) K
+( <limits.h>) p n
+() N
+(int) k
+( GLOBAL_CHANNEL_COUNTER = 1;) p n
+() N
+(SoundEffect::SoundEffect\() S
+(void) k
+(\) {) p n
+(  ) S
+(this) K
+(->sound = ) p
+(NULL) K
+(;) p n
+(  ) S
+(this) K
+(->music = ) p
+(NULL) K
+(;) p n
+() N
+(  ) S
+(this) K
+(->playingMusic = ) p
+(false) k
+(;) p n
+(  ) S
+(this) K
+(->playingSound = ) p
+(false) k
+(;) p n
+() N
+(  ) S
+(if) K
+( \(GLOBAL_CHANNEL_COUNTER == INT_MAX\) {) p n
+(    GLOBAL_CHANNEL_COUNTER = 1;) N
+(  }) N
+() N
+(  ) S
+(this) K
+(->channel = GLOBAL_CHANNEL_COUNTER++;) p n
+() N
+(  Mix_AllocateChannels\(Mix_AllocateChannels\(-1\) + 1\);) N
+(}) N
+() N
+(SoundEffect::~SoundEffect\(\) {) N
+(  ) S
+(this) K
+(->freeSound\(\);) p n
+(  ) S
+(this) K
+(->freeMusic\(\);) p n
+(}) N
+() N
+(void) k
+( SoundEffect::freeSound\() p
+(void) k
+(\) {) p n
+(  ) S
+(this) K
+(->playingSound = ) p
+(false) k
+(;) p n
+(  Mix_HaltChannel\() S
+(this) K
+(->channel\);) p n
+(  ) S
+(if) K
+( \() p
+(this) K
+(->sound\) {) p n
+(    Mix_FreeChunk\() S
+(this) K
+(->sound\);) p n
+(    ) S
+(this) K
+(->sound = ) p
+(NULL) K
+(;) p n
+(  }) N
+(}) N
+() N
+(void) k
+( SoundEffect::freeMusic\() p
+(void) k
+(\) {) p n
+(  ) S
+(if) K
+( \() p
+(this) K
+(->music\) {) p n
+(    Mix_HaltChannel\() S
+(this) K
+(->channel\);) p n
+(    Mix_FreeMusic\() S
+(this) K
+(->music\);) p n
+(    ) S
+(this) K
+(->music = ) p
+(NULL) K
+(;) p n
+(  }) N
+(}) N
+() N
+(void) k
+( SoundEffect::setSound\(std::string path\) {) p n
+(  ) S
+(this) K
+(->freeSound\(\);) p n
+(  ) S
+(this) K
+(->sound = Mix_LoadWAV\(path.c_str\(\)\);) p n
+(  ) S
+(if) K
+( \(!) p
+(this) K
+(->sound\) {) p n
+(    ) S
+(throw) K
+( View::Exception\(") p
+(%s %s. SDL_Error: %s.) str
+(", ERR_MSG_LOADING_SOUND, path.c_str) p n
+(\(\), Mix_GetError\(\)\);) N
+(  }) N
+(}) N
+() N
+(void) k
+( SoundEffect::setMusic\(std::string path\) {) p n
+(  ) S
+(this) K
+(->freeMusic\(\);) p n
+(  ) S
+(this) K
+(->music = Mix_LoadMUS\(path.c_str\(\)\);) p n
+(  ) S
+(if) K
+( \(!) p
+(this) K
+(->music\) {) p n
+(    ) S
+(throw) K
+( View::Exception\(") p
+(%s %s. SDL_Error: %s.) str
+(", ERR_MSG_LOADING_SOUND, path.c_str) p n
+(\(\), Mix_GetError\(\)\);) N
+(  }) N
+(}) N
+() N
+(void) k
+( SoundEffect::playSound\() p
+(int) k
+( loops\) {) p n
+(sound_effect.cpp) (Page 1/2) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(socket.h, sound_effect.cpp) (16/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2,1) 17
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(  ) p
+(if) K
+( \(Mix_Playing\() p
+(this) K
+(->channel\) == 0\) {) p n
+(    ) S
+(this) K
+(->playingSound = ) p
+(false) k
+(;) p n
+(  }) N
+() N
+(  ) S
+(if) K
+( \(!) p
+(this) K
+(->playingSound && ) p
+(this) K
+(->sound\) {) p n
+(    Mix_PlayChannel\() S
+(this) K
+(->channel, ) p
+(this) K
+(->sound, loops\);) p n
+(    ) S
+(this) K
+(->playingSound = ) p
+(true) k
+(;) p n
+(  }) N
+(}) N
+() N
+(void) k
+( SoundEffect::stopSound\() p
+(void) k
+(\) {) p n
+(  Mix_HaltChannel\() S
+(this) K
+(->channel\);) p n
+(}) N
+() N
+(void) k
+( SoundEffect::playMusic\() p
+(int) k
+( loops\) {) p n
+(  ) S
+(if) K
+( \(!Mix_PlayingMusic\(\)\) {) p n
+(    ) S
+(this) K
+(->playingMusic = ) p
+(false) k
+(;) p n
+(    ) S
+(if) K
+( \() p
+(this) K
+(->music\) {) p n
+(      Mix_PlayMusic\() S
+(this) K
+(->music, loops\);) p n
+(      ) S
+(this) K
+(->playingMusic = ) p
+(true) k
+(;) p n
+(    }) N
+(  }) N
+() N
+(  ) S
+(if) K
+( \(Mix_PausedMusic\(\)\) {) p n
+(    Mix_ResumeMusic\(\);) N
+(  }  ) N
+(}) N
+() N
+(void) k
+( SoundEffect::increaseMusicVolume\() p
+(int) k
+( inc\) {) p n
+(  ) S
+(this) K
+(->musicVolume = Mix_VolumeMusic\(-1\);) p n
+(  ) S
+(this) K
+(->musicVolume + inc > MIX_MAX_VOLUME ? Mix_VolumeMusic\(MIX_MAX_VOLUME\) : M) p n
+(ix_VolumeMusic\() S
+(this) K
+(->musicVolume + inc\);) p n
+(}) N
+() N
+(void) k
+( SoundEffect::decreaseMusicVolume\() p
+(int) k
+( dec\) {) p n
+(  ) S
+(this) K
+(->musicVolume = Mix_VolumeMusic\(-1\);) p n
+(  ) S
+(this) K
+(->musicVolume - dec < 0 ? Mix_VolumeMusic\(0\) : Mix_VolumeMusic\() p
+(this) K
+(->music) p n
+(Volume - dec\);) N
+(}) N
+() N
+(bool) k
+( SoundEffect::isPlaying\() p
+(void) k
+(\) {) p n
+(  ) S
+(return) K
+( Mix_Playing\() p
+(this) K
+(->channel\) != 0;) p n
+(}) S
+(sound_effect.cpp) (Page 2/2) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __SOUND_EFFECT_H__) p n
+(#define) K
+( __SOUND_EFFECT_H__) p n
+() N
+(#include) K
+( <SDL2/SDL.h>) p n
+(#include) K
+( <SDL2/SDL_mixer.h>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( ") p
+(view_exceptions.h) str
+(") p n
+() N
+(extern) K
+( ) p
+(int) k
+( GLOBAL_CHANNEL_COUNTER;) p n
+() N
+(class SoundEffect {) N
+(  private:) N
+(    Mix_Chunk * sound;) N
+(    Mix_Music * music;) N
+() N
+(    bool playingSound;) N
+(    bool playingMusic;) N
+() N
+(    ) S
+(int) k
+( channel;) p n
+(    ) S
+(int) k
+( musicVolume;) p n
+() N
+(    ) S
+(// Libera la memoria del sonido) c n
+(    ) p
+(void) k
+( freeSound\() p
+(void) k
+(\);) p n
+() N
+(    ) S
+(// Libera la memoria de la musica) c n
+(    ) p
+(void) k
+( freeMusic\() p
+(void) k
+(\);) p n
+() N
+(    ) S
+(void) k
+( channelFinished\() p
+(int) k
+(\);) p n
+() N
+(  public:) N
+(    ) S
+(// Constructor por defecto) c n
+(    SoundEffect\(\);) p n
+() N
+(    ) S
+(// Destructor, libera el Mix_Chunk) c n
+(    ~SoundEffect\(\);) p n
+() N
+(    ) S
+(// Setea los archivos de sonidos) c n
+(    ) p
+(void) k
+( setSound\(std::string\);) p n
+(    ) S
+(void) k
+( setMusic\(std::string\);) p n
+() N
+(    ) S
+(// Reproduce el sonido loops+1 ) c n
+(    ) p
+(// veces. -1: reproduce eternamente) c n
+(    ) p
+(// hasta que se lo detenga.) c n
+(    ) p
+(void) k
+( playSound\() p
+(int) k
+( loops = -1\);) p n
+() N
+(    ) S
+(// Reproduce la musica loops+1 ) c n
+(    ) p
+(// veces. -1: reproduce eternamente) c n
+(    ) p
+(// hasta que se lo detenga.) c n
+(    ) p
+(void) k
+( playMusic\() p
+(int) k
+( loops = -1\);) p n
+() N
+(    ) S
+(// Aumenta el volumen de la musica) c n
+(    ) p
+(void) k
+( increaseMusicVolume\() p
+(int) k
+( inc = 10\);) p n
+(  ) N
+(    ) S
+(// Disminuye el volumen de la musica) c n
+(    ) p
+(void) k
+( decreaseMusicVolume\() p
+(int) k
+( dec = 10\);) p n
+() N
+(    ) S
+(// Para el sonido) c n
+(    ) p
+(void) k
+( stopSound\() p
+(void) k
+(\);) p n
+() N
+(    ) S
+(// Checkea si esta playing) c n
+(    bool isPlaying\() p
+(void) k
+(\);) p n
+(};) N
+(sound_effect.h) (Page 1/2) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(sound_effect.cpp, sound_effect.h) (17/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2,1) 18
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(#endif) K
+(sound_effect.h) (Page 2/2) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(thread.h) str
+(") p n
+() N
+(Thread::Thread\() S
+(void) k
+(\) {) p n
+(}) N
+() N
+(Thread::Thread\(Thread && other_moved\) {) N
+(    ) S
+(this) K
+(->thread = std::move\(other_moved.thread\);) p n
+(}) N
+() N
+(Thread & Thread::) S
+(operator) K
+(=\(Thread && other_copyed\) {) p n
+(    ) S
+(this) K
+(->thread = std::move\(other_copyed.thread\);) p n
+(    ) S
+(return) K
+( * ) p
+(this) K
+(;) p n
+(}) N
+() N
+(Thread::~Thread\() S
+(void) k
+(\) {) p n
+(}) N
+() N
+(void) k
+( Thread::join\() p
+(void) k
+(\) {) p n
+(    ) S
+(this) K
+(->thread.join\(\);) p n
+(}) N
+() N
+(void) k
+( Thread::start\() p
+(void) k
+(\) {) p n
+(    ) S
+(this) K
+(->thread = std::thread\(&Thread::run, ) p
+(this) K
+(\);) p n
+(}) N
+(thread.cpp) (Page 1/1) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(sound_effect.h, thread.cpp) (18/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1,1) 19
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __THREAD_HPP__) p n
+(#define) K
+( __THREAD_HPP__) p n
+() N
+(#include) K
+( <thread>) p n
+() N
+(/*) c n
+(Clase abstracta que encapsula un thread. La idea es que los objetos vivos herede) N
+(n de esta clase e implementen los metodos virtuales run\(\) \(el mas importante,) N
+(ya que 'dispara' el thread\), isRunning \(que sirve para saber cuando un thread te) N
+(rmino de ejecutarse\), y getId \(esto si deseamos que cada thread tenga un) N
+(ID unico, quiza con fines de debugging\).) N
+(*/) N
+(class Thread {) p n
+(    private:) N
+(        std::thread thread;) N
+(    public:) N
+(        Thread\() S
+(void) k
+(\);) p n
+(        Thread\(Thread &&\);) N
+(        Thread & operator=\(Thread && other\);) N
+(        virtual ~Thread\() S
+(void) k
+(\);) p n
+(        virtual ) S
+(void) k
+( run\() p
+(void) k
+(\) = 0;) p n
+(        virtual bool isRunning\() S
+(void) k
+(\) ) p
+(const) K
+( = 0;) p n
+(        virtual size_t getId\() S
+(void) k
+(\) ) p
+(const) K
+( = 0;) p n
+(        ) S
+(void) k
+( join\() p
+(void) k
+(\);) p n
+(        ) S
+(void) k
+( start\() p
+(void) k
+(\);) p n
+(        Thread\() S
+(const) K
+( Thread &\) = delete;) p n
+(        Thread & operator=\() S
+(const) K
+( Thread &\) = delete;) p n
+(};) N
+() N
+(#endif) K n
+(thread.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __COMMON_TYPES_H__) p n
+(#define) K
+( __COMMON_TYPES_H__) p n
+() N
+(/*) c n
+( Se definen tipos de datos comunes al cliente y el servidor.) N
+(*/) N
+(typedef) K
+( ) p
+(enum) k
+( {) p n
+(    a_noEvent,) N
+(    a_refreshLobby,) N
+(    a_createMatch,) N
+(    a_rmWaitingMatch,) N
+(    a_joinWaitingMatch,) N
+(    a_exitWaitingMatch,) N
+(    a_refreshWaitingList,) N
+(    a_startMatch,) N
+(    a_goToMatch,) N
+(    a_quitLobby,) N
+(    a_moveLeft,) N
+(    a_moveRight,) N
+(    a_stopMoving,) N
+(    a_pointUp,) N
+(    a_pointDown,) N
+(    a_pickWeapon,) N
+(    a_shoot,) N
+(    a_frontJump,) N
+(    a_backJump,) N
+(    a_selectWeapon,) N
+(    a_pointFlyShoot,) N
+(    a_choose1SecDeton,) N
+(    a_choose2SecDeton,) N
+(    a_choose3SecDeton,) N
+(    a_choose4SecDeton,) N
+(    a_choose5SecDeton,) N
+(    a_showWeaponMenu,) N
+(    a_changeWorm,) N
+(    a_quitGame) N
+(} action_t;) N
+() N
+(typedef) K
+( ) p
+(enum) k
+( {) p n
+(    w_null = -1,) N
+(    w_bazooka = 0,) N
+(    w_mortar = 1,) N
+(    w_cluster = 2,) N
+(    w_banana = 4,) N
+(    w_green_grenade = 3,) N
+(    w_holy_grenade = 5,) N
+(    w_dynamite = 7,) N
+(    w_air_strike = 6, ) N
+(    w_bat = 8,) N
+(    w_teleport = 9) N
+(} weapon_t;) N
+() N
+(typedef) K
+( ) p
+(enum) k
+( {) p n
+(    quited,) N
+(    lobby,) N
+(    joined,) N
+(    creator,) N
+(    on_match) N
+(} client_status_t;) N
+() N
+(typedef) K
+( ) p
+(enum) k
+( {) p n
+(    ALL,) N
+(types.h) (Page 1/2) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(thread.h, types.h) (19/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2,1) 20
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    ONLY_HEALTH,) p n
+(    NO_DATA) N
+(} worm_data_cfg_t;) N
+() N
+(typedef) K
+( ) p
+(enum) k
+( {) p n
+(    WS_BREATHING,) N
+(    WS_WALKING,) N
+(    WS_FALLING,) N
+(    WS_FLYING,) N
+(    WS_PICK_WEAPON,) N
+(    WS_DEAD) N
+(} view_worm_state_t;) N
+() N
+(typedef) K
+( ) p
+(enum) k
+( {) p n
+(    NONE,) N
+(    UP,) N
+(    DOWN) N
+(} worm_inclination_t;) N
+() N
+(typedef) K
+( ) p
+(enum) k
+( {) p n
+(    CAMERA_AUTOMATIC,) N
+(    CAMERA_MANUAL) N
+(} camera_mode_t;) N
+() N
+(typedef) K
+( ) p
+(unsigned) k
+( ) p
+(char) k
+( uchar;) p n
+() N
+(#endif) K n
+(types.h) (Page 2/2) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(Table of Contents) K n
+( 1 ) p
+(blocking_queue.h....) k
+( sheets   1 to   1 \( 1\) pages   1-  1   56 lines) p n
+( 2 ) S
+(event.cpp...........) k
+( sheets   1 to   2 \( 2\) pages   2-  3   88 lines) p n
+( 3 ) S
+(event.h.............) k
+( sheets   2 to   2 \( 1\) pages   4-  4   36 lines) p n
+( 4 ) S
+(paths.cpp...........) k
+( sheets   3 to   5 \( 3\) pages   5-  9  255 lines) p n
+( 5 ) S
+(paths.h.............) k
+( sheets   5 to   7 \( 3\) pages  10- 14  260 lines) p n
+( 6 ) S
+(protocol.cpp........) k
+( sheets   8 to   9 \( 2\) pages  15- 17  155 lines) p n
+( 7 ) S
+(protocol_error.cpp..) k
+( sheets   9 to   9 \( 1\) pages  18- 18   15 lines) p n
+( 8 ) S
+(protocol_error.h....) k
+( sheets  10 to  10 \( 1\) pages  19- 19   20 lines) p n
+( 9 ) S
+(protocol.h..........) k
+( sheets  10 to  10 \( 1\) pages  20- 20   42 lines) p n
+(10 ) S
+(sdl_timer.cpp.......) k
+( sheets  11 to  11 \( 1\) pages  21- 22   92 lines) p n
+(11 ) S
+(sdl_timer.h.........) k
+( sheets  12 to  12 \( 1\) pages  23- 23   40 lines) p n
+(12 ) S
+(socket.cpp..........) k
+( sheets  12 to  14 \( 3\) pages  24- 27  245 lines) p n
+(13 ) S
+(socket_error.cpp....) k
+( sheets  14 to  14 \( 1\) pages  28- 28   15 lines) p n
+(14 ) S
+(socket_error.h......) k
+( sheets  15 to  15 \( 1\) pages  29- 29   20 lines) p n
+(15 ) S
+(socket.h............) k
+( sheets  15 to  16 \( 2\) pages  30- 31  101 lines) p n
+(16 ) S
+(sound_effect.cpp....) k
+( sheets  16 to  17 \( 2\) pages  32- 33  102 lines) p n
+(17 ) S
+(sound_effect.h......) k
+( sheets  17 to  18 \( 2\) pages  34- 35   65 lines) p n
+(18 ) S
+(thread.cpp..........) k
+( sheets  18 to  18 \( 1\) pages  36- 36   25 lines) p n
+(19 ) S
+(thread.h............) k
+( sheets  19 to  19 \( 1\) pages  37- 37   29 lines) p n
+(20 ) S
+(types.h.............) k
+( sheets  19 to  20 \( 2\) pages  38- 39   90 lines) p n
+(Table of Content) (Page 1/1) (jun 26, 18 12:50) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(types.h, Table of Content) (20/20) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

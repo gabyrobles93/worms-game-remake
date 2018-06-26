@@ -1,0 +1,4069 @@
+%!PS-Adobe-3.0
+%%Title: editor.cpp, editor.h, editor_launcher.cpp, editor_launcher.h, main.cpp, map_game.cpp, map_game.h, map_state.cpp, map_state.h, Table of Content
+%%For: Gabriel Robles
+%%Creator: a2ps version 4.14
+%%CreationDate: Tue Jun 26 12:51:40 2018
+%%BoundingBox: 24 24 571 818
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 13
+%%PageOrder: Ascend
+%%DocumentMedia: A4 595 842 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      % <vector> <key> <val>
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def % -
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Get the underline position and thickness if they're defined.
+    % Use 1 if they are not defined.
+    currentdict /FontInfo 2 copy known
+    { get
+      /UnderlinePosition 2 copy % <FontInfo> /UP <FontInfo> /UP
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+
+      /UnderlineThickness 2 copy % <FontInfo> /UT <FontInfo> /UT
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+      pop % -
+    }{ pop pop
+    } ifelse
+
+    currentdict
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed strings
+% Version 1.2 1/31/1990
+% Original Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 595 def
+/sw 842 def
+/llx 24 def
+/urx 818 def
+/ury 571 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 8.005733 def
+/cw 4.803440 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 81.400000 mul
+def
+/ph
+   501.959430 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 0 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-2) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( <iostream>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( <SDL2/SDL.h>) p n
+(#include) K
+( <QApplication>) p n
+(#include) K
+( <QMessageBox>) p n
+(#include) K
+( <QDebug>) p n
+(#include) K
+( ") p
+(editor.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( ") p
+(map_game.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( ") p
+(inventory.h) str
+(") p n
+(#include) K
+( ") p
+(inventory_editor.h) str
+(") p n
+() N
+(#define) K
+( EXIT_PADDING 5) p n
+(#define) K
+( EXIT_ICON_SIDE 20) p n
+(#define) K
+( SAVE_PADDING 10) p n
+(#define) K
+( SAVE_ICON_SIDE 60) p n
+() N
+(Editor::Editor\(YAML::Node map, std::string mn, std::string bgn, std::string bgp\)) N
+( :) N
+(bg_name\(bgn\),) N
+(bg_path\(bgp\),) N
+(map_name\(mn\),) N
+(mapNode\(YAML::Clone\(map\)\),) N
+(staticNode\(mapNode[") S
+(static) str
+("]\),) p n
+(mapGame\(mapNode\),) N
+(editorWindow\(staticNode, 0, 0, ) S
+(true) k
+(, ) p
+(true) k
+(\),) p n
+(camera\(editorWindow.getScreenWidth\(\),) N
+(        editorWindow.getScreenHeight\(\),) N
+(        editorWindow.getBgWidth\(\),) N
+(        editorWindow.getBgHeight\(\)\),) N
+(renderer\(editorWindow.getRenderer\(\)\),) N
+(editorInventory\(renderer,) N
+(             mapNode[") S
+(static) str
+("][") p
+(teams_amount) str
+("].as<) p
+(int) k
+(>\(\),) p n
+(             mapNode[") S
+(static) str
+("][") p
+(worms_health) str
+("].as<) p
+(int) k
+(>\(\)\) {) p n
+() S 8 T () S
+(this) K
+(->teamsAmount = mapNode[") p
+(static) str
+("][") p
+(teams_amount) str
+("].as<) p
+(int) k
+(>\(\);) p n
+() S 8 T () S
+(this) K
+(->wormsHealth = mapNode[") p
+(static) str
+("][") p
+(worms_health) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(  ) S
+(this) K
+(->editorInventory.toggleOpen\(\);) p n
+() S 8 T () S
+(this) K
+(->mapGame.setRenderer\() p
+(this) K
+(->renderer\);) p n
+() S 8 T () S
+(this) K
+(->mapGame.initializeStates\(\);) p n
+(  ) S
+(this) K
+(->mapGame.createMapToSave\(\);) p n
+() S 8 T () S
+(this) K
+(->exitTexture.loadFromFile\(gPath.PATH_EXIT_ICON, ) p
+(this) K
+(->renderer\);) p n
+() S 8 T () S
+(this) K
+(->exitTexture.setX\() p
+(this) K
+(->editorWindow.getScreenWidth\(\) - EXIT_PADDIN) p n
+(G - EXIT_ICON_SIDE\);) N
+() S 8 T () S
+(this) K
+(->exitTexture.setY\(EXIT_PADDING\);) p n
+() S 8 T () S
+(this) K
+(->saveTexture.loadFromFile\(gPath.PATH_SAVE_ICON, ) p
+(this) K
+(->renderer\);) p n
+() S 8 T () S
+(this) K
+(->saveTexture.setX\() p
+(this) K
+(->editorWindow.getScreenWidth\(\) - SAVE_PADDIN) p n
+(G - SAVE_ICON_SIDE\);) N
+() S 8 T () S
+(this) K
+(->saveTexture.setY\(EXIT_PADDING + EXIT_ICON_SIDE + SAVE_PADDING\);) p n
+() S 8 T () S
+(this) K
+(->unsaved_changes = ) p
+(false) k
+(;) p n
+() S 8 T () S
+(this) K
+(->notice.setScreenWidth\() p
+(this) K
+(->editorWindow.getScreenWidth\(\)\);) p n
+() S 8 T () S
+(this) K
+(->notice.setScreenHeight\() p
+(this) K
+(->editorWindow.getScreenHeight\(\)\);) p n
+(}) N
+() N
+(int) k
+( Editor::start\() p
+(void) k
+(\) {) p n
+(  ) S
+(bool) k
+( quit = ) p
+(false) k
+(;) p n
+() S 8 T (SDL_Event e;) N
+() S 8 T () S
+(while) K
+( \(!quit\) {) p n
+() S 8 T () S 16 T () S
+(int) k
+( camX = camera.getX\(\), camY = camera.getY\(\);) p n
+() S 8 T () S 16 T () N
+() S 8 T () S 16 T () S
+(while) K
+( \(SDL_PollEvent\(&e\) != 0\) {) p n
+() S 8 T () S 16 T () S 24 T () S
+(if) K
+( \(e.type == SDL_QUIT\) {) p n
+(editor.cpp) (Page 1/5) (jun 25, 18 21:34) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p 8 T () S 16 T () S 24 T () S 32 T (quit = ) S
+(true) k
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T (editorWindow.hide\(\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T (validMap = mapGame.hasWorms\(\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S
+(if) K
+( \(!validMap\) {) p n
+(                    QMessageBox msgBox;) N
+(                    msgBox.setWindowTitle\(") S
+(Mapa inv\303\241lido.) str
+("\);) p n
+(                    msgBox.setText\(") S
+(El mapa debe tener al menos un worm de cada team.) str
+(" ") p
+(\302\277Dese) str n
+(a continuar editando el mapa?) S
+("\);) p n
+(                    msgBox.setStandardButtons\(QMessageBox::Yes\);) N
+(                    msgBox.addButton\(QMessageBox::No\);) N
+(                    msgBox.setDefaultButton\(QMessageBox::Yes\);) N
+(                    ) S
+(if) K
+(\(msgBox.exec\(\) == QMessageBox::Yes\) {) p n
+(                        editorWindow.show\(\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (quit = ) S
+(false) k
+(;) p n
+(                    }) N
+() S 8 T () S 16 T () S 24 T () S 32 T (}) N
+() S 8 T () S 16 T () S 24 T (}) N
+() N
+() S 8 T () S 16 T () S 24 T () S
+(if) K
+( \(e.type == SDL_KEYDOWN\) {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S
+(if) K
+( \(e.key.keysym.sym == SDLK_z && \(e.key) p n
+(.keysym.mod & KMOD_CTRL\)\) {) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mapGame.setPreviousState\(editorI) N
+(nventory\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S
+(if) K
+( \(e.key.keysym.sym == SDLK_y && \(e.key) p n
+(.keysym.mod & KMOD_CTRL\)\) {) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mapGame.setNextState\(editorInven) N
+(tory\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T () N
+() S 8 T () S 16 T () S 24 T (}) N
+() N
+() S 8 T () S 16 T () S 24 T () S
+(if) K
+( \(e.type == SDL_MOUSEBUTTONDOWN\) {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S
+(int) k
+( mouseX, mouseY;) p n
+(  ) S 8 T () S 16 T () S 24 T (SDL_GetMouseState\(&mouseX, &mouseY\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S
+(if) K
+( \(e.button.button == SDL_BUTTON_LEFT\) {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S
+(if) K
+( \() p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseX > ) S
+(this) K
+(->saveTexture.getX\() p n
+(\) && ) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseX < ) S
+(this) K
+(->saveTexture.getX\() p n
+(\) + SAVE_ICON_SIDE && ) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseY > ) S
+(this) K
+(->saveTexture.getY\() p n
+(\) &&) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseY < ) S
+(this) K
+(->saveTexture.getY\() p n
+(\) + SAVE_ICON_SIDE) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (\) {) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S
+(if) K
+( \(!) p
+(this) K
+(->unsaved_changes\) {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (std::cout << ") S
+(No hay cambi) str n
+(os sin guardar.) S
+(" << std::endl;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S
+(this) K
+(->notice.showFlashNo) p n
+(tice\() S
+(this) K
+(->renderer, ") p
+(No hay cambios sin guardar.) str
+("\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S
+(continue) K
+(;) p 72 T () S 80 T () N
+() S 0 T () S 8 T () S 16 T () S 24 T () S 32 T () N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (validMap = mapGame.hasWorms\(\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S
+(if) K
+( \(!validMap\) {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (std::cout << ") S
+(El mapa debe t) str n
+(ener al menos un worm de cada team.) S
+(" << std::endl;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S
+(this) K
+(->notice.showFlashEr) p n
+(ror\() S
+(this) K
+(->renderer, ") p
+(El mapa debe tener al menos un worm de cada team.) str
+("\);) p n
+(editor.cpp) (Page 2/5) (jun 25, 18 21:34) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(editor.cpp) (1/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S
+(continue) K
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mapGame.saveAs\() S
+(this) K
+(->map_name, ) p
+(t) K n
+(his) S
+(->bg_name, ) p
+(this) K
+(->bg_path\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S
+(this) K
+(->unsaved_changes = ) p
+(false) k
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (std::cout << ") S
+(Mapa guardado.) str
+(" << st) p n
+(d::endl;) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S
+(this) K
+(->notice.showFlashNotice\() p
+(thi) K n
+(s) S
+(->renderer, ") p
+(Mapa guardado en /usr/etc/worms/maps/) str
+(" + ) p
+(this) K
+(->map_name\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (} ) S
+(else) K
+( ) p
+(if) K
+( \() p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseX > ) S
+(this) K
+(->exitTexture.getX\() p n
+(\) && ) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseX < ) S
+(this) K
+(->exitTexture.getX\() p n
+(\) + EXIT_ICON_SIDE &&) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseY > ) S
+(this) K
+(->exitTexture.getY\() p n
+(\) &&) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (mouseY < ) S
+(this) K
+(->exitTexture.getY\() p n
+(\) + EXIT_ICON_SIDE\) {) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (quit = ) S
+(true) k
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (editorWindow.hide\(\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (validMap = mapGame.hasWo) N
+(rms\(\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S
+(if) K
+( \(!validMap\) {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (QMessageBox msgB) N
+(ox;) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setWindow) N
+(Title\(") S
+(Mapa inv\303\241lido.) str
+("\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setText\(") S
+() str n
+(El mapa debe tener al menos un worm de cada team.) S
+(" ") p
+(\302\277Desea continuar editando el mapa?) str
+("\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setStanda) N
+(rdButtons\(QMessageBox::Yes\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.addButton) N
+(\(QMessageBox::No\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setDefaul) N
+(tButton\(QMessageBox::Yes\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S
+(if) K
+(\(msgBox.exec\(\)) p n
+( == QMessageBox::Yes\) {) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () N
+(editorWindow.show\(\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () N
+(quit = ) S
+(false) k
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S
+() K n
+(continue) S
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S
+(if) K
+( \() p
+(this) K
+(->unsaved_change) p n
+(s\) {) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (QMessageBox msgB) N
+(ox;) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setWindow) N
+(Title\(") S
+(Guardar antes de salir.) str
+("\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setText\(") S
+() str n
+(Hay cambios sin guardar. Desea guardar el mapa antes de salir?) S
+("\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setStanda) N
+(rdButtons\(QMessageBox::Yes\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.addButton) N
+(\(QMessageBox::No\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (msgBox.setDefaul) N
+(tButton\(QMessageBox::Yes\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S
+(if) K
+(\(msgBox.exec\(\)) p n
+( == QMessageBox::Yes\) {) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () N
+(editor.cpp) (Page 3/5) (jun 25, 18 21:34) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(mapGame.saveAs\() p
+(this) K
+(->map_name, ) p
+(this) K
+(->bg_name, ) p
+(this) K
+(->bg_path\);) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S
+() K n
+(this) S
+(->unsaved_changes = ) p
+(false) k
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S
+() K n
+(continue) S
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (}) S 72 T () S 80 T () N
+() S 0 T () S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (} ) S
+(else) K
+( {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (editorInventory.handleEvent\(rend) N
+(erer, e, mapGame, camX, camY\);) N
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S
+(this) K
+(->unsaved_changes = ) p
+(true) k
+(;) p n
+() S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+() S 8 T () S 16 T () S 24 T () S 32 T (}) N
+() S 8 T () S 16 T () S 24 T (} ) S
+(else) K
+( {) p n
+() S 8 T () S 16 T () S 24 T () S 32 T (editorInventory.handleEvent\(renderer, e, mapGame) N
+(, camX, camY\);) N
+() S 8 T () S 16 T () S 24 T (}) N
+() S 8 T () S 16 T (}) N
+() N
+() S 8 T () S 16 T (SDL_SetRenderDrawColor\(renderer, 0x00, 0x00, 0x00, 0x00\);) N
+() S 8 T () S 16 T (SDL_RenderClear\(renderer\);) N
+() N
+() S 8 T () S 16 T (camera.updateCameraPosition\(\);) N
+() N
+() S 8 T () S 16 T (editorWindow.render\(camera\);) N
+() N
+() S 8 T () S 16 T (mapGame.render\(renderer, camX, camY\);) N
+() S 8 T () S 16 T () N
+() S 8 T () S 16 T (editorInventory.renderSelectedInMouse\(renderer\);) N
+() N
+() S 8 T () S 16 T (editorWindow.renderWater\(camera\);) N
+() N
+() S 8 T () S 16 T (editorInventory.render\(renderer\);) N
+() N
+() S 8 T () S 16 T (notice.render\(renderer\);) N
+() N
+() S 8 T () S 16 T () S
+(this) K
+(->saveTexture.render\() p
+(this) K
+(->renderer, ) p
+(this) K
+(->saveTexture.getX\() p n
+(\), ) S
+(this) K
+(->saveTexture.getY\(\), SAVE_ICON_SIDE, SAVE_ICON_SIDE\);) p n
+() S 8 T () S 16 T () S
+(this) K
+(->exitTexture.render\() p
+(this) K
+(->renderer, ) p
+(this) K
+(->exitTexture.getX\() p n
+(\), ) S
+(this) K
+(->exitTexture.getY\(\), EXIT_ICON_SIDE, EXIT_ICON_SIDE\);) p n
+() S 8 T () S 16 T () N
+() S 8 T () S 16 T (SDL_RenderPresent\(renderer\);) N
+() S 8 T () S 16 T (SDL_Delay\(50\); ) S
+(// Para no usar al mango el CPU) c n
+() p 8 T (}) N
+() N
+() S 8 T () S
+(if) K
+( \(validMap && ) p
+(this) K
+(->unsaved_changes\) {) p n
+() S 8 T () S 16 T (QMessageBox msgBox;) N
+() S 8 T () S 16 T (msgBox.setWindowTitle\(") S
+(Fin de edici\303\263n) str
+("\);) p n
+() S 8 T () S 16 T (msgBox.setText\(") S
+(\302\277Desea guardar el mapa?) str
+("\);) p n
+() S 8 T () S 16 T (msgBox.setStandardButtons\(QMessageBox::Yes\);) N
+() S 8 T () S 16 T (msgBox.addButton\(QMessageBox::No\);) N
+() S 8 T () S 16 T (msgBox.setDefaultButton\(QMessageBox::Yes\);) N
+() S 8 T () S 16 T () S
+(if) K
+(\(msgBox.exec\(\) == QMessageBox::Yes\) {) p n
+() S 8 T () S 16 T () S 24 T (mapGame.saveAs\() S
+(this) K
+(->map_name, ) p
+(this) K
+(->bg_name, ) p
+(this) K
+(->bg_p) p n
+(ath\);) N
+() S 8 T () S 16 T () S 24 T () S
+(this) K
+(->unsaved_changes = ) p
+(false) k
+(;) p n
+() S 8 T () S 16 T () S 24 T () S
+(return) K
+( 0;) p n
+() S 8 T () S 16 T (}) N
+() S 8 T (}) N
+() N
+() S 8 T () S
+(return) K
+( -1;) p n
+(editor.cpp) (Page 4/5) (jun 25, 18 21:34) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(editor.cpp) (2/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5,1) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(}) p n
+(editor.cpp) (Page 5/5) (jun 25, 18 21:34) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __EDITOR_H__) p n
+(#define) K
+( __EDITOR_H__) p n
+() N
+(#include) K
+( <SDL2/SDL.h>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( ") p
+(map_game.h) str
+(") p n
+(#include) K
+( ") p
+(window_game.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( ") p
+(inventory.h) str
+(") p n
+(#include) K
+( ") p
+(inventory_editor.h) str
+(") p n
+(#include) K
+( ") p
+(flash_notice.h) str
+(") p n
+(#include) K
+( ") p
+(texture.h) str
+(") p n
+() N
+(class Editor {) N
+(    private:) N
+(        std::string bg_name;) N
+(        std::string bg_path;) N
+(        std::string map_name;) N
+(        YAML::Node mapNode;) N
+(        YAML::Node staticNode;) N
+(        View::MapGame mapGame;) N
+(        View::WindowGame editorWindow;) N
+(        View::Camera camera;) N
+(        SDL_Renderer * renderer;) N
+(        View::EditorInventory editorInventory;) N
+(        View::Texture saveTexture;) N
+(        View::Texture exitTexture;) N
+(        FlashNotice notice;) N
+(        ) S
+(int) k
+( teamsAmount;) p n
+(        ) S
+(int) k
+( wormsHealth;) p n
+(        bool validMap;) N
+(        bool unsaved_changes;) N
+() N
+(    public:) N
+(        Editor\(YAML::Node, std::string, std::string, std::string\);) N
+(        ) S
+(int) k
+( start\() p
+(void) k
+(\);) p n
+(};) N
+() N
+(#endif) K
+(editor.h) (Page 1/1) (jun 25, 18 21:00) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(editor.cpp, editor.h) (3/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( <iostream>) p n
+(#include) K
+( <fstream>) p n
+(#include) K
+( <QFileDialog>) p n
+(#include) K
+( <QFileInfo>) p n
+(#include) K
+( <QMessageBox>) p n
+(#include) K
+( <sstream>) p n
+(#include) K
+( <QLineEdit>) p n
+(#include) K
+( ") p
+(editor_launcher.h) str
+(") p n
+(#include) K
+( ") p
+(types.h) str
+(") p n
+(#include) K
+( ") p
+(ui_editor_launcher.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( ") p
+(editor.h) str
+(") p n
+() N
+(#define) K
+( DEFAULT_AMMO_QTY 10) p n
+(#define) K
+( DEFAULT_WORMS_HEALTH 200) p n
+(#define) K
+( DEFAULT_TEAMS_AMOUNT 2) p n
+(#define) K
+( DEFAULT_WATER_LEVEL 300) p n
+() N
+(#define) K
+( DEFAULT_SAVED_MAPS_PATH ") p
+(/usr/etc/worms/maps/) str
+(") p n
+(#define) K
+( MAPS_EXT ") p
+(.yml) str
+(") p n
+() N
+(EditorLauncher::EditorLauncher\(QWidget *parent\) :) N
+(    QMainWindow\(parent\),) N
+(    ui\() S
+(new) K
+( Ui::EditorLauncher\)) p n
+({) N
+(    ui->setupUi\() S
+(this) K
+(\);) p n
+(    ) S
+(this) K
+(->background_choosed = ) p
+(false) k
+(;) p n
+(    connectEvents\(\);) N
+(}) N
+() N
+(EditorLauncher::~EditorLauncher\(\)) N
+({) N
+(    removeTempFiles\(\);) N
+(    ) S
+(delete) K
+( ui;) p n
+(}) N
+() N
+(void) k
+( EditorLauncher::removeTempFiles\() p
+(void) k
+(\) {) p n
+(    ) S
+(struct) k
+( stat buffer1;) p n
+(    ) S
+(struct) k
+( stat buffer2;) p n
+(    std::string path_map_yml = ") S
+(/usr/etc/worms/temp/map.yml) str
+(";) p n
+(    std::string path_map_bg = ") S
+(/usr/etc/worms/temp/background.png) str
+(";) p n
+(    ) S
+(if) K
+( \(stat \(path_map_yml.c_str\(\), &buffer1\) == 0\) {) p n
+(        std::string cmd_rm_map = ") S
+(rm ) str
+(" + path_map_yml;) p n
+(        std::system\(cmd_rm_map.c_str\(\)\);) N
+(    }) N
+(    ) S
+(if) K
+( \(stat \(path_map_bg.c_str\(\), &buffer2\) == 0\) {) p n
+(        std::string cmd_rm_bg = ") S
+(rm ) str
+(" + path_map_bg;) p n
+(        std::system\(cmd_rm_bg.c_str\(\)\);) N
+(    }) N
+(}) N
+() N
+(void) k
+( EditorLauncher::connectEvents\() p
+(void) k
+(\) {) p n
+(    ) S
+(// Conecto el evento del boton exit) c n
+() p n
+(    QPushButton* choose_background = findChild<QPushButton*>\(") S
+(background_path) str
+("\);) p n
+(    QObject::connect\(choose_background, &QPushButton::clicked,) N
+(                     ) S
+(this) K
+(, &EditorLauncher::chooseBackground\);) p n
+() N
+(    QPushButton* go_create = findChild<QPushButton*>\(") S
+(go_create) str
+("\);) p n
+(    QObject::connect\(go_create, &QPushButton::clicked,) N
+(                     ) S
+(this) K
+(, &EditorLauncher::goCreate\);) p n
+() N
+(editor_launcher.cpp) (Page 1/5) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    QAction* load_and_edit = findChild<QAction*>\(") p
+(actionLoad_and_Edit) str
+("\);) p n
+(    QObject::connect\(load_and_edit, &QAction::triggered, ) S
+(this) K
+(, &EditorLauncher::) p n
+(loadAndEdit\);) N
+() N
+(    QAction* create_new_map = findChild<QAction*>\(") S
+(actionNew_map) str
+("\);) p n
+(    QObject::connect\(create_new_map, &QAction::triggered, ) S
+(this) K
+(, &EditorLauncher:) p n
+(:createNewMap\);) N
+(}) N
+() N
+(void) k
+( EditorLauncher::chooseBackground\() p
+(void) k
+(\) {) p n
+(    QString bg_path;) N
+(    bg_path = QFileDialog::getOpenFileName\() S
+(this) K
+(, tr\(") p
+(Choose Background) str
+("\), ") p
+(/home) str
+(", t) p n
+(r\(") S
+(Image Files \(*.png\)) str
+("\)\);) p n
+(    ) S
+(this) K
+(->background_path = bg_path.toUtf8\(\).constData\(\);) p n
+(    QLabel* label_background_path = findChild<QLabel*>\(") S
+(label_background_path) str
+("\);) p n
+(    label_background_path->setText\(bg_path\);) N
+(    ) S
+(if) K
+( \(bg_path.length\(\) > 0\) {) p n
+(        ) S
+(this) K
+(->background_choosed = ) p
+(true) k
+(;) p n
+(        QFileInfo bg_info\(bg_path\);) N
+(        ) S
+(this) K
+(->background_name = bg_info.fileName\(\).toUtf8\(\).constData\(\);) p n
+(    }) N
+(}) N
+() N
+(void) k
+( EditorLauncher::goCreate\() p
+(void) k
+(\) {) p n
+() N
+(    QString error_msg;) N
+(    ) S
+(bool) k
+( error = ) p
+(false) k
+(;) p n
+(    std::string map_name;) N
+(    YAML::Node mapNode;) N
+() N
+(    ) S
+(if) K
+( \(!) p
+(this) K
+(->background_choosed\) {) p n
+(        error_msg += ") S
+(Choose a background! \\n) str
+(";) p n
+(        error = ) S
+(true) k
+(;) p n
+(    }) N
+() N
+(    ) S
+(if) K
+( \(findChild<QComboBox*>\(") p
+(background_options) str
+("\)->currentText\(\) == ") p
+(Background Option) str n
+(s) S
+("\) {) p n
+(        error_msg += ") S
+(Background option is missing.\\n) str
+(";) p n
+(        error = ) S
+(true) k
+(;) p n
+(    }) N
+() N
+(    ) S
+(if) K
+( \(findChild<QLineEdit*>\(") p
+(map_name) str
+("\)->text\(\).length\(\) == 0\) {) p n
+(        error_msg += ") S
+(Write a map name!.\\n) str
+(";) p n
+(    }) N
+() N
+(    ) S
+(if) K
+( \(error == ) p
+(true) k
+(\) {) p n
+(        findChild<QLabel*>\(") S
+(label_errors) str
+("\)->setText\(error_msg\);) p n
+(        ) S
+(return) K
+(;) p n
+(    }) N
+() N
+(    map_name = findChild<QLineEdit*>\(") S
+(map_name) str
+("\)->text\(\).toUtf8\(\).constData\(\);) p n
+(    mapNode[") S
+(static) str
+("][") p
+(background) str
+("][") p
+(file) str
+("] = ) p
+(this) K
+(->background_path;) p n
+(    mapNode[") S
+(static) str
+("][") p
+(background) str
+("][") p
+(display) str
+("] = findChild<QComboBox*>\(") p
+(background_options) str
+(") p n
+(\)->currentText\(\).toUtf8\(\).constData\(\);) N
+(    mapNode[") S
+(static) str
+("][") p
+(water_level) str
+("] = findChild<QSpinBox*>\(") p
+(water_level) str
+("\)->value\(\);) p n
+(    mapNode[") S
+(static) str
+("][") p
+(teams_amount) str
+("] = findChild<QSpinBox*>\(") p
+(teams_amount) str
+("\)->value\(\);) p n
+(    mapNode[") S
+(static) str
+("][") p
+(worms_health) str
+("] = findChild<QSpinBox*>\(") p
+(worms_health) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_bazooka\)][") p
+(item_name) str
+("] = ") p
+(Bazook) str n
+(a) S
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_bazooka\)][") p
+(supplies) str
+("] = findChil) p n
+(d<QSpinBox*>\(") S
+(bazooka_ammo) str
+("\)->value\(\);) p n
+(editor_launcher.cpp) (Page 2/5) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(editor_launcher.cpp) (4/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_mortar\)][") p
+(item_name) str
+("] = ") p
+(Mortar) str
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_mortar\)][") p
+(supplies) str
+("] = findChild) p n
+(<QSpinBox*>\(") S
+(mortar_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_cluster\)][") p
+(item_name) str
+("] = ") p
+(Cluster) str
+() p n
+(";) N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_cluster\)][") p
+(supplies) str
+("] = findChil) p n
+(d<QSpinBox*>\(") S
+(red_bomb_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_banana\)][") p
+(item_name) str
+("] = ") p
+(Banana) str
+(") p n
+(;) N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_banana\)][") p
+(supplies) str
+("] = findChild) p n
+(<QSpinBox*>\(") S
+(banana_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_green_grenade\)][") p
+(item_name) str
+("] = ) p n
+(") S
+(Grenade) str
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_green_grenade\)][") p
+(supplies) str
+("] = fi) p n
+(ndChild<QSpinBox*>\(") S
+(green_bomb_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_holy_grenade\)][") p
+(item_name) str
+("] = ") p
+() str n
+(Holy bomb) S
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_holy_grenade\)][") p
+(supplies) str
+("] = fin) p n
+(dChild<QSpinBox*>\(") S
+(holy_bomb_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_dynamite\)][") p
+(item_name) str
+("] = ") p
+(Dyna) str n
+(mite) S
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_dynamite\)][") p
+(supplies) str
+("] = findChi) p n
+(ld<QSpinBox*>\(") S
+(dynamite_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_air_strike\)][") p
+(item_name) str
+("] = ") p
+(Air) str n
+( Strike) S
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_air_strike\)][") p
+(supplies) str
+("] = findC) p n
+(hild<QSpinBox*>\(") S
+(fly_bombs_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_teleport\)][") p
+(item_name) str
+("] = ") p
+(Telepo) str n
+(rt) S
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_teleport\)][") p
+(supplies) str
+("] = findChi) p n
+(ld<QSpinBox*>\(") S
+(teleport_ammo) str
+("\)->value\(\);) p n
+() N
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_bat\)][") p
+(item_name) str
+("] = ") p
+(Bat) str
+(";) p n
+(    mapNode[") S
+(static) str
+("][") p
+(init_inventory) str
+("][std::to_string\(w_bat\)][") p
+(supplies) str
+("] = findChild<QS) p n
+(pinBox*>\(") S
+(bat_ammo) str
+("\)->value\(\);) p n
+() N
+(    std::string map_path = DEFAULT_SAVED_MAPS_PATH + map_name + MAPS_EXT;) N
+() N
+(/*     std::stringstream ss;) c n
+(    ss << mapNode;) N
+(    std::cout << ss.str\(\) << std::endl; */) N
+() p n
+(    launchEditor\(mapNode, map_name\);) N
+(}) N
+() N
+(void) k
+( EditorLauncher::launchEditor\(YAML::Node mapNode, std::string & map_name\) {) p n
+(    std::cout << ") S
+(About to construct the_editor) str
+(" << std::endl;) p n
+(    Editor the_editor\(mapNode, map_name, ) S
+(this) K
+(->background_name, ) p
+(this) K
+(->background) p n
+(_path\);) N
+(    std::cout << ") S
+(Finish constructing the_editor) str
+(" << std::endl;) p n
+(    ) S
+(this) K
+(->hide\(\);) p n
+(    ) S
+(int) k
+( err_code;) p n
+(    err_code = the_editor.start\(\);) N
+(    ) S
+(if) K
+( \(err_code == 0\) {) p n
+(editor_launcher.cpp) (Page 3/5) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(    }) N
+(    ) S
+(this) K
+(->close\(\);) p n
+(}) N
+() N
+(void) k
+( EditorLauncher::loadAndEdit\() p
+(void) k
+(\) {) p n
+(    std::cout << ") S
+(Se carga un mapa existente para editarlo.) str
+(" << std::endl;) p n
+(    QString map_path;) N
+(    map_path = QFileDialog::getOpenFileName\() S
+(this) K
+(, tr\(") p
+(Choose Map) str
+("\), ") p
+(/usr/etc/worms/ma) str n
+(ps) S
+(", tr\(") p
+(Tar gzipped \(*.tar.gz\)) str
+("\)\);) p n
+(    ) N
+(    std::string str_map_path = map_path.toUtf8\(\).constData\(\);) N
+(    QFile f\(map_path\);) N
+(    QFileInfo file_info\(f.fileName\(\)\);) N
+(    QString file_name\(file_info.fileName\(\)\);) N
+(    std::string str_file_name = file_name.toUtf8\(\).constData\(\);) N
+(    size_t lastindex = str_file_name.find_first_of\(") S
+(.) str
+("\); ) p n
+(    std::string file_raw_name = str_file_name.substr\(0, lastindex\); ) N
+() N
+() N
+(    std::cout << ") S
+(El nombre del mapa es ) str
+(" << file_raw_name << std::endl;) p n
+() N
+(    ) S
+(bool) k
+( valid_map = validateChoosedMap\(str_map_path\);) p n
+(    ) S
+(if) K
+( \(!valid_map\) {) p n
+(        QMessageBox msgBox;) N
+(        msgBox.setWindowTitle\(") S
+(Mapa inv\303\241lido.) str
+("\);) p n
+(        std::string msg_response = ") S
+(El mapa elegido para edici\303\263n no es v\303\241lido.) str
+(";) p n
+(        msgBox.setText\(msg_response.c_str\(\)\);) N
+(        msgBox.exec\(\);) N
+(        ) S
+(return) K
+(;) p n
+(    }) N
+() N
+(    ) S
+(this) K
+(->background_path = ") p
+(/usr/etc/worms/temp/background.png) str
+(";) p n
+(    ) S
+(this) K
+(->background_choosed = ) p
+(true) k
+(;) p n
+(    ) S
+(this) K
+(->background_name = ") p
+(background.png) str
+(";) p n
+() N
+(    YAML::Node map_node = YAML::LoadFile\(") S
+(/usr/etc/worms/temp/map.yml) str
+("\);) p n
+(    map_node[") S
+(static) str
+("][") p
+(background) str
+("][") p
+(file) str
+("] = ) p
+(this) K
+(->background_path;    ) p n
+(    launchEditor\(map_node, file_raw_name\);) N
+(}) N
+() N
+(bool) k
+( EditorLauncher::validateChoosedMap\(std::string & map_path\) {) p n
+(    std::string cmd_untar_map = ") S
+(tar -xf ) str
+(" + map_path + ") p
+( -C /usr/etc/worms/temp) str
+(";) p n
+(    ) S
+(if) K
+( \(std::system\(cmd_untar_map.c_str\(\)\) < 0\) {) p n
+(        std::cout << ") S
+(No se pudo descomprimir el mapa elegido para editar.) str
+(" << std::endl;) p n
+(        ) S
+(return) K
+( ) p
+(false) k
+(;) p n
+(    }) N
+() N
+(    ) S
+(struct) k
+( stat buffer1;) p n
+(    ) S
+(struct) k
+( stat buffer2;) p n
+(    std::string path_map_yml = ") S
+(/usr/etc/worms/temp/map.yml) str
+(";) p n
+(    std::string path_map_bg = ") S
+(/usr/etc/worms/temp/background.png) str
+(";) p n
+(    ) S
+(if) K
+( \(stat \(path_map_yml.c_str\(\), &buffer1\) != 0\) {) p n
+(        std::cout << ") S
+(No se encontro el map.yml dentro del mapa elegido.) str
+(" << std::endl;) p n
+(        ) S
+(return) K
+( ) p
+(false) k
+(;) p n
+(    }) N
+(    ) S
+(if) K
+( \(stat \(path_map_bg.c_str\(\), &buffer2\) != 0\) {) p n
+(        std::cout << ") S
+(No se encontr\303\263 el background.png dentro del mapa elegido.) str
+(" << std::endl;) p n
+(        std::string cmd_clean = ") S
+(rm /usr/etc/worms/temp/map.yml) str
+(";) p n
+(        std::system\(cmd_clean.c_str\(\)\);) N
+(        ) S
+(return) K
+( ) p
+(false) k
+(;) p n
+(    }) N
+(editor_launcher.cpp) (Page 4/5) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(editor_launcher.cpp) (5/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5,1) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(    ) p n
+(    ) S
+(return) K
+( ) p
+(true) k
+(;) p n
+(}) N
+() N
+(void) k
+( EditorLauncher::createNewMap\() p
+(void) k
+(\) {) p n
+(    QMessageBox msgBox;) N
+(    msgBox.setWindowTitle\(") S
+(Crear nuevo mapa) str
+("\);) p n
+(    msgBox.setText\(") S
+(Perder\303\241 los cambios actuales. \302\277Est\303\241 seguro que desea reiniciar la configuraci\303\263n act) str n
+(ual?) S
+("\);) p n
+(    msgBox.setStandardButtons\(QMessageBox::Yes\);) N
+(    msgBox.addButton\(QMessageBox::No\);) N
+(    msgBox.setDefaultButton\(QMessageBox::Yes\);) N
+(    ) S
+(if) K
+(\(msgBox.exec\(\) == QMessageBox::No\) {) p n
+(        ) S
+(return) K
+(;) p n
+(    }) N
+(    findChild<QLineEdit*>\(") S
+(map_name) str
+("\)->clear\(\);) p n
+(    findChild<QLabel*>\(") S
+(label_background_path) str
+("\)->clear\(\);) p n
+(    findChild<QComboBox*>\(") S
+(background_options) str
+("\)->setCurrentIndex\(0\);) p n
+(    findChild<QSpinBox*>\(") S
+(water_level) str
+("\)->setValue\(DEFAULT_WATER_LEVEL\);) p n
+(    findChild<QSpinBox*>\(") S
+(teams_amount) str
+("\)->setValue\(DEFAULT_TEAMS_AMOUNT\);) p n
+(    findChild<QSpinBox*>\(") S
+(worms_health) str
+("\)->setValue\(DEFAULT_WORMS_HEALTH\);) p n
+() N
+(    findChild<QSpinBox*>\(") S
+(mortar_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(red_bomb_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(banana_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(green_bomb_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(holy_bomb_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(dynamite_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(fly_bombs_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(teleport_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(bat_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+(    findChild<QSpinBox*>\(") S
+(bazooka_ammo) str
+("\)->setValue\(DEFAULT_AMMO_QTY\);) p n
+() N
+(    ) S
+(this) K
+(->background_path.clear\(\);) p n
+(    ) S
+(this) K
+(->background_name.clear\(\);) p n
+(    ) S
+(this) K
+(->background_choosed = ) p
+(false) k
+(;) p n
+(    ) S
+(this) K
+(->background_mode.clear\(\);) p n
+(    ) S
+(this) K
+(->water_level = DEFAULT_WATER_LEVEL;) p n
+(    ) S
+(this) K
+(->teams_amount = DEFAULT_TEAMS_AMOUNT;) p n
+(    ) S
+(this) K
+(->worms_health = DEFAULT_WORMS_HEALTH;) p n
+() N
+(}) S
+(editor_launcher.cpp) (Page 5/5) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( EDITOR_LAUNCHER_H) p n
+(#define) K
+( EDITOR_LAUNCHER_H) p n
+() N
+(#include) K
+( <QMainWindow>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+() N
+(namespace Ui {) N
+(class EditorLauncher;) N
+(}) N
+() N
+(class EditorLauncher : public QMainWindow) N
+({) N
+(    Q_OBJECT) N
+() N
+(public:) N
+(    explicit EditorLauncher\(QWidget *parent = 0\);) N
+(    ~EditorLauncher\(\);) N
+() N
+(private:) N
+(    Ui::EditorLauncher *ui;) N
+(    std::string background_path;) N
+(    std::string background_name;) N
+(    bool background_choosed;) N
+(    std::string background_mode;) N
+(    ) S
+(int) k
+( water_level;) p n
+(    ) S
+(int) k
+( teams_amount;) p n
+(    ) S
+(int) k
+( worms_health;) p n
+(    std::map<) S
+(int) k
+(, size_t> weapons_ammo;) p n
+(    size_t mortar_ammo;) N
+(    size_t red_bomb_ammo;) N
+(    size_t banana_ammo;) N
+(    size_t green_bomb_ammo;) N
+(    size_t holy_bomb_ammo;) N
+(    size_t dynamite_ammo;) N
+(    size_t fly_bombs_ammo;) N
+(    size_t teleport_ammo;) N
+(    size_t bat_ammo;) N
+() N
+(    ) S
+(void) k
+( connectEvents\() p
+(void) k
+(\);) p n
+(    ) S
+(void) k
+( chooseBackground\() p
+(void) k
+(\);) p n
+(    ) S
+(void) k
+( goCreate\() p
+(void) k
+(\);) p n
+(    ) S
+(void) k
+( launchEditor\(YAML::Node, std::string &\);) p n
+(    ) S
+(void) k
+( loadAndEdit\() p
+(void) k
+(\);) p n
+(    ) S
+(void) k
+( createNewMap\() p
+(void) k
+(\);) p n
+(    bool validateChoosedMap\(std::string &\);) N
+(    ) S
+(void) k
+( removeTempFiles\() p
+(void) k
+(\);) p n
+(};) N
+() N
+(#endif) K
+( ) p
+(// EDITOR_LAUNCHER_H) c n
+(editor_launcher.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(editor_launcher.cpp, editor_launcher.h) (6/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1,1) 7
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( <iostream>) p n
+(#include) K
+( <QApplication>) p n
+(#include) K
+( ") p
+(editor_launcher.h) str
+(") p n
+(#include) K
+( <SDL2/SDL.h>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( <vector>) p n
+(#include) K
+( ") p
+(window_game.h) str
+(") p n
+(#include) K
+( ") p
+(girder_long.h) str
+(") p n
+(#include) K
+( ") p
+(paths.h) str
+(") p n
+(#include) K
+( ") p
+(girder_short.h) str
+(") p n
+(#include) K
+( ") p
+(inventory.h) str
+(") p n
+(#include) K
+( ") p
+(inventory_editor.h) str
+(") p n
+(#include) K
+( ") p
+(inventory_weapons.h) str
+(") p n
+(#include) K
+( ") p
+(map_game.h) str
+(") p n
+(#include) K
+( ") p
+(worm.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+() N
+(#define) K
+( ARGC_DEFAULT 1) p n
+(#define) K
+( ARGC_FILE_CONFIG 2) p n
+() N
+(// Variable global) c n
+(Paths gPath;) p n
+() N
+(void) k
+( validateArgs\() p
+(int) k
+(, ) p
+(char) k
+(*[], YAML::Node & map\);) p n
+() N
+(int) k
+( main\() p
+(int) k
+( argc, ) p
+(char) k
+( * argv[]\) {) p n
+(    QApplication a\(argc, argv\);) N
+(    EditorLauncher w;) N
+(    w.show\(\);) N
+() N
+(    ) S
+(return) K
+( a.exec\(\);) p n
+(}) N
+(main.cpp) (Page 1/1) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(map_game.h) str
+(") p n
+() N
+(#define) K
+( DEFAULT_SAVED_MAPS_PATH ") p
+(/usr/etc/worms/maps/) str
+(") p n
+() N
+(View::MapGame::MapGame\(YAML::Node & map\) :) N
+(map\(map\) {) N
+(  ) S
+(this) K
+(->index = 0;) p n
+(  ) S
+(this) K
+(->stateIndex = 0;) p n
+(}) N
+() N
+(View::MapGame::~MapGame\(\) {) N
+(  ) S
+(for) K
+(\() p
+(int) k
+( i = ) p
+(this) K
+(->mapStates.size\(\) - 1; i >= 0; --i\) {) p n
+(    ) S
+(delete) K
+( ) p
+(this) K
+(->mapStates[i];) p n
+(    ) S
+(this) K
+(->mapStates[i] = nullptr;) p n
+(  }) N
+(}) N
+() N
+(void) k
+( View::MapGame::initializeStates\(\) {) p n
+(  ) S
+(this) K
+(->mapStates.push_back\() p
+(new) K
+( MapState\(\)\);) p n
+() N
+(  ) S
+(if) K
+( \(!) p
+(this) K
+(->map[") p
+(dynamic) str
+("]\) {) p n
+(    ) S
+(return) K
+(;) p n
+(  }) N
+() N
+(  std::cout << ") S
+(EXISTE DYNAMIC) str
+(" << std::endl;) p n
+() N
+(  ) S
+(const) K
+( YAML::Node& shortGirders = ) p
+(this) K
+(->map[") p
+(static) str
+("][") p
+(short_girders) str
+("];) p n
+(  ) S
+(const) K
+( YAML::Node& longGirders = ) p
+(this) K
+(->map[") p
+(static) str
+("][") p
+(long_girders) str
+("];) p n
+(  ) S
+(const) K
+( YAML::Node& wormsTeams = ) p
+(this) K
+(->map[") p
+(dynamic) str
+("][") p
+(worms_teams) str
+("];) p n
+( ) N
+(  std::cout << ") S
+(NODOS CREADO) str
+(" << std::endl;) p n
+(  ) S
+(int) k
+( x = 0;) p n
+(  ) S
+(int) k
+( y = 0;) p n
+() N
+(  std::stringstream ss;) N
+(  ss << ) S
+(this) K
+(->map;) p n
+(  ) S
+(//std::cout << ss.str\(\).c_str\(\) << std::endl;) c n
+() p n
+(  ) S
+(for) K
+( \(YAML::const_iterator it = shortGirders.begin\(\); it != shortGirders.end\(\);) p n
+( ++it\) {) N
+(    std::cout << ") S
+(ITERANDO SOBRE SHORT GIRDERS) str
+(" << std::endl;) p n
+(    ) S
+(const) K
+( YAML::Node & shortGirder = *it;) p n
+() N
+(    std::cout << ") S
+(TOMANDO DATOS DE SHORT GIRDER) str
+(" << std::endl;) p n
+(    x = shortGirder[") S
+(x) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(    y = shortGirder[") S
+(y) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(    std::cout << x << ") S
+( ) str
+(" << y << std::endl;) p n
+(    degrees_t degrees = \(degrees_t\) shortGirder[") S
+(angle) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(    std::cout << ") S
+(DEGREES ) str
+(" << degrees << std::endl;) p n
+(    addShortGirder\(degrees, x , y\);) N
+(    std::cout << ") S
+(SHORT GIRDER AGREGADA) str
+(" << std::endl;) p n
+(  }) N
+() N
+(  ) S
+(for) K
+( \(YAML::const_iterator it = longGirders.begin\(\); it != longGirders.end\(\); +) p n
+(+it\) {) N
+(    ) S
+(const) K
+( YAML::Node & longGirder = *it;) p n
+(    x = longGirder[") S
+(x) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(    y = longGirder[") S
+(y) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(    degrees_t degrees = \(degrees_t\) longGirder[") S
+(angle) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(    addLongGirder\(degrees, x, y\);) N
+(  }) N
+() N
+(map_game.cpp) (Page 1/6) (jun 25, 18 20:20) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(main.cpp, map_game.cpp) (7/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2-3) 8
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(  ) p
+(int) k
+( tid = 0;) p n
+(  std::string name;) N
+(  ) S
+(int) k
+( health = 0;) p n
+() N
+(  ) S
+(for) K
+( \(YAML::const_iterator it = wormsTeams.begin\(\); it != wormsTeams.end\(\); ++i) p n
+(t\) {) N
+(    tid = it->first.as<) S
+(int) k
+(>\(\);) p n
+(    ) S
+(const) K
+( YAML::Node& wormsNode = it->second[") p
+(worms) str
+("];) p n
+(    ) S
+(for) K
+( \(YAML::const_iterator worms = wormsNode.begin\(\); worms != wormsNode.end\() p n
+(\); worms++\) {) N
+(      ) S
+(const) K
+( YAML::Node& worm = *worms;) p n
+(      name = worm[") S
+(name) str
+("].as<std::string>\(\);) p n
+(      health = worm[") S
+(health) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(      x = worm[") S
+(x) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(      y = worm[") S
+(y) str
+("].as<) p
+(int) k
+(>\(\);) p n
+(      addWormInTeam\(tid, name, health, x, y\);) N
+(    }) N
+(  }) N
+(}) N
+() N
+(void) k
+( View::MapGame::createMapToSave\(\) {) p n
+(    mapToSave[") S
+(static) str
+("][") p
+(background) str
+("] = YAML::Clone\(map[") p
+(static) str
+("][") p
+(background) str
+("]\);) p n
+(    mapToSave[") S
+(static) str
+("][") p
+(water_level) str
+("] = map[") p
+(static) str
+("][") p
+(water_level) str
+("];) p n
+(    mapToSave[") S
+(static) str
+("][") p
+(teams_amount) str
+("] = map[") p
+(static) str
+("][") p
+(teams_amount) str
+("];) p n
+(    mapToSave[") S
+(static) str
+("][") p
+(worms_health) str
+("] = map[") p
+(static) str
+("][") p
+(worms_health) str
+("];) p n
+(    mapToSave[") S
+(static) str
+("][") p
+(init_inventory) str
+("] = YAML::Clone\(map[") p
+(static) str
+("][") p
+(init_inventory) str
+("]\);) p n
+(}) N
+() N
+(void) k
+( View::MapGame::setRenderer\(SDL_Renderer * renderer\) {) p n
+(  ) S
+(this) K
+(->renderer = renderer;) p n
+(}) N
+() N
+(void) k
+( View::MapGame::render\(SDL_Renderer * renderer, ) p
+(int) k
+( camX, ) p
+(int) k
+( camY\) {) p n
+(    ) S
+(if) K
+( \() p
+(this) K
+(->mapStates.size\(\) != 0\) {) p n
+(    ) S
+(this) K
+(->mapStates[stateIndex]->render\(renderer, camX, camY\);  ) p n
+(  }) N
+(}) N
+(/* Add methods */) c n
+(void) k
+( View::MapGame::addShortGirder\(degrees_t degrees, ) p
+(int) k
+( x, ) p
+(int) k
+( y\) {) p n
+(  ) S
+(this) K
+(->updateIndex\(\);) p n
+(  std::cout << ") S
+(INDEX UPDATED) str
+(" << std::endl;) p n
+(  MapState* previousState = ) S
+(this) K
+(->mapStates.back\(\);) p n
+(  MapState* newState = ) S
+(new) K
+( MapState\(\);) p n
+(  newState->) S
+(operator) K
+(=\(previousState\);) p n
+(  newState->addShortGirder\(renderer, degrees, x, y\);) N
+(  ) S
+(this) K
+(->mapStates.push_back\(newState\);) p n
+(}) N
+() N
+(void) k
+( View::MapGame::addLongGirder\(degrees_t degrees, ) p
+(int) k
+( x, ) p
+(int) k
+( y\) {) p n
+(  ) S
+(this) K
+(->updateIndex\(\);) p n
+(  MapState* previousState = ) S
+(this) K
+(->mapStates.back\(\);) p n
+(  MapState* newState = ) S
+(new) K
+( MapState\(\);) p n
+(  newState->) S
+(operator) K
+(=\(previousState\);) p n
+(  newState->addLongGirder\(renderer, degrees, x, y\);) N
+(  ) S
+(this) K
+(->mapStates.push_back\(newState\);) p n
+(}) N
+() N
+(void) k
+( View::MapGame::addWormInTeam\() p
+(int) k
+( teamId, std::string & name, ) p
+(int) k
+( health, ) p
+(in) k n
+(t) S
+( x, ) p
+(int) k
+( y\) {) p n
+(  ) S
+(this) K
+(->updateIndex\(\);) p n
+(  MapState* previousState = ) S
+(this) K
+(->mapStates.back\(\);) p n
+(  MapState* newState = ) S
+(new) K
+( MapState\(\);) p n
+(map_game.cpp) (Page 2/6) (jun 25, 18 20:20) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(  newState->) p
+(operator) K
+(=\(previousState\);) p n
+(  newState->addWorm\(renderer, teamId, name, health, x, y\);) N
+(  ) S
+(this) K
+(->mapStates.push_back\(newState\);) p n
+(}) N
+() N
+(void) k
+( View::MapGame::setPreviousState\(View::EditorInventory & inv\) {) p n
+(  ) S
+(if) K
+( \() p
+(this) K
+(->stateIndex\) {) p n
+(    ) S
+(this) K
+(->stateIndex--;) p n
+(    inv.updateWormsTeamSupplies\() S
+(this) K
+(->mapStates[) p
+(this) K
+(->stateIndex]->getWorms\(\)\);) p n
+(  }) N
+(}) N
+() N
+(void) k
+( View::MapGame::setNextState\(View::EditorInventory & inv\) {) p n
+(  ) S
+(if) K
+( \() p
+(this) K
+(->stateIndex != ) p
+(this) K
+(->mapStates.size\(\) - 1\) {) p n
+(    ) S
+(this) K
+(->stateIndex++;) p n
+(    inv.updateWormsTeamSupplies\() S
+(this) K
+(->mapStates[) p
+(this) K
+(->stateIndex]->getWorms\(\)\);) p n
+(  }) N
+(}) N
+() N
+(void) k
+( View::MapGame::updateIndex\() p
+(void) k
+(\) {) p n
+(  ) S
+(this) K
+(->stateIndex++;) p n
+() N
+(  ) S
+(if) K
+( \() p
+(this) K
+(->stateIndex != ) p
+(this) K
+(->mapStates.size\(\)\) {) p n
+(    std::vector<MapState*>::iterator it = ) S
+(this) K
+(->mapStates.begin\(\) + ) p
+(this) K
+(->stateI) p n
+(ndex;) N
+(    ) S
+(for) K
+( \(; it != ) p
+(this) K
+(->mapStates.end\(\);\) {) p n
+(      ) S
+(delete) K
+( *it;) p n
+(      *it = nullptr;) N
+(      it = ) S
+(this) K
+(->mapStates.erase\(it\);) p n
+(    }) N
+(  }) N
+(}) N
+() N
+(void) k
+( View::MapGame::printCurrentState\() p
+(void) k
+(\) {) p n
+(  ) S
+(// std::cout << *this->mapStates[this->stateIndex] << std::endl;) c n
+(}) p n
+() N
+(int) k
+( View::MapGame::getNextWormId\() p
+(void) k
+(\) {) p n
+(  ) S
+(// int newId = 1;) c n
+(  ) p
+(// YAML::Node * state = this->mapStates[this->stateIndex];) c n
+(  ) p
+(// const YAML::Node & teams = \(*state\)["dynamic"]["worms_teams"];) c n
+(  ) p
+(// YAML::const_iterator it = teams.begin\(\);) c n
+() p n
+(  ) S
+(// for \(; it != teams.end\(\) ; it++\) {) c n
+(  ) p
+(//   newId += \(it->second\)["worms"].size\(\);) c n
+(  ) p
+(// }) c n
+(  ) p n
+(  ) S
+(// return newId;) c n
+(}) p n
+() N
+(void) k
+( View::MapGame::saveAs\(std::string mapName, std::string bgName, std::string ) p n
+(bgPath\) {) N
+(  ) S
+(this) K
+(->mapToSave.reset\(\);) p n
+(  createMapToSave\(\);) N
+(  addMaxWormsAmount\(\);) N
+(  addShortGirdersToMap\(\);  ) N
+(  addLongGirdersToMap\(\);) N
+(  addWormsToMap\(\);) N
+(  std::ofstream fout\(") S
+(/usr/etc/worms/maps/map.yml) str
+(", std::ofstream::trunc\);) p n
+(  std::string bg_name = ") S
+(background.png) str
+(";) p n
+(  ) S
+(this) K
+(->mapToSave[") p
+(static) str
+("][") p
+(background) str
+("][") p
+(file) str
+("] = bg_name;) p n
+(  addInventoryToTeams\(\);) N
+(map_game.cpp) (Page 3/6) (jun 25, 18 20:20) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(map_game.cpp) (8/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (4-5) 9
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(  fout << mapToSave;) p n
+(  ) S
+(/* std::cout << "This map" << std::endl;) c n
+(  std::cout << this->map << std::endl; */) N
+(  fout.close\(\);) p n
+() N
+(  std::string maps_path\(DEFAULT_SAVED_MAPS_PATH\);) N
+(  std::string cmd_cp_background = ") S
+(cp  \\") str
+(" + bgPath + ") p
+(\\" ) str
+(" + maps_path + ") p
+(background.) str n
+(png) S
+(";) p n
+(  std::system\(cmd_cp_background.c_str\(\)\);) N
+() N
+(  ) S
+(struct) k
+( stat buffer;) p n
+(  std::string map_path = maps_path + mapName + ") S
+(.tar.gz) str
+(";) p n
+(  std::cout << ") S
+(Chequeando si existe el archivo ) str
+(" << map_path << std::endl;) p n
+(  ) S
+(if) K
+( \(stat\(map_path.c_str\(\), &buffer\) == 0\) {) p n
+(    std::string cmd_rm_previous_map = ") S
+(rm ) str
+(" + map_path;) p n
+(    std::system\(cmd_rm_previous_map.c_str\(\)\);) N
+(    std::cout << ") S
+(Mapa previo removido.) str
+(" << std::endl;) p n
+(  }) N
+() N
+(  std::string cmd_tar_gz = ") S
+(tar -zcf \\") str
+(" + maps_path + mapName + ") p
+(.tar.gz\\" --directory=) str
+(" +) p n
+( maps_path + ") S
+( map.yml background.png) str
+(";) p n
+(  std::system\(cmd_tar_gz.c_str\(\)\);) N
+(  std::string cmd_rmv_temp = ") S
+(rm ) str
+(" + maps_path + ") p
+(background.png ) str
+(" + maps_path + ") p
+(ma) str n
+(p.yml) S
+(";) p n
+(  std::system\(cmd_rmv_temp.c_str\(\)\);) N
+(  std::cout << ") S
+(Mapa guardado!) str
+(" << std::endl;) p n
+(}) N
+() N
+(void) k
+( View::MapGame::addLongGirdersToMap\(\) {) p n
+(  std::map<) S
+(int) k
+(, View::GirderLong*> longGirders = ) p
+(this) K
+(->mapStates[) p
+(this) K
+(->stateInde) p n
+(x]->getLongGirders\(\);) N
+(  ) S
+(int) k
+( longGirderCounter = 1;) p n
+(  std::map<) S
+(int) k
+(, View::GirderLong*>::const_iterator longGirder;) p n
+(  ) S
+(for) K
+( \(longGirder = longGirders.begin\(\); longGirder != longGirders.end\(\); ++long) p n
+(Girder\) {) N
+(    YAML::Node newGirderNode;) N
+(    newGirderNode[") S
+(id) str
+("] = longGirderCounter;) p n
+(    newGirderNode[") S
+(x) str
+("] = longGirder->second->getX\(\);) p n
+(    newGirderNode[") S
+(y) str
+("] = longGirder->second->getY\(\);) p n
+(    newGirderNode[") S
+(angle) str
+("] = \() p
+(int) k
+(\) longGirder->second->getCurrentDegrees\(\);) p n
+(    ) S
+(this) K
+(->mapToSave[") p
+(static) str
+("][") p
+(long_girders) str
+("].push_back\(newGirderNode\);) p n
+(    longGirderCounter++;) N
+(  }) N
+(}) N
+() N
+(void) k
+( View::MapGame::addShortGirdersToMap\(\) {) p n
+(  std::map<) S
+(int) k
+(, View::GirderShort*> shortGirders = ) p
+(this) K
+(->mapStates[) p
+(this) K
+(->stateIn) p n
+(dex]->getShortGirders\(\);) N
+(  ) S
+(int) k
+( shortGirderCounter = 1;) p n
+(  std::map<) S
+(int) k
+(, View::GirderShort*>::const_iterator shortGirder;) p n
+(  ) S
+(for) K
+( \(shortGirder = shortGirders.begin\(\); shortGirder != shortGirders.end\(\); ++) p n
+(shortGirder\) {) N
+(    YAML::Node newGirderNode;) N
+(    newGirderNode[") S
+(id) str
+("] = shortGirderCounter;) p n
+(    newGirderNode[") S
+(x) str
+("] = shortGirder->second->getX\(\);) p n
+(    newGirderNode[") S
+(y) str
+("] = shortGirder->second->getY\(\);) p n
+(    newGirderNode[") S
+(angle) str
+("] = \() p
+(int) k
+(\) shortGirder->second->getCurrentDegrees\(\);) p n
+(    ) S
+(this) K
+(->mapToSave[") p
+(static) str
+("][") p
+(short_girders) str
+("].push_back\(newGirderNode\);) p n
+(    shortGirderCounter++;) N
+(  }) N
+(}) N
+() N
+(map_game.cpp) (Page 4/6) (jun 25, 18 20:20) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(void) k
+( View::MapGame::addWormsToMap\(\) {) p n
+(  std::map<size_t, std::vector<View::Worm*>> worms = ) S
+(this) K
+(->mapStates[) p
+(this) K
+(->state) p n
+(Index]->getWorms\(\);) N
+(  ) S
+(int) k
+( wormCounter = 1;) p n
+(  std::map<std::size_t, std::vector<View::Worm*>>::const_iterator worm;) N
+(  ) S
+(for) K
+( \(worm = worms.begin\(\); worm != worms.end\(\); ++worm\) {) p n
+(    std::vector<View::Worm*>::const_iterator worm_it;) N
+(    ) S
+(for) K
+( \(worm_it = worm->second.begin\(\); worm_it != worm->second.end\(\); worm_it+) p n
+(+\) {) N
+(      YAML::Node newWorm;) N
+(      newWorm[") S
+(id) str
+("] = wormCounter;) p n
+(      newWorm[") S
+(name) str
+("] = \(*worm_it\)->getName\(\);) p n
+(      newWorm[") S
+(health) str
+("] = \(*worm_it\)->getHealth\(\);) p n
+(      newWorm[") S
+(x) str
+("] = \(*worm_it\)->getX\(\);) p n
+(      newWorm[") S
+(y) str
+("] = \(*worm_it\)->getY\(\);) p n
+(      newWorm[") S
+(sight_angle) str
+("] = 0;) p n
+(      newWorm[") S
+(status) str
+("][") p
+(grounded) str
+("] = 0;) p n
+(      newWorm[") S
+(status) str
+("][") p
+(falling) str
+("] = 1;) p n
+(      newWorm[") S
+(status) str
+("][") p
+(mirrored) str
+("] = 0;) p n
+(      newWorm[") S
+(status) str
+("][") p
+(walking) str
+("] = 0;) p n
+(      ) S
+(this) K
+(->mapToSave[") p
+(dynamic) str
+("][") p
+(worms_teams) str
+("][worm->first][") p
+(worms) str
+("].push_back\(new) p n
+(Worm\);) N
+(      wormCounter++;) N
+(    }) N
+(  }) N
+(}) N
+() N
+(void) k
+( View::MapGame::addMaxWormsAmount\() p
+(void) k
+(\) {) p n
+(  size_t max = 0;) N
+(  std::map<std::size_t, std::vector<View::Worm*>>::const_iterator it;) N
+(  std::map<size_t, std::vector<View::Worm*>> worms = ) S
+(this) K
+(->mapStates[) p
+(this) K
+(->state) p n
+(Index]->getWorms\(\);) N
+(  ) S
+(for) K
+( \(it = worms.begin\(\); it != worms.end\(\); ++it\) {) p n
+(    ) S
+(if) K
+( \(it->second.size\(\) > max\) {) p n
+(      max = it->second.size\(\);) N
+(    }) N
+(  }) N
+(  ) S
+(this) K
+(->mapToSave[") p
+(static) str
+("][") p
+(max_worms) str
+("] = max;) p n
+(}) N
+() N
+(void) k
+( View::MapGame::addInventoryToTeams\(\) {) p n
+(  YAML::iterator it = mapToSave[") S
+(dynamic) str
+("][") p
+(worms_teams) str
+("].begin\(\);) p n
+(  ) N
+(  ) S
+(for) K
+( \(; it != mapToSave[") p
+(dynamic) str
+("][") p
+(worms_teams) str
+("].end\(\) ; it++\) {) p n
+(      it->second[") S
+(inventory) str
+("] = YAML::Clone\() p
+(this) K
+(->mapToSave[") p
+(static) str
+("][") p
+(init_inventory) str
+("]\);) p n
+(  }) N
+(}) N
+() N
+(bool) k
+( View::MapGame::hasWorms\(\) {) p n
+(  std::map<size_t, std::vector<View::Worm*>> worms = ) S
+(this) K
+(->mapStates[) p
+(this) K
+(->state) p n
+(Index]->getWorms\(\);) N
+(  ) S
+(if) K
+( \(worms.size\(\) < 2\) ) p
+(return) K
+( ) p
+(false) k
+(;) p n
+(  std::map<size_t, std::vector<View::Worm*>>::iterator it;) N
+(  ) S
+(for) K
+( \(it = worms.begin\(\); it != worms.end\(\); ++it\) {) p n
+(    ) S
+(if) K
+( \(it->second.size\(\) == 0\) {) p n
+(      ) S
+(return) K
+( ) p
+(false) k
+(;) p n
+(    }) N
+(  }) N
+(  ) S
+(return) K
+( ) p
+(true) k
+(;) p n
+(}) N
+() N
+(int) k
+( View::MapGame::amountWormsTeam\() p
+(int) k
+( teamId\) {) p n
+(map_game.cpp) (Page 5/6) (jun 25, 18 20:20) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(map_game.cpp) (9/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (6,1) 10
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(  std::map<size_t, std::vector<View::Worm*>> worms = ) p
+(this) K
+(->mapStates[) p
+(this) K
+(->state) p n
+(Index]->getWorms\(\);) N
+(  ) S
+(return) K
+( worms[teamId].size\(\);) p n
+(}) S
+(map_game.cpp) (Page 6/6) (jun 25, 18 20:20) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __MAP_GAME_H__) p n
+(#define) K
+( __MAP_GAME_H__) p n
+() N
+(#include) K
+( <SDL2/SDL.h>) p n
+(#include) K
+( <vector>) p n
+(#include) K
+( <map>) p n
+(#include) K
+( <string>) p n
+(#include) K
+( <fstream>) p n
+(#include) K
+( ") p
+(girder_long.h) str
+(") p n
+(#include) K
+( ") p
+(girder_short.h) str
+(") p n
+(#include) K
+( ") p
+(inventory_editor.h) str
+(") p n
+(#include) K
+( ") p
+(girder.h) str
+(") p n
+(#include) K
+( ") p
+(worm.h) str
+(") p n
+(#include) K
+( ") p
+(yaml.h) str
+(") p n
+(#include) K
+( ") p
+(map_state.h) str
+(") p n
+() N
+(namespace View {) N
+(  class EditorInventory;) N
+() N
+(  class MapGame {) N
+(    private:) N
+() N
+(      size_t statIndex;) N
+() N
+(      std::vector<MapState*> mapStates;) N
+(      ) S
+(unsigned) k
+( ) p
+(int) k
+( stateIndex;) p n
+(      SDL_Renderer * renderer;) N
+(      YAML::Node & map;) N
+(      YAML::Node mapToSave;) N
+(      ) S
+(unsigned) k
+( ) p
+(int) k
+( index;) p n
+(    ) N
+(      ) S
+(// Obtiene el id del proximo) c n
+(      ) p
+(// worm a agregar) c n
+(      ) p
+(int) k
+( getNextWormId\() p
+(void) k
+(\);) p n
+(      ) S
+(void) k
+( addInventoryToTeams\(\);) p n
+(      ) S
+(void) k
+( addLongGirdersToMap\(\);) p n
+(      ) S
+(void) k
+( addShortGirdersToMap\(\);) p n
+(      ) S
+(void) k
+( addWormsToMap\(\);) p n
+(      ) S
+(void) k
+( addMaxWormsAmount\() p
+(void) k
+(\);) p n
+(      ) S
+(void) k
+( updateIndex\(\);) p n
+(      ) N
+(    public:) N
+(      ) S
+(// Constructor, recibe el nodo YAML) c n
+(      ) p
+(// donde guardara toda la informacion del mapa) c n
+(      MapGame\(YAML::Node &\);) p n
+() N
+(      ) S
+(// Destructor, libera los items dibujados) c n
+(      ~MapGame\(\);) p n
+() N
+(      ) S
+(// Dibuja lo que ya fue clickeado por el usuario) c n
+(      ) p
+(void) k
+( render\(SDL_Renderer * r, ) p
+(int) k
+( camX, ) p
+(int) k
+( camY\);) p n
+() N
+(      ) S
+(// Agrega una short girder en la posicion del mapa indicada) c n
+(      ) p
+(void) k
+( addShortGirder\(degrees_t, ) p
+(int) k
+(, ) p
+(int) k
+(\);) p n
+() N
+(      ) S
+(// Agrega una long girder en la posicion del mapa indicada) c n
+(      ) p
+(void) k
+( addLongGirder\(degrees_t, ) p
+(int) k
+(, ) p
+(int) k
+(\);) p n
+() N
+(      ) S
+(// Agrega un worm) c n
+(      ) p
+(void) k
+( addWormInTeam\() p
+(int) k
+(, std::string &, ) p
+(int) k
+(, ) p
+(int) k
+(, ) p
+(int) k
+(\);) p n
+() N
+(      ) S
+(// Establece el estado anterior \(si hay\)) c n
+(map_game.h) (Page 1/2) (jun 25, 18 20:21) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(map_game.cpp, map_game.h) (10/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2,1) 11
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(      ) p
+(void) k
+( setPreviousState\(View::EditorInventory &\);) p n
+() N
+(      ) S
+(// Establece el estado posterior \(si hay\)) c n
+(      ) p
+(void) k
+( setNextState\(View::EditorInventory &\);) p n
+() N
+(      ) S
+(// Imprime el estado actual) c n
+(      ) p
+(void) k
+( printCurrentState\() p
+(void) k
+(\);) p n
+() N
+(      ) S
+(// Guarda el mapa en la carpeta de mapas del servidor) c n
+(      ) p
+(// bajo el nombre indicado) c n
+(      ) p
+(void) k
+( saveAs\(std::string, std::string, std::string\);) p n
+() N
+(      bool hasWorms\(\);) N
+() N
+(      ) S
+(void) k
+( setRenderer\(SDL_Renderer * renderer\);) p n
+(      ) S
+(void) k
+( initializeStates\(\);) p n
+(      ) S
+(void) k
+( createMapToSave\(\);) p n
+(      ) S
+(int) k
+( amountWormsTeam\() p
+(int) k
+(\);) p n
+(  };) N
+(}) N
+() N
+(#endif) K n
+(map_game.h) (Page 2/2) (jun 25, 18 20:21) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#include) K
+( ") p
+(map_state.h) str
+(") p n
+() N
+(MapState::MapState\(\) {) N
+(  ) S
+(this) K
+(->newLongGirder = nullptr;) p n
+(  ) S
+(this) K
+(->newWorm = nullptr;) p n
+(  ) S
+(this) K
+(->newShortGirder = nullptr;) p n
+(}) N
+() N
+(MapState::~MapState\(\) {) N
+(  ) S
+(if) K
+( \() p
+(this) K
+(->newShortGirder\) {) p n
+(    ) S
+(delete) K
+( ) p
+(this) K
+(->newShortGirder;) p n
+(    ) S
+(this) K
+(->newShortGirder = nullptr;) p n
+(  }) N
+(  ) S
+(// } else if \(this->newWorm\) {) c n
+(  ) p
+(//    delete this->newWorm;) c n
+(  ) p
+(//    this->newWorm = nullptr;) c n
+(   ) p
+(else) K
+( ) p
+(if) K
+( \() p
+(this) K
+(->newLongGirder\) {) p n
+(    ) S
+(delete) K
+( ) p
+(this) K
+(->newLongGirder;) p n
+(    ) S
+(this) K
+(->newLongGirder = nullptr;) p n
+(  }) N
+(}) N
+() N
+(std::map<) S
+(int) k
+(, View::GirderShort*> MapState::getShortGirders\(\) {) p n
+(  ) S
+(return) K
+( ) p
+(this) K
+(->shortGirders;) p n
+(}) N
+() N
+(std::map<) S
+(int) k
+(, View::GirderLong*> MapState::getLongGirders\(\) {) p n
+(  ) S
+(return) K
+( ) p
+(this) K
+(->longGirders;) p n
+(}) N
+() N
+(std::map<std::size_t, std::vector<View::Worm*>> MapState::getWorms\(\) {) N
+(  ) S
+(return) K
+( ) p
+(this) K
+(->worms;) p n
+(}) N
+() N
+(void) k
+( MapState::) p
+(operator) K
+(=\(MapState* mapState\) {) p n
+(  ) S
+(this) K
+(->shortGirders = mapState->getShortGirders\(\);) p n
+(  ) S
+(this) K
+(->longGirders = mapState->getLongGirders\(\);) p n
+(  ) S
+(this) K
+(->worms = mapState->getWorms\(\);) p n
+(}) N
+() N
+(void) k
+( MapState::addShortGirder\(SDL_Renderer* renderer, degrees_t degrees, ) p
+(int) k
+( x, ) p
+() k n
+(int) S
+( y\) {) p n
+(  ) S
+(this) K
+(->newShortGirder = ) p
+(new) K
+( View::GirderShort\(renderer, degrees\);) p n
+(  newShortGirder->setX\(x\);) N
+(  newShortGirder->setY\(y\);) N
+(  ) S
+(this) K
+(->shortGirders.insert\(std::pair<) p
+(int) k
+(, View::GirderShort*>\() p
+(this) K
+(->shortGirder) p n
+(s.size\(\) + 1, ) N
+(    ) S
+(this) K
+(->newShortGirder\)\);) p n
+(}) N
+() N
+(void) k
+( MapState::addLongGirder\(SDL_Renderer* renderer, degrees_t degrees, ) p
+(int) k
+( x, ) p
+(i) k n
+(nt) S
+( y\) {) p n
+(  ) S
+(this) K
+(->newLongGirder = ) p
+(new) K
+( View::GirderLong\(renderer, degrees\);) p n
+(  newLongGirder->setX\(x\);) N
+(  newLongGirder->setY\(y\);) N
+(  ) N
+(  ) S
+(this) K
+(->longGirders.insert\(std::pair<) p
+(int) k
+(, View::GirderLong*>\() p
+(this) K
+(->longGirders.s) p n
+(ize\(\) + 1,) N
+(  ) S
+(this) K
+(->newLongGirder\)\);) p n
+(}) N
+() N
+(void) k
+( MapState::addWorm\(SDL_Renderer* renderer, ) p
+(int) k
+( teamId, std::string & name, ) p
+(i) k n
+(map_state.cpp) (Page 1/2) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(map_game.h, map_state.cpp) (11/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2,1) 12
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(nt) k
+( health, ) p
+(int) k
+( x, ) p
+(int) k
+( y\) {) p n
+(  ) S
+(this) K
+(->newWorm = ) p
+(new) K
+( View::Worm\(renderer, name, teamId, health\);) p n
+(  newWorm->setX\(x\);) N
+(  newWorm->setY\(y\);) N
+(  ) S
+(this) K
+(->worms[teamId].push_back\() p
+(this) K
+(->newWorm\);) p n
+(}) N
+() N
+() N
+(void) k
+( MapState::render\(SDL_Renderer * renderer, ) p
+(int) k
+( camX, ) p
+(int) k
+( camY\) {) p n
+(  ) S
+(// Render short girders) c n
+(  std::map<) p
+(int) k
+(, View::GirderShort*>::iterator shortGirder;) p n
+(  ) S
+(for) K
+( \(shortGirder = ) p
+(this) K
+(->shortGirders.begin\(\); shortGirder != ) p
+(this) K
+(->shortGirde) p n
+(rs.end\(\); ++shortGirder\) {) N
+(    shortGirder->second->render\(renderer, camX, camY\);) N
+(  }) N
+() N
+(  ) S
+(// Render long girders) c n
+(  std::map<) p
+(int) k
+(, View::GirderLong*>::iterator longGirder;) p n
+(  ) S
+(for) K
+( \(longGirder = ) p
+(this) K
+(->longGirders.begin\(\); longGirder != ) p
+(this) K
+(->longGirders.e) p n
+(nd\(\); ++longGirder\) {) N
+(    longGirder->second->render\(renderer, camX, camY\);) N
+(  }) N
+() N
+(  ) S
+(// Render worms) c n
+(  std::map<std::size_t, std::vector<View::Worm*>>::iterator worm;) p n
+(  ) S
+(for) K
+( \(worm = worms.begin\(\); worm != worms.end\(\); ++worm\) {) p n
+(    std::vector<View::Worm*>::iterator worm_it;) N
+(    ) S
+(for) K
+( \(worm_it = worm->second.begin\(\); worm_it != worm->second.end\(\); worm_it+) p n
+(+\) {) N
+(      \(*worm_it\)->render\(renderer, camX, camY\);) N
+(    }) N
+(  }) N
+(}) S
+(map_state.cpp) (Page 2/2) (jun 25, 18 20:09) title
+border
+/v 1 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(#ifndef) K
+( __MAP_STATE_H__) p n
+(#define) K
+( __MAP_STATE_H__) p n
+() N
+(#include) K
+( <map>) p n
+(#include) K
+( ") p
+(girder_long.h) str
+(") p n
+(#include) K
+( ") p
+(girder_short.h) str
+(") p n
+(#include) K
+( ") p
+(worm.h) str
+(") p n
+(#include) K
+( <SDL2/SDL.h>) p n
+() N
+(class MapState {) N
+(private:) N
+(    std::map<) S
+(int) k
+(, View::GirderShort*> shortGirders;) p n
+(    std::map<) S
+(int) k
+(, View::GirderLong*> longGirders;) p n
+() S 8 T (std::map<std::size_t, std::vector<View::Worm*>> worms;) N
+(    ) N
+(    View::GirderShort* newShortGirder;) N
+(    View::GirderLong* newLongGirder;) N
+(    View::Worm* newWorm;) N
+(public:) N
+(    MapState\(\);) N
+(    ~MapState\(\);) N
+(    ) S
+(void) k
+( render\(SDL_Renderer* renderer, ) p
+(int) k
+( camX, ) p
+(int) k
+( camY\);) p n
+(    ) S
+(void) k
+( operator=\(MapState* mapState\);) p n
+(    std::map<) S
+(int) k
+(, View::GirderShort*> getShortGirders\(\);) p n
+(    std::map<) S
+(int) k
+(, View::GirderLong*> getLongGirders\(\);) p n
+(    std::map<std::size_t, std::vector<View::Worm*>> getWorms\(\);) N
+(    ) S
+(void) k
+( addShortGirder\(SDL_Renderer* rendeder, degrees_t degrees, ) p
+(int) k
+( x, ) p
+(int) k
+( y\)) p n
+(;) N
+(    ) S
+(void) k
+( addLongGirder\(SDL_Renderer* renderer, degrees_t degrees, ) p
+(int) k
+( x, ) p
+(int) k
+( y\);) p n
+(    ) S
+(void) k
+( addWorm\(SDL_Renderer* renderer, ) p
+(int) k
+( teamId, std::string & name, ) p
+(int) k
+( hea) p n
+(lth, ) S
+(int) k
+( x, ) p
+(int) k
+( y\);) p n
+(};) N
+() N
+(#endif) K
+(map_state.h) (Page 1/1) (jun 25, 18 20:09) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(map_state.cpp, map_state.h) (12/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 13
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.362408 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(Table of Contents) K n
+( 1 ) p
+(editor.cpp..........) k
+( sheets   1 to   3 \( 3\) pages   1-  5  198 lines) p n
+( 2 ) S
+(editor.h............) k
+( sheets   3 to   3 \( 1\) pages   6-  6   40 lines) p n
+( 3 ) S
+(editor_launcher.cpp.) k
+( sheets   4 to   6 \( 3\) pages   7- 11  265 lines) p n
+( 4 ) S
+(editor_launcher.h...) k
+( sheets   6 to   6 \( 1\) pages  12- 12   51 lines) p n
+( 5 ) S
+(main.cpp............) k
+( sheets   7 to   7 \( 1\) pages  13- 13   33 lines) p n
+( 6 ) S
+(map_game.cpp........) k
+( sheets   7 to  10 \( 4\) pages  14- 19  295 lines) p n
+( 7 ) S
+(map_game.h..........) k
+( sheets  10 to  11 \( 2\) pages  20- 21   85 lines) p n
+( 8 ) S
+(map_state.cpp.......) k
+( sheets  11 to  12 \( 2\) pages  22- 23   88 lines) p n
+( 9 ) S
+(map_state.h.........) k
+( sheets  12 to  12 \( 1\) pages  24- 24   33 lines) p n
+(Table of Content) (Page 1/1) (jun 26, 18 12:51) title
+border
+grestore
+(Printed by Gabriel Robles) rhead
+(Table of Content) (13/13) (martes junio 26, 2018) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF
