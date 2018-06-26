@@ -26,8 +26,6 @@ void ModelReceiver::run(void) {
     while (this->keep_runing) {
         YAML::Node newDynamics;
         this->protocol->rcvModel(newDynamics);
-        std::stringstream ss;
-        ss << newDynamics;
         if (newDynamics["game_status"]) {
             if (newDynamics["game_status"]["finished"].as<int>() == 1) {
                 std::cout << "La partida termino." << std::endl;
