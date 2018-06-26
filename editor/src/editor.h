@@ -8,6 +8,7 @@
 #include "yaml.h"
 #include "inventory.h"
 #include "inventory_editor.h"
+#include "flash_notice.h"
 #include "texture.h"
 
 class Editor {
@@ -24,6 +25,7 @@ class Editor {
         View::EditorInventory editorInventory;
         View::Texture saveTexture;
         View::Texture exitTexture;
+        FlashNotice notice;
         int teamsAmount;
         int wormsHealth;
         bool validMap;

@@ -14,10 +14,14 @@ class FlashNotice {
     Timer timer;
 
   public:
+    FlashNotice(void);
     FlashNotice(int sw, int sh, int percentWindow = 4);
     ~FlashNotice();
     void render(SDL_Renderer *);
     void showFlashNotice(SDL_Renderer *, const std::string &);
+    void showFlashError(SDL_Renderer *, const std::string &);
+    void setScreenWidth(int);
+    void setScreenHeight(int);
 };
 
 #endif

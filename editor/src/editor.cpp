@@ -34,10 +34,10 @@ editorInventory(renderer,
              mapNode["static"]["worms_health"].as<int>()) {
 	this->teamsAmount = mapNode["static"]["teams_amount"].as<int>();
 	this->wormsHealth = mapNode["static"]["worms_health"].as<int>();
-  	this->editorInventory.toggleOpen();
+  this->editorInventory.toggleOpen();
 	this->mapGame.setRenderer(this->renderer);
 	this->mapGame.initializeStates();
-  	this->mapGame.createMapToSave();
+  this->mapGame.createMapToSave();
 	this->exitTexture.loadFromFile(gPath.PATH_EXIT_ICON, this->renderer);
 	this->exitTexture.setX(this->editorWindow.getScreenWidth() - EXIT_PADDING - EXIT_ICON_SIDE);
 	this->exitTexture.setY(EXIT_PADDING);
@@ -45,6 +45,8 @@ editorInventory(renderer,
 	this->saveTexture.setX(this->editorWindow.getScreenWidth() - SAVE_PADDING - SAVE_ICON_SIDE);
 	this->saveTexture.setY(EXIT_PADDING + EXIT_ICON_SIDE + SAVE_PADDING);
 	this->unsaved_changes = false;
+	this->notice.setScreenWidth(this->editorWindow.getScreenWidth());
+	this->notice.setScreenHeight(this->editorWindow.getScreenHeight());
 }
 
 int Editor::start(void) {
@@ -95,21 +97,20 @@ int Editor::start(void) {
 						mouseY < this->saveTexture.getY() + SAVE_ICON_SIDE
 					) {
 						if (!this->unsaved_changes) {
-							QMessageBox msgBox;
-							msgBox.setWindowTitle("No se puede guardar.");
-							msgBox.setText("No hay cambios sin guardar.");
-							msgBox.exec();
+							std::cout << "No hay cambios sin guardar." << std::endl;
+							this->notice.showFlashNotice(this->renderer, "No hay cambios sin guardar.");
 							continue;							
 						}
 						validMap = mapGame.hasWorms();
 						if (!validMap) {
-							QMessageBox msgBox;
-							msgBox.setWindowTitle("No se puede guardar.");
-							msgBox.setText("El mapa debe tener al menos un worm de cada team.");
-							msgBox.exec();
+							std::cout << "El mapa debe tener al menos un worm de cada team." << std::endl;
+							this->notice.showFlashError(this->renderer, "El mapa debe tener al menos un worm de cada team.");
 							continue;
 						}
 						mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
+						this->unsaved_changes = false;
+						std::cout << "Mapa guardado." << std::endl;
+						this->notice.showFlashNotice(this->renderer, "Mapa guardado en /usr/etc/worms/maps/" + this->map_name);
 					} else if (
 						mouseX > this->exitTexture.getX() && 
 						mouseX < this->exitTexture.getX() + EXIT_ICON_SIDE &&
@@ -119,16 +120,30 @@ int Editor::start(void) {
 							editorWindow.hide();
 							validMap = mapGame.hasWorms();
 							if (!validMap) {
-									QMessageBox msgBox;
-									msgBox.setWindowTitle("Mapa inválido.");
-									msgBox.setText("El mapa debe tener al menos un worm de cada team." "¿Desea continuar editando el mapa?");
-									msgBox.setStandardButtons(QMessageBox::Yes);
-									msgBox.addButton(QMessageBox::No);
-									msgBox.setDefaultButton(QMessageBox::Yes);
-									if(msgBox.exec() == QMessageBox::Yes) {
-											editorWindow.show();
-									quit = false;
-													}
+								QMessageBox msgBox;
+								msgBox.setWindowTitle("Mapa inválido.");
+								msgBox.setText("El mapa debe tener al menos un worm de cada team." "¿Desea continuar editando el mapa?");
+								msgBox.setStandardButtons(QMessageBox::Yes);
+								msgBox.addButton(QMessageBox::No);
+								msgBox.setDefaultButton(QMessageBox::Yes);
+								if(msgBox.exec() == QMessageBox::Yes) {
+										editorWindow.show();
+										quit = false;
+										continue;
+								}
+							}
+							if (this->unsaved_changes) {
+								QMessageBox msgBox;
+								msgBox.setWindowTitle("Guardar antes de salir.");
+								msgBox.setText("Hay cambios sin guardar. Desea guardar el mapa antes de salir?");
+								msgBox.setStandardButtons(QMessageBox::Yes);
+								msgBox.addButton(QMessageBox::No);
+								msgBox.setDefaultButton(QMessageBox::Yes);
+								if(msgBox.exec() == QMessageBox::Yes) {
+										mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
+										this->unsaved_changes = false;
+										continue;
+								}								
 							}
 					} else {
 						editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
@@ -155,6 +170,8 @@ int Editor::start(void) {
 
 		editorInventory.render(renderer);
 
+		notice.render(renderer);
+
 		this->saveTexture.render(this->renderer, this->saveTexture.getX(), this->saveTexture.getY(), SAVE_ICON_SIDE, SAVE_ICON_SIDE);
 		this->exitTexture.render(this->renderer, this->exitTexture.getX(), this->exitTexture.getY(), EXIT_ICON_SIDE, EXIT_ICON_SIDE);
 		
@@ -171,6 +188,7 @@ int Editor::start(void) {
 		msgBox.setDefaultButton(QMessageBox::Yes);
 		if(msgBox.exec() == QMessageBox::Yes) {
 			mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
+			this->unsaved_changes = false;
 			return 0;
 		}
 	}
