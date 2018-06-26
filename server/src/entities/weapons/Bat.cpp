@@ -42,4 +42,5 @@ void Bat::atack(Worm* worm, b2Body* body) {
     if (!mirrored) x_impulse = x_impulse * -1;
     body->ApplyLinearImpulse(b2Vec2(x_impulse, -y_impulse), body->GetWorldCenter(),true);
     worm->hurt(gConfiguration.BAT_DAMAGE);
+    worm->setAffectedByExplosion();
 }

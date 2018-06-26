@@ -54,11 +54,11 @@ void ContactListener::BeginContact(b2Contact* contact) {
         }
 
         //BAZOOKA WORM/STRUCTURE CONTACT
-        if (entityA_type == BAZOOKA && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER)) {
+        if (entityA_type == BAZOOKA && (entityB_type == WORM || entityB_type == STRUCTURE || entityB_type == WATER || entityB_type == WALL)) {
             static_cast<Bazooka*>(bodyAUserData)->explode();
         }
 
-        if (entityB_type == BAZOOKA && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER)) {
+        if (entityB_type == BAZOOKA && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER || entityA_type == WALL)) {
             static_cast<Bazooka*>(bodyBUserData)->explode();
         }
 
@@ -67,7 +67,7 @@ void ContactListener::BeginContact(b2Contact* contact) {
             static_cast<Missil*>(bodyAUserData)->explode();
         }
         
-        if (entityB_type == MISSIL && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER || entityB_type == WALL)) {
+        if (entityB_type == MISSIL && (entityA_type == WORM || entityA_type == STRUCTURE || entityA_type == WATER || entityA_type == WALL)) {
             static_cast<Missil*>(bodyBUserData)->explode();
         }
 
