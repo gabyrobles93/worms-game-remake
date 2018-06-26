@@ -30,7 +30,6 @@ void SocketBase::SktClose(void) {
 
 SocketBase::~SocketBase(void) {
     if (this->sockfd != SOCKET_INVALID_STATE) {
-        /* std::cout << "Destruyendo socket" << std::endl; */
         ::shutdown(getSockFd(), SHUT_RDWR);
         SktClose();
     }
@@ -59,12 +58,10 @@ size_t SocketReadWrite::getBuffer(uchar * buffer, int size) const {
     bool skt_closed = false;
     int rcv_bytes = 0;
     int rcv_status, remain;
-    /* std::cout << "Intentare recibir " << size << " bytes." << std::endl; */
     while (skt_closed == false && rcv_bytes < size) {
         remain = size - rcv_bytes;
         rcv_status = 
         ::recv(getSockFd(), &buffer[rcv_bytes], remain, MSG_NOSIGNAL);
-        /* std::cout << "Recibidos " << rcv_status << " bytes." << std::endl; */
         if (rcv_status > 0) {
             rcv_bytes += rcv_status;
         } else if (rcv_status == 0) {
@@ -112,12 +109,9 @@ void SocketReadWrite::sendBuffer(const uchar * buffer, int size) const {
 
 void SocketReadWrite::shutDown(void) {
     int errcode = 0;
-    /* std::cout << "Haciendo el shutdown en la clase socket." << std::endl; */
     errcode = ::shutdown(getSockFd(), SHUT_RDWR);
-    /* std::cout << "Shutdown hecho!" << std::endl; */
     if (errcode) {
         std::stringstream msg;
-        /* msg << MSG_SOCKET_ERROR_SHUTDOWN << std::strerror(errno); */
         throw SocketError(msg.str());
     }
 }

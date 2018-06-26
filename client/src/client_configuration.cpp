@@ -250,8 +250,6 @@ weapon_t ClientConfiguration::getSelectedWeapon(void) {
 }
 
 void ClientConfiguration::update(const YAML::Node & gameStatus, const YAML::Node & inventory) {
-  //std::cout << gameStatus << std::endl << std::endl;
-  //std::cout << "INVENTORY\n\n" << inventory << std::endl << std::endl;
   size_t teamWithTurn = gameStatus["team_turn"].as<size_t>();
   if (this->teamId == teamWithTurn && !this->beginTurnPlayed) {
     this->beginTurn.playSound(0);

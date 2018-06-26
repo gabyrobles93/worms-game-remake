@@ -81,7 +81,6 @@ void WaitingGame::notifyAllCancellGame(void) {
 void WaitingGame::startGame(std::string & map_path) {
     std::unique_lock<std::mutex> lock(this->mutex);
     std::cout << "Iniciando partida." << std::endl;
-//    usleep(10000000);
     ServerGame new_server_game(members, map_path);
     new_server_game.startGame();
     this->finished = true;

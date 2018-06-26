@@ -42,7 +42,6 @@ YAML::Node ProtectedDynamics::getProjectiles(void) {
 
 YAML::Node ProtectedDynamics::getGameStatus(void) {
     const YAML::Node & game_status = this->dynamics["game_status"];
-    //std::cout << game_status << std::endl;
     return game_status;
 }
 

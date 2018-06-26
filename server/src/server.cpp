@@ -17,7 +17,6 @@ skt(port) {
 void Server::run(void) {
     while (1) {
         try {
-            /* std::cout << "Esperando conexión de cliente" << std::endl; */
             Protocol newsktprotocol(std::move(this->skt.accept_connection()));
             std::string player_name;
             newsktprotocol.getPlayerName(player_name);
@@ -32,7 +31,6 @@ void Server::run(void) {
             std::cout << "Bautizando al cliente como " << player_name << std::endl;
             newsktprotocol.sendName(player_name);
 
-            /* std::cout << "Enviando games.yml al nuevo cliente." << std::endl; */
             YAML::Node match_status = this->protected_waiting_games.getGamesInfoNode();
             newsktprotocol.sendGameStatus(match_status);
 

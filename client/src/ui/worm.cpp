@@ -101,7 +101,6 @@ void View::Worm::updateState(const YAML::Node & status) {
     return;
   }
 
-  // std::cout << status << std::endl << std::endl;
   this->mirrored = status["mirrored"].as<int>();
   this->inclination = (worm_inclination_t)status["inclination"].as<int>();
   bool walking = status["walking"].as<int>();

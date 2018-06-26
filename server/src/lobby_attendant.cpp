@@ -25,7 +25,6 @@ void LobbyAttendant::stop(void) {
 
 void LobbyAttendant::run(void) {
     while (this->keep_running) {
-        std::cout << "Esperando evento." << std::endl;
         Event new_event = this->client->rcvEvent();
         if (new_event.quit()) {
             std::cout << "El cliente " << this->client->getPlayerName() << " ha saldo del lobby." << std::endl;
@@ -34,10 +33,8 @@ void LobbyAttendant::run(void) {
             return;
         }
         if (new_event.goToMatch()) {
-            std::cout << "Hay que esperar aca hasta que termine la partida." << std::endl;
             std::string creator_match_name = this->client->getJoinedMatchCreatorName();
             this->waiting_games.waitGameUntilFinish(creator_match_name);
-            std::cout << "La partida termino asique dejo de esperar." << std::endl;
             continue;
         }
         processEvent(new_event);
@@ -46,11 +43,6 @@ void LobbyAttendant::run(void) {
 
 void LobbyAttendant::processEvent(Event & event) {
     YAML::Node event_node = event.getNode();
-    std::cout << "Evento recibido del cliente " << this->player_name << std::endl;
-
-    std::stringstream ss;
-    ss << event_node;
-    std::cout << ss.str() << std::endl;
 
     action_t action = (action_t) event_node["event"]["action"].as<int>();
 
@@ -70,7 +62,6 @@ void LobbyAttendant::processEvent(Event & event) {
             break;
         }
         case a_joinWaitingMatch: {
-            std::cout << "uniendome a partida" << std::endl;
             std::string match_creator_name = event_node["event"]["creator_name"].as<std::string>();
             joinWaitingMatch(match_creator_name);
             break;
@@ -126,7 +117,6 @@ void LobbyAttendant::joinWaitingMatch(std::string & match_creator_name) {
 }
 
 void LobbyAttendant::exitWaitingMatch(void) {
-    std::cout << "saliendo de partida en espera a la que me uni." << std::endl;
     std::string joined_match_creator_name = this->client->getJoinedMatchCreatorName();
     this->waiting_games.rmvPlayerFromGame(joined_match_creator_name, this->player_name);
     this->client->clearJoinedMatchGameCreator();

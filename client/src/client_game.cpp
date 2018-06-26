@@ -59,7 +59,6 @@ ClientGame::ClientGame(Protocol * prt, size_t tid, std::string & mp) :
 protocol(prt),
 events(MAX_QUEUE_MODELS),
 team_id(tid) {
-	std::cout << "La ruta del mapa es " << mp << std::endl;
 	std::string cmd_unzip_tar_gz = "tar -xf " + mp + " -C /usr/etc/worms/temp";
 	std::system(cmd_unzip_tar_gz.c_str());
 	this->mapNode = YAML::LoadFile(MAP_YML_PATH);
@@ -213,9 +212,7 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 			worms.updateWormProtagonic(pdynamics.getWormProtagonicId());
 			projectiles.update(renderer, pdynamics.getProjectiles());
 			thereIsModel = pdynamics.popModel();
-			//std::cout << "Pop model " << ++i << std::endl;
 		}
-		//std::cout << "Render" << std::endl;
 		match_finished  = pdynamics.finishedMatch();
 		if (match_finished) {
 			size_t team_winner = pdynamics.getWinnerTeam();
@@ -276,11 +273,6 @@ ProtectedDynamics & pdynamics, View::WormsStatus & worms, ClientConfiguration & 
 			timeLostSleeping = SDL_GetTicks() - (tf + to_sleep);
 		}
 	}
-
-	std::cout << "Se termino el juego con" << std::endl;
-	std::cout << "Renders count " << renderCount << std::endl;
-	std::cout << "Updates count " << updateCount << std::endl;
-
 } catch(const SocketError & e) {
 	std::cout << e.what() << std::endl;
 } catch(const std::exception & e) {

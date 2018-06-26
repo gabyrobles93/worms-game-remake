@@ -204,7 +204,7 @@ void World::run() {
         }
         usleep(16666);
     }
-    std::cout << "Sacando ultimas dos fotos." << std::endl;
+
     for (int i = 0; i < 2; i++) {
         Snapshot* snapshot = new Snapshot();            
         snapshot->updateTeams(this->teams);

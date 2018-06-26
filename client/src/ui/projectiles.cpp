@@ -27,10 +27,6 @@ void View::Projectiles::update(SDL_Renderer * r, const YAML::Node & projNode) {
     const YAML::Node & proj = *it;
     int projId = proj["id"].as<int>();
 
-    if (projNode) {
-      //std::cout << "Nodo que voy a usar para updatear" << std::endl;
-      //std::cout << projNode << std::endl;
-    }
     if (this->projectiles.find(projId) == this->projectiles.end()) {
       this->createProjectil(
         r,

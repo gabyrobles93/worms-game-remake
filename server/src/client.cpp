@@ -17,10 +17,6 @@ protocol(std::move(prt)){
 }
 
 void Client::sendGamesStatus(YAML::Node gameStatusNode) {
-/*     std::cout << "Soy la conexion con el cliente y voy a enviar el games.yml" << std::endl;
-    std::stringstream ss;
-    ss << gameStatusNode;
-    std::cout << ss.str() << std::endl; */
     protocol.sendGameStatus(gameStatusNode);
 }
 

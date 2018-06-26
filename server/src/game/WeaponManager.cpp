@@ -20,8 +20,6 @@ void WeaponManager::manageShoot(Event & event, size_t id, unsigned int currentTi
         return;
     }
 
-    std::cout << "Quedan municiones entonces dispara." << std::endl;
-
     Weapon* newWeapon = NULL;
 
     if (weapon == w_dynamite) {
@@ -91,14 +89,12 @@ void WeaponManager::manageShoot(Event & event, size_t id, unsigned int currentTi
         weapon
         );
     } else if (weapon == w_bat) {
-        std::cout << "ANGULO DE MIRA" << nodeEvent["event"]["sight_angle"];
         Bat bat(this->world.getWorld(), 
         this->worms[id]->getPosX(),
         this->worms[id]->getPosY(),
         this->worms[id]->isMirrored(),
         nodeEvent["event"]["sight_angle"].as<int>());
     } else if (weapon == w_teleport) {
-        std::cout << "TELEPORT" << "x " << nodeEvent["event"]["remote_control_x"].as<int>() << "y " << nodeEvent["event"]["remote_control_y"].as<int>()<< std::endl;
         Teleportation teleportation(this->worms[id],
         (float) nodeEvent["event"]["remote_control_x"].as<int>() * gConfiguration.SCALING_FACTOR,
         (float) nodeEvent["event"]["remote_control_y"].as<int>() * gConfiguration.SCALING_FACTOR);
