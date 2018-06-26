@@ -27,6 +27,7 @@ class Editor {
         int teamsAmount;
         int wormsHealth;
         bool validMap;
+        bool unsaved_changes;
 
     public:
         Editor(YAML::Node, std::string, std::string, std::string);

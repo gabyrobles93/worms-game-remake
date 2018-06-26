@@ -44,6 +44,7 @@ editorInventory(renderer,
 	this->saveTexture.loadFromFile(gPath.PATH_SAVE_ICON, this->renderer);
 	this->saveTexture.setX(this->editorWindow.getScreenWidth() - SAVE_PADDING - SAVE_ICON_SIDE);
 	this->saveTexture.setY(EXIT_PADDING + EXIT_ICON_SIDE + SAVE_PADDING);
+	this->unsaved_changes = false;
 }
 
 int Editor::start(void) {
@@ -93,6 +94,21 @@ int Editor::start(void) {
 						mouseY > this->saveTexture.getY() &&
 						mouseY < this->saveTexture.getY() + SAVE_ICON_SIDE
 					) {
+						if (!this->unsaved_changes) {
+							QMessageBox msgBox;
+							msgBox.setWindowTitle("No se puede guardar.");
+							msgBox.setText("No hay cambios sin guardar.");
+							msgBox.exec();
+							continue;							
+						}
+						validMap = mapGame.hasWorms();
+						if (!validMap) {
+							QMessageBox msgBox;
+							msgBox.setWindowTitle("No se puede guardar.");
+							msgBox.setText("El mapa debe tener al menos un worm de cada team.");
+							msgBox.exec();
+							continue;
+						}
 						mapGame.saveAs(this->map_name, this->bg_name, this->bg_path);
 					} else if (
 						mouseX > this->exitTexture.getX() && 
@@ -103,19 +119,20 @@ int Editor::start(void) {
 							editorWindow.hide();
 							validMap = mapGame.hasWorms();
 							if (!validMap) {
-													QMessageBox msgBox;
-													msgBox.setWindowTitle("Mapa inválido.");
-													msgBox.setText("El mapa debe tener al menos un worm de cada team." "¿Desea continuar editando el mapa?");
-													msgBox.setStandardButtons(QMessageBox::Yes);
-													msgBox.addButton(QMessageBox::No);
-													msgBox.setDefaultButton(QMessageBox::Yes);
-													if(msgBox.exec() == QMessageBox::Yes) {
-															editorWindow.show();
+									QMessageBox msgBox;
+									msgBox.setWindowTitle("Mapa inválido.");
+									msgBox.setText("El mapa debe tener al menos un worm de cada team." "¿Desea continuar editando el mapa?");
+									msgBox.setStandardButtons(QMessageBox::Yes);
+									msgBox.addButton(QMessageBox::No);
+									msgBox.setDefaultButton(QMessageBox::Yes);
+									if(msgBox.exec() == QMessageBox::Yes) {
+											editorWindow.show();
 									quit = false;
 													}
 							}
 					} else {
 						editorInventory.handleEvent(renderer, e, mapGame, camX, camY);
+						this->unsaved_changes = true;
 					}
 				}
 			} else {
@@ -145,7 +162,7 @@ int Editor::start(void) {
 		SDL_Delay(50); // Para no usar al mango el CPU
 	}
 
-	if (validMap) {
+	if (validMap && this->unsaved_changes) {
 		QMessageBox msgBox;
 		msgBox.setWindowTitle("Fin de edición");
 		msgBox.setText("¿Desea guardar el mapa?");
