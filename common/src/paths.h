@@ -226,6 +226,8 @@ class Paths {
       std::string PATH_SOUND_BYE;
       std::string PATH_SOUND_DIE;
       std::string PATH_SOUND_BEGIN_TURN;
+      std::string PATH_SOUND_JUMP_1;
+      std::string PATH_SOUND_JUMP_2;
 
         // Worms hit
         std::string PATH_SOUND_NOOO;
