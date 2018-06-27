@@ -1,9 +1,4 @@
 
-
-
-==========
-
-
 Código y notas del proyecto final de Taller de Programación I - FIUBA
 
 
@@ -13,27 +8,33 @@ Código y notas del proyecto final de Taller de Programación I - FIUBA
 | 98546 | DIZ GONZALO                |
 | 95897 | GABRIEL ROBLES             |
 
-Tablero de tareas en TRELLO:
-https://trello.com/b/opoeIXXF/worms-tp-final
+# Dependencias
+Todas las dependencias son proveídas (si el usuario asi lo desea) por el instalador del juego.
+Sistema Operativo: Ubuntu
+
+| Librería | Versión mínima         |
+|--------|---------------------------|
+| libsdl2-dev | 2.0.8 |
+| libsdl2-image-dev | 2.0.3 |
+| libsdl2-ttf-dev | 2.0.14  |
+| libsdl2-mixer-dev | 2.0.2 |
+| qt5-default | 5.9.5 |
+| cmake | 3.10.2 |
+| box2d | 2.3.1 |
+| yaml-cpp (*) | 0.6.2|
+| gcc | 7.3.0 |
+
+(*) Obtenida de https://github.com/jbeder/yaml-cpp
 
 # Tutorial de instalacion:
 
-1) Descargar las siguientes librerias
+1) Ejecutar:
 ```bash
- $ sudo apt-get install libsdl2-dev
- $ sudo apt-get install libsdl2-image-dev
- $ sudo apt-get install libsdl2-ttf-dev
- $ sudo apt-get install libsdl2-mixer-dev
- $ sudo apt-get install qt5-default
- $ sudo apt-get install cmake 
+ $ sudo ./worms_installer.sh
 ```
-2) Ejecutar el editor para crear un mapa. Dentro de tp-final-taller/editor:
+2) Ejecutar el editor para crear un mapa.
 ```bash
- $ mkdir build
- $ cd build
- $ cmake ..
- $ make
- $ ./editor
+ $ worms-editor
 ```
 2.1) Seleccionar un background (imagen .png), elegir la configuración del fondo (centrado, mosaico o extendido) ponerle nombre al escenario, seleccionar cantidad de equipos, vida inicial de Worms, nivel del agua y municiones. Cuando todo esté seteado presionar 'Go Create'".
    
@@ -41,34 +42,26 @@ https://trello.com/b/opoeIXXF/worms-tp-final
    
    2.3) Una vez todos los Worms estén colocados en el mapa, apretar alt-f4 o bien cerrar la ventana clickeando en la cruz. Se nos preguntará si queremos guardar el mapa.
    
-   2.4) El mapa se guardará en la carpeta tp-final-taller/editor/maps como un archivo .tar.gz
+   2.4) El mapa se guardará en la carpeta /usr/etc/worms/maps como un archivo .tar.gz
 
-3) Ejecutar un servidor. En el directorio tp-final-taller/server ejecutar los siguientes comandos:
+3) Ejecutar un servidor.
 
 ```c++
- $ mkdir build
- $ cd build
- $ cmake ..
- $ make
- $ ./server ../server.cfg <port>
+ $ worms-server <listening_port> |<config_file_path>|
 ```
- Nota sobre modificación de parámetros: En esta preentrega el archivo server.cfg no tiene niguna utilidad. Las configuraciones de parámetros del servidor se pueden realizar modificando los archivos fuente configuration.cpp ubicado en tp-final-taller/server/src.
+ Nota sobre modificación de parámetros: El servidor por default carga el archivo de configuración estándar, ubicado en /usr/etc/worms/server_config.yml . De querer modificar los parámetros del sevidor, se recomienda hacer una copia de este archivo en otro directorio, modificarlo, y al momento de levantar el servidor, referirlo con <config_file_path>.
  
    3.1) El servidor se ejecutará y puede aceptar conexiones.
 
-4) Ejecutar un cliente. En el directorio tp-final-taller/client ejecutar los siguientes comandos:
+4) Ejecutar un cliente.
 ```bash
- $ mkdir build
- $ cd build
- $ cmake ..
- $ make
- $ ./client
+ $ worms-client
 ```
    4.1) Escribir puerto e IP (localhost/<port>) y un username deseado. Si el username ya existe el servidor te va a renombrar.
  
    4.2) Estas en el Lobby del servidor. Acá podes crear una partida "Create Match", unirte a una partida en espera "Join Match" o salir del con "Exit".
   
-   4.3) Crear una partida. En el lobby clickear "Create Match". Nombrar a la partida y elegir un mapa clickeando "Choose Map". Los mapas que creaste con el editor van a estar por default en la carpeta tp-final-taller/editor/maps. Debe tener la extensión .tar.gz tal como el editor lo generó. Clickear "Create Match".
+   4.3) Crear una partida. En el lobby clickear "Create Match". Nombrar a la partida y elegir un mapa clickeando "Choose Map". Los mapas que creaste con el editor van a estar por default en la carpeta /usr/etc/worms/maps. Debe tener la extensión .tar.gz tal como el editor lo generó. Clickear "Create Match".
 
    4.4) Estas en tu sala de espera. Clickeando Refresh podrás ver los jugadores que se unieron a tu partida. Cuando la cantidad de jugadores en espera sea la suficiente (la requerida por el mapa), podrás clickear en "Start Match". Si clickeas en "Exit", cancelarás la partida en espera y todos los jugadores de esa sala volverán al Lobby.
    
