@@ -86,6 +86,7 @@ private:
     void showPreferences(void);
     void showAbout(void);
     void saveSettingsAndBack(void);
+    void backFromAbout(void);
 };
 
 #endif

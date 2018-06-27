@@ -111,6 +111,10 @@ void ClientLobby::connectEvents(void) {
     QObject::connect(saveSettings, &QPushButton::clicked,
                      this, &ClientLobby::saveSettingsAndBack);
 
+    QPushButton* backAbout = findChild<QPushButton*>("button_back_about");
+    QObject::connect(backAbout, &QPushButton::clicked,
+                     this, &ClientLobby::backFromAbout);
+
 }
 
 void ClientLobby::cleanTextBoxes(void) {
@@ -421,32 +425,32 @@ void ClientLobby::closeEvent(QCloseEvent * event) {
 }
 
 void ClientLobby::showPreferences(void) {
-    std::cout << "Muestro settings." << std::endl;
     this->pages->setCurrentIndex(PAGE_SETTINGS);
 }
 
 void ClientLobby::showAbout(void) {
-
+    this->pages->setCurrentIndex(PAGE_ABOUT);
 }
 
 void ClientLobby::saveSettingsAndBack(void) {
     QString resolution;
     resolution = findChild<QComboBox*>("combo_screen_resolution")->currentText();
-    if (resolution == "800 x 600") {
+    std::string str_resolution = resolution.toUtf8().constData();
+    if (str_resolution == "800 x 600") {
         gClientSettings.RESOLUTION_WIDTH = 800;
         gClientSettings.RESOLUTION_HIGH = 600;
-    } else if (resolution == "1024 x 768") {
+    } else if (str_resolution == "1024 x 768") {
         gClientSettings.RESOLUTION_WIDTH = 1024;
-        gClientSettings.RESOLUTION_HIGH = 768;  
-    } else if (resolution == "1152 x 640") {
+        gClientSettings.RESOLUTION_HIGH = 768;
+    } else if (str_resolution == "1152 x 640") {
         gClientSettings.RESOLUTION_WIDTH = 1152;
-        gClientSettings.RESOLUTION_HIGH = 640;             
-    } else if (resolution == "1280 x 768") {
+        gClientSettings.RESOLUTION_HIGH = 640;        
+    } else if (str_resolution == "1280 x 768") {
         gClientSettings.RESOLUTION_WIDTH = 1280;
-        gClientSettings.RESOLUTION_HIGH = 768;           
-    } else if (resolution == "1920 x 1080") {
+        gClientSettings.RESOLUTION_HIGH = 768;        
+    } else if (str_resolution == "1920 x 1080") {
         gClientSettings.RESOLUTION_WIDTH = 1920;
-        gClientSettings.RESOLUTION_HIGH = 1080;          
+        gClientSettings.RESOLUTION_HIGH = 1080;        
     }
 
     if (findChild<QCheckBox*>("check_full_screen")->isChecked()) {
@@ -461,6 +465,14 @@ void ClientLobby::saveSettingsAndBack(void) {
         gClientSettings.SOUND_FX = 0;
     }
 
+    if (this->connected) {
+        backLobby();
+    } else {
+        this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
+    }
+}
+
+void ClientLobby::backFromAbout(void) {
     if (this->connected) {
         backLobby();
     } else {

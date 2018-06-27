@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="page_connection">
      <widget class="QGroupBox" name="box_connection">
@@ -750,8 +750,139 @@
      <zorder>background_4</zorder>
      <zorder>groupBox_2</zorder>
     </widget>
-    <widget class="QWidget" name="page_settings"/>
     <widget class="QWidget" name="page_about">
+     <widget class="QPushButton" name="button_back_about">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>260</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>221</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Worms Taller Party&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>541</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remake de videojuego Worms. Clásico juego bélico por turnos desarrollado por</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>80</y>
+        <width>541</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Team 17 en la década del 90.</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>110</y>
+        <width>581</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Desarrollado en Mayo y Junio de 2018 como trabajo práctico final de la asignatura</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>140</y>
+        <width>611</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>75.42 - Taller de Programación : Facultad de Ingeniería de la Universidad de Buenos Aires</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>170</y>
+        <width>611</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Desarrolladores:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>200</y>
+        <width>381</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ALVAREZ WINDEY ARIEL JUSTO - arieljaw12@gmail.com</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_21">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>230</y>
+        <width>381</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DIZ GONZALO - dizmartin.gonzalo@gmail.com</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_22">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>260</y>
+        <width>381</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>GABRIEL ROBLES - gabyrobles93@gmail.com</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_settings">
      <widget class="QWidget" name="horizontalLayoutWidget_8">
       <property name="geometry">
        <rect>
@@ -778,22 +909,22 @@
          </item>
          <item>
           <property name="text">
-           <string>1024×768</string>
+           <string>1024 x 768</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>1152×640</string>
+           <string>1152 x 640</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>1280×768</string>
+           <string>1280 x 768</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>1920x1080</string>
+           <string>1920 x 1080</string>
           </property>
          </item>
         </widget>
@@ -846,17 +977,6 @@
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
