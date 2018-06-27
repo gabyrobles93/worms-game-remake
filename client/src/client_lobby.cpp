@@ -21,6 +21,8 @@
 #define PAGE_MATCH_CREATE 2
 #define PAGE_WAITING_MATCH_INDEX 3
 #define PAGE_JOINED_WAITING_MATCH_INDEX 4
+#define PAGE_SETTINGS 6
+#define PAGE_ABOUT 5
 
 extern ClientSettings gClientSettings;
 
@@ -34,6 +36,7 @@ ClientLobby::ClientLobby(QWidget *parent) :
     this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
     this->protocol = nullptr;
     this->waiting_match = nullptr;
+    this->connected = false;
 }
 
 ClientLobby::~ClientLobby()
@@ -97,6 +100,17 @@ void ClientLobby::connectEvents(void) {
     QPushButton* exitWaitingMatchButton = findChild<QPushButton*>(WIDGET_BUTTON_EXIT_WAITING_MATCH);
     QObject::connect(exitWaitingMatchButton, &QPushButton::clicked,
                      this, &ClientLobby::exitWaitingMatch);
+
+    QAction* preferences = findChild<QAction*>("actionPreferencias");
+    QObject::connect(preferences, &QAction::triggered, this, &ClientLobby::showPreferences);
+
+    QAction* about = findChild<QAction*>("actionAcerca_de");
+    QObject::connect(about, &QAction::triggered, this, &ClientLobby::showAbout);
+
+    QPushButton* saveSettings = findChild<QPushButton*>(WIDGET_BUTTON_SAVE_SETTINGS);
+    QObject::connect(saveSettings, &QPushButton::clicked,
+                     this, &ClientLobby::saveSettingsAndBack);
+
 }
 
 void ClientLobby::cleanTextBoxes(void) {
@@ -135,6 +149,7 @@ void ClientLobby::connectToServer(void) {
     }
     /* std::cout << "Conexion con servidor establecida" << std::endl; */
 
+    this->connected = true;
     goLobby();
 }
 
@@ -163,6 +178,7 @@ void ClientLobby::exitLobby(void) {
     this->protocol->sendEvent(new_event);
     delete this->protocol;
     this->protocol = nullptr;
+    this->connected = false;
 }
 
 void ClientLobby::joinMatch(void) {
@@ -402,4 +418,52 @@ void ClientLobby::closeEvent(QCloseEvent * event) {
         exitLobby();
     }
     std::cout << "Cerrando cliente." << std::endl;
+}
+
+void ClientLobby::showPreferences(void) {
+    std::cout << "Muestro settings." << std::endl;
+    this->pages->setCurrentIndex(PAGE_SETTINGS);
+}
+
+void ClientLobby::showAbout(void) {
+
+}
+
+void ClientLobby::saveSettingsAndBack(void) {
+    QString resolution;
+    resolution = findChild<QComboBox*>("combo_screen_resolution")->currentText();
+    if (resolution == "800 x 600") {
+        gClientSettings.RESOLUTION_WIDTH = 800;
+        gClientSettings.RESOLUTION_HIGH = 600;
+    } else if (resolution == "1024 x 768") {
+        gClientSettings.RESOLUTION_WIDTH = 1024;
+        gClientSettings.RESOLUTION_HIGH = 768;  
+    } else if (resolution == "1152 x 640") {
+        gClientSettings.RESOLUTION_WIDTH = 1152;
+        gClientSettings.RESOLUTION_HIGH = 640;             
+    } else if (resolution == "1280 x 768") {
+        gClientSettings.RESOLUTION_WIDTH = 1280;
+        gClientSettings.RESOLUTION_HIGH = 768;           
+    } else if (resolution == "1920 x 1080") {
+        gClientSettings.RESOLUTION_WIDTH = 1920;
+        gClientSettings.RESOLUTION_HIGH = 1080;          
+    }
+
+    if (findChild<QCheckBox*>("check_full_screen")->isChecked()) {
+        gClientSettings.FULL_SCREEN = 1;
+    } else {
+        gClientSettings.FULL_SCREEN = 0;
+    }
+
+    if (findChild<QCheckBox*>("check_sound_fx")->isChecked()) {
+        gClientSettings.SOUND_FX = 1;
+    } else {
+        gClientSettings.SOUND_FX = 0;
+    }
+
+    if (this->connected) {
+        backLobby();
+    } else {
+        this->pages->setCurrentIndex(PAGE_CONNECTION_INDEX);
+    }
 }

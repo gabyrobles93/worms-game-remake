@@ -22,6 +22,8 @@
 #define WIDGET_BUTTON_START_MATCH "button_start_waiting_match"
 #define WIDGET_BUTTON_CANCEL_WAITING_MATCH "button_cancel_waiting_match"
 #define WIDGET_BUTTON_EXIT_WAITING_MATCH "button_exit_waiting_match"
+#define WIDGET_BUTTON_SAVE_SETTINGS "button_save_settings"
+
 
 #define WIDGET_TEXT_PLAYER_NAME "text_player_name"
 #define WIDGET_TEXT_IP "text_ip"
@@ -58,6 +60,7 @@ private:
 
     std::string map_game_path;
     int map_players_qty;
+    bool connected;
 
     void connectEvents(void);
     void cleanTextBoxes(void);
@@ -79,6 +82,10 @@ private:
     void cancelWaitingMatch(void);
     void exitWaitingMatch(void);
     void closeEvent(QCloseEvent *);
+
+    void showPreferences(void);
+    void showAbout(void);
+    void saveSettingsAndBack(void);
 };
 
 #endif

@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="page_connection">
      <widget class="QGroupBox" name="box_connection">
@@ -750,9 +750,106 @@
      <zorder>background_4</zorder>
      <zorder>groupBox_2</zorder>
     </widget>
+    <widget class="QWidget" name="page_settings"/>
+    <widget class="QWidget" name="page_about">
+     <widget class="QWidget" name="horizontalLayoutWidget_8">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>351</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Resolución (modo ventana)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="combo_screen_resolution">
+         <item>
+          <property name="text">
+           <string>800 x 600</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1024×768</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1152×640</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1280×768</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1920x1080</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QCheckBox" name="check_sound_fx">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>100</y>
+        <width>171</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Efectos de sonido</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="check_full_screen">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>140</y>
+        <width>349</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Pantalla completa</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_save_settings">
+      <property name="geometry">
+       <rect>
+        <x>498</x>
+        <y>260</y>
+        <width>131</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Guardar y volver</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -760,7 +857,34 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>666</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionPreferencias"/>
+    <addaction name="actionAcerca_de"/>
+   </widget>
+   <addaction name="menuMenu"/>
+  </widget>
+  <action name="actionPreferencias">
+   <property name="text">
+    <string>Preferencias</string>
+   </property>
+  </action>
+  <action name="actionAcerca_de">
+   <property name="text">
+    <string>Acerca de</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
