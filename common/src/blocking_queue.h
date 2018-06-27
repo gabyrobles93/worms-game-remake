@@ -5,6 +5,13 @@
 #include <condition_variable>
 #include <queue>
 
+// **************************************************
+// El siguiente código fué
+// proveído por su creador Martín Di Paola
+// Docente de la asignatura Taller de Programación 1
+// de la Faultad de Ingeniería de la U.B.A.
+// **************************************************
+
 template <typename T>
 class Queue {
     private:
