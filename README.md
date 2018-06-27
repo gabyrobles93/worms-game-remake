@@ -3,8 +3,11 @@ Remake del icónico videojuego Worms, un juego de estrategia militar por turnos 
 Desarrollado por tres estudiantes como Trabajo Práctico para la materia (75.42) Taller de Programación de la Facultad de Ingeniería de la Universidad de Buenos Aires. El trabajo fue realizado en un período de 8 (ocho semanas).
 
 Documentación más detallada:
+
 [Manual de usuario](https://github.com/gabyrobles93/tp-final-taller/blob/master/documentation/Manual_de_usuario.pdf)
+
 [Manual de proyecto](https://github.com/gabyrobles93/tp-final-taller/blob/master/documentation/Manual_de_proyecto.pdf)
+
 [Documentacion técnica](https://github.com/gabyrobles93/tp-final-taller/blob/master/documentation/Documentaci%C3%B3n_t%C3%A9cnica.pdf)
 
 | Padrón | Nombre y Apellido         | Mail | Rol |
