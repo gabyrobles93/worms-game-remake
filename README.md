@@ -1,15 +1,21 @@
+# Introducción
+Remake del icónico videojuego Worms, un juego de estrategia militar por turnos desarrollado por Team17 y lanzado en 1995.
+Desarrollado por tres estudiantes como Trabajo Práctico para la materia (75.42) Taller de Programación de la Facultad de Ingeniería de la Universidad de Buenos Aires. El trabajo fue realizado en un período de 8 (ocho semanas).
 
-Código y notas del proyecto final de Taller de Programación I - FIUBA
+Documentación más detallada:
+[Manual de usuario](https://github.com/gabyrobles93/tp-final-taller/blob/master/documentation/Manual_de_usuario.pdf)
+[Manual de proyecto](https://github.com/gabyrobles93/tp-final-taller/blob/master/documentation/Manual_de_proyecto.pdf)
+[Documentacion técnica](https://github.com/gabyrobles93/tp-final-taller/blob/master/documentation/Documentaci%C3%B3n_t%C3%A9cnica.pdf)
 
-
-| Padrón | Nombre y Apellido         |
-|--------|---------------------------|
-| 97893 | ALVAREZ WINDEY ARIEL JUSTO |
-| 98546 | DIZ GONZALO                |
-| 95897 | GABRIEL ROBLES             |
+| Padrón | Nombre y Apellido         | Mail | Rol |
+|--------|---------------------------| ------ | ----- |
+| 97893 | ALVAREZ WINDEY ARIEL JUSTO | arieljaw12@gmail.com | Uso de SDL. Dibujos, animaciones y sonidos |
+| 98546 | DIZ GONZALO                | dizmartin.gonzalo@gmail.com | Uso de box2d. Modelado de mundo físico |
+| 95897 | GABRIEL ROBLES             | gabyrobles93@gmail.com | Uso de QT5. Protocolo e integración cliente-servidor |
 
 # Dependencias
 Todas las dependencias son proveídas (si el usuario asi lo desea) por el instalador del juego.
+
 Sistema Operativo: Ubuntu
 
 | Librería | Versión mínima         |
