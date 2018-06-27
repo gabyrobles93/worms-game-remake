@@ -10,10 +10,12 @@ Documentación más detallada:
 
 [Documentacion técnica](https://github.com/gabyrobles93/tp-final-taller/blob/master/documentation/Documentaci%C3%B3n_t%C3%A9cnica.pdf)
 
+# Datos de creadores
+
 | Padrón | Nombre y Apellido         | Mail | Rol |
 |--------|---------------------------| ------ | ----- |
 | 97893 | ALVAREZ WINDEY ARIEL JUSTO | arieljaw12@gmail.com | Uso de SDL. Dibujos, animaciones y sonidos |
-| 98546 | DIZ GONZALO                | dizmartin.gonzalo@gmail.com | Uso de box2d. Modelado de mundo físico |
+| 98546 | DIZ GONZALO                | dizmartin.gonzalo@gmail.com | Uso de box2d. Modelado de mundo físico. Optimización. |
 | 95897 | GABRIEL ROBLES             | gabyrobles93@gmail.com | Uso de QT5. Protocolo e integración cliente-servidor |
 
 # Dependencias
